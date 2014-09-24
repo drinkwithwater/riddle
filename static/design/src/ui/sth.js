@@ -116,6 +116,8 @@ Helloworld.create=function(){
   }
   return null;
 }
+Helloworld.create=function(){
+}
 var HelloWorldScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
