@@ -24,7 +24,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-var Helloworld = cc.Layer.extend({
+var BattleLayer = cc.Layer.extend({
     isMouseDown:false,
     helloImg:null,
     helloLabel:null,
@@ -109,21 +109,16 @@ var Helloworld = cc.Layer.extend({
     }
 });
 
-Helloworld.create=function(){
-  var i=new Helloworld();
+BattleLayer.create=function(){
+  var i=new BattleLayer();
   if(i&&i.init()){
     return i;
   }
   return null;
 }
-Helloworld.create=function(){
+BattleLayer.scene=function(){
+  var scene=cc.Scene.create();
+  var layer=BattleLayer.create();
+  scene.addChild(layer);
+  return scene;
 }
-var HelloWorldScene = cc.Scene.extend({
-    onEnter:function () {
-        this._super();
-        var layer = new Helloworld();
-        layer.init();
-        this.addChild(layer);
-    }
-});
-

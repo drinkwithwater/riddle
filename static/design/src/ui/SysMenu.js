@@ -65,7 +65,7 @@ var SysMenu = cc.Layer.extend({
 
 SysMenu.create=function(){
 	var sg=new SysMenu();
-	if(sg&sg.init()){
+	if(sg&&sg.init()){
 		return sg;
 	}
 	return null;
