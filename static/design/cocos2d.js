@@ -38,10 +38,12 @@
         engineDir:'../Cocos2dHtml5/cocos2d/',
         //SingleEngineFile:'',
         appFiles:[
+        	'src/util.js',
+            'src/debug.js',
             'src/resource.js',
             'src/myApp.js',//add your own files in order here
             'src/ui/BattleLayer.js',
-            'src/ui/SysMenu.js',
+            'src/ui/SysMenu.js'
         ]
     };
 

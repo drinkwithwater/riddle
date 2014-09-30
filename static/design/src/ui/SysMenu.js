@@ -39,7 +39,7 @@ var SysMenu = cc.Layer.extend({
       console.log("in onStartGame");
       cc.LoaderScene.preload(g_resources,function(){
         var scene = cc.Scene.create();
-        scene.addChild(Helloworld.create());
+        scene.addChild(BattleLayer.create());
         cc.Director.getInstance().replaceScene(cc.TransitionFade.create(1.2,scene));
       },this);
     },
