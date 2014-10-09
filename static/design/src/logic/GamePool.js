@@ -1,42 +1,18 @@
 var gLogic=gLogic||{}
-//check if path is continuous
-function continuous(path){
-  for(var i=0,l=path.length;i+1<l;i++){
-    a=path[i];
-    b=path[i+1];
-    if(a.x===b.x){
-      if(a.y-b.y===1||a.y-b.y===-1) continue;
-      else return false;
-    }else if(a.y===b.y){
-      if(a.x-b.x===1||a.x-b.x===-1) continue;
-      else return false;
-    }else{
-      return false;
-    }
-  }
-  return true;
-}
-//all true return true, one false return false
-function allTrueIter(array,check){
-  for(var i=0,l=path.length;i+1<l;i++){
-    if(!check(array[i])) return false;
-  }
-  return true;
-}
 gLogic.GamePoolBattle=function(){
   this.gameMaze=null;
   this.unitDict={};
   // the move trigger skill
   this.moveListener=[];
   this.attackListener=[];
-  this.failMap={1:"path not continuous",
+  this.failDict={1:"path not continuous",
                 2:"path over length",
                 3:"path contain barrier"}
 
   this.checkMove=function(unit,path){
     if(typeof(unit)=="number") unit=unitDict[unit];
     if(unit){
-      if(continuous(path)){
+      if(gUtil.continuous(path)){
         return {fail:1}
       }else{
         //range check
@@ -46,7 +22,7 @@ gLogic.GamePoolBattle=function(){
         }
         // path check
         cellPath=this.gameMaze.getCellPath();
-        pathCheckResult=allTrueIter(cellPath,function(cell){
+        pathCheckResult=gUtil.allTrueIter(cellPath,function(cell){
           return unitMoveSkill.checkThrough(cell);
         });
         if(pathCheckResult){

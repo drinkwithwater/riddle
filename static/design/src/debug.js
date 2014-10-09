@@ -1,13 +1,12 @@
 var VarDebug=function(){
   this.varMap={};
   this.varList=[];
-  this.add=function(k,v){
-    if(v) varList[varList.length]=v;
-    else varMap[k]=v;
+  this.add=function(v){
+     this.varList[this.varList.length]=v;
   }
   this.show=function(){
-    console.log(varMap);
-    console.log(varList);
+    console.log(this.varMap);
+    console.log(this.varList);
   }
 }
 var debugVar=new VarDebug();
@@ -21,13 +20,13 @@ var Logger=function(){
 
   this.level=0;
   //TODO this should be modified
-  this.error(msg){
+  this.error=function(msg){
     console.error(msg);
   }
-  this.info(msg){
+  this.info=function(msg){
     console.info(msg);
   }
-  this.debug(msg){
+  this.debug=function(msg){
     console.debug(msg);
   }
 }
