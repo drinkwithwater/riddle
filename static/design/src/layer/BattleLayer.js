@@ -33,7 +33,7 @@ var BattleLayer = cc.Layer.extend({
     
     spriteDict:{},
 
-    actionQueue:new g_util.ActionQueue(),
+    actionQueue:new gUtil.ActionQueue(),
     actionQueueDict:{},
     
     logicService:null,
