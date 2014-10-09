@@ -42,8 +42,8 @@
             'src/debug.js',
             'src/resource.js',
             'src/myApp.js',//add your own files in order here
-            'src/ui/BattleLayer.js',
-            'src/ui/SysMenu.js'
+            'src/layer/BattleLayer.js',
+            'src/layer/SysMenu.js'
         ]
     };
 

@@ -30,10 +30,33 @@ var BattleLayer = cc.Layer.extend({
     helloLabel:null,
     circle:null,
     sprite:null,
+    
+    spriteDict:{},
 
-    actionQueue:g_util.Queue(),
-    actionRunning:false,
-    actionSprite:null,
+    actionQueue:new g_util.ActionQueue(),
+    actionQueueDict:{},
+    
+    logicService:null,
+    uiService:null,
+
+    serviceDict:{},
+
+    serviceCreate:function(){
+    	//this.logicService=new g_logic.LogicService();
+    	//this.uiService=new g_ui.UIService();
+    	//serviceDict["logic"]=this.logicService;
+    	//serviceDict["ui"]=this.uiService;
+    },
+    serviceInit:function(){
+    	for(var key in serviceDict){
+    		serviceDict[key].init(this);
+    	}
+    },
+    getService:function(name){
+    	return serviceDict[name];
+    },
+
+    
 
     init:function () {
         var selfPointer = this;
@@ -47,19 +70,6 @@ var BattleLayer = cc.Layer.extend({
         // ask director the window size
         var size = cc.Director.getInstance().getWinSize();
 
-        // add a "close" icon to exit the progress. it's an autorelease object
-        var closeItem = cc.MenuItemImage.create(
-            "res/CloseNormal.png",
-            "res/CloseSelected.png",
-            function () {
-            	history.go(-1);
-            },this);
-        closeItem.setAnchorPoint(cc.p(0.5, 0.5));
-
-        var menu = cc.Menu.create(closeItem);
-        menu.setPosition(cc.PointZero());
-        this.addChild(menu, 1);
-        closeItem.setPosition(cc.p(size.width - 20, 20));
 
         /////////////////////////////
         // 3. add your codes below...
@@ -90,36 +100,51 @@ var BattleLayer = cc.Layer.extend({
         actions1=cc.MoveTo.create(2,cc.p(200,200));
         actions2=cc.MoveTo.create(2,cc.p(200,400));
         actions3=cc.CallFunc.create(this.actionCall,this);
-        this.sprite.runAction(cc.Sequence.create(actions3))
+        //this.sprite.runAction(cc.Sequence.create(actions3))
 
+        
+        
+        // add a "close" icon to exit the progress. it's an autorelease object
+        var closeItem = cc.MenuItemImage.create(
+            "res/CloseNormal.png",
+            "res/CloseSelected.png",
+            function () {
+                actions1=cc.MoveBy.create(0,cc.p(50,50));
+            	this.scheduleRunAction(actions1);
+            },this);
+        closeItem.setAnchorPoint(cc.p(0.5, 0.5));
+
+        var menu = cc.Menu.create(closeItem);
+        menu.setPosition(cc.PointZero());
+        this.addChild(menu, 1);
+        closeItem.setPosition(cc.p(size.width - 20, 20));
+        
+        
+        
         this.setTouchEnabled(true);
-        
-        debugVar.Queue=g_util.Queue;
-        
         return true;
     },
     // a selector callback
     menuCloseCallback:function (sender) {
         cc.Director.getInstance().end();
     },
-    scheduleRunAction:function(action){
-    	/*
-    	var actionQueue=actionQueueDict[id]
-    	if(!actionQueue){
-    		actionQueue=new g_util.Queue();
-    		actionQueueDict[id]=actionQueue;
+    scheduleRunAction:function(scheduleAction){
+    	var finishCall=cc.CallFunc.create(this.finishRunAction,this,1);
+    	var sequence=cc.Sequence.create(scheduleAction, finishCall);
+    	this.actionQueue.queue(sequence);
+    	if(!this.actionQueue.isRunning()){
+            var runAction=this.actionQueue.dequeue();
+            this.sprite.runAction(runAction);
+            this.actionQueue.setRunning();
     	}
-    	finishCall=cc.CallFunc.create(this.finishRunAction,this);*/
-    	finishCall=cc.CallFunc.create(this.finishRunAction,this);
-    	this.actionQueue.push(action);
     },
-    finishRunAction:function(){
-    	if(this.actionQueue){
+    finishRunAction:function(index){
+    	if(!this.actionQueue.isEmpty()){
     		action=this.actionQueue.dequeue();
-    		sprite.runAction(action);
-    		actionRunning=true;
+    		this.sprite.runAction(action);
+    		this.actionQueue.setRunning();
     	}else{
-    		actionRunning=false;
+    		this.actionQueue.setStop();
     	}
     },
     actionCall:function(sender){
