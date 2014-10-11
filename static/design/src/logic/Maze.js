@@ -11,19 +11,28 @@ gLogic.Cell=function(){
     }
   }
 }
-gLogic.Edge=function(){
-}
 gLogic.Maze = function(){
   this.xLength=20;
   this.yLength=20;
-  this.posToCell=null;
+  this.posToUnit=null;
 
+  /**
+   * init from the base config 
+   */
   this.initFrom=function(script){
     this.posToCell=new Array(xLength);
     for(i=0;i<xLength;i++){
       this.posToCell[i]=new Array(yLength);
     }
   }
-  this.getCellPath()=function(path){
+  /**
+   * @param ([gLogic.Point]) path
+   */
+  this.getCellPath=function(path){
+  }
+  /**
+   * @param (gLogic.Point) point
+   */
+  this.getCell=function(point){
   }
 }
