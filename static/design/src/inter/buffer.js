@@ -1,0 +1,1 @@
+var gInter=gInter||{}
