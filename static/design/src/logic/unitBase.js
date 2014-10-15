@@ -11,10 +11,11 @@ gLogic.BaseUnit=function(){
 	this.attackSkill=null;
 	this.triggerSkill=null;
 	this.barrierLevel=10;
+	this.id=null;
 
 	this.init=function(){}
 
-	this.getUid=function(){}
+	this.getId=function(){}
 
 	/**
 	 * @return gLogic.MoveSkill|null

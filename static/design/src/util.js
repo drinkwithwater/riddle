@@ -77,3 +77,13 @@ gUtil.allTrueIter=function(array,check){
   }
   return true;
 }
+gUtil.abs=function(a){
+	return (a>=0?a:-a);
+}
+gUtil.posAbs=function(a,b){
+  var l=a.x-b.x;
+  var w=a.y-b.y;
+  l=(l>=0?l:-l);
+  w=(w>=0?w:-w);
+  return l+w;
+}

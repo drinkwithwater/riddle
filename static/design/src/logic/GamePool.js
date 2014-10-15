@@ -1,6 +1,7 @@
 var gLogic=gLogic||{}
 gLogic.GamePoolBattle=function(){
   this.gameMaze=null;
+  this.interService=null;
   this.unitDict={};
   // the trigger
   this.throughTrigger=[];
@@ -58,74 +59,75 @@ gLogic.GamePoolBattle=function(){
     //////////////////
     //return success//
     //////////////////
-    return {success:1}
+    return {success:1, skill:unitMoveSkill};
   }
   /**
    *  @param (gLogic.Unit) unit
    *  @param ([gLogic.Point]) path
    *  @return {}
    */
-  this.actionMovePath=function(unit,path){
+  this.operMovePath=function(unit,path){
     if(typeof(unit)=="number") unit=unitDict[unit];
     ////////////////
     // move check //
     ////////////////
-    result=this.checkMovePath(unit,path);
+    var result=this.checkMovePath(unit,path);
 
+    ////////////////
+    //move trigger//
+    ////////////////
     if(result.success){
-      /////////////////
-      // move action //
-      /////////////////
-      //TODO
-      //TODO
-      //TODO
-      //TODO
-
-      //trigger check
-      for(var i=0,l=throughTrigger.length;i<l;i++){
-        trigger=throughTrigger[i];
-        if(trigger.checkArea(path)){
-          trigger.effect(unit);
+      var skill=result.skill;
+      var showList=new gInter.ShowList();
+      //unit move
+      for(var j=0,l=path.length;j<l;j++){
+      	var pos=path[j];
+        this.unitMove(showList,unit,skill,pos);
+        //unit trigger
+        for(var i=0,l=throughTrigger.length;i<l;i++){
+          var trigger=throughTrigger[i];
+          if(trigger.checkArea(pos)){
+          	this.unitTrigger(unit,trigger);
+          	//TODO check dead
+          }
         }
       }
-      //check dead?
-      //TODO
-      if(unit.hp<=0){
-      }
+      this.interService.show(showList);
       return {success:1}
     }else{
+      //TODO
       return result;
     }
   }
 
-  ////////////////////////////////////
-  // the function for simple action //
-  ////////////////////////////////////
+  ////////////////////////////////////////
+  // the function for simple action TODO//
+  ////////////////////////////////////////
   /**
    * @param (gLogic.Unit) unit
    * @param (gLogic.Skill) skill
    * @param (point) pos
    */
-  this.unitMove=function(unit,skill,pos){
+  this.unitMove=function(showList,unit,pos){
   }
   /**
    * @param (gLogic.Unit) unit
    * @param (gLogic.Skill) skill
    * @param (point) dstUnit
    */
-  this.unitAttack=function(unit,skill,dstUnit){
+  this.unitAttack=function(showList,unit,skill,dstUnit){
   }
   /**
    * @param (gLogic.Unit) unit
    * @param (point) direct
    */
-  this.unitTurn=function(unit,direct){
+  this.unitTurn=function(showList,unit,direct){
   }
   /**
    * @param (gLogic.Unit) unit
    * @param (gLogic.Trigger) trigger
    */
-  this.unitTrigger=function(unit,trigger){
+  this.unitTrigger=function(showList,unit,trigger){
   }
   
   

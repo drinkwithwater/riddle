@@ -36,8 +36,30 @@ gInter.ShowTrigger=function(){
   this.srcUid=null;
   this.triggerId=null;
 }
+gInter.ShowEffect=function(){
+  this.type=5;
+  this.uid=null;
+  this.valueType=null;
+  this.value=null;
+}
+gInter.ShowError=function(){
+  this.type=-1;
+  this.fail=null;
+  this.exception=null;
+  this.error=null;
+  //TODO
+}
 gInter.ShowList=function(){
   this.showArray=[];
+  this.addShowAttack=function(uid,skillId,dstUid){
+  	var temp=new ShowAttack();
+  	temp.uid=uid;
+  	temp.skillId=skillId;
+  	temp.dstUid=dstUid;
+  	this.showArray.push(temp);
+  }
+  this.addShowTrigger=function(){
+  }
 }
 gInter.ShowList.prototype=new gInter.ContextBase();
 
