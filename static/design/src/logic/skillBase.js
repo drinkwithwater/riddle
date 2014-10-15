@@ -4,19 +4,21 @@ var gLogic=gLogic||{}
 ///// Skill /////
 /////////////////
 gLogic.BaseSkill=function(){
-  this.game=null;
-  this.owner=null;
+  this.ownerId=null;
   this.range=10;
+
   this.checkRange=function(length){return length<=range;}
+  this.checkCellThrough=function(cell){
+    if(!cell.content===null) return false;
+    else return true;
+  }
+  this.effect=function(param){
+  }
 }
 //game instanceof GamePool
 gLogic.AttackSkill=function(){
 }
 gLogic.MoveSkill=function(){
-  this.checkThrough=function(cell){
-    if(cell) return false;
-    else return true;
-  }
   this.effect=function(point){
   }
   //to know the move path
@@ -28,17 +30,14 @@ gLogic.MoveSkill.prototype=new BaseSkill();
 ///// Trigger /////
 ///////////////////
 gLogic.BaseTrigger=function(){
-  this.game=null;
-  this.owner=null;
-  this.tid=null;
-  this.range=null;
+  this.ownerId=null;
+  this.range=10;
 }
 gLogic.AttackTrigger=function(){
-  this.game=null;
   this.effect=function(dstUnit){
   }
 }
-gLogic.MoveTrigger=function(){
+gLogic.ThroughTrigger=function(){
   this.type=gLogic.skill.type.moveTrigger;
   this.game=game;
   this.owner=owner;
