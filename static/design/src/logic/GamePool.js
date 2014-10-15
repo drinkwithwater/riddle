@@ -1,4 +1,19 @@
 var gLogic=gLogic||{}
+gLogic.GamePoolInit=function(){
+  this.initFrom=function(script){
+    var xLength=script.xLength;
+    var yLength=script.yLength;
+    var unitArray=script.unitArray;
+    for(var i=0;i<xLength;i++){
+      for(var j=0;j<yLength;j++){
+        var classId=unitArray[i][j];
+        var newUnit=gLogic.createUnit(classId);
+        //init new Unit TODO
+        //dosth
+      }
+    }
+  }
+}
 gLogic.GamePoolBattle=function(){
   this.gameMaze=null;
   this.interService=null;
@@ -129,26 +144,11 @@ gLogic.GamePoolBattle=function(){
    */
   this.unitTrigger=function(showList,unit,trigger){
   }
-  
-  
+
+
   //TODO
-  //include died, harmed 
+  //include died, harmed
   this.unitTODO=function(){};
-}
-gLogic.GamePool=function(){
-
-  addChess=function(){
-  }
-  delChess=function(){
-  }
-
-  this.initFrom=function(script){
-  }
-
-  this.startGame=function(){
-  }
-  this.endGame=function(){
-  }
 }
 gLogic.IGamePool=function(){
   this.init(context)=function(){}

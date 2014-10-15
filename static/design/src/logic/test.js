@@ -14,3 +14,5 @@ var ext=function(){
 	}
 }
 ext.prototype=new base();
+var a=new Array(10);
+console.log(a);

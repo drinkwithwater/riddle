@@ -8,12 +8,11 @@ gLogic.BaseUnit=function(){
 	this.y=-1;
 	this.hp=100;
 	this.moveSkill=null;
-	this.attackSkill=null;
 	this.triggerSkill=null;
 	this.barrierLevel=10;
 	this.id=null;
 
-	this.init=function(){}
+	this.init=function(x,y,id){}
 
 	this.getId=function(){}
 
