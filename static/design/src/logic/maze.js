@@ -38,9 +38,9 @@ gLogic.Maze = function(){
     //init x,y,length
     xLength=xx;
     yLength=yy;
-    posToUnit=new Array(xLength);
-    for(var i=0;i<xLength;i++){
-      posToUnit[i]=new Array(yLength);
+    posToUnit=new Array(xx);
+    for(var i=0;i<xx;i++){
+      posToUnit[i]=new Array(yy);
     }
     //init units
     for(var k in unitDict){

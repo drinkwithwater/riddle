@@ -2,9 +2,18 @@ var gInter=gInter||{}
 gInter.InterService=function(){
   this.front=null;
   this.back=null;
+  this.init=function(gameTop){
+  	this.front=gameTop.getService("ui");
+  	this.back=gameTop.getService("logic");
+  }
+  this.setFrontBack=function(fe,be){
+  	this.front=fe;
+  	this.back=be;
+  }
   this.show=function(showList){
   	console.log(showList);
   }
   this.oper=function(operator){
+  	console.log(oper);
   }
 }

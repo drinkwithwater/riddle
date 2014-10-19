@@ -1,9 +1,20 @@
 var gLogic=gLogic||{}
 gLogic.GamePoolInit=function(){
+  var triggerInit=function(){
+  	//TODO
+  }
+  this.scriptInit=function(unitDict,gameMaze){
+  	this.unitDict=unitDict;
+  	this.gameMaze=gameMaze;
+  	triggerInit();
+  }
   this.initFrom=function(script){
+  	//temp var
     var xLength=script.xLength;
     var yLength=script.yLength;
     var unitArray=script.unitArray;
+    //counter for unit number
+    var counter=0;
     for(var i=0;i<xLength;i++){
       for(var j=0;j<yLength;j++){
         var classId=unitArray[i][j];
@@ -151,8 +162,8 @@ gLogic.GamePoolBattle=function(){
   this.unitTODO=function(){};
 }
 gLogic.IGamePool=function(){
-  this.init(context)=function(){}
-  this.start(context)=function(){}
+  this.init(gameTop)=function(){}
+  this.start(gameTop)=function(){}
 
   this.userEnter=function(script){}
   this.userWalk=function(path){}

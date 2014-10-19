@@ -12,7 +12,7 @@ gLogic.BaseUnit=function(){
 	this.barrierLevel=10;
 	this.id=null;
 
-	this.init=function(x,y,id){}
+	this.scriptInit=function(x,y,id,direct){}
 
 	this.getId=function(){}
 
@@ -27,8 +27,8 @@ gLogic.BaseUnit=function(){
 
 	this.getBarrierLevel=function(){return this.barrierLevel}
 
-	this.bindTrigger=function(){//TODO}
-	this.removeTrigger=function(){//TODO}
+	this.bindTrigger=function(){}//TODO
+	this.removeTrigger=function(){}//TODO
 }
 
 gLogic.MoveUnit=function(){

@@ -1,3 +1,10 @@
+var gTest=gTest||{}
+gTest.GameTop=function(){
+	this.uiService=null;
+	this.logicService=null;
+	this.interService=null;
+}
+/*
 var base=function(){
 	this.x="base";
 	this.dosth=function(){
@@ -15,4 +22,4 @@ var ext=function(){
 }
 ext.prototype=new base();
 var a=new Array(10);
-console.log(a);
+*/
