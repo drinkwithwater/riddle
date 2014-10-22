@@ -12,6 +12,20 @@ gInter.ContextBase=function(){
 ///////////////////////////
 // back-end to front-end //
 ///////////////////////////
+gInter.ShowContext=function(){
+  this.showArray=[];
+ 
+  this.showAttack=function(uid,skillId,dstUid){
+  	var temp=new ShowAttack();
+  	temp.uid=uid;
+  	temp.skillId=skillId;
+  	temp.dstUid=dstUid;
+  	this.showArray.push(temp);
+  }
+  this.showTrigger=function(){
+  }
+}
+gInter.ShowContext.prototype=new gInter.ContextBase();
 gInter.ShowMove=function(){
   this.type=1;
   this.uid=null;
@@ -49,19 +63,6 @@ gInter.ShowError=function(){
   this.error=null;
   //TODO
 }
-gInter.ShowContext=function(){
-  this.showArray=[];
-  this.showAttack=function(uid,skillId,dstUid){
-  	var temp=new ShowAttack();
-  	temp.uid=uid;
-  	temp.skillId=skillId;
-  	temp.dstUid=dstUid;
-  	this.showArray.push(temp);
-  }
-  this.showTrigger=function(){
-  }
-}
-gInter.ShowContext.prototype=new gInter.ContextBase();
 
 ///////////////////////////
 // front-end to back-end //

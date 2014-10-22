@@ -19,6 +19,21 @@ gTest.GameTopTest.prototype=new gTop.GameTop();
 gTest.testImpl=new gTest.GameTopTest();
 gTest.testImpl.init();
 gTest.interService=gTest.testImpl.interService;
+var TryClass=function(){
+	console.log(this);
+	this.fds="tryclass fds;";
+	var sth="tryclass sth;";
+	var inClass=function(){
+		console.log(sth);
+	}
+	this.dosth2=function(){
+		inClass();
+	}
+	this.dosth=function(){
+		return new inClass();
+	}
+
+}
 /*
 var base=function(){
 	this.x="base";
