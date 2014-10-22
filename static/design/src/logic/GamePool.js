@@ -1,6 +1,18 @@
 var gLogic=gLogic||{}
+gLogic.LogicService=function(){
+  this.init=function(gameTop){
+  }
+  this.start=function(gameTop){
+  }
+
+  /*
+  this.userEnter=function(script){}
+  this.userWalk=function(path){}
+  this.userExit=function(){}*/
+}
 gLogic.GamePoolInit=function(){
   var triggerInit=function(){
+  	console.log("trigger init");
   	//TODO
   }
   this.scriptInit=function(unitDict,gameMaze){
@@ -8,6 +20,7 @@ gLogic.GamePoolInit=function(){
   	this.gameMaze=gameMaze;
   	triggerInit();
   }
+  /*
   this.initFrom=function(script){
   	//temp var
     var xLength=script.xLength;
@@ -23,7 +36,7 @@ gLogic.GamePoolInit=function(){
         //dosth
       }
     }
-  }
+  }*/
 }
 gLogic.GamePoolBattle=function(){
   this.gameMaze=null;
@@ -161,12 +174,5 @@ gLogic.GamePoolBattle=function(){
   //include died, harmed
   this.unitTODO=function(){};
 }
-gLogic.IGamePool=function(){
-  this.init(gameTop)=function(){}
-  this.start(gameTop)=function(){}
-
-  this.userEnter=function(script){}
-  this.userWalk=function(path){}
-  this.userExit=function(){}
-
-}
+gLogic.GamePoolBattle.prototype=new gLogic.GamePoolInit();
+gLogic.LogicService.prototype=new gLogic.GamePoolBattle();

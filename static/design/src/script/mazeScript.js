@@ -1,12 +1,12 @@
-var gLogic=gLogic||{}
-gLogic.scriptCreateUnit=function(x,y,id,code){
+var gScript=gScript||{}
+gScript.scriptCreateUnit=function(x,y,id,code){
 	var type=code%0x100;
 	var direct=code%0x1000-type;
-	var newUnit=new gLogic.unitClassDict[type]();
+	var newUnit=new gScript.unitClassDict[type]();
 	newUnit.init(x,y,id,direct);
 	return newUnit;
 }
-gLogic.scriptInitLogic=function(script,logicService){
+gScript.scriptInitLogic=function(script,logicService){
 	//x,y,unitArray
 	var xLength=script.xLength;
 	var yLength=script.yLength;
@@ -22,7 +22,7 @@ gLogic.scriptInitLogic=function(script,logicService){
 			if(code===0){
 				continue;
 			}else{
-				unitDict[counter]=gLogic.scriptCreateUnit(x,y,counter,code);
+				unitDict[counter]=gScript.scriptCreateUnit(x,y,counter,code);
 				counter++;
 			}
 		}
@@ -34,13 +34,13 @@ gLogic.scriptInitLogic=function(script,logicService){
 	//set
   	logicService.scriptInit(unitDict,gameMaze);
 }
-gLogic.mazeScripts=[]
-gLogic.mazeScripts[0]={
+gScript.mazeScripts=[]
+gScript.mazeScripts[0]={
   xLength:10,
   yLength:10,
-  //0xPQRST
-  //ST:type, R:direct, Q:
-  unitArray:[[0x0,0,1,0,0, 0,1,0,0,0],
+  //0xRST
+  //ST:type, R:direct, 
+  unitArray:[[0,0,1,0,0, 0,1,0,0,0],
              [0,0,0,0,0, 0,0,0,2,0],
              [0,0,0,0,0, 0,0,0,0,0],
              [0,0,0,0,0, 0,0,0,0,0],
@@ -51,5 +51,5 @@ gLogic.mazeScripts[0]={
              [0,0,0,0,0, 0,1,0,1,0],
              [0,0,4,0,0, 0,0,0,0,0],
              [0,0,0,0,0, 0,2,0,0,1]],
-  scriptInit:gLogic.scriptInitLogic
+  initLogic:function(logicService){gScript.scriptInitLogic(0,logicService);}
 }

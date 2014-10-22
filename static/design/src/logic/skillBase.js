@@ -25,8 +25,8 @@ gLogic.AttackSkill=function(){
 }
 gLogic.MoveSkill=function(){
 }
-gLogic.AttackSkill.prototype=new BaseSkill();
-gLogic.MoveSkill.prototype=new BaseSkill();
+gLogic.AttackSkill.prototype=new gLogic.BaseSkill();
+gLogic.MoveSkill.prototype=new gLogic.BaseSkill();
 
 ///////////////////
 ///// Trigger /////
@@ -47,5 +47,5 @@ gLogic.ThroughTrigger=function(){
   this.effect=function(showList,unit){
   }
 }
-gLogic.MoveTrigger.prototype=new BaseTrigger();
-gLogic.AttackTrigger.prototype=new BaseTrigger();
+gLogic.AttackTrigger.prototype=new gLogic.BaseTrigger();
+gLogic.ThroughTrigger.prototype=new gLogic.BaseTrigger();

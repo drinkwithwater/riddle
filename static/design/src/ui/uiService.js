@@ -1,5 +1,5 @@
-var g_ui=g_ui||{};
-g_ui.UIService=function(){
+var gUI=gUI||{};
+gUI.UIService=function(){
 	var interService=null;
 	//
 	this.init=function(gameTop){

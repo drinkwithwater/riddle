@@ -12,9 +12,16 @@ gLogic.BaseUnit=function(){
 	this.barrierLevel=10;
 	this.id=null;
 
-	this.scriptInit=function(x,y,id,direct){}
+	this.scriptInit=function(x,y,id,direct){
+		this.x=x;
+		this.y=y;
+		this.id=id;
+		this.direct=direct;
+	}
 
-	this.getId=function(){}
+	this.getId=function(){
+		return this.id;
+	}
 
 	/**
 	 * @return gLogic.MoveSkill|null
@@ -38,6 +45,6 @@ gLogic.TriggerUnit=function(){
 gLogic.BarrierUnit=function(){
 }
 
-gLogic.MoveUnit.prototype=new BaseUnit();
-gLogic.TriggerUnit.prototype=new BaseUnit();
-gLogic.BarrierUnit.prototype=new BaseUnit();
+gLogic.MoveUnit.prototype=new gLogic.BaseUnit();
+gLogic.TriggerUnit.prototype=new gLogic.BaseUnit();
+gLogic.BarrierUnit.prototype=new gLogic.BaseUnit();
