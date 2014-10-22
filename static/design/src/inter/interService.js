@@ -6,13 +6,11 @@ gInter.InterService=function(){
   	this.front=gameTop.getService("ui");
   	this.back=gameTop.getService("logic");
   }
-  this.setFrontBack=function(fe,be){
-  	this.front=fe;
-  	this.back=be;
-  }
-  this.show=function(showList){
+  //back tell front
+  this.show=function(showContext){
   	console.log(showList);
   }
+  //front tell back
   this.oper=function(operator){
   	console.log(oper);
   }

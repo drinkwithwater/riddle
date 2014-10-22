@@ -49,19 +49,19 @@ gInter.ShowError=function(){
   this.error=null;
   //TODO
 }
-gInter.ShowList=function(){
+gInter.ShowContext=function(){
   this.showArray=[];
-  this.addShowAttack=function(uid,skillId,dstUid){
+  this.showAttack=function(uid,skillId,dstUid){
   	var temp=new ShowAttack();
   	temp.uid=uid;
   	temp.skillId=skillId;
   	temp.dstUid=dstUid;
   	this.showArray.push(temp);
   }
-  this.addShowTrigger=function(){
+  this.showTrigger=function(){
   }
 }
-gInter.ShowList.prototype=new gInter.ContextBase();
+gInter.ShowContext.prototype=new gInter.ContextBase();
 
 ///////////////////////////
 // front-end to back-end //

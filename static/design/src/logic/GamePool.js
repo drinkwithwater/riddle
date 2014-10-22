@@ -117,11 +117,11 @@ gLogic.GamePoolBattle=function(){
     ////////////////
     if(result.success){
       var skill=result.skill;
-      var showList=new gInter.ShowList();
+      var showContext=new gInter.ShowContext();
       //unit move
       for(var j=0,l=path.length;j<l;j++){
       	var pos=path[j];
-        this.unitMove(showList,unit,skill,pos);
+        this.unitMove(showContext,unit,skill,pos);
         //unit trigger
         for(var i=0,l=throughTrigger.length;i<l;i++){
           var trigger=throughTrigger[i];
@@ -131,7 +131,7 @@ gLogic.GamePoolBattle=function(){
           }
         }
       }
-      this.interService.show(showList);
+      this.interService.show(showContext);
       return {success:1}
     }else{
       //TODO
@@ -147,26 +147,26 @@ gLogic.GamePoolBattle=function(){
    * @param (gLogic.Skill) skill
    * @param (point) pos
    */
-  this.unitMove=function(showList,unit,pos){
+  this.unitMove=function(showContext,unit,pos){
   }
   /**
    * @param (gLogic.Unit) unit
    * @param (gLogic.Skill) skill
    * @param (point) dstUnit
    */
-  this.unitAttack=function(showList,unit,skill,dstUnit){
+  this.unitAttack=function(showContext,unit,skill,dstUnit){
   }
   /**
    * @param (gLogic.Unit) unit
    * @param (point) direct
    */
-  this.unitTurn=function(showList,unit,direct){
+  this.unitTurn=function(showContext,unit,direct){
   }
   /**
    * @param (gLogic.Unit) unit
    * @param (gLogic.Trigger) trigger
    */
-  this.unitTrigger=function(showList,unit,trigger){
+  this.unitTrigger=function(showContext,unit,trigger){
   }
 
 

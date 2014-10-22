@@ -7,13 +7,18 @@ gTest.GameTopTest=function(){
 		this.serviceDict["logic"]=this.logicService;
 		this.serviceDict["inter"]=this.interService;
 		
+		this.logicService.init(this);
+		this.interService.init(this);
+
 		var script=gScript.mazeScripts[0];
 		script.initLogic(this.logicService);
 	}
 }
 gTest.GameTopTest.prototype=new gTop.GameTop();
-var testImpl=new gTest.GameTopTest();
-testImpl.init();
+/****************************************************************/
+gTest.testImpl=new gTest.GameTopTest();
+gTest.testImpl.init();
+gTest.interService=gTest.testImpl.interService;
 /*
 var base=function(){
 	this.x="base";
