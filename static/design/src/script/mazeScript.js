@@ -1,12 +1,13 @@
 var gScript=gScript||{}
 gScript.scriptCreateUnit=function(x,y,id,code){
 	var type=code%0x100;
-	var direct=code%0x1000-type;
-	var newUnit=new gScript.unitClassDict[type]();
-	newUnit.init(x,y,id,direct);
+	var direct=(code%0x1000-type)>>4;
+	var newUnit=new gLogic.unitClassDict[type]();
+	newUnit.scriptInit(x,y,id,direct);
 	return newUnit;
 }
-gScript.scriptInitLogic=function(script,logicService){
+gScript.scriptInitLogic=function(index,logicService){
+	var script=gScript.mazeScripts[index];
 	//x,y,unitArray
 	var xLength=script.xLength;
 	var yLength=script.yLength;

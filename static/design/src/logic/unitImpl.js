@@ -3,6 +3,7 @@ gLogic.unitClassDict=[]
 gLogic.SthUnit=function(){
 }
 gLogic.SthUnit.prototype=new gLogic.BaseUnit();
+gLogic.unitClassDict[0]=gLogic.SthUnit;
 gLogic.unitClassDict[1]=gLogic.SthUnit;
 gLogic.unitClassDict[2]=gLogic.SthUnit;
 gLogic.unitClassDict[3]=gLogic.SthUnit;

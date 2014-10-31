@@ -18,7 +18,6 @@ gTest.GameTopTest.prototype=new gTop.GameTop();
 /****************************************************************/
 gTest.testImpl=new gTest.GameTopTest();
 gTest.testImpl.init();
-gTest.interService=gTest.testImpl.interService;
 /*
 var base=function(){
 	this.x="base";

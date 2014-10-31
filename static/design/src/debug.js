@@ -1,17 +1,5 @@
-var VarDebug=function(){
-  this.varMap={};
-  this.varList=[];
-  this.add=function(v){
-     this.varList[this.varList.length]=v;
-  }
-  this.show=function(){
-    console.log(this.varMap);
-    console.log(this.varList);
-  }
-}
-var debugVar=new VarDebug();
-
-var Logger=function(){
+var Logger=function(instance){
+  this.instance=instance;
   this.FATAL=50;
   this.ERROR=40;
   this.WARN=30;
@@ -19,14 +7,22 @@ var Logger=function(){
   this.DEBUG=10;
 
   this.level=0;
-  //TODO this should be modified
+  var self=this;
+  //TODO this should be modified ,add level check
   this.error=function(msg){
-    console.error(msg);
+    console.error(self);
+    console.error("error:"+msg);
   }
   this.info=function(msg){
-    console.info(msg);
+  	console.info(self);
+    console.info("info:"+msg);
   }
   this.debug=function(msg){
-    console.debug(msg);
+  	console.info(self);
+  	console.info("debug:"+msg);
+  }
+  this.log=function(msg){
+  	console.debug(self);
+    console.debug("log:"+msg);
   }
 }

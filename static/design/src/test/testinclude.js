@@ -1,5 +1,7 @@
 (function(){
 var logic=[
+'/design/src/debug.js',
+
 '/design/src/inter/buffer.js',
 '/design/src/inter/context.js',
 '/design/src/inter/interService.js',
