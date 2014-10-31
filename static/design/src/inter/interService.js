@@ -11,7 +11,7 @@ gInter.InterService=function(){
   	console.log(showList);
   }
   //front tell back
-  this.oper=function(operator){
+  this.oper=function(operContext){
   	console.log(oper);
   }
 }

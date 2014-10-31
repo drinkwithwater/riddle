@@ -15,6 +15,20 @@ gInter.ContextBase=function(){
 gInter.ShowContext=function(){
   this.showArray=[];
  
+  this.showMove=function(uid,x,y){
+  	var temp=new ShowMove();
+  	temp.uid=uid;
+  	temp.x=x;
+  	temp.y=y;
+  	this.showArray.push(temp);
+  }
+  this.showTurn=function(uid,x,y){
+  	var temp=new ShowTurn();
+  	temp.uid=uid;
+  	temp.x=x;
+  	temp.y=y;
+  	this.showArray.push(temp);
+  }
   this.showAttack=function(uid,skillId,dstUid){
   	var temp=new ShowAttack();
   	temp.uid=uid;
@@ -22,50 +36,31 @@ gInter.ShowContext=function(){
   	temp.dstUid=dstUid;
   	this.showArray.push(temp);
   }
-  this.showTrigger=function(){
+  this.showTrigger=function(uid,srcUid,triggerId){
+  	var temp=new ShowTrigger();
+  	temp.uid=uid;
+  	temp.srcUid=srcUid;
+  	temp.triggerId=triggerId;
   }
 }
 gInter.ShowContext.prototype=new gInter.ContextBase();
-gInter.ShowMove=function(){
-  this.type=1;
-  this.uid=null;
-  this.x=null;
-  this.y=null;
-}
-gInter.ShowTurn=function(){
-  this.type=3;
-  this.uid=null;
-  this.x=null;
-  this.y=null;
-}
-gInter.ShowAttack=function(){
-  this.type=2;
-  this.uid=null;
-  this.skillId=null;
-  this.dstUid=null;
-}
-gInter.ShowTrigger=function(){
-  this.type=4;
-  this.uid=null;
-  this.srcUid=null;
-  this.triggerId=null;
-}
-gInter.ShowEffect=function(){
-  this.type=5;
-  this.uid=null;
-  this.valueType=null;
-  this.value=null;
-}
-gInter.ShowError=function(){
-  this.type=-1;
-  this.fail=null;
-  this.exception=null;
-  this.error=null;
-  //TODO
-}
 
 ///////////////////////////
 // front-end to back-end //
 ///////////////////////////
-gInter.OperUnitMove=function(){
+gInter.OperContext=function(){
+  this.operArray=[];
+  this.operUnitMovePath=function(uid,path){
+  	var temp=new OperUnitMovePath();
+  	temp.uid=uid;
+  	temp.path=path;
+  }
+  this.operUnitAttackPath=function(uid,path){
+  	//TODO
+  }
+}
+gInter.OperUnitMovePath=function(){
+  this.type=10;
+  this.uid=null;
+  this.path=[];
 }
