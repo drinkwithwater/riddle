@@ -37,6 +37,20 @@ gScript.scriptInitLogic=function(index,logicService){
 }
 gScript.mazeScripts=[]
 gScript.mazeScripts[0]={
+  xLength:6,
+  yLength:6,
+  //0xRST
+  //ST:type, R:direct, 
+  unitArray:[[0,0,0, 0,1,0],
+             [0,0,0, 0,2,0],
+             [0,0,0, 0,0,0],
+
+             [0,0,0, 0,4,0],
+             [0,0,0, 0,0,0],
+             [0,0,0, 0,0,1]],
+  initLogic:function(logicService){gScript.scriptInitLogic(0,logicService);}
+}
+gScript.mazeScripts[1]={
   xLength:10,
   yLength:10,
   //0xRST
@@ -52,5 +66,5 @@ gScript.mazeScripts[0]={
              [0,0,0,0,0, 0,1,0,1,0],
              [0,0,4,0,0, 0,0,0,0,0],
              [0,0,0,0,0, 0,2,0,0,1]],
-  initLogic:function(logicService){gScript.scriptInitLogic(0,logicService);}
+  initLogic:function(logicService){gScript.scriptInitLogic(1,logicService);}
 }

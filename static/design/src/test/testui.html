@@ -5,7 +5,6 @@
     <title>Cocos2d-html5 Hello World test</title>
     <link rel="icon" type="image/GIF" href="/design/res/favicon.ico"/>
 	<script src="/jquery.js"></script>
-	<script src="/angular.min.js"></script>
     <script src="testinclude.js"></script>
     <script src="testui.js"></script>
     <link rel="stylesheet" type=text/css href="testui.css"/>
@@ -13,13 +12,11 @@
 <body>
 
 <!--a maze for sth-->
-<div ng-app="" ng-controller="tableCtrl">
-<table class="maze">
-  <tr ng-repeat="x in table">
-    <td class="sprite" ng-repeat="y in x">{{y}}</td>
-  </tr>
+<div>
+<table id="maze">
 </table>
-<button ng-click="show()">show</button>
+<button id="init">show</button>
+<button id="test">show</button>
 </div>
 </body>
 </html>
