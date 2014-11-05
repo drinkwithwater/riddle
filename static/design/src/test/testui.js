@@ -1,25 +1,42 @@
-(function(){
-    var unitToString=function(unit){
-        if(unit){
-            return "yes";
-        }else{
-            return "null";
-        }
-    }
-    function setIJStr(i,j,str){
+var unitToString=function(unit){
+	if(unit){
+	    return "yes";
+	}else{
+	    return "null";
+	}
+}
+function TestUI(){
+	this.choose=null;
+	var self=this;
+    var setIJStr=function(i,j,str){
     	$("#maze tr#"+String(i)+" td#"+String(j)).html(str);
     }
-    function refresh(){
-        var posToUnit=gTest.testImpl.logicService.gameMaze.posToUnit;
-        for(var i=0,il=posToUnit.length;i<il;i++){
-            var unitsi=posToUnit[i];
-            for(var j=0,jl=unitsi.length;j<jl;j++){
-                var unitsij=unitsi[j];
-                setIJStr(i,j,unitToString(unitsij));
-        	}
-        }
+    var setIJColor=function(i,j,color){
+    	$("#maze tr#"+String(i)+" td#"+String(j)).html(str);
     }
-    function init(){
+    var mouseBind=function(cell){
+        cell.addClass("base");
+        cell.click(function(){
+        	var x=cell.attr("data-x");
+        	var y=cell.attr("data-y");
+        	self.choose.click(x,y);
+        });
+        cell.mouseover(function(){
+        	var x=cell.attr("data-x");
+        	var y=cell.attr("data-y");
+        	self.choose.over(x,y);
+        });
+        cell.mouseout(function(){
+        	var x=cell.attr("data-x");
+        	var y=cell.attr("data-y");
+        	self.choose.out(x,y);
+        });
+    }
+    this.init=function(){
+    	//init choose
+    	self.choose=new gUI.Choose();
+    	self.choose.init(self);
+    	//init the table content
         var posToUnit=gTest.testImpl.logicService.gameMaze.posToUnit;
         var table=$("#maze");
         for(var i=0,il=posToUnit.length;i<il;i++){
@@ -29,7 +46,7 @@
                 var unitsij=unitsi[j];
                 var td=$("<td></td>").attr("id",String(j));
                 td.html(unitToString(unitsij));
-                td.addClass("cell");
+                mouseBind(td);
                 td.attr("data-x",i);
                 td.attr("data-y",j);
                 tr.append(td);
@@ -37,12 +54,29 @@
             table.append(tr);
         }
     }
+    this.chooseSetIJType=function(i,j,type){
+    	//TODO
+    	$("#maze tr#"+String(i)+" td#"+String(j)).addClass();
+    }
+    this.refresh=function(){
+        var posToUnit=gTest.testImpl.logicService.gameMaze.posToUnit;
+        for(var i=0,il=posToUnit.length;i<il;i++){
+            var unitsi=posToUnit[i];
+            for(var j=0,jl=unitsi.length;j<jl;j++){
+                var unitsij=unitsi[j];
+                setIJStr(i,j,unitToString(unitsij));
+        	}
+        }
+    }
+}
+(function(){
+	var testui=new TestUI();
     function test(){
-    	setIJStr(1,1,"fdsfdsfdsfs");
+    	testui.setIJStr(1,1,"fdsfdsfdsfs");
     }
     $(document).ready(function(){
-        $("#init").click(init);
-        $("#test").click(test);
+    	testui.init();
+        $("button#test").click(test);
     });
 })()
 /*

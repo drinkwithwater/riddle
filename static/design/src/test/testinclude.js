@@ -20,6 +20,8 @@ var logic=[
 
 '/design/src/gameTop/gameTop.js',
 
+'/design/src/ui/choose.js',
+
 '/design/src/test/testTop.js'
 ];
 for(var i=0;i<logic.length;i++){

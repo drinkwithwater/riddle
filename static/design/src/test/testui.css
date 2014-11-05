@@ -1,8 +1,24 @@
-.cell {
+.base {
     width: 40px;
     height: 40px;
     text-align: center;
     border-style: solid;
     border-color: #f0f0f0;
     font-size: 10px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.cellChoose {
+    background-color: #f0f0a0;
+}
+.pathChoose {
+    background-color: #f0a0a0;
+}
+.mouseOn {
+    background-color: #a0a0a0;
 }
