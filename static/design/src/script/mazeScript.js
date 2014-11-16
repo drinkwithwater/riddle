@@ -35,6 +35,26 @@ gScript.scriptInitLogic=function(index,logicService){
 	//set
   	logicService.scriptInit(unitDict,gameMaze);
 }
+gScript.sripteInitUI=function(index,uiService){
+	var script=gScript.mazeScripts[index];
+	//x,y,unitArray
+	var xLength=script.xLength;
+	var yLength=script.yLength;
+	var unitArray=script.unitArray;
+  	//create unitDict,gameMaze;
+	var posToCell=null;
+	//counter
+	var counter=0;
+	posToCell=new Array(xLength);
+	for(var x=0;x<xLength;x++){
+		posToCell[x]=new Array(yLength);
+		for(var y=0;y<yLength;y++){
+			posToCell[x][y]=new gUIState.UICell();
+		}
+	}
+	//set posToCell
+	uiService.posToCell=posToCell;
+}
 gScript.mazeScripts=[]
 gScript.mazeScripts[0]={
   xLength:6,

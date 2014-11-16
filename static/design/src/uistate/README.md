@@ -7,7 +7,7 @@
 	1.5 UNIT_STATE_LEVEL null,unit
 	2 AREA_LEVEL null,moveArea,attackArea
 	3 SELECT_LEVEL null,start,end,movePath,attackPath
-	4 MOUSE_LEVEL null,mouseOver,mouseClick
+	4 MOUSE_LEVEL null,mouseOver
 
 3.logic:
 	<empty>:

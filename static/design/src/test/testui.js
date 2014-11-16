@@ -5,14 +5,22 @@ var unitToString=function(unit){
 	    return "null";
 	}
 }
-function TestUI(){
-	this.choose=null;
+var stateToCssStatic={}
+var stateToCss=function(state){
+	var uiConst=gUIState.uiConst;
+	for(var k in uiConst){
+
+	}
+}
+function TestUILayer(){
 	var self=this;
     var setIJStr=function(i,j,str){
     	$("#maze tr#"+String(i)+" td#"+String(j)).html(str);
     }
     var setIJColor=function(i,j,color){
     	$("#maze tr#"+String(i)+" td#"+String(j)).html(str);
+    }
+    var setIJCell=function(i,j,cell){
     }
     var mouseBind=function(cell){
         cell.addClass("base");
@@ -33,9 +41,6 @@ function TestUI(){
         });
     }
     this.init=function(){
-    	//init choose
-    	self.choose=new gUI.Choose();
-    	self.choose.init(self);
     	//init the table content
         var posToUnit=gTest.testImpl.logicService.gameMaze.posToUnit;
         var table=$("#maze");
@@ -53,10 +58,10 @@ function TestUI(){
         	}
             table.append(tr);
         }
+        //set ui
+        var posToUnit=gTest.testImpl.uiService.setTestUI(self);
     }
-    this.chooseSetIJType=function(i,j,type){
-    	//TODO
-    	$("#maze tr#"+String(i)+" td#"+String(j)).addClass();
+    this.getIJ=function(x,y){
     }
     this.refresh=function(){
         var posToUnit=gTest.testImpl.logicService.gameMaze.posToUnit;
@@ -70,7 +75,7 @@ function TestUI(){
     }
 }
 (function(){
-	var testui=new TestUI();
+	var testui=new TestUILayer();
     function test(){
     	testui.setIJStr(1,1,"fdsfdsfdsfs");
     }
