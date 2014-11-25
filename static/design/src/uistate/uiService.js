@@ -8,6 +8,7 @@ gUIState.UIService=function(){
 		interService=gameTop.getService("inter");
     	self.choose=new gUIState.Choose();
     	self.choose.init(self);
+    	console.log(this.posToCell);
 	};
 	this.logicTriggerAction=function(){}
 	this.chooseTriggerAction=function(){}
@@ -16,6 +17,7 @@ gUIState.TestUIService=function(){
 	this.testUI=null;
 	var self=this;
 	this.chooseTriggerAction=function(x,y){
+		//refresh testui
 		if(this.posToCell[x]) if(this.posToCell[x][y]){
         	this.testUI.setIJCell(x,y,this.posToCell[x][y]);
 		}
@@ -24,4 +26,4 @@ gUIState.TestUIService=function(){
 		self.testUI=testUI;
 	}
 }
-gUIState.TestUISerivce.prototype=new gUIState.UIService();
+gUIState.TestUIService.prototype=new gUIState.UIService();

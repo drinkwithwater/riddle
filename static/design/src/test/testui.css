@@ -1,4 +1,4 @@
-.base {
+.CELL_BASE {
     width: 40px;
     height: 40px;
     text-align: center;
@@ -13,12 +13,12 @@
     -ms-user-select: none;
     user-select: none;
 }
-.cellChoose {
+.UNIT_NULL {
     background-color: #f0f0a0;
 }
-.pathChoose {
+.UNIT_ONE {
     background-color: #f0a0a0;
 }
-.mouseOn {
+.AREA_OUT {
     background-color: #a0a0a0;
 }

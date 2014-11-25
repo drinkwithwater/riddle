@@ -20,7 +20,10 @@ var logic=[
 
 '/design/src/gameTop/gameTop.js',
 
-'/design/src/ui/choose.js',
+'/design/src/uistate/choose.js',
+'/design/src/uistate/uiCell.js',
+'/design/src/uistate/uiconst.js',
+'/design/src/uistate/uiService.js',
 
 '/design/src/test/testTop.js'
 ];

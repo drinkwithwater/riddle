@@ -41,6 +41,7 @@ gLogic.GamePoolInit=function(){
 gLogic.GamePoolBattle=function(){
   this.gameMaze=null;
   this.interService=null;
+  //id to unit
   this.unitDict={};
   // the trigger
   this.throughTrigger=[];

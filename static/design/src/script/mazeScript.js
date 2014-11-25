@@ -33,9 +33,10 @@ gScript.scriptInitLogic=function(index,logicService){
 	gameMaze.init(xLength,yLength,unitDict);
 
 	//set
+	console.log(logicService.scriptInit);
   	logicService.scriptInit(unitDict,gameMaze);
 }
-gScript.sripteInitUI=function(index,uiService){
+gScript.scriptInitUI=function(index,uiService){
 	var script=gScript.mazeScripts[index];
 	//x,y,unitArray
 	var xLength=script.xLength;
@@ -68,7 +69,8 @@ gScript.mazeScripts[0]={
              [0,0,0, 0,4,0],
              [0,0,0, 0,0,0],
              [0,0,0, 0,0,1]],
-  initLogic:function(logicService){gScript.scriptInitLogic(0,logicService);}
+  initLogic:function(logicService){gScript.scriptInitLogic(0,logicService);},
+  initUI:function(uiService){gScript.scriptInitUI(0,uiService);}
 }
 gScript.mazeScripts[1]={
   xLength:10,
@@ -86,5 +88,6 @@ gScript.mazeScripts[1]={
              [0,0,0,0,0, 0,1,0,1,0],
              [0,0,4,0,0, 0,0,0,0,0],
              [0,0,0,0,0, 0,2,0,0,1]],
-  initLogic:function(logicService){gScript.scriptInitLogic(1,logicService);}
+  initLogic:function(logicService){gScript.scriptInitLogic(1,logicService);},
+  initUI:function(uiService){gScript.scriptInitUI(1,uiService);}
 }

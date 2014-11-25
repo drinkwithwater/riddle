@@ -7,9 +7,14 @@ var unitToString=function(unit){
 }
 var stateToCssStatic={}
 var stateToCss=function(state){
-	var uiConst=gUIState.uiConst;
-	for(var k in uiConst){
-
+	if(stateToCssStatic){
+		return stateToCssStatic[state];
+	}else{
+		var uiConst=gUIState.uiConst;
+		for(var k in uiConst){
+			stateToCss[uiConst[k]]=k
+		}
+		return stateToCssStatic[state];
 	}
 }
 function TestUILayer(){
@@ -17,13 +22,16 @@ function TestUILayer(){
     var setIJStr=function(i,j,str){
     	$("#maze tr#"+String(i)+" td#"+String(j)).html(str);
     }
-    var setIJColor=function(i,j,color){
-    	$("#maze tr#"+String(i)+" td#"+String(j)).html(str);
-    }
     var setIJCell=function(i,j,cell){
+    	var str0=stateToCss(cell.cellLevelState);
+    	var str1=stateToCss(cell.unitLevelState);
+    	var str2=stateToCss(cell.areaLevelState);
+    	var str3=stateToCss(cell.selectLevelState);
+    	var str4=stateToCss(cell.mouseLevelState);
+    	var strClass=str0+" "+str1+" "+str2+" "+str3+" "+str4;
+    	$("#maze tr#"+String(i)+" td#"+String(j)).attr("class",strClass);
     }
     var mouseBind=function(cell){
-        cell.addClass("base");
         cell.click(function(){
         	var x=cell.attr("data-x");
         	var y=cell.attr("data-y");

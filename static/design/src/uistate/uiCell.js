@@ -1,4 +1,5 @@
 var gUIState=gUIState||{}
+//describe attributes for a cell;
 gUIState.UICell=function(){
 	this.cellLevelState=0;
 
@@ -11,4 +12,7 @@ gUIState.UICell=function(){
 	this.mouseLevelState=40;
 
 	this.content=null;
+	
+	this.x=null;
+	this.y=null;
 }
