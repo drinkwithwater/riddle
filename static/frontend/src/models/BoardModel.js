@@ -1,7 +1,8 @@
-var models=models||{}
-models.BoardModel=Backbone.Model.extend({
+var gModels=gModels||{}
+gModels.BoardModel=Backbone.Model.extend({
   defaults:{
-    models:{}
+    width:10,
+    height:10
   },
   initialize:function(){
   }
