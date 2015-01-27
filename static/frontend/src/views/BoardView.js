@@ -22,4 +22,27 @@ gViews.BoardView=Backbone.View.extend({
   over:function(e){
   }
 
+//state record
+  defaults:{
+    pathingList:[],
+    pathingState:false
+  },
+  startPathing:function(point){
+    //when leftmouse
+  },
+  inCellPathing:function(point){
+    //when mouseover
+    //check check if existed
+    //check continus
+  },
+  outCellPathing:function(point){
+  },
+  finishPathing:function(point){
+    //when pathingState==true && leftmouse
+  },
+  stopPathing:function(point){
+    //when out of bound
+    //when right mouse?
+    //trigger
+  }
 });
