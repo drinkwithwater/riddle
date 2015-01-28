@@ -11,16 +11,26 @@ gViews.BoardView=Backbone.View.extend({
   },
 
   render:function(msg){
-    this.$el.html(this.template(this.model.toJSON()));
+    var boardModel=this.model.toJSON();
+    this.$el.html(this.template(boardModel));
+    for(var i=0;i<boardModel.height;i++){
+      for(var j=0;j<boardModel.width;j++){
+        var cellModel=boardModel.cells[i][j];
+        this.$("#tr"+i+" #td"+j).html(new gViews.CellView({model:cellModel}).render().el);
+      }
+    }
     return this;
   },
 
   click:function(e){
-    $(e.target).html("choose");
+    var x=$(e.target).attr("data-x");
+    var y=$(e.target).attr("data-y");
+    console.log("x="+x);
+    console.log("y="+y);
   },
 
   over:function(e){
-  }
+  },
 
 //state record
   defaults:{

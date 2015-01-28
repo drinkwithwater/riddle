@@ -6,4 +6,4 @@ gModels.CellModel=Backbone.Model.extend({
   initialize:function(){
   }
 
-})
+});

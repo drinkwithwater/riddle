@@ -1,11 +1,10 @@
 <table class="table board">
-<%var width=width||1; %>
-<%var height=height||1; %>
-<% for(var i=0;i<width;i++){ %>
-	<tr>
-	<% for(var j=0;j<width;j++){ %>
-		<td>
-			<button><%=i%>,<%=j%></button>
+<%var argWidth=width||1; %>
+<%var argHeight=height||1; %>
+<% for(var i=0;i<argHeight;i++){ %>
+	<tr id="tr<%=i%>">
+	<% for(var j=0;j<argWidth;j++){ %>
+		<td id="td<%=j%>">
 		</td>
 	<%}%>
 	</tr>
