@@ -3,7 +3,7 @@ gViews.CellView=Backbone.View.extend({
 
   initialize:function(){
     this.template=_.template(gTemplates.cell)
-    this.model.bind("change",this.render,this);
+    //this.model.bind("change",this.render,this);
   },
 
   render:function(msg){

@@ -23,6 +23,10 @@ var gModels=gModels||{};
 
   loadTemplates(["cell","board"],function(){
     var board=new gModels.BoardModel();
-    $("#main").html(new gViews.BoardView({model:board}).render().el);
+    var cells=new gModels.CellCollection();
+    cells.add(new gModels.CellModel({i:5,j:5}));
+    var temp=new gViews.BoardView({model:board,collection:cells});
+    gViews.debug=temp;
+    $("#main").html(temp.render().el);
   });
 }())

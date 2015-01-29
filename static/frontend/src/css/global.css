@@ -1,6 +1,10 @@
-.cell {
-    width: 40px;
-    height: 40px;
+.board{
+    border-style: solid;
+    border-color: #000000;
+}
+.area {
+    width: 50px;
+    height: 50px;
     text-align: center;
     border-style: solid;
     border-color: #000000;
@@ -13,11 +17,18 @@
     -ms-user-select: none;
     user-select: none;
 }
-.unit {
-    background-color: #f0f0a0;
+.cell {
+    width: 40px;
+    height: 40px;
+    background-color: #f0f000;
 }
-.UNIT_ONE {
-    background-color: #f0a0a0;
+.focus {
+    border-style: solid;
+    border-color: #f000f0;
+}
+.choose {
+    border-style: solid;
+    border-color: #000000;
 }
 .AREA_OUT {
     background-color: #a0a0a0;

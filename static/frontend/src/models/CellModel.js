@@ -7,3 +7,6 @@ gModels.CellModel=Backbone.Model.extend({
   }
 
 });
+gModels.CellCollection=Backbone.Collection.extend({
+  models:gModels.CellModel
+});
