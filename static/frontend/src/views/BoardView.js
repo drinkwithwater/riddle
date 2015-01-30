@@ -19,7 +19,27 @@ gViews.BoardView=Backbone.View.extend({
     }
   },
 
+  area$:function(){
+    var i=null;
+    var j=null;
+    if(arguments.length==1){
+      if(typeof(arguments[0])=="object"){
+        i=arguments[0].i;
+        j=arguments[0].j;
+      }
+    }else if(arguments.length==2){
+      i=arguments[0];
+      j=arguments[1];
+    }
+    if(i && j){
+      return this.$("tr#tr"+i+" td#td"+j+" div.area");
+    }else{
+      return this.$();
+    }
+  },
+
   render:function(msg){
+    var self=this;
     var boardModel=this.model.toJSON();
     this.$el.html(this.template(boardModel));
     _.each(this.collection.models,function(cell){
@@ -31,28 +51,31 @@ gViews.BoardView=Backbone.View.extend({
   },
 
   mouseDown:function(e){
+    var $area=this.$(e.target).closest("div.area");
     if(e.button==0){
-      var i=$(e.target).attr("data-i");
-      var j=$(e.target).attr("data-j");
-      clickArea({i:i,j:j});
+      var i=$area.attr("data-i");
+      var j=$area.attr("data-j");
+      this.clickArea({i:i,j:j});
     }else if(e.button=2){
-      var i=$(e.target).attr("data-i");
-      var j=$(e.target).attr("data-j");
-      cancelArea({i:i,j:j});
+      var i=$area.attr("data-i");
+      var j=$area.attr("data-j");
+      this.cancelArea({i:i,j:j});
     }
   },
 
   enterArea:function(e){
-    var i=$(e.target).attr("data-i");
-    var j=$(e.target).attr("data-j");
+    var $area=$(e.target).closest("div.area");
+    var i=$area.attr("data-i");
+    var j=$area.attr("data-j");
+    $area.addClass("focus");
     this.overArea({i:i,j:j});
-    $(e.target).addClass("focus");
-    console.log(e.target);
   },
+
   leaveArea:function(e){
-    var i=$(e.target).attr("data-i");
-    var j=$(e.target).attr("data-j");
-    $(e.target).removeClass("focus");
+    var $area=$(e.target).closest("div.area");
+    var i=$area.attr("data-i");
+    var j=$area.attr("data-j");
+    $area.removeClass("focus");
   },
 
   leaveBoard:function(e){
@@ -66,13 +89,13 @@ gViews.BoardView=Backbone.View.extend({
     state:0,
     pathes:[],
     choose:null,
-    focus:null
   },
   overArea:function(area){
     var pathing=this.pathing;
     if(pathing.state==pathing.STATE_PATHING){
       //if cell can arrive: //TODO
       pathing.pathes.push(area);
+      this.area$(area).addClass("path");
       //else: this.cancelArea(area);
     }else{
     }
@@ -87,17 +110,25 @@ gViews.BoardView=Backbone.View.extend({
     }else{
       //if cell can path: //TODO
       pathing.state=pathing.STATE_PATHING;
+      pathing.pathes=[area];
       pathing.choose=area;
-      pathing.focus=area;
+      this.area$(pathing.choose).addClass("path");
+      this.area$(pathing.choose).addClass("choose");
     }
   },
   cancelArea:function(area){
     var pathing=this.pathing;
     if(pathing.state==pathing.STATE_PATHING){
-      pathing.state=pathing.STATE_EMPTY;
+      for(var pi=0,l=pathing.pathes.length;pi<l;pi++){
+        var areaPoint=pathing.pathes[pi];
+        this.area$(areaPoint).removeClass("path");
+      }
+      if(pathing.choose){
+        this.area$(pathing.choose).removeClass("choose");
+      }
       pathing.pathes=[];
       pathing.choose=null;
-      pathing.focus=null;
+      pathing.state=pathing.STATE_EMPTY;
     }else{
     }
   },

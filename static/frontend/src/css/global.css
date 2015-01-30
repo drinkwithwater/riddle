@@ -1,13 +1,18 @@
+tr,td{
+	padding:0;
+	margin:0;
+	border:0;
+}
 .board{
     border-style: solid;
     border-color: #000000;
 }
 .area {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     text-align: center;
     border-style: solid;
-    border-color: #000000;
+    border-color: #444444;
     font-size: 10px;
 
     -webkit-touch-callout: none;
@@ -28,7 +33,10 @@
 }
 .choose {
     border-style: solid;
-    border-color: #000000;
+    border-color: #00f000;
+}
+.path {
+    background-color: #00f000;
 }
 .AREA_OUT {
     background-color: #a0a0a0;
