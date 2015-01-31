@@ -7,7 +7,7 @@ tr,td{
     border-style: solid;
     border-color: #000000;
 }
-.area {
+div.area {
     width: 60px;
     height: 60px;
     text-align: center;
@@ -22,22 +22,34 @@ tr,td{
     -ms-user-select: none;
     user-select: none;
 }
-.cell {
+div.cell {
     width: 40px;
     height: 40px;
     background-color: #f0f000;
 }
-.focus {
+div.focus {
     border-style: solid;
-    border-color: #f000f0;
+    border-color: #f000f0 !important;
 }
-.choose {
+div.choose {
     border-style: solid;
     border-color: #00f000;
 }
-.path {
+div.path {
     background-color: #00f000;
 }
-.AREA_OUT {
+div.AREA_OUT {
     background-color: #a0a0a0;
+}
+div.pathLeft {
+    border-left-color: #00f000;
+}
+div.pathRight{
+    border-right-color: #00f000;
+}
+div.pathTop {
+    border-top-color: #00f000;
+}
+div.pathBottom{
+    border-bottom-color: #00f000;
 }

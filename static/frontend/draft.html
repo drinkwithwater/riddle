@@ -1,4 +1,23 @@
 <script src="lib/jquery.js"></script>
+<script src="lib/underscore.min.js"></script>
+<script src="lib/backbone.min.js"></script>
+<script src="lib/util.js"></script>
+<script>
+ExtendClass=gUtil.BaseClass.extend({
+		data:5432,
+		func:function(){
+		console.log("ExtendClass.func"+this.data);
+		}
+});
+ExtendExtendClass=ExtendClass.extend({
+		func:function(){
+		console.log("ExtendExtendClass.func"+this.data);
+		}
+});
+var c1=new gUtil.BaseClass();
+var c2=new ExtendClass();
+var c3=new ExtendExtendClass();
+</script>
 <script>
 $(document).ready(function(){
 	$("div.outer").on("mouseleave",function(e){

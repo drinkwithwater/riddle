@@ -3,6 +3,7 @@
     "lib/jquery.js",
     "lib/underscore.min.js",
     "lib/backbone.min.js",
+    "lib/util.js",
     "src/views/CellView.js",
     "src/views/BoardView.js",
     "src/models/CellModel.js",
