@@ -3,20 +3,24 @@
 <script src="lib/backbone.min.js"></script>
 <script src="lib/util.js"></script>
 <script>
-ExtendClass=gUtil.BaseClass.extend({
+ExtendClass=gUtil.Class.extend({
 		data:5432,
 		func:function(){
 		console.log("ExtendClass.func"+this.data);
 		}
 });
 ExtendExtendClass=ExtendClass.extend({
+		data:321,
 		func:function(){
+		ExtendExtendClass.__super__.func.call(this);
 		console.log("ExtendExtendClass.func"+this.data);
 		}
 });
-var c1=new gUtil.BaseClass();
+SimpleExtendClass=ExtendClass.extend({});
+var c1=new gUtil.Class();
 var c2=new ExtendClass();
 var c3=new ExtendExtendClass();
+var c4=new SimpleExtendClass();
 </script>
 <script>
 $(document).ready(function(){

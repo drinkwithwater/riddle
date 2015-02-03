@@ -1,7 +1,7 @@
 //dependence:underscore
 var gUtil=gUtil||{};
 (function(){
-	var Class=gUtil.Class=function(){
+	var BaseClass=gUtil.BaseClass=function(){
 		this.cid=_.uniqueId("c");
 	}
 	//copy from backbone.js
@@ -23,9 +23,9 @@ var gUtil=gUtil||{};
 
 		// Set the prototype chain to inherit from `parent`, without calling
 		// `parent`'s constructor function.
-		var ClsProto = function(){ this.constructor = cls; };
-		ClsProto.prototype = parent.prototype;
-		cls.prototype = new ClsProto;
+		var Surrogate = function(){ this.constructor = cls; };
+		Surrogate.prototype = parent.prototype;
+		cls.prototype = new Surrogate;
 
 		// Add prototype properties (instance properties) to the subclass,
 		// if supplied.
@@ -37,6 +37,6 @@ var gUtil=gUtil||{};
 
 		return cls;
 	};
-	Class.extend=extend;
+	BaseClass.extend=extend;
 })()
 
