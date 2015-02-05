@@ -1,0 +1,33 @@
+module.exports=function(env){
+///{{{
+var gMessage=env.gMessage=env.gMessage||{}
+gMessage.SCArray=gUtil.Class.extend({
+	type:"array",
+	content:[]
+});
+gMessage.SCMove=gUtil.Class.extend({
+	type:"move",
+	unitId:"",
+	i:"",
+	j:""
+});
+gMessage.SCTurn=gUtil.Class.extend({
+	type:"turn",
+	unitId:"",
+	i:"",
+	j:""
+});
+gMessage.SCAction=gUtil.Class.extend({
+	type:"action",
+	skillId:"",
+	i:"",
+	j:""
+});
+gMessage.SCTrigger=gUtil.Class.extend({
+	type:"trigger",
+	skillId:"",
+	i:"",
+	j:""
+});
+//}}}
+};

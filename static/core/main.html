@@ -1,0 +1,39 @@
+<head>
+	<meta charset="utf-8">
+</head>
+<style>
+	html {
+		background-color:#EEEEEE
+	}
+</style>
+<!-- -lib---------------------------------------- -->
+<script src="/lib/jquery.js"></script>
+<script src="/lib/underscore.min.js"></script>
+<script src="/lib/backbone.min.js"></script>
+<script src="/lib/util.js"></script>
+<!-- -------------------------------------------- -->
+<script src="config.js"></script>
+
+<!-- -------------------------------------------- -->
+<script src="/frontend/views/CellView.js"></script>
+<script src="/frontend/views/BoardView.js"></script>
+<script src="/frontend/models/CellModel.js"></script>
+<script src="/frontend/models/BoardModel.js"></script>
+<script src="/frontend/module/FrontendModule.js"></script>
+<script src="/frontend/module/ActionHandler.js"></script>
+<!-- -------------------------------------------- -->
+<script src="/inter/ClientModule.js"></script>
+<!-- -------------------------------------------- -->
+<script src="GameTop.js"></script>
+
+<!-- -------------------------------------------- -->
+<script>
+gCore.GameTop.webMain();
+</script>
+
+<link rel="stylesheet" type="text/css" href="/frontend/css/global.css">
+</head>
+<body oncontextmenu=self.event.returnValue=false>
+<div id="main">
+</div>
+</body>

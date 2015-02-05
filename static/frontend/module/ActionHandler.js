@@ -1,0 +1,17 @@
+var gUI=gUI||{};
+gUI.ActionHandler=gUtil.Class.extend({
+  sender:{
+  	sendMessage:function(message){
+  		console.log("send:"+JSON.stringify(message));
+  		console.log("sender not impl");
+  	}
+  },
+  constructor:function(msgSender){
+  	if(msgSender){
+  		this.sender=msgSender;
+  	}
+  },
+  onPathing:function(pathes){
+  	this.sender.sendMessage(pathes);
+  }
+});

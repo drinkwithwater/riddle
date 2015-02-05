@@ -8,8 +8,7 @@
     "/frontend/views/BoardView.js",
     "/frontend/models/CellModel.js",
     "/frontend/models/BoardModel.js",
-    "/frontend/module/FrontendModule.js",
-    "/frontend/module/ActionHandler.js",
+    "/frontend/FrontendModule.js",
     "/frontend/main.js"
   ];
   for(var i=0,l=importFiles.length;i<l;i++){
