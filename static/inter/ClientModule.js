@@ -22,16 +22,16 @@ gInter.ClientModule=gUtil.Class.extend({
 gInter.LocalClientModule=gInter.ClientModule.extend({
   serverModule:null,
   init:function(core){
-    this.serverModule=core.getService("serverModule");
+    this.serverModule=core.getModule("serverModule");
   },
   recvMessage:function(message){
   	var thisVar=this;
-  	_.each(this.listener,function(){
-  		thisVar.listener[i].onMessage(message);
+  	_.each(this.listeners,function(listener){
+  		listener.onMessage(message);
   	});
   },
   sendMessage:function(message){
-    this.serverModule.recvMessage(message);
+    this.serverModule.recvMessage({},message);
   }
 });
 gInter.WebClientModule=gInter.ClientModule.extend({
@@ -39,8 +39,8 @@ gInter.WebClientModule=gInter.ClientModule.extend({
   },
   recvMessage:function(message){
   	var thisVar=this;
-  	_.each(this.listener,function(){
-  		thisVar.listener[i].onMessage(message);
+  	_.each(this.listeners,function(listener){
+  		listener.onMessage(message);
   	});
   },
   sendMessage:function(message){

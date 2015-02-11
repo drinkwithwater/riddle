@@ -47,7 +47,10 @@ gCore.GameTop=gUtil.Class.extend({
 	},
 	localMain:function(){
 		var gameInst=new gCore.GameTop([
+            gController.BattleManager,
+            gController.GameController,
             gInter.LocalClientModule,
+            gInter.LocalServerModule,
             gUI.FrontendModule
 		]);
 		gameInst.init();

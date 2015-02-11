@@ -22,28 +22,26 @@ gInter.ServerModule=gUtil.Class.extend({
 gInter.LocalServerModule=gInter.ServerModule.extend({
   clientModule:null,
   init:function(core){
-    this.clientModule=core.getService("clientModule");
+    this.clientModule=core.getModule("clientModule");
   },
   recvMessage:function(session,message){
+  	console.debug("server recv"+JSON.stringify(message));
   	var thisVar=this;
-  	_.each(this.listener,function(){
-  		thisVar.listener[i].onMessage(message);
+  	_.each(this.listeners,function(listener){
+  		listener.onMessage(session,message);
   	});
   },
   sendMessage:function(session,message){
+  	console.debug("server send"+JSON.stringify(message));
     this.clientModule.recvMessage(message);
   }
 });
-gInter.IListener={
-  listenMessages:{
-  },
+gInter.IClientListener={
   onMessage:function(message){
-    if(message.type){
-      var func=this[this.listenMessages[message.type]];
-      if(func){
-        func.call(this,message);
-      }
-    }
+  }
+}
+gInter.IServerListener={
+  onMessage:function(session,message){
   }
 }
 //}}}

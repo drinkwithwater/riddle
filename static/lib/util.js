@@ -6,7 +6,6 @@ var module=module||{
 module.exports=function(env){
 	var gUtil=env.gUtil=env.gUtil||{};
 	var Class=gUtil.Class=function(){
-		this.cid=_.uniqueId("c");
 	}
 	//copy from backbone.js
 	var extend = function(protoProps, staticProps) {
@@ -42,5 +41,26 @@ module.exports=function(env){
 		return cls;
 	};
 	Class.extend=extend;
+	var Message=gUtil.Message=function(){
+	}
+	Message.impl=function(protoProps){
+		var msg=function(){
+			var thisVar=this;
+			_.each(protoProps,function(v,k){
+				thisVar[k]=v;
+			});
+			if(_.has(protoProps,"constructor")){
+				protoProps.constructor.apply(thisVar,arguments);
+			}else{
+				if(typeof(arguments[0])=="object"){
+                    _.each(arguments[0],function(v,k){
+                        thisVar[k]=v;
+                    });
+				}
+			}
+		}
+		return msg;
+	}
 }
+
 

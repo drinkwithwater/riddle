@@ -26,6 +26,19 @@ gInter.HttpServerModule=gInter.ServerModule.extend({
 	          	session.cid=message.cid;
           	}
           	thisVar.recvMessage(session,message);
+            //flush buffer
+			if(session.cid){
+				 var aBuffer =(buffer[session.cid]||[]);
+	             var res=session.res;
+	             res.writeHead(200,{
+	               'Content-Type':'text/html:charset=UTF-8',
+	               'Access-Control-Allow-Methods':'POST',
+	               'Access-Control-Allow-Origin':'*'
+	             });
+	             res.write(JSON.stringify(aBuffer));
+	             res.end();
+	             delete aBuffer[session.cid];
+			}
           });
         });
         server.listen(gConfig.SERVER_PORT);
@@ -38,18 +51,10 @@ gInter.HttpServerModule=gInter.ServerModule.extend({
 	sendMessage:function(session,message){
 		var buffer=this.cidBuffer;
 		var aBuffer =(buffer[session.cid]||[]);
-		aBuffer.push(message)
-		buffer[session.cid]=aBuffer;
-		if(session.res){
-             res=session.res;
-             res.writeHead(200,{
-               'Content-Type':'text/html:charset=UTF-8',
-               'Access-Control-Allow-Methods':'POST',
-               'Access-Control-Allow-Origin':'*'
-             });
-             res.writeHead(JSON.stringify(aBuffer));
-             res.end();
+		if(message){
+            aBuffer.push(message)
 		}
+		buffer[session.cid]=aBuffer;
 	}
 });
 

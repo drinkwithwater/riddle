@@ -1,0 +1,25 @@
+module.exports=function(env){
+//{{{
+	var gController=env.gController=env.gController||{}
+	gController.GameController=gUtil.Class.extend({
+		name:"controllerModule",
+		cidHandler:{},
+		serverModule:null,
+		battleModule:null,
+		init:function(gameTop){
+			this.serverModule=gameTop.getModule("serverModule");
+			this.serverModule.addListener(this);
+			this.battleModule=gameTop.getModule("battleModule");
+		},
+		start:function(gameTop){
+		},
+		onMessage:function(session,message){
+			if(message.type=="start"){
+				this.battleModule.onOpen(session,message);
+			}else{
+				this.battleModule.onMessage(session,message);
+			}
+		}
+	});
+//}}}
+}

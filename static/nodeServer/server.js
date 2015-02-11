@@ -20,7 +20,8 @@ server.on("request",function(req,res){
   });
   var data=JSON.stringify({
     data:321,
-    key:"value"
+    key:"key",
+    value:post
   });
   res.write(data);
   res.end();

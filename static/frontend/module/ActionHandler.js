@@ -1,6 +1,6 @@
 var gUI=gUI||{};
 gUI.ActionHandler=gUtil.Class.extend({
-  sender:{
+  sender:{//default simple sender
   	sendMessage:function(message){
   		console.log("send:"+JSON.stringify(message));
   		console.log("sender not impl");

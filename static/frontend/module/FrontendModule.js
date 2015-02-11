@@ -9,24 +9,27 @@ gUI.FrontendModule=gUtil.Class.extend({
 
   name:"frontendModule",
   init:function(gameTop){
+  	var thisVar=this;
     this.loadTemplates(["cell","board"],function(){
-      var board=this.boardModel=new gModels.BoardModel();
-      var cells=this.cellCollection=new gModels.CellCollection();
+      var board=thisVar.boardModel=new gModels.BoardModel();
+      var cells=thisVar.cellCollection=new gModels.CellCollection();
       if(gameTop){
-          this.clientModule=gameTop.getModule("clientModule");
+          thisVar.clientModule=gameTop.getModule("clientModule");
       }
-      this.actionHandler=new gUI.ActionHandler(this.clientModule);
-      this.boardView=new gViews.BoardView({
+      thisVar.actionHandler=new gUI.ActionHandler(thisVar.clientModule);
+      thisVar.boardView=new gViews.BoardView({
       	model:board,
       	collection:cells,
-      	actionHandler:this.actionHandler
+      	actionHandler:thisVar.actionHandler
       });
 
       cells.add(new gModels.CellModel({i:5,j:5}));//just try
-      $("#main").html(this.boardView.render().el);
+      $("#main").html(thisVar.boardView.render().el);
+      //TODO just init a map
+  	  thisVar.clientModule.sendMessage(new gMessage.CSStart());
     });
   },
-  start:function(){
+  start:function(gameTop){
   },
   loadTemplates:function (names,callback){
     var length=names.length;

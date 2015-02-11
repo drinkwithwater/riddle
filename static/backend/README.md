@@ -1,11 +1,12 @@
-服务为中心框架部分
+NameSpace:
+	gBattle: battle class
+	gController: controller is "c" from "mvc"
 
-菜单界面
-显示层
-	接口：
+Class:
+	gBattle.BattlePool:
+	gBattle.Maze:
+	gBattle.Skill:
+	gBattle.Unit:
+	gBattle.Factory:
 
-
-
-逻辑层
-
-
+	gController.BattleManager
