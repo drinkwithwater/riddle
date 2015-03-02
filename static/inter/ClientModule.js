@@ -24,6 +24,9 @@ gInter.LocalClientModule=gInter.ClientModule.extend({
   init:function(core){
     this.serverModule=core.getModule("serverModule");
   },
+  start:function(core){
+  	  this.sendMessage(new gMessage.CSStart());
+  },
   recvMessage:function(message){
   	var thisVar=this;
   	_.each(this.listeners,function(listener){
@@ -36,6 +39,9 @@ gInter.LocalClientModule=gInter.ClientModule.extend({
 });
 gInter.WebClientModule=gInter.ClientModule.extend({
   init:function(core){
+  },
+  start:function(core){
+  	  this.sendMessage(new gMessage.CSStart());
   },
   recvMessage:function(message){
   	var thisVar=this;
