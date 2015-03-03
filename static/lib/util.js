@@ -1,8 +1,9 @@
 //dependence:underscore
 var module=module||{
 	set exports(func){
-	func(window); 
-}};//web module define in this;
+	  func(window);
+  }
+};//consistent module importing in local & web
 module.exports=function(env){
 	var gUtil=env.gUtil=env.gUtil||{};
 	var Class=gUtil.Class=function(){

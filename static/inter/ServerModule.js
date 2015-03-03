@@ -2,13 +2,13 @@ module.exports=function(env){
 ///{{{
 var gInter=env.gInter=env.gInter||{};
 gInter.ServerModule=gUtil.Class.extend({
-  // module 
+  // module
   name:"serverModule",
   init:function(){
   },
   start:function(){
   },
-  
+
   //service
   listeners:[],
   addListener:function(listener){
@@ -33,7 +33,11 @@ gInter.LocalServerModule=gInter.ServerModule.extend({
   },
   sendMessage:function(session,message){
   	console.debug("server send"+JSON.stringify(message));
-    this.clientModule.recvMessage(message);
+    if(session.id==0){
+      this.clientModule.recvMessage(message);
+    }else{
+      console.error("sendMessage exception:session error");
+    }
   }
 });
 gInter.IClientListener={

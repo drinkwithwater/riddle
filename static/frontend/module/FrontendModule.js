@@ -25,8 +25,9 @@ gUI.FrontendModule=gUtil.Class.extend({
 
       cells.add(new gModels.CellModel({i:5,j:5}));//just try
       $("#main").html(thisVar.boardView.render().el);
-      //TODO just init a map
-  	  thisVar.clientModule.sendMessage(new gMessage.CSStart());
+      $("#start").on("click",function(){
+  	    thisVar.clientModule.sendMessage(new gMessage.CSStart());
+      });
     });
   },
   start:function(gameTop){

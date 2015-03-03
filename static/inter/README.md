@@ -7,7 +7,6 @@
 				recover
 			else:
 				allocate new session id.
-
 	tcp:
 		sessionId
 		program:
@@ -32,7 +31,6 @@
 
 3. sessionId & playerId
 one sessionid has one playerid during a battle;
-
 
 4. (just write sth for thinking)sessionId & userId
 userId bind with one accout register with Username and Password

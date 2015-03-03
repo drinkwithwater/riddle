@@ -1,6 +1,5 @@
 <head>
 	<meta charset="utf-8">
-</head>
 <style>
 	html {
 		background-color:#EEEEEE
@@ -31,9 +30,16 @@
 gCore.GameTop.webMain();
 </script>
 
-<link rel="stylesheet" type="text/css" href="/frontend/css/global.css">
+<link rel="stylesheet" type="text/css" href="/frontend/css/layout.css">
+<link rel="stylesheet" type="text/css" href="/frontend/css/board.css">
+<link rel="stylesheet" type="text/css" href="/frontend/css/cell.css">
 </head>
-<body oncontextmenu=self.event.returnValue=false>
-<div id="main">
+<body><!-- oncontextmenu=self.event.returnValue=false-->
+<div class="content">
+	<div id="menu" class="left">
+		<button id="start">start</button>
+	</div>
+	<div id="main" class="right">
+	</div>
 </div>
 </body>

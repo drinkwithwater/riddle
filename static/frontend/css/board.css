@@ -1,19 +1,27 @@
-tr,td{
+.board tr,.board td{
 	padding:0;
 	margin:0;
 	border:0;
 }
-.board{
+table.board{
     border-style: solid;
     border-color: #000000;
+	border-width: 3px;
 }
-div.area {
+.board div.area {
     width: 60px;
     height: 60px;
-    text-align: center;
+	border-width: 1px;
     border-style: solid;
-    border-color: #444444;
+    border-color: #0000ff;
+
+
     font-size: 10px;
+
+	/*layout,vertical align*/
+	display:table-cell;
+    text-align: center;
+	vertical-align: middle;
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -22,34 +30,34 @@ div.area {
     -ms-user-select: none;
     user-select: none;
 }
-div.cell {
-    width: 40px;
-    height: 40px;
-    background-color: #f0f000;
+
+/*layout,horizontal align fix for 'magin:0px auto' in cell css*/
+.board div.area>div {
+	background: transparent;
 }
-div.focus {
+
+.board div.area.focus {
     border-style: solid;
-    border-color: #f000f0 !important;
+    border-color: #ff0000 !important;
 }
-div.choose {
+.board div.area.choose {
     border-style: solid;
     border-color: #00f000;
 }
-div.path {
+
+/*css for pathing*/
+.board div.area.path {
     background-color: #00f000;
 }
-div.AREA_OUT {
-    background-color: #a0a0a0;
-}
-div.pathLeft {
+.board div.area.pathLeft {
     border-left-color: #00f000;
 }
-div.pathRight{
+.board div.area.pathRight{
     border-right-color: #00f000;
 }
-div.pathTop {
+.board div.area.pathTop {
     border-top-color: #00f000;
 }
-div.pathBottom{
+.board div.area.pathBottom{
     border-bottom-color: #00f000;
 }

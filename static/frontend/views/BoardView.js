@@ -1,10 +1,10 @@
 var gViews=gViews||{}
 gViews.BoardView=Backbone.View.extend({
   events:{
-    "mousedown div.area":"mouseDown",
-    "mouseenter div.area":"enterArea",
-    "mouseleave div.area":"leaveArea",
-    "mouseleave table.board":"leaveBoard"
+    "mousedown div.area":"mouseDownArea",
+    "mouseenter div.area":"mouseEnterArea",
+    "mouseleave div.area":"mouseLeaveArea",
+    "mouseleave table.board":"mouseLeaveBoard"
   },
   actionHandler:{
   },
@@ -55,7 +55,7 @@ gViews.BoardView=Backbone.View.extend({
     return this;
   },
 
-  mouseDown:function(e){
+  mouseDownArea:function(e){
     var $area=this.$(e.target).closest("div.area");
     if(e.button==0){
       var i=$area.attr("data-i");
@@ -68,22 +68,22 @@ gViews.BoardView=Backbone.View.extend({
     }
   },
 
-  enterArea:function(e){
-    var $area=$(e.target).closest("div.area");
+  mouseEnterArea:function(e){
+    var $area=this.$(e.target).closest("div.area");
     var i=$area.attr("data-i");
     var j=$area.attr("data-j");
     $area.addClass("focus");
     this.overArea({i:i,j:j});
   },
 
-  leaveArea:function(e){
-    var $area=$(e.target).closest("div.area");
+  mouseLeaveArea:function(e){
+    var $area=this.$(e.target).closest("div.area");
     var i=$area.attr("data-i");
     var j=$area.attr("data-j");
     $area.removeClass("focus");
   },
 
-  leaveBoard:function(e){
+  mouseLeaveBoard:function(e){
     this.cancelArea(null);
   },
 

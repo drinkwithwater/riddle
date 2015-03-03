@@ -3,7 +3,7 @@ module.exports=function(env){
 	var gController=env.gController=env.gController||{}
 	gController.BattleManager=gUtil.Class.extend({
 		name:"battleModule",
-		bidBattle:{},
+    sessionToBattle:{},
 		serverModule:null,
 		init:function(gameTop){
 			this.serverModule=gameTop.getModule("serverModule");
@@ -12,7 +12,7 @@ module.exports=function(env){
 		},
 		onOpen:function(session,message){
 			//TODO use factory create battle;
-			this.bidBattle[message.cid]={nothing:"nothing"}//gBattle.BattleFactory.createByName(message.mazeName);
+			this.sessionToBattle[session.id]={nothing:"nothing"}//gBattle.BattleFactory.createByName(message.mazeName);
 			var reMsg=new gMessage.SCStartMaze();
 			this.serverModule.sendMessage(session,reMsg);
 		},
