@@ -25,14 +25,14 @@ gInter.LocalServerModule=gInter.ServerModule.extend({
     this.clientModule=core.getModule("clientModule");
   },
   recvMessage:function(session,message){
-  	console.debug("server recv"+JSON.stringify(message));
+  	console.debug("server recv to:"+session.id+",message:"+JSON.stringify(message));
   	var thisVar=this;
   	_.each(this.listeners,function(listener){
   		listener.onMessage(session,message);
   	});
   },
   sendMessage:function(session,message){
-  	console.debug("server send"+JSON.stringify(message));
+  	console.debug("server send to:"+session.id+",message:"+JSON.stringify(message));
     if(session.id==0){
       this.clientModule.recvMessage(message);
     }else{

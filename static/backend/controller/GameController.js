@@ -1,9 +1,14 @@
 module.exports=function(env){
 //{{{
 	var gController=env.gController=env.gController||{}
+  gController.GamePlayer=gUtil.Class.extend({
+    session:null,
+    constructor:function(session){
+      this.session=session;
+    }
+  });
 	gController.GameController=gUtil.Class.extend({
 		name:"controllerModule",
-		cidHandler:{},
 		serverModule:null,
 		battleModule:null,
 		init:function(gameTop){
@@ -14,12 +19,25 @@ module.exports=function(env){
 		start:function(gameTop){
 		},
 		onMessage:function(session,message){
-			if(message.type=="start"){
-				this.battleModule.onOpen(session,message);
-			}else{
-				this.battleModule.onMessage(session,message);
-			}
-		}
+      var gamePlayer=this.getPlayer(session);
+      if(message.class=="cs_battle"){
+		    this.battleModule.onMessage(gamePlayer,message);
+      }else{
+        //TODO
+      }
+		},
+    //player get/create part
+    sessionIdToPlayer:{},
+    getPlayer:function(session){
+      var sidToPlayer=this.sessionIdToPlayer;
+      var gamePlayer=sidToPlayer[session.id];
+      //if not existed then create
+      if(!gamePlayer){
+        gamePlayer=new gController.GamePlayer(session);
+        sidToPlayer[session.id]=gamePlayer;
+      }
+      return gamePlayer;
+    }
 	});
 //}}}
 }
