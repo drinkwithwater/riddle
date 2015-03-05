@@ -4,9 +4,8 @@ var gBattle=env.gBattle=env.gBattle|| {}
 gBattle.UnitFactory = {
 	createUnit : function(code) {
 		var type = code % 0x100;
-		var direct = (code % 0x1000 - type) >> 4;
 		var newUnit = new gLogic.unitClassDict[type]();
-		newUnit.scriptInit(x, y, id, direct);
+		newUnit.scriptInit(i, j, id);
 		return newUnit;
 	}
 };

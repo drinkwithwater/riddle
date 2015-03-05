@@ -5,29 +5,28 @@ gMessage.SCArray=gUtil.Message.impl({
 	type:"array",
 	content:[]
 });
+gMessage.SCEffect=gUtil.Message.impl({
+});
 gMessage.SCMove=gUtil.Message.impl({
 	type:"move",
 	unitId:"",
 	i:"",
-	j:""
+	j:"",
+	effect:null
 });
-gMessage.SCTurn=gUtil.Message.impl({
-	type:"turn",
-	unitId:"",
-	i:"",
-	j:""
-});
-gMessage.SCAction=gUtil.Message.impl({
-	type:"action",
+gMessage.SCAttack=gUtil.Message.impl({
+	type:"attack",
 	skillId:"",
 	i:"",
-	j:""
+	j:"",
+	effect:null
 });
 gMessage.SCTrigger=gUtil.Message.impl({
 	type:"trigger",
 	skillId:"",
 	i:"",
-	j:""
+	j:"",
+	effect:null
 });
 //}}}
 };

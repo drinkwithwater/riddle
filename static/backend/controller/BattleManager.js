@@ -3,7 +3,7 @@ module.exports=function(env){
 	var gController=env.gController=env.gController||{}
 	gController.BattleManager=gUtil.Class.extend({
 		name:"battleModule",
-    sessionToBattle:{},
+    		sessionToBattle:{},
 		serverModule:null,
 		init:function(gameTop){
 			this.serverModule=gameTop.getModule("serverModule");

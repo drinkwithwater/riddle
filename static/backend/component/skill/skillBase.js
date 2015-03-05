@@ -1,32 +1,32 @@
-var gLogic=gLogic||{}
+var gBattle=env.gBattle=env.gBattle||{}
 
 /////////////////
 ///// Skill /////
 /////////////////
-gLogic.BaseSkill=function(){
-  this.ownerUnit=null;
-  this.game=null;
-  this.range=10;
-  this.id=null;
-
-  this.getId=function(){
-  	return this.getId();
-  }
-  this.checkRange=function(length){return length<=range;}
-  this.checkCellThrough=function(cell){
-    if(!cell.content===null) return false;
-    else return true;
-  }
-  this.effect=function(showList,param){
-  }
-}
+gBattle.BaseSkill=gUtil.Class.extend({
+  owner:null,
+  range:10,
+  kid:null
+})
 //game instanceof GamePool
-gLogic.AttackSkill=function(){
-}
-gLogic.MoveSkill=function(){
-}
-gLogic.AttackSkill.prototype=new gLogic.BaseSkill();
-gLogic.MoveSkill.prototype=new gLogic.BaseSkill();
+gBattle.AttackSkill=gBattle.BaseSkill.extend({
+  checkValid:function(path,battle){
+  	return true;
+  },
+  effect:function(path,battle){
+  }
+})
+gBattle.MoveSkill=gBattle.BaseSkill.extend({
+  checkValid:function(path,battle){
+  	return true;
+  },
+  effect:function(path,battle){
+  }
+})
+gBattle.TriggerSkill=gBattle.BaseSkill.extend({
+  effect:function(battle){
+  }
+})
 
 ///////////////////
 ///// Trigger /////
@@ -47,5 +47,3 @@ gLogic.ThroughTrigger=function(){
   this.effect=function(showList,unit){
   }
 }
-gLogic.AttackTrigger.prototype=new gLogic.BaseTrigger();
-gLogic.ThroughTrigger.prototype=new gLogic.BaseTrigger();
