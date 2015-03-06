@@ -19,8 +19,6 @@ module.exports=function(env){
 
 
     /**
-     *  @param (gLogic.Unit|number) unit
-     *  @param ([gLogic.Point]) path
      *  @return {success:1}|{fail:fail_num}
      */
     checkMovePath:function(unit,path){
@@ -65,8 +63,6 @@ module.exports=function(env){
       return {success:1, skill:unitMoveSkill};
     },
     /**
-     *  @param (gLogic.Unit) unit
-     *  @param ([gLogic.Point]) path
      *  @return {}
      */
     operMovePath:function(unit,path){

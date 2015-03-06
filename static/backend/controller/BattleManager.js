@@ -19,7 +19,7 @@ module.exports=function(env){
 		},
 		start:function(gameTop){
 		},
-    //this is not called by server, but called by GameController
+    //this is not called by ServerModule, but called by GameController
 		onMessage:function(gamePlayer,message){
       var battlePlayer=this.getPlayer(gamePlayer);
       var handlerFunc=this[this.messageHandlers[message.type]];
@@ -31,11 +31,16 @@ module.exports=function(env){
       //TODO
 		},
     messageHandlers:{
-      "start":"onStart",
-      "join":"onJoin",
-      "pathing":"onPathing"
+      "start":"messageStart",
+      "join":"messageJoin",
+      "pathing":"messagePathing",
+      "exit":"messageExit",
     },
-		onStart:function(battlePlayer,message){
+		messageStart:function(battlePlayer,message){
+      //if battle existed,remove.
+      if(battlePlayer.battle){
+        this.onClose(battlePlayer);
+      }
       //create battleField
       var battleField=gBattle.BattleFactory.createBattle(message.battleName);
       this.battleSet[battleField._id]=battleField;
@@ -45,8 +50,26 @@ module.exports=function(env){
 			var reMsg=new gMessage.SCStartScript();
 			this.serverModule.sendMessage(battlePlayer.session,reMsg);
 		},
-		onClose:function(cid){
-		},
+    messageJoin:function(){},
+    messagePathing:function(battlePlayer,message){
+      var battle=battlePlayer.battle;
+      if(battle){
+        //TODO
+      }else{
+        console.error("battle not started");
+      }
+    },
+    messageExit:function(battlePlayer,message){
+      this.onPlayerClose(battlePlayer);
+    },
+    //when player exit or player start a new battle
+		onPlayerExit:function(battlePlayer){
+      var battle=battlaPlayer.battle;
+      //TODO battle.onPlayerExit();
+      battlePlayer.battle=null;
+    },
+    onBattleExit:function(battle){
+    }
     //convert player
     sessionIdToPlayer:{},
     getPlayer:function(gamePlayer){
