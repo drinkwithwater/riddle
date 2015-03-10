@@ -7,6 +7,7 @@ gUI.ActionHandler=gUtil.Class.extend({
   	}
   },
   constructor:function(msgSender){
+        gUtil.Class.apply(this,arguments);
   	if(msgSender){
   		this.sender=msgSender;
   	}

@@ -7,6 +7,7 @@ var module=module||{
 module.exports=function(env){
   var gUtil=env.gUtil=env.gUtil||{};
   var Class=gUtil.Class=function(){
+      this._id=_.uniqueId();
   }
   //copy from backbone.js
   var classExtend = function(protoProps, staticProps) {
@@ -27,7 +28,7 @@ module.exports=function(env){
 
     // Set the prototype chain to inherit from `parent`, without calling
     // `parent`'s constructor function.
-    var ClsProto = function(){ this.constructor = cls; this._id=_.uniqueId()};
+    var ClsProto = function(){ this.constructor = cls; };
     ClsProto.prototype = parent.prototype;
     cls.prototype = new ClsProto;
 

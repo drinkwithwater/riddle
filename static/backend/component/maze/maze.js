@@ -1,13 +1,13 @@
 var gBattle=gBattle||{}
 gBattle.MazeCell=gUtil.Class.extend({
-  x:-1,
-  y:-1,
+  i:null,
+  j:null,
   content:null,
-  init:function(x,y,unit){
-    this.x=x;
-    this.y=y;
+  constructor:function(i,j,unit){
+    gUtil.Class.apply(this,arguments);
+    this.i=i;
+    this.j=j;
     if(unit){ this.content=unit; }
-    else{ this.content=null; }
   },
   isEmpty:function(){
     if(this.content===null){
@@ -17,18 +17,15 @@ gBattle.MazeCell=gUtil.Class.extend({
     }
   }
 });
-gBattle.Maze = function(){
-  var logger=new Logger(this);
-	
-  this.xLength=20;
-  this.yLength=20;
-  this.posToUnit=null;
-  var self=this;
-  var valid=function(x,y){
-    if(x>=self.xLength||x<0){
+gBattle.Maze = gUtil.Class.extend({
+  iLength:20,
+  jLength:20,
+  posToUnit:null,
+  valid:function(i,j){
+    if(i>=this.iLength||i<0){
       return false;
     }
-    if(y>=self.yLength||y<0){
+    if(j>=this.jLength||j<0){
       return false;
     }
     return true;
@@ -36,27 +33,26 @@ gBattle.Maze = function(){
   /**
    * init from the base config
    */
-  this.init=function(xx,yy,unitDict){
-  	logger.info(""+xx+yy);
-    //init x,y,length
-    self.xLength=xx;
-    self.yLength=yy;
+  init:function(ii,jj,unitDict){
+      //init x,y,length
+    this.iLength=ii;
+    this.jLength=jj;
     //init posToUnit
-    self.posToUnit=new Array(xx);
-    for(var i=0;i<xx;i++){
-      self.posToUnit[i]=new Array(yy);
+    this.posToUnit=new Array(ii);
+    for(var i=0;i<ii;i++){
+      this.posToUnit[i]=new Array(jj);
     }
     //init units
     for(var k in unitDict){
       var tempUnit=unitDict[k];
-      self.posToUnit[tempUnit.x][tempUnit.y]=tempUnit;
+      self.posToUnit[tempUnit.i][tempUnit.j]=tempUnit;
     }
   }
   /**
    * @param ([gLogic.Point]) path
    * @return cell wrap path
    */
-  this.getCellPath=function(path){
+  getCellPath:function(path){
     var l=path.length;
     var cellPath=new Array(l);
     for(var i=0;i<l;i++){
@@ -76,7 +72,7 @@ gBattle.Maze = function(){
   /**
    * @param (gLogic.Point) point
    */
-  this.getCell=function(point){
-    console.log("this function is TODO");
+  getCell:function(point){
+    console.log("this function is //TODO");
   }
-}
+})
