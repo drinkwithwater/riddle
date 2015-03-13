@@ -1,0 +1,26 @@
+<head>
+<style>
+html,body,div,span,applet,object,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,th,td{ 	background:#333333 ; 	color:#A0A0A0 ; 	border-color:#A0A0A0 ; } input,button,textarea,select,option,optgroup{ 	background-color:#444444 ; 	color:#CCCCCC ; 	border-color:#A0A0A0 ; }  a,a *{ 	color:#93BCEC ; 	background-color:#333333 ; } a:active,a:hover,a:active *,a:hover *{ 	color:#1F72D0 ; 	background-color:#C0C0C0 ; }
+</style>
+<script src="import/jquery.js"></script>
+<script src="import/developmentVersion/underscore.js"></script>
+<script src="import/developmentVersion/backbone.js"></script>
+<script src="import/angular.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$(".btn1").click(function(){
+			$(".sth").animate({left:"300px"});
+		})
+		$(".btn2").click(function(){
+			$(".sth").animate({left:"100px"});
+		})
+	})
+</script>
+</head>
+<body>
+	<div class="sth" style="left: 100px;top: 100px;position: absolute"><button>321</button></div>
+	<div>
+		<button class="btn1">btn1</button>
+		<button class="btn2">btn2</button>
+	</div>
+</body>

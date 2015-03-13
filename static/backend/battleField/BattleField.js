@@ -32,7 +32,7 @@ module.exports=function(env){
 	    battlePlayer.playerId=newId;
 	    this.playerDict[newId]=battlePlayer;
 	    //TODO broadcast playerin message
-	    
+
 	},
 	onPlayerExit:function(battlePlayer){
 	    //TODO broadcast playerexit message
@@ -43,7 +43,6 @@ module.exports=function(env){
 
 	},
 	onPlayerMove:function(battlePlayer,unitId,path){
-	    //TODO
 	    var unit=this.unitDict[unitId];
 	    if(!unit){
 		//TODO
@@ -69,7 +68,7 @@ module.exports=function(env){
 	    if(checkResult.success){
 		var operResult=this.operMovePath(unit,path,checkResult);
 		//TODO
-		//message send success operate result
+		//oper move 
 	    }else{
 		//TODO
 		//message send fail result
@@ -84,7 +83,8 @@ module.exports=function(env){
 	    //// unit vaild check ////
 	    //////////////////////////
 	    //check unit can move //unitMoveSkill is used in next step
-	    var canMove=unit.canMove(path);
+	    var cellPath=this.gameMaze.getCellPath(path);
+	    var canMove=unit.canMove(cellPath);
 	    if(canMove) return {fail:4};
 	    //check unit can be move by player
 	    //TODO
@@ -95,7 +95,6 @@ module.exports=function(env){
 	    
 	    if(gUtil.continuous(path)){ return {fail:1} }
 	    // path illegal check  //check by gameMaze
-	    var cellPath=this.gameMaze.getCellPath(path);
 	    if(cellPath===null) return {fail:5};
 	    // destination valid
 	    if(cellPath[cellPath.length-1].content===null){ return {fail:7}; }
@@ -192,7 +191,7 @@ module.exports=function(env){
 	// the function for simple action TODO//
 	////////////////////////////////////////
 
-	unitMove:function(unit,pos){
+	unitMoveStep:function(unit,pos){
 	},
 	unitAttack:function(unit,skill,dstUnit){
 	},
