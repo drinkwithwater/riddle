@@ -3,7 +3,7 @@ module.exports=function(env){
     var gBattle=env.gBattle=env.gBattle||{}
     gBattle.BattleField=gUtil.Class.extend({
 	battleManager:null,
-	gameMaze:null,
+	maze:null,
 	
 	playerDict:{},
 	
@@ -42,7 +42,11 @@ module.exports=function(env){
 	    }
 
 	},
-	onPlayerMove:function(battlePlayer,unitId,path){
+	//TODO if destination has unit attack else move
+	onPlayerPathing:function(battlePlayer,unitId,path){
+    	    //////////////////////////
+	    //// unit vaild check ////
+	    //////////////////////////
 	    var unit=this.unitDict[unitId];
 	    if(!unit){
 		//TODO
@@ -65,13 +69,15 @@ module.exports=function(env){
 	    ////////////////
 	    //move trigger//
 	    ////////////////
-	    if(checkResult.success){
-		var operResult=this.operMovePath(unit,path,checkResult);
-		//TODO
-		//oper move 
-	    }else{
+	    if(!checkResult.success){
 		//TODO
 		//message send fail result
+		return;
+	    }else{
+		//var context=null;
+		var operResult=this.operMovePath(unit,path);
+		//TODO
+		//oper move 
 	    }
 	},
 
@@ -79,110 +85,50 @@ module.exports=function(env){
 	 *  @return {success:1}|{fail:fail_num}
 	 */
 	checkMovePath:function(unit,path){
-    	    //////////////////////////
-	    //// unit vaild check ////
-	    //////////////////////////
-	    //check unit can move //unitMoveSkill is used in next step
-	    var cellPath=this.gameMaze.getCellPath(path);
-	    var canMove=unit.canMove(cellPath);
-	    if(canMove) return {fail:4};
-	    //check unit can be move by player
-	    //TODO
-
-	    //////////////////////////
-	    //// path vaild check ////
-	    //////////////////////////
 	    
-	    if(gUtil.continuous(path)){ return {fail:1} }
-	    // path illegal check  //check by gameMaze
+	    // path vaild check
+	    var cellPath=this.maze.getCellPath(path);
+	    // path illegal check //check by maze
 	    if(cellPath===null) return {fail:5};
 	    // destination valid
 	    if(cellPath[cellPath.length-1].content===null){ return {fail:7}; }
-
-	    //////////////////////////////////
-	    //// unit can move path check ////
-	    //////////////////////////////////
-	    // range check
-	    if(!unitMoveSkill.checkRange(path.length)) return {fail:2};
-	    // each cell through check/*
-	    var pathCheckResult=gUtil.allTrueIter(cellPath,function(cell){
-		return unitMoveSkill.checkCellThrough(cell);
-	    });*/
-	    var pathCheckResult=_.every(unitMoveSkill,function(cellPath){
-		return unitMoveSkill.checkCellThrough(cell);
-	    });
-	    if(pathCheckResult){ return {fail:3} }
-
-	    //////////////////
-	    //return success//
-	    //////////////////
-	    return {success:1, skill:unitMoveSkill};
+	    
+	    //unit can move path check
+	    //check unit can move 
+	    //check continouse
+	    var canMove=unit.canMove(cellPath);
+	    if(canMove) return {fail:4};
+	    
+	    //return success
+	    return {success:1};
 	},
 	/**
-	 *  @return {}
+	 *  @return move result
 	 */
-	operMovePath:function(unit,path,result){
-	    var skill=result.skill;
-	    var moveTrigger=this.moveTrigger;
-	    var operArray=[];
+	operMovePath:function(unit,path){
+	    var operArray=[];//as return result
 	    
 	    //unit move
-	    for(var j=0,l=path.length;j<l;j++){
-		var pos=path[j];
-		operArray.push(this.unitMove(unit,skill,pos));
-		//unit trigger
-		for(var i=0,l=moveTrigger.length;i<l;i++){
-		    var trigger=moveTrigger[i];
-
-		    if(trigger.checkArea(pos)){
-			operArray.push(this.unitTrigger(unit,trigger));
-			//TODO check dead
-		    }
-		}
-	    }
+	    unit.move(operArray,path);
 	    return operArray;
 	},
 	checkAttackPath:function(unit,path){
-	    //////////////////////////
-	    //// unit vaild check ////
-	    //////////////////////////
-	    //check unit is existed
-	    if(!unit){ return {fail:6} }
-	    //check unit can move //unitMoveSkill is used in next step
-	    var unitMoveSkill=unit.getMoveSkill();
-	    if(unitMoveSkill===null) return {fail:4};
-	    //check unit can be move by player
-	    //TODO
-
-	    //////////////////////////
-	    //// path vaild check ////
-	    //////////////////////////
-	    // path continuous check
-	    if(gUtil.continuous(path)){ return {fail:1} }
-	    // path illegal check  //check by gameMaze
-	    var cellPath=this.gameMaze.getCellPath(path);
+	    
+	    // path vaild check
+	    var cellPath=this.maze.getCellPath(path);
+	    // path illegal check,//check by maze
 	    if(cellPath===null) return {fail:5};
 	    // destination valid
 	    if(cellPath[cellPath.length-1].content===null){ return {fail:7}; }
+	    
+	    //unit can move path check
+	    //check unit can move 
+	    //check continouse
+	    var canMove=unit.canMove(cellPath);
+	    if(canMove) return {fail:4};
 
-	    //////////////////////////////////
-	    //// unit can move path check ////
-	    //////////////////////////////////
-	    // range check
-	    if(!unitMoveSkill.checkRange(path.length)) return {fail:2};
-	    // each cell through check/*
-	    var pathCheckResult=gUtil.allTrueIter(cellPath,function(cell){
-		return unitMoveSkill.checkCellThrough(cell);
-	    });*/
-	    var pathCheckResult=_.every(unitMoveSkill,function(cellPath){
-		return unitMoveSkill.checkCellThrough(cell);
-	    });
-	    if(pathCheckResult){ return {fail:3} }
-
-	    //////////////////
-	    //return success//
-	    //////////////////
-	    return {success:1, skill:unitMoveSkill};
+	    //return success
+	    return {success:1};
 	},
 	operAttackPath:function(unit,path){
 	},
@@ -191,11 +137,13 @@ module.exports=function(env){
 	// the function for simple action TODO//
 	////////////////////////////////////////
 
-	unitMoveStep:function(unit,pos){
+	unitMoveStep:function(context,unit,pos){
 	},
-	unitAttack:function(unit,skill,dstUnit){
+	unitAttack:function(context,unit,skill,pos){
 	},
-	unitTrigger:function(unit,trigger){
+	unitTrigger:function(context,activeUnit,triggerUnit,skill){
+	},
+	unitOnHarm:function(context,dosth){
 	},
 	
 

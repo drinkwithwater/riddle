@@ -9,10 +9,16 @@ module.exports=function(env){
         unitId:null,
 	battleField:null,
 	
+	//return true or false
 	canMove:function(cellPath){},
+	//return nothing
 	move:function(context,path){},
+	//return true or false
 	canAttack:function(cellPath){},
-	attack:function(context,path){}
+	//return damage
+	attack:function(context,path){},
+	//return nothing
+	onAttacked:function(context,srcUnit,damage){}
     });
     gBattle.SimpleUnit=gUtil.Class.extend({
         i:-1,

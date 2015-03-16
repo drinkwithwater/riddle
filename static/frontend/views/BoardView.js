@@ -25,8 +25,7 @@ gViews.BoardView=Backbone.View.extend({
   },
 
   area$:function(){
-    var i=null;
-    var j=null;
+    var i=null,j=null;
     if(arguments.length==1){
       if(typeof(arguments[0])=="object"){
         i=arguments[0].i;
@@ -50,8 +49,8 @@ gViews.BoardView=Backbone.View.extend({
     _.each(this.collection.models,function(cell){
       var i=cell.get("i");
       var j=cell.get("j");
-      this.$("tr#tr"+i+" td#td"+j+" div.area").html(new gViews.CellView({model:cell}).render().el);
-    },this);
+      self.$("tr#tr"+i+" td#td"+j+" div.area").html(new gViews.CellView({model:cell}).render().el);
+    },self);
     return this;
   },
 

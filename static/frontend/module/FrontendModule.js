@@ -1,5 +1,6 @@
 var gUI=gUI||{};
 var gTemplates=gTemplates||{};
+var htmlView;// this is used for debug
 gUI.FrontendModule=gUtil.Class.extend({
   boardModel:null,
   boardView:null,
@@ -9,19 +10,22 @@ gUI.FrontendModule=gUtil.Class.extend({
 
   name:"frontendModule",
   init:function(gameTop){
-  	var thisVar=this;
+      var thisVar=this;
+    if(gameTop){
+	this.clientModule=gameTop.getModule("clientModule");
+	this.clientModule.addListener(this);
+    }
+      var board=this.boardModel=new gModels.BoardModel();
+      var cells=this.cellCollection=new gModels.CellCollection();
     this.loadTemplates(["cell","board"],function(){
-      var board=thisVar.boardModel=new gModels.BoardModel();
-      var cells=thisVar.cellCollection=new gModels.CellCollection();
-      if(gameTop){
-          thisVar.clientModule=gameTop.getModule("clientModule");
-      }
       thisVar.actionHandler=new gUI.ActionHandler(thisVar.clientModule);
       thisVar.boardView=new gViews.BoardView({
       	model:board,
       	collection:cells,
       	actionHandler:thisVar.actionHandler
       });
+	//for test
+	htmlView=thisVar.boardView;
 
       cells.add(new gModels.CellModel({i:5,j:5}));//just try
       $("#main").html(thisVar.boardView.render().el);
@@ -31,6 +35,11 @@ gUI.FrontendModule=gUtil.Class.extend({
     });
   },
   start:function(gameTop){
+  },
+
+
+    
+  onMessage:function(message){
   },
   loadTemplates:function (names,callback){
     var length=names.length;

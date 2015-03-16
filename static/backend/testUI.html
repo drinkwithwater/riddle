@@ -1,0 +1,42 @@
+<head>
+	<meta charset="utf-8">
+<style>
+	html {
+		background-color:#EEEEEE
+	}
+</style>
+<!-- -lib---------------------------------------- -->
+<script src="/lib/jquery.js"></script>
+<script src="/lib/underscore.min.js"></script>
+<script src="/lib/backbone.min.js"></script>
+<script src="/lib/util.js"></script>
+<!-- -------------------------------------------- -->
+<script src="/backend/battleFactory/BattleFactory.js"></script>
+<script src="/backend/battleField/BattleField.js"></script>
+<script src="/backend/battleItem/maze/maze.js"></script>
+<!-- -------------------------------------------- -->
+<script src="/backend/testLogic/TestModule.js"></script>
+<script src="/backend/testLogic/SimpleActionHandler.js"></script>
+<!-- -------------------------------------------- -->
+<script src="/frontend/views/CellView.js"></script>
+<script src="/frontend/views/BoardView.js"></script>
+<script src="/frontend/models/CellModel.js"></script>
+<script src="/frontend/models/BoardModel.js"></script>
+
+<!-- -------------------------------------------- -->
+<script>
+</script>
+
+<link rel="stylesheet" type="text/css" href="/frontend/css/layout.css">
+<link rel="stylesheet" type="text/css" href="/frontend/css/board.css">
+<link rel="stylesheet" type="text/css" href="/frontend/css/cell.css">
+</head>
+<body><!-- oncontextmenu=self.event.returnValue=false-->
+<div class="content">
+	<div id="menu" class="left">
+		<button id="start">start</button>
+	</div>
+	<div id="main" class="right">
+	</div>
+</div>
+</body>
