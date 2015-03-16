@@ -1,10 +1,10 @@
 var gBattle=gBattle||{}
 gBattle.unitClassDict=[]
 gBattle.unitClassDict[0]=null;
-gBattle.unitClassDict[1]=gBattle.BaseUnit;
-gBattle.unitClassDict[2]=gBattle.BaseUnit;
-gBattle.unitClassDict[3]=gBattle.BaseUnit;
-gBattle.unitClassDict[4]=gBattle.BaseUnit;
-gBattle.unitClassDict[5]=gBattle.BaseUnit;
-gBattle.unitClassDict[6]=gBattle.BaseUnit;
-gBattle.unitClassDict[7]=gBattle.BaseUnit;
+gBattle.unitClassDict[1]=gBattle.SimpleUnit;
+gBattle.unitClassDict[2]=gBattle.SimpleUnit;
+gBattle.unitClassDict[3]=gBattle.SimpleUnit;
+gBattle.unitClassDict[4]=gBattle.SimpleUnit;
+gBattle.unitClassDict[5]=gBattle.SimpleUnit;
+gBattle.unitClassDict[6]=gBattle.SimpleUnit;
+gBattle.unitClassDict[7]=gBattle.SimpleUnit;

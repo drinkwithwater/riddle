@@ -9,8 +9,8 @@ module.exports=function(env){
         unitId:null,
 	battleField:null,
 	
-	//return true or false
-	canMove:function(cellPath){},
+	//return pathing result
+	pathingOper:function(cellPath){},
 	//return nothing
 	move:function(context,path){},
 	//return true or false
@@ -28,17 +28,12 @@ module.exports=function(env){
         unitId:null,
 	battleField:null,
 	
-	canMove:function(cellPath){
-	},
 	move:function(context,path){
 	    var battleField=this.battleField;
 	    _.each(path,function(element){
 		battleField.unitMoveStep(context,cellPath);
 	    });
 	},
-	canAttack:function(cellPath){},
-	attack:function(context,path){
-	}
     })
     //}}}
 };

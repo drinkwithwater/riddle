@@ -50,12 +50,12 @@ gTest.TestModule=gUtil.Class.extend({
 	var boardView=this.boardView;
 	for(var i=0;i<iLength;i++){
 	    for(var j=0;j<jLength;j++){
-		var unit=maze.getCell(i,j).content;
-		var unitHTML="<div>null</div>"
-		if(unit){
-		    unitHTML=this.unitHTML(unit);
+		var cell=maze.getCell(i,j);
+		var contentHTML="<div>null</div>"
+		if(!cell.isEmpty()){
+		    contentHTML=this.contentHTML(cell.content);
 		}
-		boardView.area$(i,j).html(unitHTML);
+		boardView.area$(i,j).html(contentHTML);
 	    }
 	}
     },

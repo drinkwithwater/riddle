@@ -15,7 +15,7 @@ module.exports=function(env){
 		  2:"path over length",
 		  3:"path contain barrier",
 		  4:"unit can't move",
-		  5:"path illegal",
+		  5:"path illegal",//example i,j out of range
 		  6:"unit not existed",
 		  7:"destination valid"},
 
@@ -62,7 +62,7 @@ module.exports=function(env){
 	    ////////////////
 	    // move check //
 	    ////////////////
-	    var checkResult=this.checkMovePath(unit,path);
+	    var checkResult=this.checkPathing(unit,path);
 
 	    ////////////////
 	    //move trigger//
@@ -73,7 +73,7 @@ module.exports=function(env){
 		return;
 	    }else{
 		//var context=null;
-		var operResult=this.operMovePath(unit,path);
+		var operResult=this.operPathing(unit,path);
 		//TODO
 		//oper move 
 	    }
@@ -83,13 +83,24 @@ module.exports=function(env){
 	onPosPathing:function(path){
 	    var begin=path[0];
 	    var end=path[path.length-1];
-	    console.log(JSON.stringify(path));
+	    var cell=this.maze.getCell(begin.i,begin.j);
+	    if(!cell.isEmpty()){
+		var unit=cell.content;
+		var checkResult=this.checkPathing(unit,path);
+		if(checkResult.success){
+		    var eventArray=this.operPathing(checkResult,unit,path);
+		    this.eventSender.sendEvents(eventArray);
+		}else{
+		    return checkResult;
+		}
+	    }
+	    return {fail:6};
 	},
 
 	/**
 	 *  @return {success:1}|{fail:fail_num}
 	 */
-	checkMovePath:function(unit,path){
+	checkPathing:function(unit,path){
 	    
 	    // path vaild check
 	    var cellPath=this.maze.getCellPath(path);
@@ -100,42 +111,23 @@ module.exports=function(env){
 	    
 	    //unit can move path check
 	    //check unit can move 
-	    //check continouse
-	    var canMove=unit.canMove(cellPath);
-	    if(canMove) return {fail:4};
+	    //check continouse?
+	    var pathingOperFunc=unit.pathingFunc(cellPath);
+	    if(!pathingOperFunc) return {fail:4};
 	    
-	    //return success
-	    return {success:1};
+	    //return call func
+	    return {success:1,oper:pathingOperFunc};
+	    
 	},
 	/**
-	 *  @return move result
+	 *  @return 
 	 */
-	operMovePath:function(unit,path){
-	    var operArray=[];//as return result
+	operPathing:function(oper,unit,path){
+	    var eventArray=[];//as return result
 	    
 	    //unit move
-	    unit.move(operArray,path);
-	    return operArray;
-	},
-	checkAttackPath:function(unit,path){
-	    
-	    // path vaild check
-	    var cellPath=this.maze.getCellPath(path);
-	    // path illegal check,//check by maze
-	    if(cellPath===null) return {fail:5};
-	    // destination valid
-	    if(cellPath[cellPath.length-1].content===null){ return {fail:7}; }
-	    
-	    //unit can move path check
-	    //check unit can move 
-	    //check continouse
-	    var canMove=unit.canMove(cellPath);
-	    if(canMove) return {fail:4};
-
-	    //return success
-	    return {success:1};
-	},
-	operAttackPath:function(unit,path){
+	    oper.call(unit,eventArray,path);
+	    return eventArray;
 	},
 
 	////////////////////////////////////////
