@@ -1,13 +1,10 @@
-var gLogic=gLogic||{}
-gLogic.unitClassDict=[]
-gLogic.SthUnit=function(){
-}
-gLogic.SthUnit.prototype=new gLogic.BaseUnit();
-gLogic.unitClassDict[0]=gLogic.SthUnit;
-gLogic.unitClassDict[1]=gLogic.SthUnit;
-gLogic.unitClassDict[2]=gLogic.SthUnit;
-gLogic.unitClassDict[3]=gLogic.SthUnit;
-gLogic.unitClassDict[4]=gLogic.SthUnit;
-gLogic.unitClassDict[5]=gLogic.SthUnit;
-gLogic.unitClassDict[6]=gLogic.SthUnit;
-gLogic.unitClassDict[7]=gLogic.SthUnit;
+var gBattle=gBattle||{}
+gBattle.unitClassDict=[]
+gBattle.unitClassDict[0]=null;
+gBattle.unitClassDict[1]=gBattle.BaseUnit;
+gBattle.unitClassDict[2]=gBattle.BaseUnit;
+gBattle.unitClassDict[3]=gBattle.BaseUnit;
+gBattle.unitClassDict[4]=gBattle.BaseUnit;
+gBattle.unitClassDict[5]=gBattle.BaseUnit;
+gBattle.unitClassDict[6]=gBattle.BaseUnit;
+gBattle.unitClassDict[7]=gBattle.BaseUnit;

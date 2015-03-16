@@ -34,7 +34,7 @@ module.exports=function(env){
 	    var battleField=this.battleField;
 	    _.each(path,function(element){
 		battleField.unitMoveStep(context,cellPath);
-	    }
+	    });
 	},
 	canAttack:function(cellPath){},
 	attack:function(context,path){

@@ -14,8 +14,6 @@ gViews.BoardView=Backbone.View.extend({
   },
   initialize:function(){
     this.template=_.template(gTemplates.board);
-    //this.model.bind("change",this.render,this);
-    //this.cells;
     if(!this.model){
       console.warn("gViews.BoardView init without model");
     }
@@ -46,11 +44,6 @@ gViews.BoardView=Backbone.View.extend({
     var self=this;
     var boardModel=this.model.toJSON();
     this.$el.html(this.template(boardModel));
-    _.each(this.collection.models,function(cell){
-      var i=cell.get("i");
-      var j=cell.get("j");
-      self.$("tr#tr"+i+" td#td"+j+" div.area").html(new gViews.CellView({model:cell}).render().el);
-    },self);
     return this;
   },
 

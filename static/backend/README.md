@@ -10,3 +10,4 @@ Class:
 	gBattle.Factory:
 
 	gController.BattleManager
+	

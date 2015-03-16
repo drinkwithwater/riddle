@@ -3,16 +3,14 @@ module.exports=function(env){
     var gBattle=env.gBattle=env.gBattle||{}
     gBattle.BattleField=gUtil.Class.extend({
 	battleManager:null,
-	maze:null,
-	
+	eventSender:null,
 	playerDict:{},
-	
-	interService:null,
+
+	maze:null,
 	//id to unit
 	unitDict:{},
-	// the trigger
-	moveTrigger:[],
-	attackTrigger:[],
+	
+
 	failDict:{1:"path not continuous",
 		  2:"path over length",
 		  3:"path contain barrier",
@@ -79,6 +77,13 @@ module.exports=function(env){
 		//TODO
 		//oper move 
 	    }
+	},
+
+	// a test function
+	onPosPathing:function(path){
+	    var begin=path[0];
+	    var end=path[path.length-1];
+	    console.log(JSON.stringify(path));
 	},
 
 	/**
@@ -157,5 +162,5 @@ module.exports=function(env){
 	//TODO
 	//for e.g. died, harmed
 	unitTODO:function(){}
-    }
+    });
 };

@@ -1,6 +1,6 @@
-var gUI=gUI||{};
+var gTest=gTest||{};
 var gTemplates=gTemplates||{};
-gUI.TestModule=gUtil.Class.extend({
+gTest.TestModule=gUtil.Class.extend({
   boardModel:null,
   boardView:null,
   cellCollection:null,
@@ -8,46 +8,54 @@ gUI.TestModule=gUtil.Class.extend({
   battleField:null,
 
   init:function(){
-  	var thisVar=this;
-    this.actionHandler=new gUI.SimpleActionHandler(battleField);
+      var thisVar=this;
+      this.battleField=gFactory.createBattle("default");
+      this.battleField.eventSender={
+	  sendEvents:function(eventArray){
+	      thisVar.refresh();
+	  }
+      }
+
+    this.actionHandler=new gUI.SimpleActionHandler(this.battleField);
     this.loadTemplates(["cell","board"],function(){
       var board=thisVar.boardModel=new gModels.BoardModel();
-      var cells=thisVar.cellCollection=new gModels.CellCollection();
-      thisVar.clientModule=gameTop.getModule("clientModule");
       thisVar.boardView=new gViews.BoardView({
       	model:board,
-      	collection:cells,
       	actionHandler:thisVar.actionHandler
       });
 	//just for test:
 	htmlView=thisVar.boardView;
 
       $("#main").html(thisVar.boardView.render().el);
+	thisVar.refresh();
     });
   },
   start:function(){
   },
-    cellHTML:function(cell){
+    unitHTML:function(unit){
 	var inner="";
 	var add=function(key,value){
 	    inner+="<div>"+key+"="+value+"</div>";
 	}
-	add("i",cell.i);
-	add("j",cell.j);
-	add("hp",cell.hp);
-	add("unitId",cell.unitId);
-	add("ownerId",cell.ownerId);
+	add("i",unit.i);
+	add("j",unit.j);
+	add("hp",unit.hp);
+	add("unitId",unit.unitId);
 	return inner;
     },
     refresh:function(){
-	var maze=battleField.maze;
+	var maze=this.battleField.maze;
 	var iLength=maze.iLength;
 	var jLength=maze.jLength;
 	var boardView=this.boardView;
 	for(var i=0;i<iLength;i++){
 	    for(var j=0;j<jLength;j++){
-		var cell=maze.getCell(i,j);
-		boardView.area$(i,j).html(this.cellHTML(cell));
+		var unit=maze.getCell(i,j).content;
+		var unitHTML="<div>null</div>"
+		if(unit){
+		    unitHTML=this.unitHTML(unit);
+		}
+		boardView.area$(i,j).html(unitHTML);
 	    }
 	}
     },
@@ -69,5 +77,10 @@ gUI.TestModule=gUtil.Class.extend({
     }
     loadTemplate(0);
   }
-}
+},{
+    main:function(){
+	var sth=new gTest.TestModule()
+	sth.init();
+	sth.start();
+    }
 });

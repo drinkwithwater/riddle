@@ -29,7 +29,7 @@ gBattle.Maze = gUtil.Class.extend({
       return false;
     }
     return true;
-  }
+  },
   /**
    * init from the base config
    */
@@ -47,7 +47,7 @@ gBattle.Maze = gUtil.Class.extend({
       var tempUnit=unitDict[k];
       self.posToUnit[tempUnit.i][tempUnit.j]=tempUnit;
     }
-  }
+  },
   /**
    * @param ([gLogic.Point]) path
    * @return cell wrap path
@@ -69,7 +69,7 @@ gBattle.Maze = gUtil.Class.extend({
       cellPath[i]=cell;
     }
     return cellPath;
-  }
+  },
   /**
    * @param {i:?,j:?} or (i,j)
    */
@@ -87,7 +87,7 @@ gBattle.Maze = gUtil.Class.extend({
       //TODO
       //check point valid
       var unit=this.posToUnit[i][j];
-    if(i && j){
+    if(i!=null && j!=null){
 	return new gBattle.MazeCell(i,j,unit);
     }else{
 	return null;

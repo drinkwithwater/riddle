@@ -11,20 +11,22 @@
 <script src="/lib/backbone.min.js"></script>
 <script src="/lib/util.js"></script>
 <!-- -------------------------------------------- -->
+<script src="/backend/battleFactory/BattleScript.js"></script>
 <script src="/backend/battleFactory/BattleFactory.js"></script>
 <script src="/backend/battleField/BattleField.js"></script>
 <script src="/backend/battleItem/maze/maze.js"></script>
+<script src="/backend/battleItem/unit/unitBase.js"></script>
+<script src="/backend/battleItem/unit/unitImpl.js"></script>
 <!-- -------------------------------------------- -->
 <script src="/backend/testLogic/TestModule.js"></script>
 <script src="/backend/testLogic/SimpleActionHandler.js"></script>
+<script src="/backend/testLogic/BoardView.js"></script>
+<script src="/backend/testLogic/BoardModel.js"></script>
 <!-- -------------------------------------------- -->
-<script src="/frontend/views/CellView.js"></script>
-<script src="/frontend/views/BoardView.js"></script>
-<script src="/frontend/models/CellModel.js"></script>
-<script src="/frontend/models/BoardModel.js"></script>
 
 <!-- -------------------------------------------- -->
 <script>
+  gTest.TestModule.main();
 </script>
 
 <link rel="stylesheet" type="text/css" href="/frontend/css/layout.css">

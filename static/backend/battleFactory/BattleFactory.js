@@ -1,57 +1,85 @@
 module.exports=function(env){
   ///{{{
   var gBattle=env.gBattle=env.gBattle|| {}
+  var gFactory=env.gFactory=env.gFactory||{}
   gBattle.UnitFactory = {
-    createUnit : function(code) {
+    createUnit: function(i,j,id,code) {
       var type = code % 0x100;
-      var newUnit = new gLogic.unitClassDict[type]();
-      newUnit.scriptInit(i, j, id);
+	if(type<=0) return null;
+      var newUnit = new gBattle.unitClassDict[type]();
+	newUnit.i=i;
+	newUnit.j=j;
+	newUnit.hp=100;
+	newUnit.unitId=id;
       return newUnit;
     }
   };
   gBattle.MazeFactory = {
-    createMaze : function() {
-    },
-    createMazeByUnits : function() {
+    createMaze: function(iLength,jLength,unitDict) {
+	var newMaze=new gBattle.Maze();
+	newMaze.iLength=iLength;
+	newMaze.jLength=jLength;
+	var posToUnit=newMaze.posToUnit=new Array(iLength);
+	for(var i=0;i<iLength;i++){
+	    posToUnit[i]=new Array(jLength);
+	}
+	_.each(unitDict,function(unit){
+	    posToUnit[unit.i][unit.j]=unit;
+	})
+	return newMaze;
     }
   };
   gBattle.BattleFactory = {
-    createBattle:function(name){
-      return {nothing:321}
-      //TODO
+    createBattleByName:function(name){
       if(name){
         var script=gBattle.battleScript[name];
-        return this.createBattleByScript(script);
-      }else{
-        var script=gBattle.battleScript["empty"];
-        return this.createBattleByScript(script);
+	if(script){
+	    return this.createBattleByScript(script);
+	}
       }
+      var script=gBattle.battleScript["default"];
+      return this.createBattleByScript(script);
     },
-    createBattleByScript : function(script) {
+    createBattleByScript:function(script) {
       // i,j,unitArray
       var iLength = script.unitArray.length;
       var jLength = script.unitArray[0].length;
       var unitArray = script.unitArray;
       // create unitDict,gameMaze;
-      var unitDict = {}
-      var gameMaze = None
+      var unitDict = {};
+      var maze = null;
         // counter
         var counter = 0;
-      for (var x = 0; x < xLength; x++) {
-        for (var y = 0; y < yLength; y++) {
-          var code = unitArray[x][y];
+      for (var i = 0; i < iLength; i++) {
+        for (var j = 0; j < jLength; j++) {
+          var code = unitArray[i][j];
           if (code === 0) {
             continue;
           } else {
-            unitDict[counter] = gScript.scriptCreateUnit(x, y, counter,
-                code);
+	    var unit=gFactory.createUnit(i,j,counter,code);
+	    if(unit){
+		unitDict[counter] = unit;
+	    }
             counter++;
           }
         }
       }
       // set game maze;
-      var gameMaze = gFactory.createMazeByUnits(unitDict);
+      var maze = gFactory.createMaze(iLength,jLength,unitDict);
+      var battleField=new gBattle.BattleField();
+	battleField.maze=maze;
+	battleField.unitDict=unitDict;
+	return battleField;
     }
+  };
+  gFactory.createMaze=function(il,jl,unitDict){
+      return gBattle.MazeFactory.createMaze(il,jl,unitDict);
+  }
+  gFactory.createUnit=function(i,j,id,code){
+      return gBattle.UnitFactory.createUnit(i,j,id,code);
+  }
+  gFactory.createBattle=function(name){
+      return gBattle.BattleFactory.createBattleByName(name);
   }
   //}}}
 };
