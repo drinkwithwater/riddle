@@ -32,6 +32,8 @@ gViews.BoardView=Backbone.View.extend({
     }else if(arguments.length==2){
       i=arguments[0];
       j=arguments[1];
+    }else{
+	console.warning("arguments unexcepted");
     }
     if(i!=null && j!=null){
       return this.$("tr#tr"+i+" td#td"+j+" div.area");

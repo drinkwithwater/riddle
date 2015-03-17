@@ -6,6 +6,7 @@ gUI.SimpleActionHandler=gUtil.Class.extend({
 	this.battle=battleField;
   },
   onPathing:function(path){
-      this.battle.onPosPathing(path);
+      var result=this.battle.onPosPathing(path);
+      console.log("pathing result : "+JSON.stringify(result));
   }
 });

@@ -11,11 +11,11 @@ module.exports=function(env){
 	unitDict:{},
 	
 
-	failDict:{1:"path not continuous",
-		  2:"path over length",
+	failDict:{1:"path is not array",
+		  2:"path no content",
 		  3:"path contain barrier",
 		  4:"unit can't move",
-		  5:"path illegal",//example i,j out of range
+		  5:"path cell illegal",//example i,j out of range
 		  6:"unit not existed",
 		  7:"destination valid"},
 
@@ -81,20 +81,28 @@ module.exports=function(env){
 
 	// a test function
 	onPosPathing:function(path){
+	    //TODO this check depend on the illegal of message
+	    //maybe i shall check the 2 things in BattleController?
+	    if(!(path instanceof Array)){
+		return {fail:1};
+	    }else if(path.length<=0){
+		return {fail:2};
+	    }
 	    var begin=path[0];
-	    var end=path[path.length-1];
 	    var cell=this.maze.getCell(begin.i,begin.j);
-	    if(!cell.isEmpty()){
+	    if(cell.hasUnit()){
 		var unit=cell.content;
 		var checkResult=this.checkPathing(unit,path);
 		if(checkResult.success){
 		    var eventArray=this.operPathing(checkResult,unit,path);
 		    this.eventSender.sendEvents(eventArray);
+		    return eventArray;
 		}else{
 		    return checkResult;
 		}
+	    }else{
+		return {fail:6};
 	    }
-	    return {fail:6};
 	},
 
 	/**
@@ -103,16 +111,14 @@ module.exports=function(env){
 	checkPathing:function(unit,path){
 	    
 	    // path vaild check
-	    var cellPath=this.maze.getCellPath(path);
+	    var cellPath=this.maze.pathingCell(path);
 	    // path illegal check //check by maze
 	    if(cellPath===null) return {fail:5};
-	    // destination valid
-	    if(cellPath[cellPath.length-1].content===null){ return {fail:7}; }
 	    
 	    //unit can move path check
 	    //check unit can move 
 	    //check continouse?
-	    var pathingOperFunc=unit.pathingFunc(cellPath);
+	    var pathingOperFunc=unit.pathingOper(cellPath);
 	    if(!pathingOperFunc) return {fail:4};
 	    
 	    //return call func
@@ -122,8 +128,9 @@ module.exports=function(env){
 	/**
 	 *  @return 
 	 */
-	operPathing:function(oper,unit,path){
+	operPathing:function(checkResult,unit,path){
 	    var eventArray=[];//as return result
+	    var oper=checkResult.oper;
 	    
 	    //unit move
 	    oper.call(unit,eventArray,path);
@@ -135,6 +142,7 @@ module.exports=function(env){
 	////////////////////////////////////////
 
 	unitMoveStep:function(context,unit,pos){
+	    console.log("unit move to("+pos.i+" "+pos.j+")")
 	},
 	unitAttack:function(context,unit,skill,pos){
 	},
@@ -153,6 +161,10 @@ module.exports=function(env){
 	
 	//TODO
 	//for e.g. died, harmed
-	unitTODO:function(){}
+	unitTODO:function(){},
+	
+	getMaze:function(){
+	    return this.maze;
+	}
     });
 };

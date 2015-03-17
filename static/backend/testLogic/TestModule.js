@@ -15,6 +15,8 @@ gTest.TestModule=gUtil.Class.extend({
 	      thisVar.refresh();
 	  }
       }
+      //global var;
+      battleField=this.battleField;
 
     this.actionHandler=new gUI.SimpleActionHandler(this.battleField);
     this.loadTemplates(["cell","board"],function(){
@@ -32,7 +34,7 @@ gTest.TestModule=gUtil.Class.extend({
   },
   start:function(){
   },
-    unitHTML:function(unit){
+    contentHTML:function(unit){
 	var inner="";
 	var add=function(key,value){
 	    inner+="<div>"+key+"="+value+"</div>";

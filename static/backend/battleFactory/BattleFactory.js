@@ -69,6 +69,9 @@ module.exports=function(env){
       var battleField=new gBattle.BattleField();
 	battleField.maze=maze;
 	battleField.unitDict=unitDict;
+	_.each(unitDict,function(unit){
+	    unit.battleField=battleField;
+	})
 	return battleField;
     }
   };

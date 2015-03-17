@@ -28,12 +28,24 @@ module.exports=function(env){
         unitId:null,
 	battleField:null,
 	
+	pathingOper:function(path){
+	    var dst=path[path.length-1];
+	    var dstCell=this.battleField.maze.getCell(dst);
+	    if(dstCell.hasUnit()){
+		return this.attack;
+	    }else if(dstCell.isEmpty()){
+		return this.move;
+	    }
+	    return null;
+	},
 	move:function(context,path){
 	    var battleField=this.battleField;
-	    _.each(path,function(element){
-		battleField.unitMoveStep(context,cellPath);
+	    _.each(path,function(pos){
+		battleField.unitMoveStep(context,this,pos);
 	    });
 	},
+	attack:function(context,path){
+	}
     })
     //}}}
 };

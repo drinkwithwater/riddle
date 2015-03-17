@@ -6,22 +6,34 @@ gBattle.MazeCell=gUtil.Class.extend({
   constructor:function(i,j,unit){
     gUtil.Class.apply(this,arguments);
     this.i=i;
-    this.j=j;
+      this.j=j;
     if(unit){ this.content=unit; }
   },
   isEmpty:function(){
     if(this.content){
-      return true;
-    }else{
       return false;
+    }else{
+      return true;
     }
-  }
+  },
+    hasUnit:function(){
+	//TODO explicit the content type
+	if(this.content){
+	    return true;
+	}else{
+	    return false;
+	}
+    }
 });
 gBattle.Maze = gUtil.Class.extend({
   iLength:20,
   jLength:20,
   posToUnit:null,
   valid:function(i,j){
+      //TODO 
+      var i=null,j=null;
+      if(arguments.length==1){
+      }
     if(i>=this.iLength||i<0){
       return false;
     }
@@ -45,28 +57,28 @@ gBattle.Maze = gUtil.Class.extend({
     //init units
     for(var k in unitDict){
       var tempUnit=unitDict[k];
-      self.posToUnit[tempUnit.i][tempUnit.j]=tempUnit;
+      this.posToUnit[tempUnit.i][tempUnit.j]=tempUnit;
     }
   },
   /**
-   * @param ([gLogic.Point]) path
+   * @param ([{i,j}]) path
    * @return cell wrap path
    */
-  getCellPath:function(path){
+  pathingCell:function(path){
       //TODO
       //check valid
-    var l=path.length;
-    var cellPath=new Array(l);
-    for(var i=0;i<l;i++){
-      var pos=path[i];
-      var x=pos.x;
-      var y=pos.y;
+    var length=path.length;
+    var cellPath=new Array(length);
+    for(var index=0;index<length;index++){
+      var pos=path[index];
+      var i=pos.i;
+      var j=pos.j;
       //check size valid
-      if(!valid(pos)){ return null; }
+      if(!this.valid(pos)){ return null; }
       //create cell
-      var unit=self.posToUnit[x][y];
+      var unit=this.posToUnit[i][j];
       var cell=new gBattle.MazeCell(i,j,unit);
-      cellPath[i]=cell;
+      cellPath[index]=cell;
     }
     return cellPath;
   },
