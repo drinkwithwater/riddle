@@ -4,6 +4,7 @@
     "/lib/underscore.min.js",
     "/lib/backbone.min.js",
     "/lib/util.js",
+    "/lib/point.js",
     "/frontend/views/CellView.js",
     "/frontend/views/BoardView.js",
     "/frontend/models/CellModel.js",
