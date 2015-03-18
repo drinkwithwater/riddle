@@ -1,5 +1,5 @@
 var gViews=gViews||{}
-gViews.Pathing=gUtil.Class.extend({
+gViews.WalkPath=gUtil.Class.extend({
     STATE_EMPTY:0,
     STATE_PATHING:1,
     CHECK_LEFT:1,
@@ -9,20 +9,75 @@ gViews.Pathing=gUtil.Class.extend({
     CHECK_EMPTY:5,//
     CHECK_BREAK:6,// not continuous
     state:0,
-    pathes:[],
-    getStart:function(){
-	    return this.pathes[0];
+    display:true,
+    path:[],
+    boardView:null,
+    constructor:function(boardView){
+        this.boardView=boardView;
     },
-    getEnd:function(){
-	    return this.pathes[this.pathes.length-1];
+    click:function(area){
+        if(this.state==this.STATE_EMPTY){
+            this.state==this.STATE_PATHING;
+            if(this.display){
+                //TODO 
+            }else{
+                //TODO 
+            }
+        }else{
+            //TODO
+            //send message
+            //check path valid;
+        }
     },
-    getChoose:function(){
-	    return this.getStart();
+    over:function(area){
+        if(this.state==this.STATE_EMPTY){
+            //do nothing
+        }else{
+            this.path.push(area);
+            if(this.display){
+            }else{
+            }
+        }
+    },
+    openDisplay:function(){
+    },
+    closeDisplay:function(){
+    },
+    cancel:function(area){
+        var allClass="path pathLeft pathRight pathTop pathBottom"
+        _.each(path,function(area){
+            this.boardView.area$(area).removeClass("allClass");
+        });
+    },
+    addRender:function(area,before){
+	    var end=_.last(this.before);
+        var direct=this.checkDirect(area);
+        var boardView=this.boardView;
+        if(direct==this.CHECK_RIGHT){
+            boardView.area$(area);
+            if(direct==pathing.CHECK_BREAK){
+	            this.cancelArea(area);
+	            return;
+            }else if(direct==pathing.CHECK_UP){
+	            this.area$(end).addClass("pathTop");
+	            this.area$(area).addClass("pathBottom");
+            }else if(direct==pathing.CHECK_DOWN){
+	            this.area$(end).addClass("pathBottom");
+	            this.area$(area).addClass("pathTop");
+            }else if(direct==pathing.CHECK_LEFT){
+	            this.area$(end).addClass("pathLeft");
+	            this.area$(area).addClass("pathRight");
+            }else if(direct==pathing.CHECK_RIGHT){
+	            this.area$(end).addClass("pathRight");
+	            this.area$(area).addClass("pathLeft");
+            }
+            this.area$(area).addClass("path");
+        }
     },
     //check if pathes contain area
     checkExisted:function(area){
-        for(var pi=0,length=this.pathes.length;pi<length;pi++){
-	        var point=this.pathes[pi];
+        for(var pi=0,length=this.path.length;pi<length;pi++){
+	        var point=this.path[pi];
 	        if(point.i==area.i && point.j==area.j){
 		        return true;
 	        }
@@ -31,29 +86,29 @@ gViews.Pathing=gUtil.Class.extend({
     },
     //check when pathing
     checkDirect:function(area){
-	    var endArea=this.getEnd();
+	    var endArea=_.last(this.path);
 	    if(!endArea){
 	        return this.CHECK_EMPTY;
 	    }
 	    var di=area.i-endArea.i;
 	    var dj=area.j-endArea.j;
 	    if(di==0){
-	        if(dj==1) return this.CHECK_RIGHT;
-	        if(dj==-1) return this.CHECK_LEFT;
+	        if(dj==-1) return this.CHECK_RIGHT;
+	        if(dj==1) return this.CHECK_LEFT;
 	    }
 	    if(dj==0){
-	        if(di==-1) return this.CHECK_UP;
-	        if(di==1) return this.CHECK_DOWN;
+	        if(di==1) return this.CHECK_UP;
+	        if(di==-1) return this.CHECK_DOWN;
 	    }
 	    return this.CHECK_BREAK;
     }
 });
 gViews.BoardView=Backbone.View.extend({
     events:{
-        "mousedown div.area":"mouseDownArea",
-        "mouseenter div.area":"mouseEnterArea",
-        "mouseleave div.area":"mouseLeaveArea",
-        "mouseleave table.board":"mouseLeaveBoard"
+        "mousedown div.area.listener":"mouseDownArea",
+        "mouseenter div.area.listener":"mouseEnterArea",
+        "mouseleave div.area.listener":"mouseLeaveArea",
+        "mouseleave div.board":"mouseLeaveBoard"
     },
     actionHandler:{
     },
@@ -77,37 +132,41 @@ gViews.BoardView=Backbone.View.extend({
         _.each(this.collection.models,function(cell){
             var i=cell.get("i");
             var j=cell.get("j");
-            self.$("tr#tr"+i+" td#td"+j+" div.area").html(new gViews.CellView({model:cell}).render().el);
+            self.$("tr#tr"+i+" td#td"+j+" div.area.viewer").html(new gViews.CellView({model:cell}).render().el);
         },self);
         return this;
     },
 
     mouseDownArea:function(e){
-        var $area=this.$(e.target).closest("div.area");
+        var $listener=this.$(e.target).closest("div.listener");
         if(e.button==0){
-            var i=$area.attr("data-i");
-            var j=$area.attr("data-j");
-            this.clickArea({i:i,j:j});
+            var i=$listener.attr("data-i");
+            var j=$listener.attr("data-j");
+            var area={i:i,j:j};
+            this.clickArea(area);
         }else if(e.button=2){
-            var i=$area.attr("data-i");
-            var j=$area.attr("data-j");
-            this.cancelArea({i:i,j:j});
+            var i=$listener.attr("data-i");
+            var j=$listener.attr("data-j");
+            var area={i:i,j:j};
+            this.cancelArea(area);
         }
     },
 
     mouseEnterArea:function(e){
-        var $area=this.$(e.target).closest("div.area");
-        var i=$area.attr("data-i");
-        var j=$area.attr("data-j");
-        $area.addClass("focus");
-        this.overArea({i:i,j:j});
+        var $listener=this.$(e.target).closest("div.listener");
+        var i=$listener.attr("data-i");
+        var j=$listener.attr("data-j");
+        var area={i:i,j:j};
+        this.overArea(area);
+        this.area$(area).addClass("focus");
     },
 
     mouseLeaveArea:function(e){
-        var $area=this.$(e.target).closest("div.area");
-        var i=$area.attr("data-i");
-        var j=$area.attr("data-j");
-        $area.removeClass("focus");
+        var $listener=this.$(e.target).closest("div.listener");
+        var i=$listener.attr("data-i");
+        var j=$listener.attr("data-j");
+        var area={i:i,j:j};
+        this.area$(area).removeClass("focus");
     },
 
     mouseLeaveBoard:function(e){

@@ -19,7 +19,7 @@ gTest.TestModule=gUtil.Class.extend({
       battleField=this.battleField;
 
     this.actionHandler=new gUI.SimpleActionHandler(this.battleField);
-    this.loadTemplates(["cell","board"],function(){
+    this.loadTemplates(["board"],function(){
       var board=thisVar.boardModel=new gModels.BoardModel();
       thisVar.boardView=new gViews.BoardView({
       	model:board,
@@ -66,7 +66,7 @@ gTest.TestModule=gUtil.Class.extend({
     var loadTemplate=function(index){
       var name=names[index];
       console.log("Loading template: "+name);
-      $.get("/frontend/templates/"+names[index]+".html",function(data){
+      $.get("/backend/testLogic/"+names[index]+".html",function(data){
         gTemplates[name]=data;
         console.log(data);
         index++;

@@ -1,16 +1,37 @@
-<table class="board" cellpadding="0" cellspacing="0">
-<%var argWidth=width||1; %>
-<%var argHeight=height||1; %>
-<% for(var i=0;i<argHeight;i++){ %>
-	<tr id="tr<%=i%>">
-	<% for(var j=0;j<argWidth;j++){ %>
-		<td id="td<%=j%>">
-			<div class="area" data-i="<%=i%>" data-j="<%=j%>">
-			</div>
-		</td>
-	<%}%>
-	</tr>
-<%}%>
-</table>
-<h1>
-</h1>
+<div class="board">
+  <%var argWidth=width||1; %>
+  <%var argHeight=height||1; %>
+  <div class="listener">
+    <table>
+      <% for(var i=0;i<argHeight;i++){ %>
+	     <tr id="tr<%=i%>">
+	       <% for(var j=0;j<argWidth;j++){ %>
+		      <td id="td<%=j%>">
+			    <div class="area listener" data-i="<%=i%>" data-j="<%=j%>">
+			    </div>
+		      </td>
+	          <%}%>
+	     </tr>
+         <%}%>
+    </table>
+  </div>
+  <div class="drawer">
+    <svg>
+      <line id="pathingline" x1="10" x2="100" y1="10" y2="100"/>
+    </svg>
+  </div>
+  <div class="viewer">
+    <table>
+      <% for(var i=0;i<argHeight;i++){ %>
+	     <tr id="tr<%=i%>">
+	       <% for(var j=0;j<argWidth;j++){ %>
+		      <td id="td<%=j%>">
+			    <div class="area viewer" data-i="<%=i%>" data-j="<%=j%>">
+			    </div>
+		      </td>
+	          <%}%>
+	     </tr>
+         <%}%>
+    </table>
+  </div>
+</div>

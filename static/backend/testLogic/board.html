@@ -1,0 +1,18 @@
+<div class="board">
+  <%var argWidth=width||1; %>
+  <%var argHeight=height||1; %>
+  <div>
+    <table>
+      <% for(var i=0;i<argHeight;i++){ %>
+	     <tr id="tr<%=i%>">
+	       <% for(var j=0;j<argWidth;j++){ %>
+		      <td id="td<%=j%>">
+			    <div class="area" data-i="<%=i%>" data-j="<%=j%>">
+			    </div>
+		      </td>
+	          <%}%>
+	     </tr>
+         <%}%>
+    </table>
+  </div>
+</div>

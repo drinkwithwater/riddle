@@ -1,28 +1,45 @@
+div.board{
+    position:relative;
+}
+.listener{
+    background-color:transparent !important;
+}
+.drawer{
+    background-color:transparent !important;
+}
+.board>div.listener{
+    background-color:transparent !important;
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index:2;
+}
+.board>div.drawer{
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index:1;
+}
+.board>div.viewer{
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index:0;
+}
+.board table{
+    border-collapse:collapse;
+    border-style:solid;
+    border-width:3px;
+}
 .board tr,.board td{
 	padding:0;
 	margin:0;
 	border:0;
 }
-table.board{
-    border-style: solid;
-    border-color: #000000;
-	border-width: 3px;
-}
-.board div.area {
-    width: 60px;
-    height: 60px;
-	border-width: 1px;
-    border-style: solid;
-    border-color: #0000ff;
 
 
-    font-size: 10px;
 
-	/*layout,vertical align*/
-	display:table-cell;
-    text-align: center;
-	vertical-align: middle;
-
+.board div.area{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -30,34 +47,17 @@ table.board{
     -ms-user-select: none;
     user-select: none;
 }
-
-/*layout,horizontal align fix for 'magin:0px auto' in cell css*/
-.board div.area>div {
-	background: transparent;
+.board div.area.listener{
+    width: 60px;
+    height: 60px;
+	border:0;
 }
+.board div.area.viewer{
+    width: 58px;
+    height: 58px;
 
-.board div.area.focus {
+	border-width: 1px;
     border-style: solid;
-    border-color: #ff0000 !important;
-}
-.board div.area.choose {
-    border-style: solid;
-    border-color: #00f000;
+    border-color: #0000ff;
 }
 
-/*css for pathing*/
-.board div.area.path {
-    background-color: #00f000;
-}
-.board div.area.pathLeft {
-    border-left-color: #00f000;
-}
-.board div.area.pathRight{
-    border-right-color: #00f000;
-}
-.board div.area.pathTop {
-    border-top-color: #00f000;
-}
-.board div.area.pathBottom{
-    border-bottom-color: #00f000;
-}
