@@ -1,4 +1,53 @@
 var gViews=gViews||{}
+gViews.Pathing=gUtil.Class.extend({
+    STATE_EMPTY:0,
+    STATE_PATHING:1,
+    CHECK_LEFT:1,
+    CHECK_RIGHT:2,
+    CHECK_UP:3,
+    CHECK_DOWN:4,
+    CHECK_EMPTY:5,//
+    CHECK_BREAK:6,// not continuous
+    state:0,
+    pathes:[],
+    getStart:function(){
+	    return this.pathes[0];
+    },
+    getEnd:function(){
+	    return this.pathes[this.pathes.length-1];
+    },
+    getChoose:function(){
+	    return this.getStart();
+    },
+    //check if pathes contain area
+    checkExisted:function(area){
+        for(var pi=0,length=this.pathes.length;pi<length;pi++){
+	        var point=this.pathes[pi];
+	        if(point.i==area.i && point.j==area.j){
+		        return true;
+	        }
+        }
+        return false;
+    },
+    //check when pathing
+    checkDirect:function(area){
+	    var endArea=this.getEnd();
+	    if(!endArea){
+	        return this.CHECK_EMPTY;
+	    }
+	    var di=area.i-endArea.i;
+	    var dj=area.j-endArea.j;
+	    if(di==0){
+	        if(dj==1) return this.CHECK_RIGHT;
+	        if(dj==-1) return this.CHECK_LEFT;
+	    }
+	    if(dj==0){
+	        if(di==-1) return this.CHECK_UP;
+	        if(di==1) return this.CHECK_DOWN;
+	    }
+	    return this.CHECK_BREAK;
+    }
+});
 gViews.BoardView=Backbone.View.extend({
     events:{
         "mousedown div.area":"mouseDownArea",
