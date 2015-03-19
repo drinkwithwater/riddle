@@ -1,7 +1,7 @@
 <div class="board">
   <%var argWidth=width||1; %>
   <%var argHeight=height||1; %>
-  <div class="listener">
+  <div class="boardChild listener">
     <table>
       <% for(var i=0;i<argHeight;i++){ %>
 	     <tr id="tr<%=i%>">
@@ -15,12 +15,12 @@
          <%}%>
     </table>
   </div>
-  <div class="drawer">
+  <div class="boardChild drawer">
     <svg>
       <line id="pathingline" x1="10" x2="100" y1="10" y2="100"/>
     </svg>
   </div>
-  <div class="viewer">
+  <div class="boardChild viewer">
     <table>
       <% for(var i=0;i<argHeight;i++){ %>
 	     <tr id="tr<%=i%>">
