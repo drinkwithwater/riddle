@@ -20,6 +20,8 @@
       <line id="pathingline" x1="10" x2="100" y1="10" y2="100"/>
     </svg>
   </div>
+  <div class="boardChild container">
+  </div>
   <div class="boardChild viewer">
     <table>
       <% for(var i=0;i<argHeight;i++){ %>
@@ -27,6 +29,10 @@
 	       <% for(var j=0;j<argWidth;j++){ %>
 		      <td id="td<%=j%>">
 			    <div class="area viewer" data-i="<%=i%>" data-j="<%=j%>">
+                  <div class="unitPos" data-i="<%=i%>" data-j="<%=j%>">
+                    <div class="centerPos" data-i="<%=i%>" data-j="<%=j%>">
+                    </div>
+                  </div>
 			    </div>
 		      </td>
 	          <%}%>

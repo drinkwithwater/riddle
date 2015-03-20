@@ -1,29 +1,24 @@
 div.board{
     position:relative;
 }
-.listener{
-    background-color:transparent !important;
-}
-.drawer{
-    background-color:transparent !important;
-}
-.board>div.listener{
-    background-color:transparent !important;
+.boardChild{
     position:absolute;
     left:0px;
     top:0px;
+}
+.listener,.drawer{
+    background-color:transparent !important;
+}
+.boardChild.listener{
+    z-index:3;
+}
+.boardChild.drawer{
     z-index:2;
 }
-.board>div.drawer{
-    position:absolute;
-    left:0px;
-    top:0px;
+.boardChild.container{
     z-index:1;
 }
-.board>div.viewer{
-    position:absolute;
-    left:0px;
-    top:0px;
+.boardChild.viewer{
     z-index:0;
 }
 .board table{
@@ -59,5 +54,23 @@ div.board{
 	border-width: 1px;
     border-style: solid;
     border-color: #0000ff;
+}
+.board div.unitPos{
+    background:#ffff00 ;
+    width: 2px;
+    height: 2px;
+
+    margin:4px;
+    border:0px;
+    padding:24px;
+}
+.board div.centerPos{
+    background:#ff00ff ;
+    width: 2px;
+    height: 2px;
+
+    margin:0px;
+    border:0px;
+    padding:0px;
 }
 
