@@ -1,0 +1,39 @@
+.walkPathArea{
+    width: 60px;
+    height: 60px;
+}
+.walkPathArea .floatLeft{
+    float:left;
+    background-color:transparent!important;
+}
+.walkPathArea .quarterArea{
+    width: 29px;
+    height: 29px;
+    background-color:transparent!important;
+}
+.walkPathArea .leftPath{
+    width: 29px;
+    height: 2px;
+}
+.walkPathArea .rightPath{
+    width: 29px;
+    height: 2px;
+}
+.walkPathArea .topPath{
+    width: 2px;
+    height: 29px;
+}
+.walkPathArea .bottomPath{
+    width: 2px;
+    height: 29px;
+}
+.walkPathArea .centerPath{
+    width: 2px;
+    height: 2px;
+}
+.walkPathArea .walkPathLine{
+    background:transparent;
+}
+.walkPathArea .walkPathLine.choosePath{
+    background:#CC0000;
+}

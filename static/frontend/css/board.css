@@ -1,25 +1,5 @@
-div.board{
+.board{
     position:relative;
-}
-.boardChild{
-    position:absolute;
-    left:0px;
-    top:0px;
-}
-.listener,.drawer{
-    background-color:transparent !important;
-}
-.boardChild.listener{
-    z-index:3;
-}
-.boardChild.drawer{
-    z-index:2;
-}
-.boardChild.container{
-    z-index:1;
-}
-.boardChild.viewer{
-    z-index:0;
 }
 .board table{
     border-collapse:collapse;
@@ -31,10 +11,42 @@ div.board{
 	margin:0;
 	border:0;
 }
+.boardChild{
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+.simple{
+    background-color:transparent !important;
+	padding:0;
+	margin:0;
+	border:0;
+}
 
-
-
-.board div.area{
+.boardChild.listener{
+    z-index:6;
+}
+.boardChild.flyPath{
+    z-index:5;
+}
+.boardChild.walkPath{
+    z-index:4;
+}
+.boardChild.bulletContainer{
+    z-index:3;
+}
+.boardChild.cellContainer{
+    z-index:2;
+}
+.boardChild.floor{
+    z-index:1;
+}
+.boardChild.position{
+    z-index:0;
+}
+.boardChild .area{
+    width: 60px;
+    height: 60px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -42,35 +54,49 @@ div.board{
     -ms-user-select: none;
     user-select: none;
 }
-.board div.area.listener{
-    width: 60px;
-    height: 60px;
-	border:0;
+
+.listenerArea{
+    width: 56px;
+    height: 56px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: transparent;
+    background: transparent;
 }
-.board div.area.viewer{
+.listenerArea:hover{
+    border-width: 2px;
+    border-style: solid;
+    border-color: #CC00CC;
+}
+
+.positionArea{
     width: 58px;
     height: 58px;
 
 	border-width: 1px;
     border-style: solid;
     border-color: #0000ff;
+    background:transparent;
 }
-.board div.unitPos{
-    background:#ffff00 ;
+
+.positionArea .unitPos{
     width: 2px;
     height: 2px;
 
     margin:4px;
     border:0px;
     padding:24px;
+    //background:transparent;
+    background:#ffff00 ;
 }
-.board div.centerPos{
-    background:#ff00ff ;
+.positionArea .centerPos{
     width: 2px;
     height: 2px;
 
     margin:0px;
     border:0px;
     padding:0px;
+    //background:transparent;
+    background:#ff00ff ;
 }
 

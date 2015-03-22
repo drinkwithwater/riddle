@@ -1,3 +1,17 @@
+//new
+level:
+        1. listener
+        2. flyPath
+        3. walkPath
+        4. bulletContainer
+        5. cellContainer for cells
+        6. floor 
+        7. pos for relative position
+        8. background image
+
+
+
+//old
 1.global state:
 	empty->pathing->empty
 

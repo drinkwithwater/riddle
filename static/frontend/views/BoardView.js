@@ -1,11 +1,11 @@
 var gViews=gViews||{}
 gViews.BoardView=Backbone.View.extend({
     events:{
-        "mousedown div.area.listener":"mouseDownArea",
-        "mouseenter div.area.listener":"mouseEnterArea",
-        "mouseleave div.area.listener":"mouseLeaveArea",
+        "mousedown .listenerArea":"mouseDownArea",
+        "mouseenter .listenerArea":"mouseEnterArea",
+        "mouseleave .listenerArea":"mouseLeaveArea",
         "mouseleave div.board":"mouseLeaveBoard",
-        "mousemove div.boardChild.listener":"mouseMoveBoard"
+        "mousemove div.listener":"mouseMoveBoard"
     },
     actionHandler:{
     },
@@ -23,16 +23,26 @@ gViews.BoardView=Backbone.View.extend({
 
     area$:function(){
         var pos=gPoint.wrapArgs(arguments);
-        return this.$("tr#tr"+pos.i+" td#td"+pos.j+" div.area.viewer");
+        return this.$("tr.tr"+pos.i+" td.td"+pos.j+" div.area.viewer");
     },
+    //TODO {{
     listenerArea$:function(){
         var pos=gPoint.wrapArgs(arguments);
-        return this.$("tr#tr"+pos.i+" td#td"+pos.j+" div.area.listener");
+        return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .listenerArea");
     },
-    viewerArea$:function(){
+    walkPathArea$:function(){
         var pos=gPoint.wrapArgs(arguments);
-        return this.$("tr#tr"+pos.i+" td#td"+pos.j+" div.area.viewer");
+        return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .walkPathArea");
     },
+    floorArea$:function(){
+        var pos=gPoint.wrapArgs(arguments);
+        return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .floorArea");
+    },
+    positionArea$:function(){
+        var pos=gPoint.wrapArgs(arguments);
+        return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .positionArea");
+    },
+    //}}
     line$:function(){
         return this.$("#pathingline");
     },
@@ -62,7 +72,7 @@ gViews.BoardView=Backbone.View.extend({
     },
 
     mouseDownArea:function(e){
-        var $listener=this.$(e.target).closest("div.listener");
+        var $listener=this.$(e.target).closest(".listenerArea");
         if(e.button==0){
             var i=$listener.attr("data-i");
             var j=$listener.attr("data-j");
@@ -76,21 +86,21 @@ gViews.BoardView=Backbone.View.extend({
         }
     },
 
+    focusArea:null,
     mouseEnterArea:function(e){
-        var $listener=this.$(e.target).closest("div.listener");
+        var $listener=this.$(e.target).closest(".listenerArea");
         var i=$listener.attr("data-i");
         var j=$listener.attr("data-j");
         var area={i:i,j:j};
         this.walkPath.over(area);
-        this.area$(area).addClass("focus");
+        this.focusArea=area;
     },
 
     mouseLeaveArea:function(e){
-        var $listener=this.$(e.target).closest("div.listener");
+        var $listener=this.$(e.target).closest(".listenerArea");
         var i=$listener.attr("data-i");
         var j=$listener.attr("data-j");
         var area={i:i,j:j};
-        this.area$(area).removeClass("focus");
     },
 
     mouseLeaveBoard:function(e){
@@ -98,10 +108,14 @@ gViews.BoardView=Backbone.View.extend({
     },
 
     mouseMoveBoard:function(e){
+        var offsetPosX=e.pageX-this.$(".basePos").offset().left;
+        var offsetPosY=e.pageY-this.$(".basePos").offset().top;
+        /*
         this.line$().attr("x2",e.pageX
                           -this.drawer$().offset().left);
         this.line$().attr("y2",e.pageY
                           -this.drawer$().offset().top);
+                          */
     },
     /*
 

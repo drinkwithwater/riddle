@@ -57,6 +57,7 @@ gViews.WalkPath=gUtil.Class.extend({
             //TODO
             //send message
             //check path valid;
+            console.log(JSON.stringify(this.path));
             this.cancel(area);
         }
     },
@@ -64,10 +65,15 @@ gViews.WalkPath=gUtil.Class.extend({
         if(this.state==this.STATE_EMPTY){
             //do nothing
         }else if(this.state==this.STATE_PATHING){
-            if(this.display){
-                this.render.addRender(area,this.path);
-            }
-            this.path.push(area);
+            var srcArea=_.last(this.path);
+            var onAreas=this.fill(srcArea,area);
+            var thisVar=this;
+            _.each(onAreas,function(onArea){
+                if(thisVar.display){
+                    thisVar.render.addRender(onArea,thisVar.path);
+                }
+                thisVar.path.push(onArea);
+            });
         }
     },
     openDisplay:function(){
@@ -95,6 +101,23 @@ gViews.WalkPath=gUtil.Class.extend({
         }
         return false;
     },
+    fill:function(srcArea,dstArea){
+        var di=dstArea.i-srcArea.i;
+        var dj=dstArea.j-srcArea.j;
+        var signi=(di>0?1:-1);
+        var signj=(dj>0?1:-1);
+        var onAreas=[];
+        while(di!=0||dj!=0){
+            if(signi*di>signj*dj){
+                di-=signi;
+            }else{
+                dj-=signj;
+            }
+            onAreas.push({i:dstArea.i-di,
+                         j:dstArea.j-dj});
+        }
+        return onAreas;
+    },
     render:{
         CHECK_LEFT:1,
         CHECK_RIGHT:2,
@@ -112,10 +135,9 @@ gViews.WalkPath=gUtil.Class.extend({
             });
         },
         closeRender:function(path){
-            var all="path pathLeft pathRight pathTop pathBottom";
             var boardView=this.boardView;
             _.each(path,function(area){
-                boardView.area$(area).removeClass(all);
+                boardView.walkPathArea$(area).find(".walkPathLine").removeClass("choosePath");
             });
         },
         //called when add an area
@@ -124,24 +146,24 @@ gViews.WalkPath=gUtil.Class.extend({
             var direct=this.checkDirect(newArea,endArea);
             var boardView=this.boardView;
             if(direct==this.CHECK_UP){
-                boardView.area$(endArea).addClass("pathTop");
-                boardView.area$(newArea).addClass("pathBottom");
+                boardView.walkPathArea$(endArea).find(".topPath").addClass("choosePath");
+                boardView.walkPathArea$(newArea).find(".bottomPath").addClass("choosePath");
             }else if(direct==this.CHECK_DOWN){
-                boardView.area$(endArea).addClass("pathBottom");
-                boardView.area$(newArea).addClass("pathTop");
+                boardView.walkPathArea$(endArea).find(".bottomPath").addClass("choosePath");
+                boardView.walkPathArea$(newArea).find(".topPath").addClass("choosePath");
             }else if(direct==this.CHECK_LEFT){
-                boardView.area$(endArea).addClass("pathLeft");
-                boardView.area$(newArea).addClass("pathRight");
+                boardView.walkPathArea$(endArea).find(".leftPath").addClass("choosePath");
+                boardView.walkPathArea$(newArea).find(".rightPath").addClass("choosePath");
             }else if(direct==this.CHECK_RIGHT){
-                boardView.area$(endArea).addClass("pathRight");
-                boardView.area$(newArea).addClass("pathLeft");
+                boardView.walkPathArea$(endArea).find(".rightPath").addClass("choosePath");
+                boardView.walkPathArea$(newArea).find(".leftPath").addClass("choosePath");
             }else if(direct==this.CHECK_EMPTY){
                 //do nothing
             }else if(direct==this.CHECK_BREAK){
                 //just do this now;
                 //the path may be broken
             }
-            boardView.area$(newArea).addClass("path");
+            boardView.walkPathArea$(newArea).find(".centerPath").addClass("choosePath");
         },
         checkDirect:function(dstArea,srcArea){
 	        if(!srcArea){
