@@ -21,45 +21,70 @@ gViews.BoardView=Backbone.View.extend({
         this.template=_.template(gTemplates.board);
     },
 
-    area$:function(){
-        var pos=gPoint.wrapArgs(arguments);
-        return this.$("tr.tr"+pos.i+" td.td"+pos.j+" div.area.viewer");
-    },
     //TODO {{
-    listenerArea$:function(){
+    listenerArea$:function(_pointArgs){
         var pos=gPoint.wrapArgs(arguments);
         return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .listenerArea");
     },
-    walkPathArea$:function(){
+    walkPathArea$:function(_pointArgs){
         var pos=gPoint.wrapArgs(arguments);
         return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .walkPathArea");
     },
-    floorArea$:function(){
+    floorArea$:function(_pointArgs){
         var pos=gPoint.wrapArgs(arguments);
         return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .floorArea");
     },
-    positionArea$:function(){
+    positionArea$:function(_pointArgs){
         var pos=gPoint.wrapArgs(arguments);
         return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .positionArea");
     },
     //}}
-    line$:function(){
+    bulletContainer$:function(){
+        var container=this.$(".bulletContainer")
+        if(arguments.length==0){
+            return container;
+        }else{
+            var pos=gPoint.wrapArgs(arguments);
+            var s="[data-i="+pos.i+"]"+
+                  "[data-j="+pos.j+"]";
+            return container.find(s);
+        }
+    },
+    cellContainer$:function(){
+        var container=this.$(".cellContainer")
+        if(arguments.length==0){
+            return container;
+        }else{
+            var pos=gPoint.wrapArgs(arguments);
+            var s="[data-i="+pos.i+"]"+
+                  "[data-j="+pos.j+"]";
+            return container.find(s);
+        }
+    },
+    line$:function(_pointArgs){
         return this.$("#pathingline");
     },
-    drawer$:function(){
+    drawer$:function(_pointArgs){
         return this.$(".boardChild.drawer svg");
+    },
+    baseAbsPos:function(){
+        return this.$(".basePos").offset();
+    },
+    unitPos:function(_pointArgs){
+        var unitAbsPos=
+            this.positionArea$.apply(this,arguments).
+            find(".unitPos").offset();
+        var baseAbsPos=this.baseAbsPos();
+        return {left:unitAbsPos.left-baseAbsPos.left,
+                top:unitAbsPos.top-baseAbsPos.top};
+    },
+    centerPos:function(_pointArgs){
     },
 
     render:function(msg){
         var self=this;
         var boardModel=this.model.toJSON();
         this.$el.html(this.template(boardModel));
-        // add cell
-        _.each(this.collection.models,function(cell){
-            var i=cell.get("i");
-            var j=cell.get("j");
-            self.$("tr#tr"+i+" td#td"+j+" div.area.viewer").html(new gViews.CellView({model:cell}).render().el);
-        },self);
 
         // set drawer width height
         return this;
@@ -69,6 +94,22 @@ gViews.BoardView=Backbone.View.extend({
         var height=this.$(".boardChild.listener").height();
         this.$(".boardChild.drawer svg").width(width);
         this.$(".boardChild.drawer svg").height(height);
+
+        var self=this;
+        // add cell
+        var cellContainer=this.cellContainer$();
+        cellContainer.html("");
+        _.each(this.collection.models,function(cell){
+            var i=cell.get("i");
+            var j=cell.get("j");
+            self.$("tr#tr"+i+" td#td"+j+" div.area.viewer").html(new gViews.CellView({model:cell}).render().el);
+            var temp=new gViews.CellView({model:cell}).render().$el;
+            temp.css("position","absolute");
+            temp.css(self.unitPos(i,j));
+            temp.attr("data-i",i);
+            temp.attr("data-j",j);
+            cellContainer.html(temp);
+        },self);
     },
 
     mouseDownArea:function(e){
