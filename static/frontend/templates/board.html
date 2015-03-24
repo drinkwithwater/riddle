@@ -1,12 +1,10 @@
 <div class="board">
-  <%var argWidth=width||1; %>
-  <%var argHeight=height||1; %>
 <!---------------------------------------->
   <div class="boardChild listener simple">
     <table>
-      <% for(var i=0;i<argHeight;i++){ %>
+      <% for(var i=0;i<iLength;i++){ %>
 	     <tr class="tr<%=i%>">
-	       <% for(var j=0;j<argWidth;j++){ %>
+	       <% for(var j=0;j<jLength;j++){ %>
 		      <td class="td<%=j%>">
 			    <div class="area simple">
 			      <div class="listenerArea" data-i="<%=i%>" data-j="<%=j%>">
@@ -27,9 +25,9 @@
 <!---------------------------------------->
   <div class="boardChild walkPath simple">
     <table>
-      <% for(var i=0;i<argHeight;i++){ %>
+      <% for(var i=0;i<iLength;i++){ %>
 	     <tr class="tr<%=i%>">
-	       <% for(var j=0;j<argWidth;j++){ %>
+	       <% for(var j=0;j<jLength;j++){ %>
 		      <td class="td<%=j%>">
                 <div class="area simple">
                   <div class="walkPathArea simple">
@@ -65,9 +63,9 @@
 <!---------------------------------------->
   <div class="boardChild floor simple">
     <table>
-      <% for(var i=0;i<argHeight;i++){ %>
+      <% for(var i=0;i<iLength;i++){ %>
 	     <tr class="tr<%=i%>">
-	       <% for(var j=0;j<argWidth;j++){ %>
+	       <% for(var j=0;j<jLength;j++){ %>
 		      <td class="td<%=j%>">
 			    <div class="area simple">
 			      <div class="positionArea">
@@ -82,9 +80,9 @@
 <!---------------------------------------->
   <div class="boardChild position simple basePos">
     <table>
-      <% for(var i=0;i<argHeight;i++){ %>
+      <% for(var i=0;i<iLength;i++){ %>
 	     <tr class="tr<%=i%>">
-	       <% for(var j=0;j<argWidth;j++){ %>
+	       <% for(var j=0;j<jLength;j++){ %>
 		      <td class="td<%=j%>">
 			    <div class="area simple">
 			      <div class="positionArea">

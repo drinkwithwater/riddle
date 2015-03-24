@@ -6,7 +6,7 @@ module.exports=function(env){
   });
   gMessage.CSStart=gMessage.CSBattleMessage.extend({
     type:"start",
-    battleName:"empty"
+    scriptName:"empty"
   });
   gMessage.CSJoin=gMessage.CSBattleMessage.extend({
     type:"join",

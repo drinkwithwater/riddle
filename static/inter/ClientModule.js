@@ -25,7 +25,6 @@ module.exports=function(env){
       this.serverModule=core.getModule("serverModule");
     },
     start:function(core){
-      this.sendMessage(new gMessage.CSStart());
     },
     recvMessage:function(message){
       var thisVar=this;
@@ -41,7 +40,6 @@ module.exports=function(env){
     init:function(core){
     },
     start:function(core){
-      this.sendMessage(new gMessage.CSStart());
     },
     recvMessage:function(message){
       var thisVar=this;

@@ -32,12 +32,12 @@ module.exports=function(env){
     gBattle.BattleFactory = {
         createBattleByName:function(name){
             if(name){
-                var script=gBattle.battleScript[name];
+                var script=gScript.battleScript[name];
 	            if(script){
 	                return this.createBattleByScript(script);
 	            }
             }
-            var script=gBattle.battleScript["default"];
+            var script=gScript.battleScript["default"];
             return this.createBattleByScript(script);
         },
         createBattleByScript:function(script) {

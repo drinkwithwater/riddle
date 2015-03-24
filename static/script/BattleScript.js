@@ -1,8 +1,8 @@
 module.exports=function(env){
     ///{{{
-    var gBattle=env.gBattle=env.gBattle||{};
-    gBattle.battleScript={};
-    gBattle.battleScript["default"]={
+    var gScript=env.gScript=env.gScript||{};
+    gScript.battleScript={};
+    gScript.battleScript["default"]={
         battleType:0,
         iLength:10,
         jLength:10,
@@ -17,6 +17,20 @@ module.exports=function(env){
                    [0,0,0,0,1, 0,0,0,0,0],
                    [0,0,0,0,0, 0,0,0,0,0],
                    [0,0,0,0,0, 1,1,1,1,1]]
+    };
+    gScript.battleScript["test1"]={
+        battleType:0,
+        iLength:8,
+        jLength:8,
+        unitArray:[[1,1,1,1, 0,0,0,0],
+                   [0,0,0,1, 0,0,0,0],
+                   [0,0,0,0, 0,1,0,0],
+                   [1,0,1,0, 0,1,0,0],
+
+                   [0,0,1,0, 0,0,0,0],
+                   [1,0,1,1, 0,1,0,0],
+                   [0,0,0,0, 0,1,0,0],
+                   [0,0,0,0, 1,1,1,1]]
     }
     ///}}}
 }

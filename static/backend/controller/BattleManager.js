@@ -42,12 +42,13 @@ module.exports=function(env){
 		this.onPlayerExit(battlePlayer);
 	    }
 	    //create battleField
-	    var battleField=gBattle.BattleFactory.createBattleByName(message.battleName);
+	    var battleField=gBattle.BattleFactory.createBattleByName(message.scriptName);
 	    this.battleSet[battleField._id]=battleField;
 	    //set player.battle
 	    battlePlayer.battle=battleField;
 	    //reply client
 	    var reMsg=new gMessage.SCStartScript();
+        reMsg.scriptName=message.scriptName;
 	    this.serverModule.sendMessage(battlePlayer.session,reMsg);
 	},
 	messageJoin:function(){},

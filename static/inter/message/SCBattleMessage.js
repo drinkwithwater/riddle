@@ -1,42 +1,42 @@
 module.exports=function(env){
-  ///{{{
-  var gMessage=env.gMessage=env.gMessage||{}
-  gMessage.SCBattleMessage=gUtil.Message.extend({
-    class:"sc_battle"
-  });
+    ///{{{
+    var gMessage=env.gMessage=env.gMessage||{}
+    gMessage.SCBattleMessage=gUtil.Message.extend({
+        class:"sc_battle"
+    });
 	gMessage.SCStartScript=gMessage.SCBattleMessage.extend({
-    type:"start_script",
-		script:[]
+        type:"start_script",
+		scriptName:"empty"
 	});
-  gMessage.SCShowArray=gMessage.SCBattleMessage.extend({
-    type:"show_array",
-    content:[]
-  });
-  gMessage.SCEffect=gMessage.SCBattleMessage.extend({
-    type:"effect",
-    unitId:"",
-    //other change e.g. hp:100
-  });
-  gMessage.SCMove=gMessage.SCBattleMessage.extend({
-    type:"move",
-    unitId:"",
-    i:"",
-    j:"",
-    effects:null
-  });
-  gMessage.SCAttack=gMessage.SCBattleMessage.extend({
-    type:"attack",
-    unitId:"",
-    i:"",
-    j:"",
-    effects:null
-  });
-  gMessage.SCTrigger=gMessage.SCBattleMessage.extend({
-    type:"trigger",
-    unitId:"",
-    i:"",
-    j:"",
-    effects:null
-  });
-  //}}}
+    gMessage.SCShowArray=gMessage.SCBattleMessage.extend({
+        type:"show_array",
+        content:[]
+    });
+    gMessage.SCEffect=gMessage.SCBattleMessage.extend({
+        type:"effect",
+        unitId:"",
+        //other change e.g. hp:100
+    });
+    gMessage.SCMove=gMessage.SCBattleMessage.extend({
+        type:"move",
+        unitId:"",
+        i:"",
+        j:"",
+        effects:null
+    });
+    gMessage.SCAttack=gMessage.SCBattleMessage.extend({
+        type:"attack",
+        unitId:"",
+        i:"",
+        j:"",
+        effects:null
+    });
+    gMessage.SCTrigger=gMessage.SCBattleMessage.extend({
+        type:"trigger",
+        unitId:"",
+        i:"",
+        j:"",
+        effects:null
+    });
+    //}}}
 };

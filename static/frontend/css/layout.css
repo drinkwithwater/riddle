@@ -5,3 +5,7 @@
 .content div.right{
 	float:left;
 }
+input[type="text"]{
+    width:90px;
+    heigth:10px;
+}

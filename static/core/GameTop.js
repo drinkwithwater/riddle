@@ -40,6 +40,8 @@ gCore.GameTop=gUtil.Class.extend({
 	webMain:function(){
 		var gameInst=new gCore.GameTop([
             gInter.WebClientModule,
+		    gUI.ModelManager,
+		    gUI.ViewManager,
             gUI.FrontendModule
 		]);
 		gameInst.init();
@@ -51,6 +53,8 @@ gCore.GameTop=gUtil.Class.extend({
 		    gController.GameController,
 		    gInter.LocalClientModule,
 		    gInter.LocalServerModule,
+		    gUI.ModelManager,
+		    gUI.ViewManager,
 		    gUI.FrontendModule
 		]);
 	    

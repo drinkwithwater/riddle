@@ -7,15 +7,14 @@ gViews.BoardView=Backbone.View.extend({
         "mouseleave div.board":"mouseLeaveBoard",
         "mousemove div.listener":"mouseMoveBoard"
     },
-    actionHandler:{
-    },
+    viewActionHandler:null,
     walkPath:null,
     flyPath:null,
     constructor:function(aDict){
   	    gViews.BoardView.__super__.constructor.call(this,aDict);
         this.walkPath=new gViews.WalkPath(this);
         this.flyPath=new gViews.WalkPath(this);
-        this.actionHandler=aDict.actionHandler||(new gUI.ActionHandler());
+        this.viewActionHandler=aDict.viewActionHandler;
     },
     initialize:function(){
         this.template=_.template(gTemplates.board);
@@ -108,7 +107,7 @@ gViews.BoardView=Backbone.View.extend({
             temp.css(self.unitPos(i,j));
             temp.attr("data-i",i);
             temp.attr("data-j",j);
-            cellContainer.html(temp);
+            cellContainer.append(temp);
         },self);
     },
 
