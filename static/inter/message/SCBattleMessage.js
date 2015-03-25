@@ -10,7 +10,7 @@ module.exports=function(env){
 	});
     gMessage.SCShowArray=gMessage.SCBattleMessage.extend({
         type:"show_array",
-        content:[]
+        array:[]
     });
     gMessage.SCEffect=gMessage.SCBattleMessage.extend({
         type:"effect",
@@ -22,7 +22,17 @@ module.exports=function(env){
         unitId:"",
         i:"",
         j:"",
-        effects:null
+    });
+    gMessage.SCPosMove=gMessage.SCBattleMessage.extend({
+        type:"pos_move",
+        srcPos:{
+            i:null,
+            j:null
+        },
+        dstPos:{
+            i:null,
+            j:null
+        }
     });
     gMessage.SCAttack=gMessage.SCBattleMessage.extend({
         type:"attack",

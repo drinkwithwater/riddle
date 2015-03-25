@@ -15,7 +15,7 @@ module.exports=function(env){
   //user action
   gMessage.CSPathing=gMessage.CSBattleMessage.extend({
     type:"pathing",
-    pathes:[]
+    path:[]
   });
   //}}}
 };

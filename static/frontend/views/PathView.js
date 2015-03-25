@@ -6,8 +6,11 @@ gViews.FlyPath=gUtil.Class.extend({
     display:true,
     path:[],
     boardView:null,
+    viewActionHandler:null,
     constructor:function(boardView){
         this.boardView=boardView;
+        this.viewActionHandler=this.boardView.viewActionHandler;
+
         this.state=this.STATE_EMPTY;
     },
     click:function(area){
@@ -41,10 +44,13 @@ gViews.WalkPath=gUtil.Class.extend({
     display:true,
     path:[],
     boardView:null,
+    viewActionHandler:null,
     constructor:function(boardView){
         this.boardView=boardView;
-        this.state=this.STATE_EMPTY;
         this.render.boardView=this.boardView;
+        this.viewActionHandler=this.boardView.viewActionHandler;
+
+        this.state=this.STATE_EMPTY;
     },
     click:function(area){
         if(this.state==this.STATE_EMPTY){
@@ -56,6 +62,7 @@ gViews.WalkPath=gUtil.Class.extend({
         }else if(this.state==this.STATE_PATHING){
             //TODO
             //send message
+            this.viewActionHandler.viewPathing(this.path);
             //check path valid;
             console.log(JSON.stringify(this.path));
             this.cancel(area);

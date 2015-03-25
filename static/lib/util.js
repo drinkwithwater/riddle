@@ -43,6 +43,7 @@ module.exports=function(env){
         return cls;
     };
     Class.extend=classExtend;
+    //consider the effect of JSON.stringify, use simple message extend
     var Message=gUtil.Message=function(aDict){
         var thisVar=this;
         if(aDict){

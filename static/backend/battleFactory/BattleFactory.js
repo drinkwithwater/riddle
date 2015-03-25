@@ -69,10 +69,11 @@ module.exports=function(env){
             var battleField=new gBattle.BattleField();
 	        battleField.maze=maze;
 	        battleField.unitDict=unitDict;
+            battleField.scriptName=script.scriptName;
 	        _.each(unitDict,function(unit){
 	            unit.battleField=battleField;
-	        })
-	            return battleField;
+	        });
+	        return battleField;
         }
     };
     gFactory.createMaze=function(il,jl,unitDict){

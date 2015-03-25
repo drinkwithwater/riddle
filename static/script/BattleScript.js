@@ -7,6 +7,7 @@ module.exports=function(env){
     }
     gScript.battleScript={};
     gScript.battleScript["default"]={
+        scriptName:"default",
         battleType:0,
         iLength:10,
         jLength:10,
@@ -23,6 +24,7 @@ module.exports=function(env){
                    [0,0,0,0,0, 1,1,1,1,1]]
     };
     gScript.battleScript["test1"]={
+        scriptName:"test1",
         battleType:0,
         iLength:8,
         jLength:8,

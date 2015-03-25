@@ -1,7 +1,6 @@
 module.exports=function(env){
     var gBattle=env.gBattle=env.gBattle||{};
     gBattle.BaseEvent=gUtil.Class.extend({
-        type:"base",
         constructor:function(aDict){
             var self=this;
             _.each(aDict,function(v,k){
@@ -10,8 +9,16 @@ module.exports=function(env){
         }
     });
     gBattle.PosMoveEvent=gBattle.BaseEvent.extend({
-        type:"move",
-        srcPos:{},
-        dstPos:{},
+        srcPos:{
+            i:null,
+            j:null
+        },
+        dstPos:{
+            i:null,
+            j:null
+        },
+        toMessage:function(){
+            return new gMessage.SCPosMove(this);
+        }
     });
 };

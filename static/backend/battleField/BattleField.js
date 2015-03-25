@@ -2,9 +2,13 @@ module.exports=function(env){
     ///{{{
     var gBattle=env.gBattle=env.gBattle||{}
     gBattle.BattleField=gUtil.Class.extend({
+        scriptName:null,
+
 	    battleManager:null,
 	    eventSender:null,
+
 	    playerDict:{},
+        playerIdCounter:1,
 
 	    maze:null,
 	    //id to unit
@@ -20,28 +24,31 @@ module.exports=function(env){
 		          7:"destination valid"},
 
 	    genPlayerId:function(){
-	        //TODO
+            return this.playerIdCounter++;
 	    },
-	    onPlayerJoin:function(battlePlayer,setId){
+	    onPlayerJoin:function(battlePlayer){
 	        var newId=this.genPlayerId();
 	        if(!newId){
 		        //TODO
 	        }
 	        battlePlayer.playerId=newId;
+            battlePlayer.battleField=this;
 	        this.playerDict[newId]=battlePlayer;
 	        //TODO broadcast playerin message
 
 	    },
 	    onPlayerExit:function(battlePlayer){
-	        //TODO broadcast playerexit message
 	        delete this.playerDict[battlePlayer.playerId];
+            battlePlayer.battleField=null;
+	        //TODO broadcast playerexit message
+
+            //if no player, battle exit
 	        if(_.size(this.playerDict)==0){
 		        this.battleManager.onBattleExit(this);
 	        }
-
 	    },
 	    //TODO if destination has unit attack else move
-	    onPlayerPathing:function(battlePlayer,unitId,path){
+	    onPlayerUnitPathing:function(battlePlayer,unitId,path){
     	    //////////////////////////
 	        //// unit vaild check ////
 	        //////////////////////////
@@ -81,6 +88,11 @@ module.exports=function(env){
                 return checkResult;
 	        }
 	    },
+        onPlayerPathing:function(battlePlayer,path){
+            //TODO......
+            //many things TODO
+            this.onPosPathing(path);
+        },
 
 	    // a test function
 	    onPosPathing:function(path){
@@ -98,7 +110,10 @@ module.exports=function(env){
 		        var checkResult=this.checkPathing(unit,path);
 		        if(checkResult.success){
 		            var eventArray=this.operPathing(checkResult,unit,path);
-		            this.eventSender.sendEvents(eventArray);
+                    var eventSender=this.eventSender;
+                    _.each(this.playerDict,function(player){
+		                eventSender.sendEvents(player,eventArray);
+                    });
 		            return eventArray;
 		        }else{
 		            return checkResult;
@@ -154,7 +169,7 @@ module.exports=function(env){
             context.push(new gBattle.PosMoveEvent({
                 srcPos:srcPos,
                 dstPos:dstPos
-            }))
+            }));
 	    },
 	    unitAttack:function(context,unit,skill,pos){
 	    },

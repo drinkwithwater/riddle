@@ -12,9 +12,10 @@ gViews.BoardView=Backbone.View.extend({
     flyPath:null,
     constructor:function(aDict){
   	    gViews.BoardView.__super__.constructor.call(this,aDict);
-        this.walkPath=new gViews.WalkPath(this);
-        this.flyPath=new gViews.WalkPath(this);
         this.viewActionHandler=aDict.viewActionHandler;
+        //this should init after handler setted;
+        this.walkPath=new gViews.WalkPath(this);
+        this.flyPath=new gViews.FlyPath(this);
     },
     initialize:function(){
         this.template=_.template(gTemplates.board);

@@ -23,26 +23,48 @@ gUI.FrontendModule=gUtil.Class.extend({
 
 
     viewPathing:function(path){
-        console.log(JSON.stringify(path));
+        var msg=new gMessage.CSPathing({
+            path:path
+        });
+        this.clientModule.sendMessage(msg);
     },
     viewStart:function(scriptName){
-        var msg=new gMessage.CSStart({scriptName:scriptName});
+        var msg=new gMessage.CSStart({
+            scriptName:scriptName
+        });
         this.clientModule.sendMessage(msg);
     },
     
     onMessage:function(message){
-        if(message.type=="start_script"){
-            var scriptName=message.scriptName;
-            if(typeof(scriptName)=="string"){
-                this.modelManager.destroy();
-                this.viewManager.destroy();
-                this.modelManager.startByScriptName(scriptName);
-                this.viewManager.reRender();
-            }else{
-                //TODO
-                //init battle from many data;
-                //or used for recover battle;
-            }
+        var handlerFunc=this[this.messageHandlers[message.type]];
+        if(handlerFunc){
+            handlerFunc.call(this,message);
+        }else{
+		    console.error("message type no handler: "+message.type);
         }
     },
+    messageHandlers:{
+        "start_script":"messageStartScript",
+        "show_array":"messageShowArray"
+    },
+    messageStartScript:function(message){
+        var scriptName=message.scriptName;
+        if(typeof(scriptName)=="string"){
+            this.modelManager.destroy();
+            this.viewManager.destroy();
+            this.modelManager.startByScriptName(scriptName);
+            this.viewManager.reRender();
+        }else{
+            //TODO
+            //init battle from many data;
+            //or used for recover battle;
+        }
+    },
+    messageShowArray:function(message){
+        console.log(JSON.stringify(message));
+    },
+
+
+    
+
 });
