@@ -8,7 +8,7 @@ module.exports=function(env){
 	    serverModule:null,
 	    constructor:function(){
 	    },
-	    sendEvents:function(eventArray){
+	    sendEvents:function(player,eventArray){
 	    }
     });
     //)))

@@ -1,9 +1,15 @@
 module.exports=function(env){
     var gBattle=env.gBattle=env.gBattle||{};
     gBattle.BaseEvent=gUtil.Class.extend({
-        type:"base"
+        type:"base",
+        constructor:function(aDict){
+            var self=this;
+            _.each(aDict,function(v,k){
+                self[k]=v;
+            });
+        }
     });
-    gBattle.MoveEvent=gUtil.Class.extend({
+    gBattle.PosMoveEvent=gBattle.BaseEvent.extend({
         type:"move",
         srcPos:{},
         dstPos:{},

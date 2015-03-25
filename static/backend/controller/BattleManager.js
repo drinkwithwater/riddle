@@ -47,7 +47,7 @@ module.exports=function(env){
 	    //set player.battle
 	    battlePlayer.battle=battleField;
 	    //reply client
-	    var reMsg=new gMessage.SCStartScript();
+	    var reMsg=new gMessage.SCStartScript({scriptName:message.scriptName});
         reMsg.scriptName=message.scriptName;
 	    this.serverModule.sendMessage(battlePlayer.session,reMsg);
 	},

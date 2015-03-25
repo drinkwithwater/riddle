@@ -3,14 +3,14 @@ module.exports=function(env){
     var gBattle=env.gBattle=env.gBattle|| {}
     var gFactory=env.gFactory=env.gFactory||{}
     gBattle.UnitFactory = {
-        createUnit: function(i,j,id,code) {
+        createUnit: function(i,j,code) {
             var type = code % 0x100;
 	        if(type<=0) return null;
             var newUnit = new gBattle.unitClassDict[type]();
 	        newUnit.i=i;
 	        newUnit.j=j;
 	        newUnit.hp=100;
-	        newUnit.unitId=id;
+	        newUnit.unitId=gScript.createCommonId(i,j);
             return newUnit;
         }
     };
@@ -56,7 +56,7 @@ module.exports=function(env){
                     if (code === 0) {
                         continue;
                     } else {
-	                    var unit=gFactory.createUnit(i,j,counter,code);
+	                    var unit=gFactory.createUnit(i,j,code);
 	                    if(unit){
 		                    unitDict[counter] = unit;
 	                    }

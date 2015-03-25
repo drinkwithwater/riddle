@@ -67,15 +67,18 @@ module.exports=function(env){
 	        ////////////////
 	        //move trigger//
 	        ////////////////
-	        if(!checkResult.success){
+	        if(checkResult.success){
 		        //TODO
-		        //message send fail result
-		        return;
+		        //var context
+                var eventArray=this.operPathing(checkResult,unit,path);
+                var eventSender=this.eventSender;
+                _.each(this.playerDict,function(v,k){
+                    eventSender.sendEvents(v,eventArray);
+                });
+                return {success:1};
 	        }else{
-		        //var context=null;
-		        var operResult=this.operPathing(unit,path);
-		        //TODO
-		        //oper move 
+		        //message send fail result need???
+                return checkResult;
 	        }
 	    },
 
@@ -148,6 +151,10 @@ module.exports=function(env){
             this.maze.moveUnit(srcPos,dstPos);
             unit.i=dstPos.i;
             unit.j=dstPos.j;
+            context.push(new gBattle.PosMoveEvent({
+                srcPos:srcPos,
+                dstPos:dstPos
+            }))
 	    },
 	    unitAttack:function(context,unit,skill,pos){
 	    },
