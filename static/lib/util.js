@@ -72,6 +72,35 @@ module.exports=function(env){
         return msg;
     }
     Message.extend=messageExtend;
+    gUtil.Impl=function(){
+        var args=arguments;
+        var reFunc={
+            set check(implClass){
+                _.each(args,function(iClass){
+                    iClass.checkImpl(implClass);
+                });
+            }
+        }
+        return reFunc;
+    }
+    gUtil.Interface=function(keys){
+        this.checkImpl=function(implClass){
+            var unImplFunc=[];
+            if(keys instanceof Array){
+                unImplFunc=_.filter(keys,function(e){
+                    return !(_.has(implClass.prototype,e));
+                });
+            }else{
+                unImplFunc=_.filter(keys,function(k,v){
+                    return !(_.has(implClass.prototype,k));
+                });
+            }
+            if(unImplFunc.length>0){
+                console.error("func not impl : "+
+                              JSON.stringify(unImplFunc));
+            }
+        }
+    }
 }
 
 

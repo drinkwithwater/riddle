@@ -57,7 +57,7 @@ gViews.BoardView=Backbone.View.extend({
         }else{
             var pos=gPoint.wrapArgs(arguments);
             var s="[data-i="+pos.i+"]"+
-                  "[data-j="+pos.j+"]";
+                  "[data-j="+pos.j+"]"+".cell";
             return container.find(s);
         }
     },
@@ -70,13 +70,13 @@ gViews.BoardView=Backbone.View.extend({
     baseAbsPos:function(){
         return this.$(".basePos").offset();
     },
-    unitPos:function(_pointArgs){
-        var unitAbsPos=
+    cellPos:function(_pointArgs){
+        var cellAbsPos=
             this.positionArea$.apply(this,arguments).
-            find(".unitPos").offset();
+            find(".cellPos").offset();
         var baseAbsPos=this.baseAbsPos();
-        return {left:unitAbsPos.left-baseAbsPos.left,
-                top:unitAbsPos.top-baseAbsPos.top};
+        return {left:cellAbsPos.left-baseAbsPos.left,
+                top:cellAbsPos.top-baseAbsPos.top};
     },
     centerPos:function(_pointArgs){
     },
@@ -102,13 +102,12 @@ gViews.BoardView=Backbone.View.extend({
         _.each(this.collection.models,function(cell){
             var i=cell.get("i");
             var j=cell.get("j");
-            self.$("tr#tr"+i+" td#td"+j+" div.area.viewer").html(new gViews.CellView({model:cell}).render().el);
             var temp=new gViews.CellView({model:cell}).render().$el;
             temp.css("position","absolute");
-            temp.css(self.unitPos(i,j));
             temp.attr("data-i",i);
             temp.attr("data-j",j);
             cellContainer.append(temp);
+            temp.css(self.cellPos(i,j));
         },self);
     },
 

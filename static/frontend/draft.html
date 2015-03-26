@@ -2,44 +2,62 @@
 <script src="../lib/underscore.min.js"></script>
 <script src="../lib/backbone.min.js"></script>
 <script src="../lib/util.js"></script>
+<script>
+  var iSth=new gUtil.Interface([
+  "dosth1","dosth2"
+  ]);
+  var iSth2=new gUtil.Interface([
+  "dosth3",
+  ])
+  gUtil.Impl(iSth).check=
+  AClass=gUtil.Class.extend({
+  "dosth1":function(){},
+  "dosth2":function(){}
+  });
+  gUtil.Impl(iSth,iSth2).check=
+  BClass=gUtil.Class.extend({
+  "dosth1":function(){},
+  "dosth2":function(){}
+  });
+</script>
 <!--
-<script>
-ExtendClass=gUtil.Class.extend({
-		data:5432,
-		func:function(){
-		console.log("ExtendClass.func"+this.data);
-		}
-});
-ExtendExtendClass=ExtendClass.extend({
-		data:321,
-		func:function(){
-		ExtendExtendClass.__super__.func.call(this);
-		console.log("ExtendExtendClass.func"+this.data);
-		}
-});
-SimpleExtendClass=ExtendClass.extend({});
-var c1=new gUtil.Class();
-var c2=new ExtendClass();
-var c3=new ExtendExtendClass();
-var c4=new SimpleExtendClass();
-</script>
-<script>
-$(document).ready(function(){
-	$("div.outer").on("mouseleave",function(e){
-		console.log(e.target);
-		$(".outer p").html("mouseleave");
-	})
-	$("div.outer").on("mouseenter",function(e){
-		console.log(e.target);
-		$(".outer p").html("mouseenter");
-	})
-})
-</script>
-<div class="outer" style="width:100px;height:100px;background-color:#f0f000;">
-	<p>mouseleave</p>
-	<div class="inner" style="width:50px;height:50px;background-color:#f0f0f0;">
-	</div>
-	<div class="inner2"style="width:50px;height:50px;background-color:#00f0f0;">
-	</div>
-</div>
--->
+    <script>
+      ExtendClass=gUtil.Class.extend({
+	  data:5432,
+	  func:function(){
+	  console.log("ExtendClass.func"+this.data);
+	  }
+      });
+      ExtendExtendClass=ExtendClass.extend({
+	  data:321,
+	  func:function(){
+	  ExtendExtendClass.__super__.func.call(this);
+	  console.log("ExtendExtendClass.func"+this.data);
+	  }
+      });
+      SimpleExtendClass=ExtendClass.extend({});
+      var c1=new gUtil.Class();
+      var c2=new ExtendClass();
+      var c3=new ExtendExtendClass();
+      var c4=new SimpleExtendClass();
+    </script>
+    <script>
+      $(document).ready(function(){
+	  $("div.outer").on("mouseleave",function(e){
+	  console.log(e.target);
+	  $(".outer p").html("mouseleave");
+	  })
+	  $("div.outer").on("mouseenter",function(e){
+	  console.log(e.target);
+	  $(".outer p").html("mouseenter");
+	  })
+      })
+    </script>
+    <div class="outer" style="width:100px;height:100px;background-color:#f0f000;">
+	  <p>mouseleave</p>
+	  <div class="inner" style="width:50px;height:50px;background-color:#f0f0f0;">
+	  </div>
+	  <div class="inner2"style="width:50px;height:50px;background-color:#00f0f0;">
+	  </div>
+    </div>
+    -->

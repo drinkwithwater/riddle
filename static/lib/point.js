@@ -43,6 +43,15 @@ module.exports=function(env){
             return ;
         }
     }
+    gPoint.maDistance=function(pa,pb){
+        var abs=Math.abs;
+        return abs(pa.i-pb.i)+abs(pa.j-pb.j);
+    }
+    gPoint.euDistance=function(pa,pb){
+        var di=pa.i-pb.i;
+        var dj=pa.j-pb.j;
+        return Math.sqrt(di*di+dj*dj);
+    }
 }
 
 

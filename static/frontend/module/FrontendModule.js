@@ -40,7 +40,7 @@ gUI.FrontendModule=gUtil.Class.extend({
         if(handlerFunc){
             handlerFunc.call(this,message);
         }else{
-		    console.error("message type no handler: "+message.type);
+            this.modelManager.onMessage(message);
         }
     },
     messageHandlers:{
@@ -61,7 +61,11 @@ gUI.FrontendModule=gUtil.Class.extend({
         }
     },
     messageShowArray:function(message){
-        console.log(JSON.stringify(message));
+        var thisVar=this;
+        //TODO change message to event
+        _.each(message.array,function(showEvent){
+            thisVar.modelManager.onBattleEvent(showEvent);
+        });
     },
 
 

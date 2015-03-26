@@ -7,6 +7,8 @@ gUI.ViewManager=gUtil.Class.extend({
     viewActionHandler:null,
     modelManager:null,
 
+    moveSpeed:10,//1 cell 1 second
+
     name:"viewModule",
     init:function(gameTop){
         var thisVar=this;
@@ -30,8 +32,11 @@ gUI.ViewManager=gUtil.Class.extend({
 
             $("#menu").html(thisVar.menuView.render().el);
 
-            
             thisVar.reRender();
+
+            //TODO start a inst
+            //if do this ,clean up some code above.
+            thisVar.viewActionHandler.viewStart("test1");
         });
     },
     reRender:function(){
@@ -47,6 +52,13 @@ gUI.ViewManager=gUtil.Class.extend({
 
         $("#main").html(thisVar.boardView.render().el);
         thisVar.boardView.afterRender();
+    },
+    animatePosMove:function(srcPos,dstPos,callback){
+        this.boardView.cellContainer$(srcPos).animate(
+            this.boardView.cellPos(dstPos),
+            gPoint.euDistance(srcPos,dstPos)/this.moveSpeed*1000,
+            "linear",
+            callback);
     },
 
 
