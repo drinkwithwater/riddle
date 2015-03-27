@@ -1,9 +1,9 @@
 var gViews=gViews||{}
-gViews.CellView=Backbone.View.extend({
+gViews.UnitView=Backbone.View.extend({
 
     initialize:function(){
-        this.template=_.template(gTemplates.cell);
-        $(this.el).addClass("cell");
+        this.template=_.template(gTemplates.unit);
+        $(this.el).addClass("unit");
         this.model.bind("change",this.render,this);
     },
 

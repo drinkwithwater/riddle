@@ -8,45 +8,14 @@ module.exports=function(env){
         type:"start_script",
 		scriptName:"empty"
 	});
-    gMessage.SCShowArray=gMessage.SCBattleMessage.extend({
-        type:"show_array",
-        array:[]
+    gMessage.SCShowEventArray=gMessage.SCBattleMessage.extend({
+        type:"show_event_array",
+        eventArray:[]
     });
     gMessage.SCEffect=gMessage.SCBattleMessage.extend({
         type:"effect",
         unitId:"",
         //other change e.g. hp:100
-    });
-    gMessage.SCMove=gMessage.SCBattleMessage.extend({
-        type:"move",
-        unitId:"",
-        i:"",
-        j:"",
-    });
-    gMessage.SCPosMove=gMessage.SCBattleMessage.extend({
-        type:"pos_move",
-        srcPos:{
-            i:null,
-            j:null
-        },
-        dstPos:{
-            i:null,
-            j:null
-        }
-    });
-    gMessage.SCAttack=gMessage.SCBattleMessage.extend({
-        type:"attack",
-        unitId:"",
-        i:"",
-        j:"",
-        effects:null
-    });
-    gMessage.SCTrigger=gMessage.SCBattleMessage.extend({
-        type:"trigger",
-        unitId:"",
-        i:"",
-        j:"",
-        effects:null
     });
     //}}}
 };

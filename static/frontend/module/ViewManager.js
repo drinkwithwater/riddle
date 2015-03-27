@@ -20,7 +20,7 @@ gUI.ViewManager=gUtil.Class.extend({
     start:function(gameTop){
         var thisVar=this;
         var modelManager=this.modelManager;
-        this.loadTemplates(["cell","board","menu"],function(){
+        this.loadTemplates(["unit","board","menu"],function(){
             var scriptNames=_.map(gScript.battleScript,
                                   function(v,k){
                                       return k;
@@ -43,8 +43,8 @@ gUI.ViewManager=gUtil.Class.extend({
         var thisVar=this;
         var modelManager=this.modelManager;
         thisVar.boardView=new gViews.BoardView({
-      	    model:modelManager.boardModel,
-      	    collection:modelManager.cellCollection,
+      	    mazeModel:modelManager.mazeModel,
+      	    unitCollection:modelManager.unitCollection,
             viewActionHandler:thisVar.viewActionHandler
         });
 	    //for test
@@ -54,7 +54,7 @@ gUI.ViewManager=gUtil.Class.extend({
         thisVar.boardView.afterRender();
     },
     animatePosMove:function(srcPos,dstPos,callback){
-        this.boardView.cellContainer$(srcPos).animate(
+        this.boardView.unitContainer$(srcPos).animate(
             this.boardView.cellPos(dstPos),
             gPoint.euDistance(srcPos,dstPos)/this.moveSpeed*1000,
             "linear",

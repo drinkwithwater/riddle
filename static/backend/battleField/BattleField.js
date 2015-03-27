@@ -166,7 +166,7 @@ module.exports=function(env){
             this.maze.moveUnit(srcPos,dstPos);
             unit.i=dstPos.i;
             unit.j=dstPos.j;
-            context.push(new gBattle.PosMoveEvent({
+            context.push(new gEvent.PosMoveEvent({
                 srcPos:srcPos,
                 dstPos:dstPos
             }));

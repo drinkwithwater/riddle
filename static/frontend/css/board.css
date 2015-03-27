@@ -35,7 +35,7 @@
 .boardChild.bulletContainer{
     z-index:3;
 }
-.boardChild.cellContainer{
+.boardChild.unitContainer{
     z-index:2;
 }
 .boardChild.floor{

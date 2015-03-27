@@ -40,12 +40,12 @@ gUI.FrontendModule=gUtil.Class.extend({
         if(handlerFunc){
             handlerFunc.call(this,message);
         }else{
-            this.modelManager.onMessage(message);
+		    console.error("message type no handler: "+message.type);
         }
     },
     messageHandlers:{
         "start_script":"messageStartScript",
-        "show_array":"messageShowArray"
+        "show_event_array":"messageShowEventArray"
     },
     messageStartScript:function(message){
         var scriptName=message.scriptName;
@@ -60,10 +60,10 @@ gUI.FrontendModule=gUtil.Class.extend({
             //or used for recover battle;
         }
     },
-    messageShowArray:function(message){
+    messageShowEventArray:function(message){
         var thisVar=this;
         //TODO change message to event
-        _.each(message.array,function(showEvent){
+        _.each(message.eventArray,function(showEvent){
             thisVar.modelManager.onBattleEvent(showEvent);
         });
     },

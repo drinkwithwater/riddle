@@ -48,7 +48,11 @@ module.exports=function(env){
         var thisVar=this;
         if(aDict){
             _.each(aDict,function(v,k){
-                thisVar[k]=v;
+                if(typeof(v)=="function"){
+                    return ;
+                }else{
+                    thisVar[k]=v;
+                }
             });
         }
     }
@@ -72,6 +76,16 @@ module.exports=function(env){
         return msg;
     }
     Message.extend=messageExtend;
+    gUtil.ImplFunc=function(funcList){
+        var args=arguments;
+        var iTemp=new gUtil.Interface(funcList);
+        var reFunc={
+            set check(implClass){
+                iTemp.checkImpl(implClass);
+            }
+        }
+        return reFunc;
+    }
     gUtil.Impl=function(){
         var args=arguments;
         var reFunc={

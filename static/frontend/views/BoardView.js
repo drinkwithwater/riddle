@@ -8,10 +8,14 @@ gViews.BoardView=Backbone.View.extend({
         "mousemove div.listener":"mouseMoveBoard"
     },
     viewActionHandler:null,
+    mazeModel:null,
+    unitCollection:null,
     walkPath:null,
     flyPath:null,
     constructor:function(aDict){
   	    gViews.BoardView.__super__.constructor.call(this,aDict);
+        this.mazeModel=aDict.mazeModel;
+        this.unitCollection=aDict.unitCollection;
         this.viewActionHandler=aDict.viewActionHandler;
         //this should init after handler setted;
         this.walkPath=new gViews.WalkPath(this);
@@ -50,14 +54,14 @@ gViews.BoardView=Backbone.View.extend({
             return container.find(s);
         }
     },
-    cellContainer$:function(){
-        var container=this.$(".cellContainer")
+    unitContainer$:function(){
+        var container=this.$(".unitContainer")
         if(arguments.length==0){
             return container;
         }else{
             var pos=gPoint.wrapArgs(arguments);
             var s="[data-i="+pos.i+"]"+
-                  "[data-j="+pos.j+"]"+".cell";
+                  "[data-j="+pos.j+"]"+".unit";
             return container.find(s);
         }
     },
@@ -83,8 +87,9 @@ gViews.BoardView=Backbone.View.extend({
 
     render:function(msg){
         var self=this;
-        var boardModel=this.model.toJSON();
-        this.$el.html(this.template(boardModel));
+        var mazeModel=this.mazeModel.toJSON();
+        this.$el.addClass("board");
+        this.$el.html(this.template(mazeModel));
 
         // set drawer width height
         return this;
@@ -97,16 +102,16 @@ gViews.BoardView=Backbone.View.extend({
 
         var self=this;
         // add cell
-        var cellContainer=this.cellContainer$();
-        cellContainer.html("");
-        _.each(this.collection.models,function(cell){
-            var i=cell.get("i");
-            var j=cell.get("j");
-            var temp=new gViews.CellView({model:cell}).render().$el;
+        var unitContainer=this.unitContainer$();
+        unitContainer.html("");
+        _.each(this.unitCollection.models,function(unit){
+            var i=unit.get("i");
+            var j=unit.get("j");
+            var temp=new gViews.UnitView({model:unit}).render().$el;
             temp.css("position","absolute");
             temp.attr("data-i",i);
             temp.attr("data-j",j);
-            cellContainer.append(temp);
+            unitContainer.append(temp);
             temp.css(self.cellPos(i,j));
         },self);
     },

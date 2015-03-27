@@ -9,10 +9,10 @@ module.exports=function(env){
 	    },
 	    sendEvents:function(player,eventArray){
             var msgArray=[];
-            _.each(eventArray,function(e){
-                msgArray.push(e.toMessage());
+            _.each(eventArray,function(battleEvent){
+                msgArray.push(battleEvent);
             });
-            var message=new gMessage.SCShowArray({array:msgArray});
+            var message=new gMessage.SCShowEventArray({eventArray:msgArray});
             this.serverModule.sendMessage(player.session,message);
 	    }
     });

@@ -3,7 +3,7 @@ module.exports=function(env){
     var gScript=env.gScript=env.gScript||{};
     // create common unit id for client and server
     gScript.createCommonId=function(i,j){
-        return 1024*i+j;
+        return 1000*i+j;
     }
     gScript.battleScript={};
     gScript.battleScript["default"]={
