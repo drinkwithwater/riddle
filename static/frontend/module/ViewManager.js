@@ -43,8 +43,7 @@ gUI.ViewManager=gUtil.Class.extend({
         var thisVar=this;
         var modelManager=this.modelManager;
         thisVar.boardView=new gViews.BoardView({
-      	    mazeModel:modelManager.mazeModel,
-      	    unitCollection:modelManager.unitCollection,
+            modelManager:modelManager,
             viewActionHandler:thisVar.viewActionHandler
         });
 	    //for test

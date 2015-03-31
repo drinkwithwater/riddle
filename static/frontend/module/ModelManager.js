@@ -2,20 +2,21 @@ var gUI=gUI||{};
 gUI.ModelManager=gUtil.Class.extend({
 
     name:"modelModule",
-    mazeModel:null,
-    unitCollection:null,
     frontendModule:null,
     viewManager:null,
-    posToUnit:null,
+
+    //component
+    mazeModel:null,
+    unitCollection:null,
+    unitDict:null,
     init:function(gameTop){
         var thisVar=this;
         if(gameTop){
 	        this.frontendModule=gameTop.getModule("frontendModule");
             this.viewManager=gameTop.getModule("viewModule");
         }
-        /*
-        this.boardModel=new gModels.BoardModel();
-        this.cellCollection=new gModels.CellCollection();*/
+
+        
         this.startByScriptName("default");
     },
 
@@ -23,33 +24,36 @@ gUI.ModelManager=gUtil.Class.extend({
     },
 
     startByScriptName:function(scriptName){
-        var battleScript=gScript.battleScript[scriptName];
-        var iLength=battleScript.iLength;
-        var jLength=battleScript.jLength;
-        var unitArray=battleScript.unitArray;
-        this.mazeModel=new gModels.MazeModel({
-            iLength:battleScript.iLength,
-            jLength:battleScript.jLength
-        });
-        this.unitCollection=new gModels.UnitCollection();
-        this.posToUnit=new Array(iLength);
-        for(var i=0;i<iLength;i++){
-            this.posToUnit[i]=new Array(jLength);
-            for(var j=0;j<jLength;j++){
-                var unitCode=unitArray[i][j];
-                if(unitCode!=0){
-                    var unitId=gScript.createCommonId(i,j);
-                    var tempUnit=new gModels.UnitModel({
-                        unitId:unitId,
-                        i:i,
-                        j:j
-                    });
-                    this.unitCollection.add(tempUnit);
-                    this.posToUnit[i][j]=tempUnit;
-                }
+        var aDict=gModels.createFromScriptName(scriptName);
+        this.mazeModel=aDict.mazeModel;
+        this.unitDict=aDict.unitDict;
+        this.unitCollection=aDict.unitCollection;
+        this.posToUnit=this.mazeModel.posToUnit;
+    },
+
+
+    
+    //get by id or i,j or pos
+    unit$:function(){
+        if(arguments.length==0){
+            return this.unitCollection.models;
+        }else if(arguments.length==1){
+            var arg0=arguments[0];
+            if(typeof(arg0)=="object"){
+                return  this.mazeModel.getUnit(arg0.i,arg0.j);
+            }else if(typeof(arg0)=="string"){
+                return this.unitDict[unitId];
+            }else if(typeof(arg0)=="number"){
+                return this.unitDict[unitId];
             }
+        }else if(arguments.length==2){
+            return this.mazeModel.getUnit(arguments[0],arguments[1]);
         }
     },
+    maze$:function(){
+        return this.mazeModel;
+    },
+
 
     eventHandlers:{
         "pos_move":"eventPosMove"

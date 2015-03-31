@@ -8,14 +8,11 @@ gViews.BoardView=Backbone.View.extend({
         "mousemove div.listener":"mouseMoveBoard"
     },
     viewActionHandler:null,
-    mazeModel:null,
-    unitCollection:null,
     walkPath:null,
     flyPath:null,
     constructor:function(aDict){
   	    gViews.BoardView.__super__.constructor.call(this,aDict);
-        this.mazeModel=aDict.mazeModel;
-        this.unitCollection=aDict.unitCollection;
+        this.modelManager=aDict.modelManager;
         this.viewActionHandler=aDict.viewActionHandler;
         //this should init after handler setted;
         this.walkPath=new gViews.WalkPath(this);
@@ -87,9 +84,9 @@ gViews.BoardView=Backbone.View.extend({
 
     render:function(msg){
         var self=this;
-        var mazeModel=this.mazeModel.toJSON();
+        var mazeJson=this.modelManager.maze$().toJSON();
         this.$el.addClass("board");
-        this.$el.html(this.template(mazeModel));
+        this.$el.html(this.template(mazeJson));
 
         // set drawer width height
         return this;
@@ -104,7 +101,7 @@ gViews.BoardView=Backbone.View.extend({
         // add cell
         var unitContainer=this.unitContainer$();
         unitContainer.html("");
-        _.each(this.unitCollection.models,function(unit){
+        _.each(this.modelManager.unit$(),function(unit){
             var i=unit.get("i");
             var j=unit.get("j");
             var temp=new gViews.UnitView({model:unit}).render().$el;
