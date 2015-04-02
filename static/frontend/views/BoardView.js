@@ -4,19 +4,17 @@ gViews.BoardView=Backbone.View.extend({
         "mousedown .listenerArea":"mouseDownArea",
         "mouseenter .listenerArea":"mouseEnterArea",
         "mouseleave .listenerArea":"mouseLeaveArea",
-        "mouseleave div.board":"mouseLeaveBoard",
+        "mouseleave div.listener":"mouseLeaveBoard",
         "mousemove div.listener":"mouseMoveBoard"
     },
     viewActionHandler:null,
-    walkPath:null,
-    flyPath:null,
+    pathCtrl:null,
     constructor:function(aDict){
   	    gViews.BoardView.__super__.constructor.call(this,aDict);
         this.modelManager=aDict.modelManager;
         this.viewActionHandler=aDict.viewActionHandler;
         //this should init after handler setted;
-        this.walkPath=new gViews.WalkPath(this);
-        this.flyPath=new gViews.FlyPath(this);
+        this.pathCtrl=new gViews.PathCtrl(this);
     },
     initialize:function(){
         this.template=_.template(gTemplates.board);
@@ -26,10 +24,6 @@ gViews.BoardView=Backbone.View.extend({
     listenerArea$:function(_pointArgs){
         var pos=gPoint.wrapArgs(arguments);
         return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .listenerArea");
-    },
-    walkPathArea$:function(_pointArgs){
-        var pos=gPoint.wrapArgs(arguments);
-        return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .walkPathArea");
     },
     floorArea$:function(_pointArgs){
         var pos=gPoint.wrapArgs(arguments);
@@ -68,25 +62,33 @@ gViews.BoardView=Backbone.View.extend({
     drawer$:function(_pointArgs){
         return this.$(".boardChild.drawer svg");
     },
-    baseAbsPos:function(){
+    baseOffset:function(){
         return this.$(".basePos").offset();
     },
-    cellPos:function(_pointArgs){
-        var cellAbsPos=
+    cellPos:function(){
+        var cellOffset=
             this.positionArea$.apply(this,arguments).
             find(".cellPos").offset();
-        var baseAbsPos=this.baseAbsPos();
-        return {left:cellAbsPos.left-baseAbsPos.left,
-                top:cellAbsPos.top-baseAbsPos.top};
+        var baseOffset=this.baseOffset();
+        return {left:cellOffset.left-baseOffset.left,
+                top:cellOffset.top-baseOffset.top};
     },
     centerPos:function(_pointArgs){
+        var centerOffset=
+            this.positionArea$.apply(this,arguments).
+            find(".centerPos").offset();
+        var baseOffset=this.baseOffset();
+        return {left:centerOffset.left-baseOffset.left,
+                top:centerOffset.top-baseOffset.top};
     },
 
-    render:function(msg){
+    render:function(){
         var self=this;
         var mazeJson=this.modelManager.maze$().toJSON();
         this.$el.addClass("board");
         this.$el.html(this.template(mazeJson));
+
+        this.pathCtrl.render();
 
         // set drawer width height
         return this;
@@ -94,8 +96,8 @@ gViews.BoardView=Backbone.View.extend({
     afterRender:function(){
         var width=this.$(".boardChild.listener").width();
         var height=this.$(".boardChild.listener").height();
-        this.$(".boardChild.drawer svg").width(width);
-        this.$(".boardChild.drawer svg").height(height);
+        this.$(".boardChild svg").width(width);
+        this.$(".boardChild svg").height(height);
 
         var self=this;
         // add cell
@@ -109,7 +111,8 @@ gViews.BoardView=Backbone.View.extend({
             temp.attr("data-i",i);
             temp.attr("data-j",j);
             unitContainer.append(temp);
-            temp.css(self.cellPos(i,j));
+            var cellPos=self.cellPos(i,j);
+            temp.css(cellPos);
         },self);
     },
 
@@ -119,12 +122,12 @@ gViews.BoardView=Backbone.View.extend({
             var i=$listener.attr("data-i");
             var j=$listener.attr("data-j");
             var area={i:i,j:j};
-            this.walkPath.click(area);
+            this.pathCtrl.mouseClick(area);
         }else if(e.button=2){
             var i=$listener.attr("data-i");
             var j=$listener.attr("data-j");
             var area={i:i,j:j};
-            this.walkPath.cancel(area);
+            this.pathCtrl.cancel(area);
         }
     },
 
@@ -134,7 +137,7 @@ gViews.BoardView=Backbone.View.extend({
         var i=$listener.attr("data-i");
         var j=$listener.attr("data-j");
         var area={i:i,j:j};
-        this.walkPath.over(area);
+        this.pathCtrl.mouseEnter(area);
         this.focusArea=area;
     },
 
@@ -146,12 +149,14 @@ gViews.BoardView=Backbone.View.extend({
     },
 
     mouseLeaveBoard:function(e){
-        this.walkPath.cancel(null);
+        this.pathCtrl.mouseLeaveBoard();
     },
 
     mouseMoveBoard:function(e){
-        var offsetPosX=e.pageX-this.$(".basePos").offset().left;
-        var offsetPosY=e.pageY-this.$(".basePos").offset().top;
+        var left=e.pageX-this.$(".basePos").offset().left;
+        var top=e.pageY-this.$(".basePos").offset().top;
+        var mousePos={left:left,top:top};
+        this.pathCtrl.mouseMove(mousePos);
         /*
         this.line$().attr("x2",e.pageX
                           -this.drawer$().offset().left);

@@ -105,7 +105,7 @@ module.exports=function(env){
                     return !(_.has(implClass.prototype,e));
                 });
             }else{
-                unImplFunc=_.filter(keys,function(k,v){
+                unImplFunc=_.filter(keys,function(v,k){
                     return !(_.has(implClass.prototype,k));
                 });
             }

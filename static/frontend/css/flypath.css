@@ -1,0 +1,5 @@
+.board svg line#flyPathLine{
+    background-color:transparent !important;
+    stroke:#000000;
+    stroke-width:2;
+}
