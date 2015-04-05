@@ -2,23 +2,21 @@ var gViews=gViews||{}
 gViews.IPath=new gUtil.Interface({
     render:"",
 
-    click:"",
-    over:"",
-    mouseMove:"",
-
+    start:"",
+    overArea:"",
+    overPos:"",
     cancel:"",
     
     show:"",
     hide:"",
+    setMove:"",
+    setAttack:"",
 
     getPath:"",
 });
 gViews.FlyPath=gUtil.Class.extend({
     display:true,
-    path:{
-        srcPos:{},
-        dstPos:{},
-    },
+    path:[],
     boardView:null,
     viewActionHandler:null,
     constructor:function(boardView){
@@ -32,7 +30,7 @@ gViews.FlyPath=gUtil.Class.extend({
     },
     start:function(area){
         // set start area
-        this.path.srcPos=area;
+        this.path[0]=area;
         // render
         var centerPos=this.boardView.centerPos(area);
         this.line$().attr("x1",centerPos.left);
@@ -41,7 +39,7 @@ gViews.FlyPath=gUtil.Class.extend({
         this.line$().attr("y2",centerPos.top);
     },
     overArea:function(area){
-        this.path.dstPos=area;
+        this.path[1]=area;
     },
     overPos:function(mousePos){
         this.line$().attr("x2",mousePos.left);
@@ -49,13 +47,21 @@ gViews.FlyPath=gUtil.Class.extend({
     },
     cancel:function(area){
         this.closeRender();
-        this.path={srcPos:{},dstPos:{}};
+        this.path=[];
     },
     show:function(area){
         this.$el.show();
     },
     hide:function(area){
         this.$el.hide();
+    },
+    setAttack:function(area){
+        this.$el.removeClass("moveState");
+        this.$el.addClass("attackState");
+    },
+    setMove:function(area){
+        this.$el.removeClass("attackState");
+        this.$el.addClass("moveState");
     },
     getPath:function(){
         return this.path;
@@ -119,6 +125,14 @@ gViews.WalkPath=Backbone.View.extend({
     hide:function(){
         this.display=false;
         this.$el.hide();
+    },
+    setMove:function(){
+        this.$el.removeClass("attackState");
+        this.$el.addClass("moveState");
+    },
+    setAttack:function(){
+        this.$el.removeClass("moveState");
+        this.$el.addClass("attackState");
     },
     getPath:function(){
         return this.path;

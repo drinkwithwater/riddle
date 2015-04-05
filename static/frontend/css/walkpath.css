@@ -11,29 +11,37 @@
     height: 29px;
     background-color:transparent!important;
 }
-.walkPathArea .leftPath{
-    width: 29px;
-    height: 2px;
+.walkPathArea .leftPath,.walkPathArea .rightPath{
+    width: 27px;
+    height: 0px;
+    border:1px;
+    border-style:solid;
 }
-.walkPathArea .rightPath{
-    width: 29px;
-    height: 2px;
-}
-.walkPathArea .topPath{
-    width: 2px;
-    height: 29px;
-}
-.walkPathArea .bottomPath{
-    width: 2px;
-    height: 29px;
+.walkPathArea .topPath,.walkPathArea .bottomPath{
+    width: 0px;
+    height: 27px;
+    border:1px;
+    border-style:solid;
 }
 .walkPathArea .centerPath{
-    width: 2px;
-    height: 2px;
+    width: 0px;
+    height: 0px;
+    border:1px;
+    border-style:solid;
 }
 .walkPathArea .walkPathLine{
-    background:transparent;
+    border-style:solid;
+    border-color:transparent;
+    background-color:transparent !important;
+}
+.walkPath.attackState .walkPathLine.choosePath{
+    border-style:dashed;
+    border-color:#00ff00;
+}
+.walkPath.moveState .walkPathLine.choosePath{
+    border-style:solid;
+    border-color:#00ff00;
 }
 .walkPathArea .walkPathLine.choosePath{
-    background:#CC0000;
+    border-style:solid;
 }

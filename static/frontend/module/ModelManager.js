@@ -16,19 +16,23 @@ gUI.ModelManager=gUtil.Class.extend({
             this.viewManager=gameTop.getModule("viewModule");
         }
 
-        
-        this.startByScriptName("default");
+        this.createFromScriptName("default");
     },
 
     start:function(gameTop){
     },
 
-    startByScriptName:function(scriptName){
+    createFromScriptName:function(scriptName){
         var aDict=gModels.createFromScriptName(scriptName);
         this.mazeModel=aDict.mazeModel;
         this.unitDict=aDict.unitDict;
         this.unitCollection=aDict.unitCollection;
         this.posToUnit=this.mazeModel.posToUnit;
+        var thisVar=this;
+        _.each(this.unitCollection.models,function(unitModel){
+            unitModel.modelManager=thisVar;
+        });
+        this.mazeModel.modelManager=thisVar;
     },
 
 

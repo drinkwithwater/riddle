@@ -7,11 +7,14 @@ gViews.BoardView=Backbone.View.extend({
         "mouseleave div.listener":"mouseLeaveBoard",
         "mousemove div.listener":"mouseMoveBoard"
     },
+    modelManager:null,
+    viewManager:null,
     viewActionHandler:null,
     pathCtrl:null,
     constructor:function(aDict){
   	    gViews.BoardView.__super__.constructor.call(this,aDict);
         this.modelManager=aDict.modelManager;
+        this.viewManager=aDict.viewManager;
         this.viewActionHandler=aDict.viewActionHandler;
         //this should init after handler setted;
         this.pathCtrl=new gViews.PathCtrl(this);
@@ -39,10 +42,13 @@ gViews.BoardView=Backbone.View.extend({
         if(arguments.length==0){
             return container;
         }else{
+            console.warn("bulletContainer$ not implement for other arguments");
+            return container;
+            /*
             var pos=gPoint.wrapArgs(arguments);
             var s="[data-i="+pos.i+"]"+
                   "[data-j="+pos.j+"]";
-            return container.find(s);
+            return container.find(s);*/
         }
     },
     unitContainer$:function(){
@@ -55,12 +61,6 @@ gViews.BoardView=Backbone.View.extend({
                   "[data-j="+pos.j+"]"+".unit";
             return container.find(s);
         }
-    },
-    line$:function(_pointArgs){
-        return this.$("#pathingline");
-    },
-    drawer$:function(_pointArgs){
-        return this.$(".boardChild.drawer svg");
     },
     baseOffset:function(){
         return this.$(".basePos").offset();
@@ -90,10 +90,10 @@ gViews.BoardView=Backbone.View.extend({
 
         this.pathCtrl.render();
 
-        // set drawer width height
         return this;
     },
     afterRender:function(){
+        // set svg width & height
         var width=this.$(".boardChild.listener").width();
         var height=this.$(".boardChild.listener").height();
         this.$(".boardChild svg").width(width);
@@ -106,14 +106,14 @@ gViews.BoardView=Backbone.View.extend({
         _.each(this.modelManager.unit$(),function(unit){
             var i=unit.get("i");
             var j=unit.get("j");
-            var temp=new gViews.UnitView({model:unit}).render().$el;
-            temp.css("position","absolute");
+            var temp=self.viewManager.createUnitView({model:unit,boardView:self}).render().$el;
             temp.attr("data-i",i);
             temp.attr("data-j",j);
             unitContainer.append(temp);
             var cellPos=self.cellPos(i,j);
             temp.css(cellPos);
         },self);
+        return this;
     },
 
     mouseDownArea:function(e){

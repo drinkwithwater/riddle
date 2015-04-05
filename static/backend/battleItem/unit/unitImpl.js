@@ -1,10 +1,17 @@
 var gBattle=gBattle||{}
-gBattle.unitClassDict=[]
-gBattle.unitClassDict[0]=null;
-gBattle.unitClassDict[1]=gBattle.SimpleUnit;
-gBattle.unitClassDict[2]=gBattle.SimpleUnit;
-gBattle.unitClassDict[3]=gBattle.SimpleUnit;
-gBattle.unitClassDict[4]=gBattle.SimpleUnit;
-gBattle.unitClassDict[5]=gBattle.SimpleUnit;
-gBattle.unitClassDict[6]=gBattle.SimpleUnit;
-gBattle.unitClassDict[7]=gBattle.SimpleUnit;
+gBattle.unitClassDict={}
+gBattle.unitImpl=function(props,staticProps){
+    var aUnitClass=gBattle.BaseUnit.extend(props,staticProps);
+    if(props.typeName){
+        gBattle.unitClassDict[props.typeName]=aUnitClass;
+    }else{
+        console.warn("unit class defined without typeName");
+    }
+    return aUnitClass;
+}
+gBattle.FlierUnit=gBattle.unitImpl({
+    typeName:"flier"
+});
+gBattle.WalkerUnit=gBattle.unitImpl({
+    typeName:"walker"
+});

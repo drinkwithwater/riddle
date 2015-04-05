@@ -4,14 +4,17 @@ module.exports=function(env){
     var gFactory=env.gFactory=env.gFactory||{}
     gBattle.UnitFactory = {
         createUnit: function(i,j,code) {
-            var type = code % 0x100;
-	        if(type<=0) return null;
-            var newUnit = new gBattle.unitClassDict[type]();
-	        newUnit.i=i;
-	        newUnit.j=j;
-	        newUnit.hp=100;
-	        newUnit.unitId=gScript.createCommonId(i,j);
-            return newUnit;
+            var typeKey = code % 0x100;
+	        if(typeKey<=0) return null;
+            else{
+                var typeName=gScript.unitTypeNameDict[typeKey];
+                var newUnit = new gBattle.unitClassDict[typeName]();
+	            newUnit.i=i;
+	            newUnit.j=j;
+	            newUnit.hp=100;
+	            newUnit.unitId=gScript.createCommonId(i,j);
+                return newUnit;
+            }
         }
     };
     gBattle.MazeFactory = {

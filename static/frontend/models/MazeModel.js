@@ -5,6 +5,7 @@ gModels.MazeModel=Backbone.Model.extend({
         jLength:10
     },
     posToUnit:null,
+    modelManager:null,
     constructor:function(aDict){
         gModels.MazeModel.__super__.constructor.call(this,{
             iLength:aDict.iLength,

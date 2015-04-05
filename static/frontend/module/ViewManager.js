@@ -2,12 +2,14 @@ var gUI=gUI||{};
 var gTemplates=gTemplates||{};
 var htmlView;
 gUI.ViewManager=gUtil.Class.extend({
-    boardView:null,
-    menuView:null,
     viewActionHandler:null,
     modelManager:null,
 
     moveSpeed:10,//1 cell 1 second
+    
+    boardView:null,
+    menuView:null,
+    unitViews:{},
 
     name:"viewModule",
     init:function(gameTop){
@@ -43,6 +45,7 @@ gUI.ViewManager=gUtil.Class.extend({
         var thisVar=this;
         var modelManager=this.modelManager;
         thisVar.boardView=new gViews.BoardView({
+            viewManager:thisVar,
             modelManager:modelManager,
             viewActionHandler:thisVar.viewActionHandler
         });
@@ -52,12 +55,23 @@ gUI.ViewManager=gUtil.Class.extend({
         $("#main").html(thisVar.boardView.render().el);
         thisVar.boardView.afterRender();
     },
+    createUnitView:function(aDict){
+        var unitView=new gViews.UnitView(aDict);
+        this.unitViews[unitView.cid]=unitView;
+        return unitView;
+    },
     animatePosMove:function(srcPos,dstPos,callback){
+        console.log(32131);
         this.boardView.unitContainer$(srcPos).animate(
             this.boardView.cellPos(dstPos),
             gPoint.euDistance(srcPos,dstPos)/this.moveSpeed*1000,
             "linear",
             callback);
+    },
+    animateBulletMove:function(srcPos,dstPos,callback){
+        //TODO needed implement with independent class
+        var bullet=this.boardView.bulletContainer$().find("h");
+        bullet.css(this.boardView.centerPos(dstPos));
     },
 
 
@@ -80,5 +94,8 @@ gUI.ViewManager=gUtil.Class.extend({
         loadTemplate(0);
     },
     destroy:function(){
+        this.boardView=null;
+        this.menuView=null;
+        this.unitViews={};
     }
 });

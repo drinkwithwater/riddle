@@ -52,7 +52,7 @@ gUI.FrontendModule=gUtil.Class.extend({
         if(typeof(scriptName)=="string"){
             this.modelManager.destroy();
             this.viewManager.destroy();
-            this.modelManager.startByScriptName(scriptName);
+            this.modelManager.createFromScriptName(scriptName);
             this.viewManager.reRender();
         }else{
             //TODO
@@ -67,8 +67,4 @@ gUI.FrontendModule=gUtil.Class.extend({
             thisVar.modelManager.onBattleEvent(showEvent);
         });
     },
-
-
-    
-
 });

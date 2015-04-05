@@ -1,11 +1,12 @@
 var gModels=gModels||{}
 gModels.UnitFactory={
     createUnit:function(i,j,code){
-        var type=code % 0x100;
-        if(type<=0) return null;
+        var typeKey=code % 0x100;
+        if(typeKey<=0) return null;
         else {
             var unitId=gScript.createCommonId(i,j);
-            return new gModels.UnitModel({
+            var typeName=gScript.unitTypeNameDict[typeKey];
+            return new gModels.unitModelDict[typeName]({
                 i:i,
                 j:j,
                 unitId:unitId

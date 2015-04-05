@@ -5,21 +5,3 @@
     border-style: solid;
     border-color: #00f000;
 }
-
-/*css for pathing*/
-
-.path {
-    background-color: #00f000 ;
-}
-.pathLeft {
-    border-left-color: #00f000 !important;
-}
-.pathRight{
-    border-right-color: #00f000 !important;
-}
-.pathTop {
-    border-top-color: #00f000 !important;
-}
-.pathBottom{
-    border-bottom-color: #00f000 !important;
-}

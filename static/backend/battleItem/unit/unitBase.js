@@ -1,6 +1,7 @@
 module.exports=function(env){
     //{{{
     var gBattle=env.gBattle=env.gBattle||{}
+    /*
     gBattle.BaseUnit=gUtil.Class.extend({
         i:-1,
         j:-1,
@@ -19,7 +20,7 @@ module.exports=function(env){
 	    attack:function(context,path){},
 	    //return nothing
 	    onAttacked:function(context,srcUnit,damage){}
-    });
+    });*/
     gBattle.SimpleUnit=gUtil.Class.extend({
         i:-1,
         j:-1,
@@ -44,7 +45,8 @@ module.exports=function(env){
 	    },
 	    attack:function(context,path){
 	    }
-    })
+    });
+    gBattle.BaseUnit=gBattle.SimpleUnit;
     //}}}
 };
 
