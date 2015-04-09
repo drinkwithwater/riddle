@@ -96,8 +96,10 @@ gViews.BoardView=Backbone.View.extend({
         // set svg width & height
         var width=this.$(".boardChild.listener").width();
         var height=this.$(".boardChild.listener").height();
+
         this.$(".boardChild svg").width(width);
         this.$(".boardChild svg").height(height);
+
 
         var self=this;
         // add cell
