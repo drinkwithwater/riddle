@@ -1,11 +1,17 @@
 var gUI=gUI||{};
 var gTemplates=gTemplates||{};
 var htmlView;
+gUI.IModelCallView=new gUtil.Interface({
+    reRender:"",
+    animatePosMove:"",
+    animateBulletMove:""
+});
 gUI.ViewManager=gUtil.Class.extend({
     viewActionHandler:null,
     modelManager:null,
 
     moveSpeed:10,//1 cell 1 second
+    bulletSpeed:20,
     
     boardView:null,
     menuView:null,
@@ -61,17 +67,25 @@ gUI.ViewManager=gUtil.Class.extend({
         return unitView;
     },
     animatePosMove:function(srcPos,dstPos,callback){
-        console.log(32131);
         this.boardView.unitContainer$(srcPos).animate(
             this.boardView.cellPos(dstPos),
             gPoint.euDistance(srcPos,dstPos)/this.moveSpeed*1000,
             "linear",
-            callback);
+            callback
+        );
     },
     animateBulletMove:function(srcPos,dstPos,callback){
         //TODO needed implement with independent class
         var bullet=this.boardView.bulletContainer$().find("h");
-        bullet.css(this.boardView.centerPos(dstPos));
+        var temp=this.boardView.centerPos(srcPos);
+        temp.position="absolute";
+        bullet.css(temp);
+        bullet.animate(
+            this.boardView.cellPos(dstPos),
+            gPoint.euDistance(srcPos,dstPos)/this.moveSpeed*1000,
+            "linear",
+            callback
+        );
     },
 
 

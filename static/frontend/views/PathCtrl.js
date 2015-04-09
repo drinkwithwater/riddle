@@ -32,10 +32,15 @@ gViews.PathCtrl=gUtil.Class.extend({
     mouseClick:function(area){
         if(this.state==this.STATE_EMPTY){
             this.srcUnit=this.modelManager.unit$(area);
-            this.pathingTypeRefresh(area);
-            this.walkPath.start(area);
-            this.flyPath.start(area)
-            this.state=this.STATE_PATHING;
+            if(this.srcUnit){
+                this.pathingTypeRefresh(area);
+                this.walkPath.start(area);
+                this.flyPath.start(area)
+                this.state=this.STATE_PATHING;
+            }else{
+                // no unit in area
+                return ;
+            }
         }else if(this.state==this.STATE_PATHING){
             if(this.pathingType==gUI.PATHING_TYPE_FLY_MOVE||
                this.pathingType==gUI.PATHING_TYPE_SHOOT_ATTACK){

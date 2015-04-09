@@ -14,15 +14,22 @@ module.exports=function(env){
             return false;
         }
     });
-    gEvent.typeToClassName={
-        "pos_move":"PosMoveEvent",
+    gEvent.eventClassDict={}
+    gEvent.eventImpl=function(props,staticProps){
+        var aEventClass=gEvent.BaseEvent.extend(props,staticProps);
+        if(props.type){
+            gModels.unitModelDict[props.type]=aEventClass;
+        }else{
+            console.warn("a event class define without type");
+        }
+        return aEventClass;
     }
     gEvent.createFromMessageItem=function(item){
         //TODO type error deal
-        var EventClass=gEvent[typeToClassName[json.type]];
+        var EventClass=gEvent.eventClassDict[json.type];
         return new EventClass(item);
-    }
-    gEvent.PosMoveEvent=gEvent.BaseEvent.extend({
+    };
+    gEvent.PosMoveEvent=gEvent.eventImpl({
         type:"pos_move",
         srcPos:{
             i:null,

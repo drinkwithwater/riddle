@@ -1,4 +1,8 @@
 var gUI=gUI||{};
+gUI.IViewCallModel=new gUtil.Interface({
+    unit$:"",
+    maze$:""
+});
 gUI.ModelManager=gUtil.Class.extend({
 
     name:"modelModule",
