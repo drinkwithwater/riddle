@@ -14,7 +14,7 @@ gViews.IPath=new gUtil.Interface({
 
     getPath:"",
 });
-gViews.FlyPath=gUtil.Class.extend({
+gViews.FlyPath=Backbone.View.extend({
     display:true,
     path:[],
     boardView:null,
@@ -45,7 +45,7 @@ gViews.FlyPath=gUtil.Class.extend({
         this.line$().attr("x2",mousePos.left);
         this.line$().attr("y2",mousePos.top);
     },
-    cancel:function(area){
+    cancel:function(){
         this.closeRender();
         this.path=[];
     },
@@ -114,7 +114,7 @@ gViews.WalkPath=Backbone.View.extend({
     },
     overPos:function(mousePos){
     },
-    cancel:function(area){
+    cancel:function(){
         this.closeRender(this.path);
         this.path=[];
     },

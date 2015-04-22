@@ -15,3 +15,6 @@ gBattle.FlierUnit=gBattle.unitImpl({
 gBattle.WalkerUnit=gBattle.unitImpl({
     typeName:"walker"
 });
+gBattle.TriggerUnit=gBattle.unitImpl({
+    typeName:"trigger"
+});

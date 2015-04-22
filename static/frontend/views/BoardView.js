@@ -2,6 +2,7 @@ var gViews=gViews||{}
 gViews.BoardView=Backbone.View.extend({
     events:{
         "mousedown .listenerArea":"mouseDownArea",
+        "mouseup .listenerArea":"mouseUpArea",
         "mouseenter .listenerArea":"mouseEnterArea",
         "mouseleave .listenerArea":"mouseLeaveArea",
         "mouseleave div.listener":"mouseLeaveBoard",
@@ -10,20 +11,20 @@ gViews.BoardView=Backbone.View.extend({
     modelManager:null,
     viewManager:null,
     viewActionHandler:null,
-    pathCtrl:null,
+    userInputCtrl:null,
     constructor:function(aDict){
   	    gViews.BoardView.__super__.constructor.call(this,aDict);
         this.modelManager=aDict.modelManager;
         this.viewManager=aDict.viewManager;
         this.viewActionHandler=aDict.viewActionHandler;
         //this should init after handler setted;
-        this.pathCtrl=new gViews.PathCtrl(this);
+        this.userInputCtrl=new gViews.UserInputCtrl(this);
     },
     initialize:function(){
         this.template=_.template(gTemplates.board);
     },
 
-    //TODO {{
+    // from board template layout {{
     listenerArea$:function(_pointArgs){
         var pos=gPoint.wrapArgs(arguments);
         return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .listenerArea");
@@ -36,7 +37,6 @@ gViews.BoardView=Backbone.View.extend({
         var pos=gPoint.wrapArgs(arguments);
         return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .positionArea");
     },
-    //}}
     bulletContainer$:function(){
         var container=this.$(".bulletContainer")
         if(arguments.length==0){
@@ -81,6 +81,11 @@ gViews.BoardView=Backbone.View.extend({
         return {left:centerOffset.left-baseOffset.left,
                 top:centerOffset.top-baseOffset.top};
     },
+    //}}
+    floor$:function(){
+        var pos=gPoint.wrapArgs(arguments);
+        return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .positionArea");
+    },
 
     render:function(){
         var self=this;
@@ -88,7 +93,7 @@ gViews.BoardView=Backbone.View.extend({
         this.$el.addClass("board");
         this.$el.html(this.template(mazeJson));
 
-        this.pathCtrl.render();
+        this.userInputCtrl.render();
 
         return this;
     },
@@ -124,23 +129,37 @@ gViews.BoardView=Backbone.View.extend({
             var i=$listener.attr("data-i");
             var j=$listener.attr("data-j");
             var area={i:i,j:j};
-            this.pathCtrl.mouseClick(area);
+            this.userInputCtrl.mouseDown(area);
         }else if(e.button=2){
+            // TODO right click down
             var i=$listener.attr("data-i");
             var j=$listener.attr("data-j");
             var area={i:i,j:j};
-            this.pathCtrl.cancel(area);
+            this.userInputCtrl.cancel(area);
+        }
+    },
+    mouseUpArea:function(e){
+        var $listener=this.$(e.target).closest(".listenerArea");
+        if(e.button==0){
+            var i=$listener.attr("data-i");
+            var j=$listener.attr("data-j");
+            var area={i:i,j:j};
+            this.userInputCtrl.mouseUp(area);
+        }else if(e.button=2){
+            // TODO right click up
+            var i=$listener.attr("data-i");
+            var j=$listener.attr("data-j");
+            var area={i:i,j:j};
+            this.userInputCtrl.cancel(area);
         }
     },
 
-    focusArea:null,
     mouseEnterArea:function(e){
         var $listener=this.$(e.target).closest(".listenerArea");
         var i=$listener.attr("data-i");
         var j=$listener.attr("data-j");
         var area={i:i,j:j};
-        this.pathCtrl.mouseEnter(area);
-        this.focusArea=area;
+        this.userInputCtrl.mouseEnter(area);
     },
 
     mouseLeaveArea:function(e){
@@ -151,14 +170,14 @@ gViews.BoardView=Backbone.View.extend({
     },
 
     mouseLeaveBoard:function(e){
-        this.pathCtrl.mouseLeaveBoard();
+        this.userInputCtrl.mouseLeaveBoard();
     },
 
     mouseMoveBoard:function(e){
         var left=e.pageX-this.$(".basePos").offset().left;
         var top=e.pageY-this.$(".basePos").offset().top;
         var mousePos={left:left,top:top};
-        this.pathCtrl.mouseMove(mousePos);
+        this.userInputCtrl.mouseMove(mousePos);
         /*
         this.line$().attr("x2",e.pageX
                           -this.drawer$().offset().left);

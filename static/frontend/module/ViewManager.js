@@ -77,11 +77,22 @@ gUI.ViewManager=gUtil.Class.extend({
     animateBulletMove:function(srcPos,dstPos,callback){
         //TODO needed implement with independent class
         var bullet=this.boardView.bulletContainer$().find("#bullet");
-        var temp=this.boardView.centerPos(srcPos);
-        temp.position="absolute";
-        bullet.css(temp);
+        var width=bullet.width();
+        var height=bullet.height();
+        
+        //  bullet pos is setted as centerpos-bulletsize/2
+        var srcCss=this.boardView.centerPos(srcPos);
+        srcCss.position="absolute";
+        srcCss.left-=bullet.width()/2;
+        srcCss.top-=bullet.height()/2;
+        
+        var dstCss=this.boardView.centerPos(dstPos);
+        dstCss.left-=bullet.width()/2;
+        dstCss.top-=bullet.height()/2;
+        
+        bullet.css(srcCss);
         bullet.animate(
-            this.boardView.cellPos(dstPos),
+            dstCss,
             gPoint.euDistance(srcPos,dstPos)/this.moveSpeed*1000,
             "linear",
             callback

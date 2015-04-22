@@ -17,10 +17,13 @@ gModels.UnitModel=Backbone.Model.extend({
             return gUI.PATHING_TYPE_WALK_MOVE;
         }
     },
-    attackArea:function(){
+    canOper:function(){
+        return false;
+    },
+    attackRange:function(){
         return [];
     },
-    moveArea:function(){
+    moveRange:function(){
         return [];
     }
 });

@@ -1,3 +1,6 @@
+.hide{
+    display:none;
+}
 .board{
     position:relative;
 }
@@ -56,17 +59,20 @@
 }
 
 .listenerArea{
+    width: 58px;
+    height: 58px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #0000CC;
+    background: transparent;
+}
+.listenerArea:hover{
     width: 56px;
     height: 56px;
     border-width: 2px;
     border-style: solid;
-    border-color: transparent;
-    background: transparent;
-}
-.listenerArea:hover{
-    border-width: 2px;
-    border-style: solid;
     border-color: #CC00CC;
+    background: transparent;
 }
 
 .positionArea{
@@ -75,7 +81,8 @@
 
 	border-width: 1px;
     border-style: solid;
-    border-color: #0000ff;
+    //border-color: #0000ff;
+    border-color: transparent;
     background:transparent;
 }
 
@@ -86,8 +93,8 @@
     margin:4px;
     border:0px;
     padding:24.5px;
-    //background:transparent;
-    background:#AAAA00 ;
+    background:transparent;
+    //background:#AAAA00 ;
 }
 .positionArea .centerPos{
     width: 1px;
@@ -96,7 +103,15 @@
     margin:0px;
     border:0px;
     padding:0px;
-    //background:transparent;
-    background:#ff00ff ;
+    background:transparent;
+    //background:#ff00ff ;
 }
 
+.floorArea {
+    width: 60px;
+    height: 60px;
+    background:transparent;
+}
+.floorArea.show{
+    background:#ffffff;
+}
