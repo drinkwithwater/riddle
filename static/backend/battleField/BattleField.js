@@ -144,7 +144,6 @@ module.exports=function(env){
 	        
 	    },
 	    /**
-	     *  @return 
 	     */
 	    operPathing:function(checkResult,unit,path){
 	        var eventArray=[];//as return result
@@ -160,7 +159,7 @@ module.exports=function(env){
 	    ////////////////////////////////////////
 
 	    unitMoveStep:function(context,unit,_pointArgs){
-	        console.log("unit move to("+unit.i+" "+unit.j+")")
+	        console.log("unit move to("+unit.i+" "+unit.j+")");
             var srcPos=gPoint.wrapPoint(unit);
             var dstPos=gPoint.wrapArgs(arguments,2);
             this.maze.moveUnit(srcPos,dstPos);
@@ -171,8 +170,28 @@ module.exports=function(env){
                 dstPos:dstPos
             }));
 	    },
-	    unitAttack:function(context,unit,skill,pos){
+	    unitAttack:function(context,unit,target){
+	        console.log("unit attack");
+            var unitPos=gPoint.wrapPoint(unit);
+            var targetPos=gPoint.wrapPoint(target);
+            context.push(new gEvent.UnitAttackEvent({
+                unitPos:unitPos,
+                targetPos:targetPos
+            }));
+            var damage=unit.outDamage(context,target);
+            target.inDamage(context,unit,damage);
 	    },
+        unitSetAttr:function(context,unit,attrKey,attrValue){
+            var unitPos=gPoint.wrapPoint(unit);
+            context.push(new gEvent.AttrSetEvent({
+                unitPos:unitPos,
+                attrSet:{
+                    attrKey:attrValue
+                }
+            }));
+        },
+
+        
 	    unitTrigger:function(context,activeUnit,triggerUnit,skill){
 	    },
 	    unitOnHarm:function(context,dosth){

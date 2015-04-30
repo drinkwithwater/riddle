@@ -18,7 +18,7 @@ module.exports=function(env){
     gEvent.eventImpl=function(props,staticProps){
         var aEventClass=gEvent.BaseEvent.extend(props,staticProps);
         if(props.type){
-            gModels.unitModelDict[props.type]=aEventClass;
+            gEvent.eventClassDict[props.type]=aEventClass;
         }else{
             console.warn("a event class define without type");
         }
@@ -39,5 +39,24 @@ module.exports=function(env){
             i:null,
             j:null
         },
+    });
+    gEvent.UnitAttackEvent=gEvent.eventImpl({
+        type:"unit_attack",
+        unitPos:{
+            i:null,
+            j:null
+        },
+        targetPos:{
+            i:null,
+            j:null
+        },
+    });
+    gEvent.AttrSetEvent=gEvent.eventImpl({
+        type:"attr_set",
+        unitPos:{
+            i:null,
+            j:null
+        },
+        attrSet:{}
     });
 };

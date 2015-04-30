@@ -33,18 +33,28 @@ module.exports=function(env){
 	        var dst=path[path.length-1];
 	        var dstCell=this.battleField.maze.getCell(dst);
 	        if(dstCell.hasUnit()){
-		        return this.attack;
+		        return this.operAttack;
 	        }else if(dstCell.isEmpty()){
-		        return this.move;
+		        return this.operMove;
 	        }
 	        return null;
 	    },
-	    move:function(context,path){
+	    operMove:function(context,path){
 	        var battleField=this.battleField;
 		    battleField.unitMoveStep(context,this,_.last(path));
 	    },
-	    attack:function(context,path){
-	    }
+	    operAttack:function(context,path){
+            var battleField=this.battleField;
+            var target=battleField.getMaze().getUnit(_.last(path));
+            battleField.unitAttack(context,this,target);
+	    },
+        outDamage:function(context,target){
+            return 10;
+        },
+        inDamage:function(context,source,damage){
+            this.hp-=damage;
+            this.battleField.unitSetAttr(context,this,"hp",10);
+        },
     });
     gBattle.BaseUnit=gBattle.SimpleUnit;
     //}}}

@@ -29,7 +29,7 @@ gBattle.Maze = gUtil.Class.extend({
     iLength:20,
     jLength:20,
     posToUnit:null,
-    valid:function(pointArgs){
+    valid:function(_pointArgs){
         var pos=gPoint.wrapArgs(arguments);
 	    var i=pos.i;
         var j=pos.j;
@@ -63,7 +63,7 @@ gBattle.Maze = gUtil.Class.extend({
     /**
      * @param {i:?,j:?} or (i,j)
      */
-    getCell:function(){
+    getCell:function(_pointArgs){
 	    var i=null,j=null;
 	    if(arguments.length==1){
 	        if(typeof(arguments[0])=="object"){
@@ -83,15 +83,13 @@ gBattle.Maze = gUtil.Class.extend({
 	        return null;
 	    }
     },
-    removeCell:function(_pointArgs){
-        var pos=gPoint.wrapArgs(arguments,2);
-        var content=this.posToUnit[pos.i][pos.j];
-        delete this.posToUnit[pos.i][pos.j];
-        return content;
-    },
-    addCell:function(content,_pointArgs){
-        var pos=gPoint.wrapArgs(arguments,2);
-        this.posToUnit[pos.i][pos.j]=content;
+    getUnit:function(_pointArgs){
+        var unitPos=gPoint.wrapArgs(arguments);
+        if(this.valid(unitPos)){
+            return this.posToUnit[unitPos.i][unitPos.j];
+        }else{
+            return null;
+        }
     },
     moveUnit:function(srcPos,dstPos){
         var unit=this.posToUnit[srcPos.i][srcPos.j];

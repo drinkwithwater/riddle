@@ -10,9 +10,13 @@ gTest.TestModule=gUtil.Class.extend({
     init:function(){
         var thisVar=this;
         this.battleField=gFactory.createBattle("default");
+        this.battleField.playerDict[0]={
+            playerId:0,
+            battleField:this.battleField,
+        }
         this.battleField.eventSender={
 	        sendEvents:function(eventArray){
-                console.log(JSON.stringify(eventArray));
+                console.log(eventArray);
 	            thisVar.refresh();
 	        },
             sendPlayerEvents:function(player,eventArray){
@@ -31,6 +35,7 @@ gTest.TestModule=gUtil.Class.extend({
             });
 	        //just for test:
 	        htmlView=thisVar.boardView;
+            testModule=thisVar;
 
             $("#main").html(thisVar.boardView.render().el);
 	        thisVar.refresh();
