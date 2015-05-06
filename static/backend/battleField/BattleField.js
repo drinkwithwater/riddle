@@ -8,7 +8,6 @@ module.exports=function(env){
 	    eventSender:null,
 
 	    playerDict:{},
-        playerIdCounter:1,
 
 	    maze:null,
 	    //id to unit
@@ -23,6 +22,7 @@ module.exports=function(env){
 		          6:"unit not existed",
 		          7:"destination valid"},
 
+        playerIdCounter:1,
 	    genPlayerId:function(){
             return this.playerIdCounter++;
 	    },

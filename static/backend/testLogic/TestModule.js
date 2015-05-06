@@ -9,7 +9,7 @@ gTest.TestModule=gUtil.Class.extend({
 
     init:function(){
         var thisVar=this;
-        this.battleField=gFactory.createBattle("default");
+        this.battleField=gFactory.createBattle("test1");
         this.battleField.playerDict[0]={
             playerId:0,
             battleField:this.battleField,
@@ -27,8 +27,12 @@ gTest.TestModule=gUtil.Class.extend({
         battleField=this.battleField;
 
         this.actionHandler=new gUI.SimpleActionHandler(this.battleField);
+        var maze=battleField.getMaze();
         this.loadTemplates(["board"],function(){
-            var board=thisVar.boardModel=new gModels.BoardModel();
+            var board=thisVar.boardModel=new gModels.BoardModel({
+                height:maze.iLength,
+                width:maze.jLength
+            });
             thisVar.boardView=new gViews.BoardView({
       	        model:board,
       	        actionHandler:thisVar.actionHandler
@@ -48,6 +52,7 @@ gTest.TestModule=gUtil.Class.extend({
 	    var add=function(key,value){
 	        inner+="<div>"+key+"="+value+"</div>";
 	    }
+	    add("type",unit.typeName);
 	    add("i",unit.i);
 	    add("j",unit.j);
 	    add("hp",unit.hp);
