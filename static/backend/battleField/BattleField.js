@@ -1,3 +1,4 @@
+var debugField=null;
 module.exports=function(env){
     ///{{{
     var gBattle=env.gBattle=env.gBattle||{}
@@ -10,8 +11,13 @@ module.exports=function(env){
 	    playerDict:{},
 
 	    maze:null,
-	    //id to unit
+	    //unitId to unit
 	    unitDict:{},
+        moveTriggerDict:{},
+        damageTriggerDict:{},
+        constructor:function(){
+            debugField=this;
+        },
 	    
 
 	    failDict:{1:"path is not array",
@@ -20,7 +26,8 @@ module.exports=function(env){
 		          4:"unit can't move",
 		          5:"path cell illegal",//example i,j out of range
 		          6:"unit not existed",
-		          7:"destination valid"},
+		          7:"destination valid",
+		          8:"unit just stay"},
 
         playerIdCounter:1,
 	    genPlayerId:function(){
@@ -169,8 +176,11 @@ module.exports=function(env){
                 srcPos:srcPos,
                 dstPos:dstPos
             }));
+            _.each(this.moveTriggerDict,function(unit){
+                unit.moveTrigger(dstPos);
+            });
 	    },
-	    unitAttack:function(context,unit,target){
+	    unitAttack:function(context,unit,target,damage){
 	        console.log("unit attack");
             var unitPos=gPoint.wrapPoint(unit);
             var targetPos=gPoint.wrapPoint(target);
@@ -178,8 +188,7 @@ module.exports=function(env){
                 unitPos:unitPos,
                 targetPos:targetPos
             }));
-            var damage=unit.outDamage(context,target);
-            target.inDamage(context,unit,damage);
+            target.onDamage(context,unit,damage);
 	    },
         unitSetAttr:function(context,unit,attrKey,attrValue){
             var unitPos=gPoint.wrapPoint(unit);

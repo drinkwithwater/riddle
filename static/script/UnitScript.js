@@ -6,5 +6,6 @@ module.exports=function(env){
     gScript.unitTypeNameDict[1]="flier"
     gScript.unitTypeNameDict[2]="walker";
     gScript.unitTypeNameDict[3]="trigger";
+    gScript.unitTypeNameDict[4]="berserker";
     ///}}}
 }

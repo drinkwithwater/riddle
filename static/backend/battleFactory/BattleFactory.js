@@ -11,7 +11,6 @@ module.exports=function(env){
                 var newUnit = new gBattle.unitClassDict[typeName]();
 	            newUnit.i=i;
 	            newUnit.j=j;
-	            newUnit.hp=100;
 	            newUnit.unitId=gScript.createCommonId(i,j);
                 return newUnit;
             }
@@ -51,8 +50,6 @@ module.exports=function(env){
             // create unitDict,gameMaze;
             var unitDict = {};
             var maze = null;
-            // counter
-            var counter = 0;
             for (var i = 0; i < iLength; i++) {
                 for (var j = 0; j < jLength; j++) {
                     var code = unitArray[i][j];
@@ -61,9 +58,8 @@ module.exports=function(env){
                     } else {
 	                    var unit=gFactory.createUnit(i,j,code);
 	                    if(unit){
-		                    unitDict[counter] = unit;
+		                    unitDict[unit.unitId] = unit;
 	                    }
-                        counter++;
                     }
                 }
             }
@@ -76,6 +72,14 @@ module.exports=function(env){
 	        _.each(unitDict,function(unit){
 	            unit.battleField=battleField;
 	        });
+            _.each(unitDict,function(unit,unitId){
+                if(typeof(unit.moveTrigger)=="function"){
+                    battleField.moveTriggerDict[unitId]=unit;
+                }
+                if(typeof(unit.damageTrigger)=="function"){
+                    battleField.damageTriggerDict[unitId]=unit;
+                }
+            });
 	        return battleField;
         }
     };

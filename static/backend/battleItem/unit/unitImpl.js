@@ -16,5 +16,18 @@ gBattle.WalkerUnit=gBattle.unitImpl({
     typeName:"walker"
 });
 gBattle.TriggerUnit=gBattle.unitImpl({
-    typeName:"trigger"
+    typeName:"trigger",
+    moveTrigger:function(){
+    },
+});
+gBattle.BerserkerUnit=gBattle.unitImpl({
+    maxHp:20,
+    hp:20,
+    typeName:"berserker",
+    createDamage:function(){
+        var maxHp=this.maxHp;
+        var hp=this.hp;
+        var add=Math.floor(4*(maxHp-hp)/maxHp);
+        return 2+add;
+    },
 });

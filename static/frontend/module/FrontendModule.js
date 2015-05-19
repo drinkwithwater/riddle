@@ -1,6 +1,5 @@
 var gUI=gUI||{};
 var gTemplates=gTemplates||{};
-var htmlView;// this is used for debug
 gUI.FrontendModule=gUtil.Class.extend({
     clientModule:null,
     modelManager:null,

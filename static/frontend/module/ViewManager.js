@@ -1,6 +1,6 @@
 var gUI=gUI||{};
 var gTemplates=gTemplates||{};
-var htmlView;
+var htmlView; // a global ver for debug
 gUI.IModelCallView=new gUtil.Interface({
     reRender:"",
     animatePosMove:"",

@@ -1,30 +1,10 @@
 module.exports=function(env){
     //{{{
     var gBattle=env.gBattle=env.gBattle||{}
-    /*
-    gBattle.BaseUnit=gUtil.Class.extend({
-        i:-1,
-        j:-1,
-        hp:100,
-	    ownerId:null,
-        unitId:null,
-	    battleField:null,
-	    
-	    //return pathing result
-	    pathingOper:function(cellPath){},
-	    //return nothing
-	    move:function(context,path){},
-	    //return true or false
-	    canAttack:function(cellPath){},
-	    //return damage
-	    attack:function(context,path){},
-	    //return nothing
-	    onAttacked:function(context,srcUnit,damage){}
-    });*/
     gBattle.SimpleUnit=gUtil.Class.extend({
         i:-1,
         j:-1,
-        hp:100,
+        hp:20,
 	    ownerId:null,
         unitId:null,
 	    battleField:null,
@@ -32,30 +12,47 @@ module.exports=function(env){
 	    pathingOper:function(path){
 	        var dst=path[path.length-1];
 	        var dstCell=this.battleField.maze.getCell(dst);
-	        if(dstCell.hasUnit()){
-		        return this.operFunction.operAttack;
+            // if the cell is itself
+            if(dst.i==this.i&&dst.j==this.j){
+                return null;
+            }
+            // TODO if the cell is it's partner
+            // attack or move
+            if(dstCell.hasUnit()){
+		        return this.operAttack;
 	        }else if(dstCell.isEmpty()){
-		        return this.operFunction.operMove;
+		        return this.operMove;
 	        }
 	        return null;
 	    },
-        operFunction:{
-	        operMove:function(context,path){
-	            var battleField=this.battleField;
-		        battleField.unitMoveStep(context,this,_.last(path));
-	        },
-	        operAttack:function(context,path){
-                var battleField=this.battleField;
-                var target=battleField.getMaze().getUnit(_.last(path));
-                battleField.unitAttack(context,this,target);
-	        },
+        /**
+         * user move operation
+         */
+        operMove:function(context,path){
+            var battleField=this.battleField;
+            battleField.unitMoveStep(context,this,_.last(path));
         },
-        outDamage:function(context,target){
-            return 10;
+        /**
+         * user attack operation
+         */
+        operAttack:function(context,path){
+            var battleField=this.battleField;
+            var target=battleField.getMaze().getUnit(_.last(path));
+            var damage=this.createDamage();
+            battleField.unitAttack(context,this,target,damage);
         },
-        inDamage:function(context,source,damage){
+        /**
+         * called by operAttack
+         */
+        createDamage:function(){
+            return 2;
+        },
+        /**
+         * unit on damage
+         */
+        onDamage:function(context,source,damage){
             this.hp-=damage;
-            this.battleField.unitSetAttr(context,this,"hp",10);
+            this.battleField.unitSetAttr(context,this,"hp",this.hp);
         },
     });
     gBattle.BaseUnit=gBattle.SimpleUnit;

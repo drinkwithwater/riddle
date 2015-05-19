@@ -15,4 +15,23 @@ interface check
 		unit model factory
 
 2. backend:
-	design
+	design:
+		normal unit:
+		type I:
+			1.the less hp the more damage
+			2.the less distance the more damage
+				1+(maxhp-hp)/maxhp
+			3.double first damage
+			4.long distance damage
+		type II:
+			1.many damage with few hp
+			2.many hp with few damage
+			3.other value
+		trigger unit:
+			1.triggered unit will move pos
+			2.trigger only attack once
+			3.
+
+
+
+

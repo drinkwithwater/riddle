@@ -1,5 +1,7 @@
 var gTest=gTest||{};
 var gTemplates=gTemplates||{};
+// global var
+htmlView=null;
 gTest.TestModule=gUtil.Class.extend({
     boardModel:null,
     boardView:null,
@@ -50,9 +52,13 @@ gTest.TestModule=gUtil.Class.extend({
     contentHTML:function(unit){
 	    var inner="";
 	    var add=function(key,value){
-	        inner+="<div>"+key+"="+value+"</div>";
+            if(key){
+	            inner+="<div>"+key+"="+value+"</div>";
+            }else{
+	            inner+="<div>"+value+"</div>";
+            }
 	    }
-	    add("type",unit.typeName);
+	    add(false,unit.typeName);
 	    add("i",unit.i);
 	    add("j",unit.j);
 	    add("hp",unit.hp);
