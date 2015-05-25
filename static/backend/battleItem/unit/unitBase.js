@@ -38,7 +38,7 @@ module.exports=function(env){
         operAttack:function(context,path){
             var battleField=this.battleField;
             var target=battleField.getMaze().getUnit(_.last(path));
-            var damage=this.createDamage();
+            var damage=this.createDamage(target);
             battleField.unitAttack(context,this,target,damage);
         },
         /**
@@ -53,6 +53,10 @@ module.exports=function(env){
         onDamage:function(context,source,damage){
             this.hp-=damage;
             this.battleField.unitSetAttr(context,this,"hp",this.hp);
+            //TODO check death
+            if(this.damageTrigger){
+                this.damageTrigger(context,source,damage);
+            }
         },
     });
     gBattle.BaseUnit=gBattle.SimpleUnit;

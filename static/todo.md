@@ -17,20 +17,23 @@ interface check
 2. backend:
 	design:
 		normal unit:
-		type I:
-			1.the less hp the more damage
-			2.the less distance the more damage
-				1+(maxhp-hp)/maxhp
-			3.double first damage
-			4.long distance damage
-		type II:
-			1.many damage with few hp
-			2.many hp with few damage
-			3.other value
+            type I:
+                1.berserker: the less hp the more damage
+                            2*hp<=maxHp?4:2;
+                2.hitter: the less distance the more damage
+                            distance<=1?3:1;
+                3.assassin: first attack make more damage 
+                            first?3:1;
+            type II:
+                 //It is a hard decision
+                 //because the author has no experience in numerical balancing.
+                1.high damage with low hp
+                2.high hp with low damage
+                3.other value
 		trigger unit:
 			1.triggered unit will move pos
 			2.trigger only attack once
-			3.
+			3.the less hp the more trigger damage
 
 
 

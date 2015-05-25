@@ -76,9 +76,6 @@ module.exports=function(env){
                 if(typeof(unit.moveTrigger)=="function"){
                     battleField.moveTriggerDict[unitId]=unit;
                 }
-                if(typeof(unit.damageTrigger)=="function"){
-                    battleField.damageTriggerDict[unitId]=unit;
-                }
             });
 	        return battleField;
         }

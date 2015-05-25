@@ -14,7 +14,6 @@ module.exports=function(env){
 	    //unitId to unit
 	    unitDict:{},
         moveTriggerDict:{},
-        damageTriggerDict:{},
         constructor:function(){
             debugField=this;
         },
@@ -176,8 +175,8 @@ module.exports=function(env){
                 srcPos:srcPos,
                 dstPos:dstPos
             }));
-            _.each(this.moveTriggerDict,function(unit){
-                unit.moveTrigger(dstPos);
+            _.each(this.moveTriggerDict,function(triggerUnit){
+                triggerUnit.moveTrigger(context,unit,dstPos);
             });
 	    },
 	    unitAttack:function(context,unit,target,damage){
