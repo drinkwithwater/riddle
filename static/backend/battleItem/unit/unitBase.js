@@ -60,6 +60,16 @@ module.exports=function(env){
         },
     });
     gBattle.BaseUnit=gBattle.SimpleUnit;
+    gBattle.unitClassDict={}
+    gBattle.unitImpl=function(props,staticProps){
+        var aUnitClass=gBattle.BaseUnit.extend(props,staticProps);
+        if(props.typeName){
+            gBattle.unitClassDict[props.typeName]=aUnitClass;
+        }else{
+            console.warn("unit class defined without typeName");
+        }
+        return aUnitClass;
+    }
     //}}}
 };
 
