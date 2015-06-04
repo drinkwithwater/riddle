@@ -106,7 +106,7 @@ module.exports=function(env){
 	        //maybe i shall check the 2 things in BattleController?
 	        if(!(path instanceof Array)){
 		        return {fail:1};
-	        }else if(path.length<=0){
+	        }else if(path.length<=1){
 		        return {fail:2};
 	        }
 	        var begin=path[0];
@@ -188,22 +188,46 @@ module.exports=function(env){
                 targetPos:targetPos
             }));
             target.onDamage(context,unit,damage);
+            if(target.attackTrigger){
+                target.attackTrigger(context,unit,damage);
+            }
 	    },
+        unitHarm:function(context,unit,target,damage){
+	        console.log("unit harm");
+            var unitPos=gPoint.wrapPoint(unit);
+            var targetPos=gPoint.wrapPoint(target);
+            context.push(new gEvent.UnitHarmEvent({
+                unitPos:unitPos,
+                targetPos:targetPos
+            }));
+            target.onDamage(context,unit,damage);
+        },
         unitSetAttr:function(context,unit,attrKey,attrValue){
             var unitPos=gPoint.wrapPoint(unit);
             context.push(new gEvent.AttrSetEvent({
                 unitPos:unitPos,
                 attrSet:{
-                    attrKey:attrValue
+                    attrKey:attrKey,
+                    attrValue:attrValue
                 }
             }));
         },
+        unitDie:function(context,unit){
+            var unitId=unit.unitId;
+            if(this.unitDict[unitId]){
+                delete this.unitDict[unitId];
+                var unitPos=gPoint.wrapPoint(unit);
+                this.maze.removeUnit(unitPos);
+                context.push(new gEvent.UnitDieEvent({
+                    unitPos:unitPos,
+                }));
+            }
+            if(this.moveTriggerDict[unitId]){
+                delete this.moveTriggerDict[unitId];
+            }
+        },
 
         
-	    unitTrigger:function(context,activeUnit,triggerUnit,skill){
-	    },
-	    unitOnHarm:function(context,dosth){
-	    },
 	    
 
 	    
@@ -214,7 +238,7 @@ module.exports=function(env){
 
 	    
 	    //TODO
-	    //for e.g. died, harmed
+	    //e.g. died, 
 	    unitTODO:function(){},
 	    
 	    getMaze:function(){

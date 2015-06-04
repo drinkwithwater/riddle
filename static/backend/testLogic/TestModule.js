@@ -53,16 +53,22 @@ gTest.TestModule=gUtil.Class.extend({
 	    var inner="";
 	    var add=function(key,value){
             if(key){
-	            inner+="<div>"+key+"="+value+"</div>";
+	            inner+="<div>"+key+":"+value+"</div>";
             }else{
 	            inner+="<div>"+value+"</div>";
             }
 	    }
-	    add(false,unit.typeName);
-	    add("i",unit.i);
-	    add("j",unit.j);
+        var addHide=function(key,value){
+            if(key){
+	            inner+="<div class=\"hidden\">"+key+":"+value+"</div>";
+            }else{
+	            inner+="<div class=\"hidden\">"+value+"</div>";
+            }
+        }
+	    add(unit.typeName,"<br/>"+unit.unitId);
+	    addHide("i",unit.i);
+	    addHide("j",unit.j);
 	    add("hp",unit.hp);
-	    add("unitId",unit.unitId);
 	    return inner;
     },
     refresh:function(){

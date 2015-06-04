@@ -5,6 +5,8 @@ module.exports=function(env){
         i:-1,
         j:-1,
         hp:20,
+        maxHp:20,
+        alive:true,
 	    ownerId:null,
         unitId:null,
 	    battleField:null,
@@ -53,9 +55,9 @@ module.exports=function(env){
         onDamage:function(context,source,damage){
             this.hp-=damage;
             this.battleField.unitSetAttr(context,this,"hp",this.hp);
-            //TODO check death
-            if(this.damageTrigger){
-                this.damageTrigger(context,source,damage);
+            if(this.hp<=0){
+                this.alive=false;
+                this.battleField.unitDie(context,this);
             }
         },
     });

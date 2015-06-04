@@ -51,6 +51,24 @@ module.exports=function(env){
             j:null
         },
     });
+    gEvent.UnitHarmEvent=gEvent.eventImpl({
+        type:"unit_harm",
+        unitPos:{
+            i:null,
+            j:null
+        },
+        targetPos:{
+            i:null,
+            j:null
+        },
+    });
+    gEvent.UnitDieEvent=gEvent.eventImpl({
+        type:"unit_die",
+        unitPos:{
+            i:null,
+            j:null
+        }
+    });
     gEvent.AttrSetEvent=gEvent.eventImpl({
         type:"attr_set",
         unitPos:{

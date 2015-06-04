@@ -3,7 +3,7 @@ module.exports=function(env){
     var gScript=env.gScript=env.gScript||{};
     // create common unit id for client and server
     gScript.createCommonId=function(i,j){
-        return String(1000*i+j);
+        return String(i+"_"+j);
     }
     gScript.battleScript={};
     gScript.battleScript["default"]={
@@ -28,15 +28,15 @@ module.exports=function(env){
         battleType:0,
         iLength:8,
         jLength:8,
-        unitArray:[[1,2,3,4, 5,0,0,1],
-                   [0,0,0,0, 0,0,0,1],
-                   [0,0,0,0, 0,0,0,1],
-                   [0,0,0,0, 0,0,0,1],
-
-                   [0,0,0,0, 0,0,0,1],
-                   [0,0,0,0, 0,0,0,1],
-                   [0,0,0,0, 0,0,0,1],
-                   [0,0,0,0, 0,0,0,1]]
+        unitArray:[[ 1, 2, 3, 4,  5, 0, 0, 1],
+                   [11, 0, 0, 0,  0, 0, 0, 1],
+                   [ 0, 0, 0, 0,  0, 0, 0, 1],
+                   [ 0, 0, 0, 0,  0, 0, 0, 1],
+                                           
+                   [ 0, 0, 0, 0,  0, 0, 0, 1],
+                   [ 0, 0, 0, 0,  0, 0, 0, 1],
+                   [ 0, 0, 0, 0,  0, 0, 0, 1],
+                   [ 0, 0, 0, 0,  0, 0, 0, 1]]
     };
     ///}}}
 }

@@ -95,5 +95,9 @@ gBattle.Maze = gUtil.Class.extend({
         var unit=this.posToUnit[srcPos.i][srcPos.j];
         delete this.posToUnit[srcPos.i][srcPos.j];
         this.posToUnit[dstPos.i][dstPos.j]=unit;
+    },
+    removeUnit:function(pos){
+        this.posToUnit[pos.i][pos.j]=null;
     }
+    
 })

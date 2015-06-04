@@ -1,3 +1,6 @@
+.hidden{
+    display:none;
+}
 .board table{
     border-collapse:collapse;
     border-style: solid;

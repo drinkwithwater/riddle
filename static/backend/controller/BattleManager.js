@@ -11,6 +11,7 @@ module.exports=function(env){
 	    }
     });
     gController.BattleManager=gUtil.Class.extend({
+        // _id to battleField
 	    battleSet:{},
 	    name:"battleModule",
 	    serverModule:null,
