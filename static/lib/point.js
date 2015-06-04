@@ -1,6 +1,16 @@
 //dependence:underscore
 module.exports=function(env){
     var gPoint=env.gPoint=env.gPoint||{};
+    gPoint.checkContinuous=function(path){
+        for(var i=0,length=path.length;i<length-1;i++){
+            var a=path[i];
+            var b=path[i+1];
+            if(gPoint.maDistance(a,b)!=1){
+                return false;
+            }
+        }
+        return true;
+    }
     gPoint.isPoint=function(obj){
         if(typeof(obj.i)!="number"){return false;}
         if(typeof(obj.j)!="number"){return false;}
@@ -8,7 +18,8 @@ module.exports=function(env){
     }
     gPoint.isPointArray=function(path){
         //TODO
-        console.log("TODO");
+        console.log("point array TODO");
+        return true;
     }
     gPoint.wrapPoint=function(){
         var point={}

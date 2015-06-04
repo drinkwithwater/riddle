@@ -13,8 +13,8 @@
 	border:0;
 }
 .board div.area{
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
 	border-width: 1px;
     border-style: solid;
     border-color: #0000ff;

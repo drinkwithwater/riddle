@@ -2,7 +2,7 @@ module.exports=function(env){
     //{{{
     var gBattle=env.gBattle=env.gBattle||{}
     gBattle._TriggerSample={
-        i:-1, j:-1, maxHp:20, hp:20, alive:true,
+        i:-1, j:-1, maxHp:10, hp:10, alive:true,
         ownerId:null, unitId:null, battleField:null,
         pathingOper:null,operMove:null, operAttack:null,
         createDamage:null, onDamage:null,
@@ -23,13 +23,45 @@ module.exports=function(env){
         createDamage:function(){
             return 1;
         },
-        moveTrigger:function(context,unit,dstPos){
-        },
-        attackTrigger:function(context,source,damage){
+        attackTrigger:function(context,attacker,damage){
+            if(attacker.unitId==this.unitId){
+                return ;
+            }
+            //TODO check if attacker is a partner
             //check death
             if(this.alive){
                 var reDamage=this.createDamage();
-                this.battleField.unitHarm(context,this,source,reDamage);
+                this.battleField.unitHarm(context,this,attacker,reDamage);
+            }
+        }
+    });
+    gBattle.ObserverUnit=gBattle.unitImpl({
+        typeName:"observer",
+        createDamage:function(){
+            return 2;
+        },
+        moveTrigger:function(context,mover,dstPos){
+            if(mover.unitId==this.unitId){
+                return ;
+            }
+            //TODO check if mover is a partner
+            //check death
+            if(this.alive){
+                if(gPoint.maDistance(this,dstPos)<=1){
+                    var reDamage=this.createDamage();
+                    this.battleField.unitHarm(context,this,mover,reDamage);
+                }
+            }
+        },
+        attackTrigger:function(context,attacker,damage){
+            if(attacker.unitId==this.unitId){
+                return ;
+            }
+            //TODO check if attacker is a partner
+            //check death
+            if(this.alive){
+                var reDamage=this.createDamage();
+                this.battleField.unitHarm(context,this,attacker,reDamage);
             }
         }
     });

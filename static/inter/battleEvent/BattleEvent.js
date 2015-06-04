@@ -2,6 +2,7 @@ module.exports=function(env){
     var gEvent=env.gEvent=env.gEvent||{};
     gEvent.BaseEvent=gUtil.Class.extend({
         constructor:function(aDict){
+            this.type=this.type;
             var self=this;
             _.each(aDict,function(v,k){
                 self[k]=v;
@@ -26,7 +27,7 @@ module.exports=function(env){
     }
     gEvent.createFromMessageItem=function(item){
         //TODO type error deal
-        var EventClass=gEvent.eventClassDict[json.type];
+        var EventClass=gEvent.eventClassDict[item.type];
         return new EventClass(item);
     };
     gEvent.PosMoveEvent=gEvent.eventImpl({

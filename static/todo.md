@@ -1,10 +1,11 @@
+next:
+add the extend relation between units type
+
+
 floor use view or ctrl?
 
-
-classDict change numberkey to stringkey to keep consistent between frontend and backend
 event detail
 message detail
-interface check
 
 1. frontend:
 	unit model detail
@@ -31,9 +32,15 @@ interface check
                 2.high hp with low damage
                 3.other value
 		trigger unit:
-			1.triggered unit will move pos
-			2.trigger only attack once
-			3.the less hp the more trigger damage
+            type I:
+                1.observer: attack the unit moved into range 1.
+                           attack 2;
+                2.wall: attack trigger
+                           hp=200, attack=1;
+            type II: 
+                1.triggered unit will move pos
+                2.trigger only attack once
+                3.the less hp the more trigger damage
 
 
 

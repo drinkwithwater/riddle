@@ -60,10 +60,10 @@ module.exports=function(env){
         var BaseMessage=this;
         var msg=function(){
             var thisVar=this;
-            _.each(protoProps,function(v,k){
+            _.each(new BaseMessage(),function(v,k){
                 thisVar[k]=v;
             });
-            _.each(new BaseMessage(),function(v,k){
+            _.each(protoProps,function(v,k){
                 thisVar[k]=v;
             });
             if(_.has(protoProps,"constructor")){

@@ -44,7 +44,7 @@ gUI.ViewManager=gUtil.Class.extend({
 
             //TODO start a inst
             //if do this ,clean up some code above.
-            thisVar.viewActionHandler.viewStart("test1");
+            thisVar.viewActionHandler.viewStart("default");
         });
     },
     reRender:function(){

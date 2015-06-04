@@ -4,8 +4,8 @@ module.exports=function(env){
     gBattle.SimpleUnit=gUtil.Class.extend({
         i:-1,
         j:-1,
-        hp:20,
-        maxHp:20,
+        hp:10,
+        maxHp:10,
         alive:true,
 	    ownerId:null,
         unitId:null,
@@ -15,7 +15,7 @@ module.exports=function(env){
 	        var dst=path[path.length-1];
 	        var dstCell=this.battleField.maze.getCell(dst);
             // if the cell is itself
-            if(dst.i==this.i&&dst.j==this.j){
+            if(dst.unitId==this.unitId){
                 return null;
             }
             // TODO if the cell is it's partner
@@ -65,6 +65,15 @@ module.exports=function(env){
     gBattle.unitClassDict={}
     gBattle.unitImpl=function(props,staticProps){
         var aUnitClass=gBattle.BaseUnit.extend(props,staticProps);
+        if(props.typeName){
+            gBattle.unitClassDict[props.typeName]=aUnitClass;
+        }else{
+            console.warn("unit class defined without typeName");
+        }
+        return aUnitClass;
+    }
+    gBattle.unitExtend=function(baseClass,prop,staticProps){
+        var aUnitClass=baseClass.extend(props,staticProps);
         if(props.typeName){
             gBattle.unitClassDict[props.typeName]=aUnitClass;
         }else{
