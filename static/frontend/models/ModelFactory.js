@@ -6,9 +6,13 @@ gModels.UnitFactory={
         else {
             var unitId=gScript.createCommonId(i,j);
             var typeName=gScript.unitTypeNameDict[typeKey];
+            var hpap=gScript.unitNumericalDict[typeName];
             return new gModels.unitModelDict[typeName]({
                 i:i,
                 j:j,
+                hp:hpap.hp,
+                ap:hpap.ap,
+                group:hpap.group,
                 unitId:unitId
             });
         }

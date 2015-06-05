@@ -1,19 +1,16 @@
 module.exports=function(env){
     //{{{
     var gBattle=env.gBattle=env.gBattle||{}
-    gBattle.GROUP_MIDDLE=1;
-    gBattle.GROUP_ATTACKER=2;
-    gBattle.GROUP_DEFENSER=3;
     gBattle.SimpleUnit=gUtil.Class.extend({
         i:-1,
         j:-1,
-        hp:10,
-        maxHp:10,
+        hp:10, // the unitImpl will not extend this attr
+        maxHp:10, // the attr is setting in NumericalScript.js
         alive:true,
 	    ownerId:null,
         unitId:null,
 	    battleField:null,
-        group:gBattle.GROUP_MIDDLE,
+        group:gScript.GROUP_MIDDLE,
 	    
 	    pathingOper:function(path){
 	        var dst=path[path.length-1];
@@ -68,19 +65,35 @@ module.exports=function(env){
     gBattle.BaseUnit=gBattle.SimpleUnit;
     gBattle.unitClassDict={}
     gBattle.unitImpl=function(props,staticProps){
-        var aUnitClass=gBattle.BaseUnit.extend(props,staticProps);
         if(props.typeName){
+            var hpap=gScript.unitNumericalDict[props.typeName];
+            if(hpap){
+                props.maxHp=hpap.hp;
+                props.hp=hpap.hp;
+                props.ap=hpap.ap;
+                props.group=hpap.group;
+            }
+            var aUnitClass=gBattle.BaseUnit.extend(props,staticProps);
             gBattle.unitClassDict[props.typeName]=aUnitClass;
         }else{
+            var aUnitClass=gBattle.BaseUnit.extend(props,staticProps);
             console.warn("unit class defined without typeName");
         }
         return aUnitClass;
     }
     gBattle.unitExtend=function(baseClass,props,staticProps){
-        var aUnitClass=baseClass.extend(props,staticProps);
         if(props.typeName){
+            var hpap=gScript.unitNumericalDict[props.typeName];
+            if(hpap){
+                props.maxHp=hpap.hp;
+                props.hp=hpap.hp;
+                props.ap=hpap.ap;
+                props.group=hpap.group;
+            }
+            var aUnitClass=baseClass.extend(props,staticProps);
             gBattle.unitClassDict[props.typeName]=aUnitClass;
         }else{
+            var aUnitClass=baseClass.extend(props,staticProps);
             console.warn("unit class defined without typeName");
         }
         return aUnitClass;

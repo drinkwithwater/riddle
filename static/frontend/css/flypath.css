@@ -8,5 +8,5 @@
 }
 .flyPath.moveState svg line#flyPathLine{
     stroke:#00ff00;
-    stroke-dasharray:0;
+    stroke-dasharray:3,0;
 }

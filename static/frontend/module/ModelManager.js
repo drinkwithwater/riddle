@@ -64,7 +64,8 @@ gUI.ModelManager=gUtil.Class.extend({
 
 
     eventHandlers:{
-        "pos_move":"eventPosMove"
+        "pos_move":"eventPosMove",
+        "unit_attack":"eventUnitAttack",
     },
 
     onBattleEvent:function(battleEvent){
@@ -90,6 +91,11 @@ gUI.ModelManager=gUtil.Class.extend({
                 moveUnit.set("j",dstPos.j)
             }
         );
+    },
+    eventUnitAttack:function(unitAttackEvent){
+        var unitPos=unitAttackEvent.unitPos;
+        var targetPos=unitAttackEvent.targetPos;
+        this.viewManager.animateBulletMove(unitPos,targetPos);
     },
     destroy:function(){
     }

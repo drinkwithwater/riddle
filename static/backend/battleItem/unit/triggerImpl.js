@@ -6,12 +6,12 @@ module.exports=function(env){
         ownerId:null, unitId:null, battleField:null,
         pathingOper:null,operMove:null, operAttack:null,
         createDamage:null, onDamage:null,
-        group:gBattle.GROUP_DEFENSER,
+        group:gScript.GROUP_DEFENSER,
         moveTrigger:function(context,unit,dstPos){},
         attackTrigger:function(context,attacker,damage){}
     }
     gBattle.TriggerUnit=gBattle.unitImpl({
-        group:gBattle.GROUP_DEFENSER,
+        group:gScript.GROUP_DEFENSER,
         typeName:"trigger",
         moveTrigger:function(context,unit,dstPos){
         },

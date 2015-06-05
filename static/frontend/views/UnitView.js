@@ -16,8 +16,10 @@ gViews.UnitView=Backbone.View.extend({
         var modelJson=this.model.toJSON();
         modelJson.typeName=this.model.typeName;
         $(this.el).html(this.template(modelJson));
+        // set i,j attr
         $(this.el).attr("data-i",modelJson.i);
         $(this.el).attr("data-j",modelJson.j);
+        // set left,top offset
         $(this.el).css(this.boardView.cellPos(modelJson));
         return this;
     }

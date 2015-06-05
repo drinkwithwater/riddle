@@ -6,6 +6,8 @@ gModels.UnitModel=Backbone.Model.extend({
     defaults:{
         i:null,
         j:null,
+        hp:10,
+        ap:2,
         unitId:null
     },
     modelManager:null,
