@@ -16,6 +16,6 @@
 		e.g.
 		damage burst stragegy
 		hit&run strategy
-		range damage
-		operation to owner's unit
+		range damage !!!
+		operation to owner's unit !!!
 	b) random value ???

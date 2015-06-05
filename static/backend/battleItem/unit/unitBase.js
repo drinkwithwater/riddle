@@ -1,6 +1,9 @@
 module.exports=function(env){
     //{{{
     var gBattle=env.gBattle=env.gBattle||{}
+    gBattle.GROUP_MIDDLE=1;
+    gBattle.GROUP_ATTACKER=2;
+    gBattle.GROUP_DEFENSER=3;
     gBattle.SimpleUnit=gUtil.Class.extend({
         i:-1,
         j:-1,
@@ -10,6 +13,7 @@ module.exports=function(env){
 	    ownerId:null,
         unitId:null,
 	    battleField:null,
+        group:gBattle.GROUP_MIDDLE,
 	    
 	    pathingOper:function(path){
 	        var dst=path[path.length-1];
@@ -72,7 +76,7 @@ module.exports=function(env){
         }
         return aUnitClass;
     }
-    gBattle.unitExtend=function(baseClass,prop,staticProps){
+    gBattle.unitExtend=function(baseClass,props,staticProps){
         var aUnitClass=baseClass.extend(props,staticProps);
         if(props.typeName){
             gBattle.unitClassDict[props.typeName]=aUnitClass;

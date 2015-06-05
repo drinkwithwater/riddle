@@ -11,5 +11,6 @@ module.exports=function(env){
     gScript.unitTypeNameDict[10]="trigger";
     gScript.unitTypeNameDict[11]="wall";
     gScript.unitTypeNameDict[12]="observer";
+    gScript.unitTypeNameDict[13]="rider";
     ///}}}
 }

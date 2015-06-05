@@ -5,48 +5,59 @@ module.exports=function(env){
         i:-1, j:-1, maxHp:10, hp:10, alive:true,
         ownerId:null, unitId:null, battleField:null,
         pathingOper:null,operMove:null, operAttack:null,
-        createDamage:null, onDamage:null,
+        createDamage:null, onDamage:null,attackRange:1,
+        group:gBattle.GROUP_ATTACKER,
     }
     gBattle.FlierUnit=gBattle.unitImpl({
+        group:gBattle.GROUP_ATTACKER,
         typeName:"flier"
-        /*TODO
-        pathingOper:function(){
-        },
-        operMove:function(){
-        }
-        */
     });
     gBattle.WalkerUnit=gBattle.unitImpl({
+        group:gBattle.GROUP_ATTACKER,
         typeName:"walker",
+        attackRange:1,
 	    pathingOper:function(path){
-	        var dst=path[path.length-1];
-	        var dstCell=this.battleField.maze.getCell(dst);
+            var maze=this.battleField.maze;
+            var length=path.length;
+	        var dst=path[length-1];
+            var dstCell=maze.getCell(dst);
             // if the cell is itself
             if(dst.i==this.i&&dst.j==this.j){
                 return null;
             }
-            // check continuous
-            if(!gPoint.checkContinuous(path)){
-                return null;
-            }
-            // TODO if the cell is it's partner
             // attack or move
             if(dstCell.hasUnit()){
-		        return this.operAttack;
+                if(gPoint.maDistance(this,dst)>this.attackRange){
+                    return null;
+                }
+                if(this.group==dst.group){
+                    return null;
+                }
+                return this.operAttack;
 	        }else if(dstCell.isEmpty()){
+                // check continuous
+                if(!gPoint.checkContinuous(path)){
+                    return null;
+                }
+                // check empty cell
+                for(var i=1,length=path.length;i<length-1;i++){
+                    var cell=maze.getCell(path[i]);
+                    if(!cell.isEmpty()) return null;
+                }
 		        return this.operMove;
 	        }
 	        return null;
 	    },
         operMove:function(context,path){
-            _.each(_.rest(path,1),function(pos){
+            for(var i=1,length=path.length;i<length;i++){
+                var pos=path[i];
                 this.battleField.unitMoveStep(context,this,pos);
-            },this);
+                // check death
+                if(!this.alive) return ;
+            }
         }
     });
-    gBattle.BerserkerUnit=gBattle.unitImpl({
-        maxHp:20,
-        hp:20,
+    gBattle.BerserkerUnit=gBattle.unitExtend(gBattle.WalkerUnit,{
         typeName:"berserker",
         createDamage:function(){
             var maxHp=this.maxHp;
@@ -58,7 +69,7 @@ module.exports=function(env){
             }
         },
     });
-    gBattle.HitterUnit=gBattle.unitImpl({
+    gBattle.HitterUnit=gBattle.unitExtend(gBattle.WalkerUnit,{
         typeName:"hitter",
         createDamage:function(target){
             var distance=gPoint.maDistance(this,target);
@@ -69,12 +80,12 @@ module.exports=function(env){
             }
         }
     });
-    gBattle.AssassinUnit=gBattle.unitImpl({
+    gBattle.AssassinUnit=gBattle.unitExtend(gBattle.WalkerUnit,{
         typeName:"assassin",
-        first:true,
+        firstAttack:true,
         createDamage:function(){
-            if(this.first){
-                this.first=false;
+            if(this.firstAttack){
+                this.firstAttack=false;
                 return 3;
             }else{
                 return 1;
