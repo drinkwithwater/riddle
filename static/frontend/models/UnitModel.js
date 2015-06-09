@@ -31,3 +31,23 @@ gModels.UnitModel=Backbone.Model.extend({
 });
 gModels.SimpleUnitModel=gModels.UnitModel;
 gModels.BaseUnitModel=gModels.UnitModel;
+
+gModels.unitModelDict={}
+gModels.unitModelImpl=function(props,staticProps){
+    var aClass=gModels.BaseUnitModel.extend(props,staticProps);
+    if(props.typeName){
+        gModels.unitModelDict[props.typeName]=aClass;
+    }else{
+        console.warn("a unit class define without type name");
+    }
+    return aClass;
+}
+gModels.unitModelExtend=function(baseModel,props,staticProps){
+    var aClass=baseModel.extend(props,staticProps);
+    if(props.typeName){
+        gModels.unitModelDict[props.typeName]=aClass;
+    }else{
+        console.warn("a unit class define without type name");
+    }
+    return aClass;
+}

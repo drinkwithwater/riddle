@@ -98,6 +98,14 @@ gUI.ViewManager=gUtil.Class.extend({
             callback
         );
     },
+    animateUnitDie:function(pos,callback){
+        var s="[data-i="+pos.i+"]"+
+              "[data-j="+pos.j+"]"+".unit";
+        this.boardView.unitContainer$().find("div").remove(s);
+        if(typeof(callback)=="function"){
+            callback();
+        }
+    },
 
 
     

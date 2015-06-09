@@ -40,6 +40,8 @@ gModels.createFromScriptName=function(name){
                 unitCollection.add(unitModel);
                 unitDict[unitModel.get("unitId")]=unitModel;
                 mazeModel.setUnit(i,j,unitModel);
+            }else{
+                mazeModel.setUnit(i,j,null);
             }
         }
     }

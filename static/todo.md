@@ -1,5 +1,7 @@
-next:
-add the extend relation between units type
+next:change the walk path showed in frontend 
+
+
+need:add the extend relation between units type
 
 
 floor use view or ctrl?

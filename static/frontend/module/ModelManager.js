@@ -9,9 +9,10 @@ gUI.ModelManager=gUtil.Class.extend({
     frontendModule:null,
     viewManager:null,
 
-    //component
+    // component
     mazeModel:null,
     unitCollection:null,
+    // unitId to unit
     unitDict:null,
     init:function(gameTop){
         var thisVar=this;
@@ -33,6 +34,7 @@ gUI.ModelManager=gUtil.Class.extend({
         this.unitCollection=aDict.unitCollection;
         this.posToUnit=this.mazeModel.posToUnit;
         var thisVar=this;
+        // set modelManager to this
         _.each(this.unitCollection.models,function(unitModel){
             unitModel.modelManager=thisVar;
         });
@@ -66,6 +68,8 @@ gUI.ModelManager=gUtil.Class.extend({
     eventHandlers:{
         "pos_move":"eventPosMove",
         "unit_attack":"eventUnitAttack",
+        "unit_harm":"eventUnitHarm",
+        "unit_die":"eventUnitDie",
         "attr_set":"eventAttrSet",
     },
 
@@ -100,6 +104,18 @@ gUI.ModelManager=gUtil.Class.extend({
         var unitPos=unitAttackEvent.unitPos;
         var targetPos=unitAttackEvent.targetPos;
         this.viewManager.animateBulletMove(unitPos,targetPos,callback);
+    },
+    eventUnitHarm:function(unitHarmEvent,callback){
+        this.eventUnitAttack(unitHarmEvent,callback);
+    },
+    eventUnitDie:function(unitDieEvent,callback){
+        var unitPos=unitDieEvent.unitPos;
+        var unit=this.unit$(unitPos);
+        // remove unit from 3 items
+        this.unitCollection.remove(unit)
+        delete this.unitDict[unit.get("unitId")];
+        this.mazeModel.removeUnit(unit);
+        this.viewManager.animateUnitDie(unitPos,callback);
     },
     eventAttrSet:function(attrSetEvent,callback){
         var unit=this.unit$(attrSetEvent.unitPos);

@@ -28,5 +28,10 @@ gModels.MazeModel=Backbone.Model.extend({
     },
     setUnit:function(i,j,unit){
         this.posToUnit[i][j]=unit;
+    },
+    removeUnit:function(unit){
+        var i=unit.get("i");
+        var j=unit.get("j");
+        this.posToUnit[i][j]=null;
     }
 });
