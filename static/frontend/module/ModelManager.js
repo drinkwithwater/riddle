@@ -66,17 +66,18 @@ gUI.ModelManager=gUtil.Class.extend({
     eventHandlers:{
         "pos_move":"eventPosMove",
         "unit_attack":"eventUnitAttack",
+        "attr_set":"eventAttrSet",
     },
 
-    onBattleEvent:function(battleEvent){
+    onBattleEvent:function(battleEvent,callback){
         var handlerFunc=this[this.eventHandlers[battleEvent.type]];
         if(handlerFunc){
-            handlerFunc.call(this,battleEvent);
+            handlerFunc.call(this,battleEvent,callback);
         }else{
 		    console.error("battle type no handler: "+battleEvent.type);
         }
     },
-    eventPosMove:function(posMoveEvent){
+    eventPosMove:function(posMoveEvent,callback){
         var srcPos=posMoveEvent.srcPos;
         var dstPos=posMoveEvent.dstPos;
         var moveUnit=this.posToUnit[srcPos.i][srcPos.j];
@@ -89,13 +90,24 @@ gUI.ModelManager=gUtil.Class.extend({
                 //call back: set model
                 moveUnit.set("i",dstPos.i)
                 moveUnit.set("j",dstPos.j)
+                if(typeof(callback)=="function"){
+                    callback();
+                }
             }
         );
     },
-    eventUnitAttack:function(unitAttackEvent){
+    eventUnitAttack:function(unitAttackEvent,callback){
         var unitPos=unitAttackEvent.unitPos;
         var targetPos=unitAttackEvent.targetPos;
-        this.viewManager.animateBulletMove(unitPos,targetPos);
+        this.viewManager.animateBulletMove(unitPos,targetPos,callback);
+    },
+    eventAttrSet:function(attrSetEvent,callback){
+        var unit=this.unit$(attrSetEvent.unitPos);
+        var attr=attrSetEvent.attrSet;
+        unit.set(attr.key,attr.value);
+        if(typeof(callback)=="function"){
+            callback();
+        }
     },
     destroy:function(){
     }

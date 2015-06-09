@@ -1,6 +1,9 @@
 .hide{
     display:none;
 }
+.board div{
+    background:transparent;
+}
 .board{
     position:relative;
 }

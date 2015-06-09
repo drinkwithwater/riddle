@@ -76,6 +76,9 @@ module.exports=function(env){
             i:null,
             j:null
         },
-        attrSet:{}
+        attrSet:{
+            key:null,
+            value:null
+        }
     });
 };

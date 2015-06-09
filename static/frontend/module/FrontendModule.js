@@ -60,10 +60,20 @@ gUI.FrontendModule=gUtil.Class.extend({
         }
     },
     messageShowEventArray:function(message){
-        var thisVar=this;
         //TODO change message to event
-        _.each(message.eventArray,function(showEvent){
-            thisVar.modelManager.onBattleEvent(showEvent);
-        });
+        var eventArray=message.eventArray;
+        var modelManager=this.modelManager;
+        var i=0;
+        var length=eventArray.length;
+        if(length>0){
+            function step(){
+                if(i<length){
+                    var thisEvent=eventArray[i];
+                    i++;
+                    modelManager.onBattleEvent(thisEvent,step);
+                }
+            }
+            step();
+        }
     },
 });

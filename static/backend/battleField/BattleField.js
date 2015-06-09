@@ -207,8 +207,8 @@ module.exports=function(env){
             context.push(new gEvent.AttrSetEvent({
                 unitPos:unitPos,
                 attrSet:{
-                    attrKey:attrKey,
-                    attrValue:attrValue
+                    key:attrKey,
+                    value:attrValue
                 }
             }));
         },
