@@ -187,10 +187,7 @@ module.exports=function(env){
                 unitPos:unitPos,
                 targetPos:targetPos
             }));
-            target.onDamage(context,unit,damage);
-            if(target.attackTrigger){
-                target.attackTrigger(context,unit,damage);
-            }
+            target.onAttack(context,unit,damage)
 	    },
         unitHarm:function(context,unit,target,damage){
 	        console.log("unit harm");

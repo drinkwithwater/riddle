@@ -61,6 +61,20 @@ module.exports=function(env){
                 this.battleField.unitDie(context,this);
             }
         },
+        /**
+         * unit on attack
+         */
+        onAttack:function(context,source,damage){
+            this.hp-=damage;
+            this.battleField.unitSetAttr(context,this,"hp",this.hp);
+            if(typeof(unit.attackTrigger)=="function"){
+                unit.attackTrigger(context,source,damage);
+            }
+            if(this.hp<=0){
+                this.alive=false;
+                this.battleField.unitDie(context,this);
+            }
+        },
     });
     gBattle.BaseUnit=gBattle.SimpleUnit;
     gBattle.unitClassDict={}
