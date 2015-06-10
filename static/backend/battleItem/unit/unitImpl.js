@@ -59,13 +59,13 @@ module.exports=function(env){
     });
     gBattle.BerserkerUnit=gBattle.unitExtend(gBattle.WalkerUnit,{
         typeName:"berserker",
-        createDamage:function(){
+        createDamage:function(target){
             var maxHp=this.maxHp;
             var hp=this.hp;
             if(2*hp<=maxHp){
-                return 4;
+                return this.ap+2;
             }else{
-                return 2;
+                return this.ap;
             }
         },
     });
@@ -74,21 +74,21 @@ module.exports=function(env){
         createDamage:function(target){
             var distance=gPoint.maDistance(this,target);
             if(distance<=1){
-                return 3;
+                return this.ap+1;
             }else{
-                return 1;
+                return this.ap-1;
             }
         }
     });
     gBattle.AssassinUnit=gBattle.unitExtend(gBattle.WalkerUnit,{
         typeName:"assassin",
         firstAttack:true,
-        createDamage:function(){
+        createDamage:function(target){
             if(this.firstAttack){
                 this.firstAttack=false;
-                return 3;
+                return this.ap+1;
             }else{
-                return 1;
+                return this.ap-1;
             }
         }
     });

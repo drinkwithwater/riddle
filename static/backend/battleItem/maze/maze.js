@@ -23,6 +23,9 @@ gBattle.MazeCell=gUtil.Class.extend({
 	    }else{
 	        return false;
 	    }
+    },
+    getContent:function(){
+        return this.content;
     }
 });
 gBattle.Maze = gUtil.Class.extend({
@@ -93,7 +96,7 @@ gBattle.Maze = gUtil.Class.extend({
     },
     moveUnit:function(srcPos,dstPos){
         var unit=this.posToUnit[srcPos.i][srcPos.j];
-        delete this.posToUnit[srcPos.i][srcPos.j];
+        this.posToUnit[srcPos.i][srcPos.j]=null;
         this.posToUnit[dstPos.i][dstPos.j]=unit;
     },
     removeUnit:function(pos){

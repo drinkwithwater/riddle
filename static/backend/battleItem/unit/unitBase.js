@@ -22,7 +22,9 @@ module.exports=function(env){
             // TODO if the cell is it's partner
             // attack or move
             if(dstCell.hasUnit()){
-		        return this.operAttack;
+                if(dstCell.getContent().group!=this.group){
+                    return this.operAttack;
+                }
 	        }else if(dstCell.isEmpty()){
 		        return this.operMove;
 	        }
@@ -47,8 +49,8 @@ module.exports=function(env){
         /**
          * called by operAttack
          */
-        createDamage:function(){
-            return 2;
+        createDamage:function(target){
+            return this.ap;
         },
         /**
          * unit on damage
@@ -65,11 +67,11 @@ module.exports=function(env){
          * unit on attack
          */
         onAttack:function(context,source,damage){
+            if(typeof(this.attackTrigger)=="function"){
+                this.attackTrigger(context,source,damage);
+            }
             this.hp-=damage;
             this.battleField.unitSetAttr(context,this,"hp",this.hp);
-            if(typeof(unit.attackTrigger)=="function"){
-                unit.attackTrigger(context,source,damage);
-            }
             if(this.hp<=0){
                 this.alive=false;
                 this.battleField.unitDie(context,this);

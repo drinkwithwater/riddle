@@ -125,30 +125,26 @@ gViews.BoardView=Backbone.View.extend({
 
     mouseDownArea:function(e){
         var $listener=this.$(e.target).closest(".listenerArea");
+        var i=Number($listener.attr("data-i"));
+        var j=Number($listener.attr("data-j"));
         if(e.button==0){
-            var i=$listener.attr("data-i");
-            var j=$listener.attr("data-j");
             var area={i:i,j:j};
             this.userInputCtrl.mouseDown(area);
         }else if(e.button=2){
             // TODO right click down
-            var i=$listener.attr("data-i");
-            var j=$listener.attr("data-j");
             var area={i:i,j:j};
             this.userInputCtrl.cancel(area);
         }
     },
     mouseUpArea:function(e){
         var $listener=this.$(e.target).closest(".listenerArea");
+        var i=Number($listener.attr("data-i"));
+        var j=Number($listener.attr("data-j"));
         if(e.button==0){
-            var i=$listener.attr("data-i");
-            var j=$listener.attr("data-j");
             var area={i:i,j:j};
             this.userInputCtrl.mouseUp(area);
         }else if(e.button=2){
             // TODO right click up
-            var i=$listener.attr("data-i");
-            var j=$listener.attr("data-j");
             var area={i:i,j:j};
             this.userInputCtrl.cancel(area);
         }
@@ -156,16 +152,16 @@ gViews.BoardView=Backbone.View.extend({
 
     mouseEnterArea:function(e){
         var $listener=this.$(e.target).closest(".listenerArea");
-        var i=$listener.attr("data-i");
-        var j=$listener.attr("data-j");
+        var i=Number($listener.attr("data-i"));
+        var j=Number($listener.attr("data-j"));
         var area={i:i,j:j};
         this.userInputCtrl.mouseEnter(area);
     },
 
     mouseLeaveArea:function(e){
         var $listener=this.$(e.target).closest(".listenerArea");
-        var i=$listener.attr("data-i");
-        var j=$listener.attr("data-j");
+        var i=Number($listener.attr("data-i"));
+        var j=Number($listener.attr("data-j"));
         var area={i:i,j:j};
     },
 

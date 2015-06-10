@@ -2,6 +2,7 @@ var gTest=gTest||{};
 var gTemplates=gTemplates||{};
 // global var
 htmlView=null;
+battleField=null;
 gTest.TestModule=gUtil.Class.extend({
     boardModel:null,
     boardView:null,

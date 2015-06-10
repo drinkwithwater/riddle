@@ -19,7 +19,7 @@ module.exports=function(env){
         },
 	    
 
-	    failDict:{1:"path is not array",
+	    failDict:{1:"path not valid",
 		          2:"path no content",
 		          3:"path contain barrier",
 		          4:"unit can't move",
@@ -108,7 +108,21 @@ module.exports=function(env){
 		        return {fail:1};
 	        }else if(path.length<=1){
 		        return {fail:2};
-	        }
+	        }else{
+                var numberArray=_.every(path,function(pos){
+                    if(!_.isObject(pos)){
+                        return false;
+                    }
+                    if(_.isNumber(pos.i)&&_.isNumber(pos.j)){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                });
+                if(!numberArray){
+                    return {fail:1};
+                }
+            }
 	        var begin=path[0];
 	        var cell=this.maze.getCell(begin.i,begin.j);
 	        if(cell.hasUnit()){
@@ -165,7 +179,7 @@ module.exports=function(env){
 	    ////////////////////////////////////////
 
 	    unitMoveStep:function(context,unit,_pointArgs){
-	        console.log("unit move to("+unit.i+" "+unit.j+")");
+	        console.log("unit move from("+unit.i+" "+unit.j+")");
             var srcPos=gPoint.wrapPoint(unit);
             var dstPos=gPoint.wrapArgs(arguments,2);
             this.maze.moveUnit(srcPos,dstPos);

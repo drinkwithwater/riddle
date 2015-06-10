@@ -30,13 +30,13 @@ module.exports=function(env){
         maxHp:200,
         hp:200,
         createDamage:function(){
-            return 1;
+            return this.ap;
         }
     });
     gBattle.ObserverUnit=gBattle.unitExtend(gBattle.TriggerUnit,{
         typeName:"observer",
         createDamage:function(){
-            return 2;
+            return this.ap;
         },
         moveTrigger:function(context,mover,dstPos){
             if(mover.unitId==this.unitId) return ;
@@ -62,29 +62,39 @@ module.exports=function(env){
             // position check
             // the mover and rider must be on the same line
             var battleField=this.battleField;
+            var path=[];
             if(this.i!=mover.i && this.j==mover.j){
-                var dstPos={i:this.i,j:this.j}
+                var j=this.j
                 var di=(this.i<mover.i?1:-1);
                 for(var i=this.i+di;i!=mover.i;i+=di){
-                    dstPos.i=i;
-                    battleField.unitMoveStep(context,this,dstPos);
-                    // check death
-                    if(!this.alive) return ;
+                    path.push({i:i,j:j})
                 }
-                var damage=this.createDamage();
-                battleField.unitAttack(context,this,mover,damage);
             }else if(this.j!=mover.j && this.i==mover.i){
-                var dstPos={i:this.i,j:this.j}
+                var i=this.i;
                 var dj=(this.j<mover.j?1:-1);
                 for(var j=this.j+dj;j!=mover.j;j+=dj){
-                    dstPos.j=j;
-                    battleField.unitMoveStep(context,this,dstPos);
-                    // check death
-                    if(!this.alive) return ;
+                    path.push({i:i,j:j})
                 }
-                var damage=this.createDamage();
-                battleField.unitAttack(context,this,mover,damage);
             }else return ;
+            // check if path has other unit
+            var maze=battleField.getMaze();
+            for(var x=0,l=path.length;x<l;x++){
+                var dstPos=path[x];
+                var unit=maze.getUnit(dstPos);
+                if(_.isObject(unit)){
+                    return ;
+                }
+            }
+            // TODO check range
+            // move step
+            for(var x=0,l=path.length;x<l;x++){
+                var dstPos=path[x];
+                battleField.unitMoveStep(context,this,dstPos);
+                // check death
+                if(!this.alive) return ;
+            }
+            var damage=this.createDamage();
+            battleField.unitAttack(context,this,mover,damage);
         }
     });
     //}}}

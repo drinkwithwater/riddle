@@ -38,28 +38,28 @@ gViews.BoardView=Backbone.View.extend({
     mouseDownArea:function(e){
 	    var $area=this.$(e.target).closest("div.area");
 	    if(e.button==0){
-	        var i=$area.attr("data-i");
-	        var j=$area.attr("data-j");
+	        var i=Number($area.attr("data-i"));
+	        var j=Number($area.attr("data-j"));
 	        this.clickArea({i:i,j:j});
 	    }else if(e.button=2){
-	        var i=$area.attr("data-i");
-	        var j=$area.attr("data-j");
+	        var i=Number($area.attr("data-i"));
+	        var j=Number($area.attr("data-j"));
 	        this.cancelArea({i:i,j:j});
 	    }
     },
 
     mouseEnterArea:function(e){
 	    var $area=this.$(e.target).closest("div.area");
-	    var i=$area.attr("data-i");
-	    var j=$area.attr("data-j");
+	    var i=Number($area.attr("data-i"));
+	    var j=Number($area.attr("data-j"));
 	    $area.addClass("focus");
 	    this.overArea({i:i,j:j});
     },
 
     mouseLeaveArea:function(e){
 	    var $area=this.$(e.target).closest("div.area");
-	    var i=$area.attr("data-i");
-	    var j=$area.attr("data-j");
+	    var i=Number($area.attr("data-i"));
+	    var j=Number($area.attr("data-j"));
 	    $area.removeClass("focus");
     },
 

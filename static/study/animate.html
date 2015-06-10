@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <script src="import/jquery.js"></script>
+    <script src="import/developmentVersion/underscore.js"></script>
+    <script src="import/developmentVersion/backbone.js"></script>
+  </head>
+  <style>
+      div#out{
+      position:relative;
+      }
+      div#sth{
+      width:2px;
+      height:2px;
+      background:url("image/hit.png") no-repeat;
+      position:absolute;
+      }
+  </style>
+  <script>
+    $(document).ready(function(){
+        $("#dosth").on("click", function(){
+            //$("#sth").animate({backgroundPosition:"-76px -23px"},1)
+            $("#sth").animate({width:"20px",height:"20px"},100,function(){
+            $("#sth").animate({width:"1px",height:"1px",left:"+=20px",top:"+=20px"},100);
+    });
+        });
+    });
+  </script>
+  <body>
+    <button id="dosth">dosth</button>
+    <div id="out">
+      <div id="sth">
+      </div>
+    </div>
+  </body>
+
+</html>

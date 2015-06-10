@@ -19,3 +19,7 @@
 		range damage !!!
 		operation to owner's unit !!!
 	b) random value ???
+
+3. Script design
+	a) make rider leave his place
+	b) max utilize hp
