@@ -27,7 +27,7 @@ module.exports=function(env){
         hp:20, ap:2, group:gScript.GROUP_DEFENSER,
     };
     gScript.unitNumericalDict["wall"]={
-        hp:20, ap:2, group:gScript.GROUP_DEFENSER,
+        hp:80, ap:2, group:gScript.GROUP_DEFENSER,
     };
     gScript.unitNumericalDict["observer"]={
         hp:20, ap:2, group:gScript.GROUP_DEFENSER,

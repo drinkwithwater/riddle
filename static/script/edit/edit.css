@@ -1,0 +1,52 @@
+.board input{
+    width:30;
+    display:block;
+    float:left;
+}
+.board select{
+    width:60;
+    display:block;
+    float:left;
+}
+.hidden{
+    display:none;
+}
+.board table{
+    border-collapse:collapse;
+    border-style: solid;
+    border-color: #000000;
+	border-width: 3px;
+}
+.board tr,.board td{
+	padding:0;
+	margin:0;
+	border:0;
+}
+.board div.area{
+    width: 61px;
+    height: 61px;
+	border-width: 1px;
+    border-style: solid;
+    border-color: #0000ff;
+
+
+    font-size: 10px;
+
+	/*layout,vertical align*/
+	display:table-cell;
+    text-align: center;
+	vertical-align: middle;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/*layout,horizontal align fix for 'magin:0px auto' in cell css*/
+.board div.area>div {
+	background: transparent;
+}
+

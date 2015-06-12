@@ -1,0 +1,48 @@
+<head>
+	<meta charset="utf-8">
+<style>
+	html {
+		background-color:#EEEEEE
+	}
+</style>
+<!-- -lib---------------------------------------- -->
+<script src="/lib/jquery.js"></script>
+<script src="/lib/underscore.min.js"></script>
+<script src="/lib/backbone.min.js"></script>
+<script src="/lib/util.js"></script>
+<script src="/lib/point.js"></script>
+<!-- -------------------------------------------- -->
+<script src="/script/BattleScript.js"></script>
+<script src="/script/UnitScript.js"></script>
+<script src="/script/NumericalScript.js"></script>
+<!-- -------------------------------------------- -->
+<script src="/script/edit/edit.js"></script>
+<!-- -------------------------------------------- -->
+<script>
+  var main=null;
+  $(document).ready(function(){
+  main=new gEdit.Main();
+  main.init();
+  main.firstRender();
+  main.reRender();
+  });
+</script>
+
+<link rel="stylesheet" type="text/css" href="/frontend/css/layout.css">
+<link rel="stylesheet" type="text/css" href="/script/edit/edit.css">
+</head>
+<body><!-- oncontextmenu=self.event.returnValue=false-->
+<div class="content">
+	<div id="menu" class="left">
+		<button id="print">print</button>
+        <br/>
+        <br/>
+        <br/>
+		<button id="load">load</button>
+        <br/>
+        <select id="script"></select>
+	</div>
+	<div id="main" class="right">
+	</div>
+</div>
+</body>
