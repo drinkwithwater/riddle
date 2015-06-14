@@ -29,9 +29,6 @@ module.exports=function(env){
         typeName:"wall",
         maxHp:200,
         hp:200,
-        createDamage:function(){
-            return this.ap;
-        }
     });
     gBattle.ObserverUnit=gBattle.unitExtend(gBattle.TriggerUnit,{
         typeName:"observer",

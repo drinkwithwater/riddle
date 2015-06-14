@@ -8,22 +8,25 @@ gEdit.Script=gUtil.Class.extend({
     apArray:[],
     hpArray:[],
     nameToNum:{}, // type name to type id
-    constructor:function(iLength,jLength){
-        if(iLength){
-            this.iLength=iLength;
-        }
-        if(jLength){
-            this.jLength=jLength;
-        }
-        this.unitArray=new Array(this.iLength);
-        for(var i=0;i<this.iLength;i++){
-            this.unitArray[i]=new Array(this.jLength);
-            this.apArray[i]=new Array(this.jLength);
-            this.hpArray[i]=new Array(this.jLength);
+    constructor:function(script){
+        if(script){
+            _.extend(this,script);
+        }else{
+            this.unitArray=new Array(this.iLength);
+            for(var i=0;i<this.iLength;i++){
+                this.unitArray[i]=new Array(this.jLength);
+                this.apArray[i]=new Array(this.jLength);
+                this.hpArray[i]=new Array(this.jLength);
+                for(var j=0;j<this.jLength;j++){
+                    this.unitArray[i][j]=0;
+                    this.apArray[i][j]=0;
+                    this.hpArray[i][j]=0;
+                }
+            }
         }
         var nameToNum=this.nameToNum;
         _.each(gScript.unitTypeNameDict,function(v,k){
-            nameToNum[v]=[k];
+            nameToNum[v]=k;
         });
     },
     setUnit:function(i,j,type,ap,hp){
@@ -32,7 +35,7 @@ gEdit.Script=gUtil.Class.extend({
             this.apArray[i][j]=0;
             this.hpArray[i][j]=0;
         }else{
-            this.unitArray[i][j]=this.nameToNum[type];
+            this.unitArray[i][j]=Number(this.nameToNum[type]);
             this.apArray[i][j]=Number(ap);
             this.hpArray[i][j]=Number(hp);
         }
@@ -50,31 +53,32 @@ gEdit.Script=gUtil.Class.extend({
     }
 });
 gEdit.Cell=gUtil.Class.extend({},{
-    setUnitHTML:function(el$){
-        var defaultUnit=gScript.unitNumericalDict["wall"];
-        var select=$("<select></select>").addClass("type");
-        _.each(gScript.unitTypeNameDict,function(typeName){
-            var option="<option value=\""+typeName+"\">"+
-                typeName+"</option>"
-            select.append(option);
+    setUnitHTML:function(el$,typeName,ap,hp){
+        if(!typeName){
+            typeName="wall"
+        }
+        var defaultUnit=gScript.unitNumericalDict[typeName];
+        var select$=$("<select></select>").addClass("type");
+        _.each(gScript.unitTypeNameDict,function(eachTypeName){
+            var option="<option value=\""+eachTypeName+"\">"+
+                eachTypeName+"</option>"
+            select$.append(option);
         });
-        select.val("wall");
-        var ap=$("<input></input>").addClass("ap").val(
-            defaultUnit.ap
+        select$.val(typeName);
+        var ap$=$("<input></input>").addClass("ap").val(
+            ap?ap:defaultUnit.ap
         );
-        var hp=$("<input></input>").addClass("hp").val(
-            defaultUnit.hp
+        var hp$=$("<input></input>").addClass("hp").val(
+            hp?hp:defaultUnit.hp
         );
-        select.change(function(e){
+        select$.change(function(e){
             var typeName=$(e.target).val();
             var numerical=gScript.unitNumericalDict[typeName];
-            ap.val(numerical.ap);
-            hp.val(numerical.hp);
+            ap$.val(numerical.ap);
+            hp$.val(numerical.hp);
         });
-        el$.append(select).append(ap).append(hp);
+        el$.append(select$).append(ap$).append(hp$);
     },
-    parseUnit:function(el$,i,j){
-    }
 });
 gEdit.Main=gUtil.Class.extend({
     script:null,
@@ -94,6 +98,7 @@ gEdit.Main=gUtil.Class.extend({
     },
     getScript:function(){
         var script=this.script;
+        script.scriptName=$("#scriptname").val();
         for(var i=0;i<script.iLength;i++){
             for(var j=0;j<script.jLength;j++){
                 var area$=this.area$(i,j);
@@ -110,6 +115,13 @@ gEdit.Main=gUtil.Class.extend({
     },
     firstRender:function(){
         var thisVar=this;
+        // set print button
+        $("#print").on("click",function(){
+            var script=thisVar.getScript();
+            data=JSON.stringify(script.toJSON());
+            console.log(data);
+        });
+        // set save button
         $("#save").on("click",function(){
             var script=thisVar.getScript();
             data=JSON.stringify(script.toJSON());
@@ -121,9 +133,22 @@ gEdit.Main=gUtil.Class.extend({
                 contentType:"application/xml",
             })
         });
+        // set script select option 
+        _.each(gScript.battleScript,function(v,k){
+            var option=$("<option></option>").val(k).html(k);
+            $("#script").append(option);
+        });
+        // set load script
+        $("#load").on("click",function(){
+            var selectScript=$("#script").val();
+            thisVar.script=new gEdit.Script(gScript.battleScript[selectScript]);
+            thisVar.reRender();
+        });
     },
+    // reRender this.script in main
     reRender:function(){
         var script=this.script;
+        $("#scriptname").val(script.scriptName);
         $("#main").html(this.template({
             iLength:script.iLength,
             jLength:script.jLength,
@@ -131,10 +156,20 @@ gEdit.Main=gUtil.Class.extend({
         for(var i=0;i<script.iLength;i++){
             for(var j=0;j<script.jLength;j++){
                 var area$=this.area$(i,j);
-                var clear=$("<button class=\"clear\"></button>").html("+("+i+","+j+")");
-                area$.append(clear);
-                var div=$("<div></div>");
-                area$.append(div);
+                var unitTypeId=script.unitArray[i][j];
+                if(unitTypeId==0){
+                    var clear=$("<button class=\"clear\"></button>").html("+("+i+","+j+")");
+                    area$.append(clear);
+                    var div=$("<div></div>");
+                    area$.append(div);
+                }else{
+                    var typeName=gScript.unitTypeNameDict[unitTypeId]
+                    var clear=$("<button class=\"clear\"></button>").html("-("+i+","+j+")");
+                    area$.append(clear);
+                    var div=$("<div></div>");
+                    gEdit.Cell.setUnitHTML(div,typeName);
+                    area$.append(div);
+                }
             }
         }
         $(".clear").on("click",function(e){
@@ -150,7 +185,6 @@ gEdit.Main=gUtil.Class.extend({
             }
         });
         $(".type").change(function(e){
-            console.log(321);
             var typeName=$(e.target).val();
             var numerical=gScript.unitNumericalDict[typeName];
             var area$=$(e.target).closest(".area");
