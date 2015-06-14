@@ -7,6 +7,7 @@ gEdit.Script=gUtil.Class.extend({
     unitArray:[],
     apArray:[],
     hpArray:[],
+    nameToNum:{}, // type name to type id
     constructor:function(iLength,jLength){
         if(iLength){
             this.iLength=iLength;
@@ -20,11 +21,21 @@ gEdit.Script=gUtil.Class.extend({
             this.apArray[i]=new Array(this.jLength);
             this.hpArray[i]=new Array(this.jLength);
         }
+        var nameToNum=this.nameToNum;
+        _.each(gScript.unitTypeNameDict,function(v,k){
+            nameToNum[v]=[k];
+        });
     },
     setUnit:function(i,j,type,ap,hp){
-        this.unitArray[i][j]=type;
-        this.apArray[i][j]=ap;
-        this.hpArray[i][j]=hp;
+        if((!type)||type=="null"||(!this.nameToNum[type])){
+            this.unitArray[i][j]=0;
+            this.apArray[i][j]=0;
+            this.hpArray[i][j]=0;
+        }else{
+            this.unitArray[i][j]=this.nameToNum[type];
+            this.apArray[i][j]=Number(ap);
+            this.hpArray[i][j]=Number(hp);
+        }
     },
     toJSON:function(){
         return {
@@ -86,21 +97,29 @@ gEdit.Main=gUtil.Class.extend({
         for(var i=0;i<script.iLength;i++){
             for(var j=0;j<script.jLength;j++){
                 var area$=this.area$(i,j);
-                var typeName=area$.find("select.type").val();
-                var ap=area$.find("input.ap").val();
-                var hp=area$.find("input.hp").val();
+                var typeName$=area$.find("select.type");
+                var ap$=area$.find("input.ap");
+                var hp$=area$.find("input.hp");
+                var typeName=typeName$?typeName$.val():null;
+                var ap=ap$?ap$.val():0;
+                var hp=hp$?hp$.val():0;
                 script.setUnit(i,j,typeName,ap,hp);
-                break;
             }
-            break;
         }
         return script;
     },
     firstRender:function(){
         var thisVar=this;
-        $("#print").on("click",function(){
+        $("#save").on("click",function(){
             var script=thisVar.getScript();
-            console.log(JSON.stringify(script.toJSON()));
+            data=JSON.stringify(script.toJSON());
+            console.log(data);
+            $.ajax({
+                type:"POST",
+                data:data,
+                url:"/save",
+                contentType:"application/xml",
+            })
         });
     },
     reRender:function(){
