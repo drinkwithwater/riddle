@@ -129,11 +129,11 @@ gEdit.Main=gUtil.Class.extend({
             $.ajax({
                 type:"POST",
                 data:data,
-                url:"/save",
+                url:"/savescript",
                 contentType:"application/xml",
             })
         });
-        // set script select option 
+        // set script select option
         _.each(gScript.battleScript,function(v,k){
             var option=$("<option></option>").val(k).html(k);
             $("#script").append(option);

@@ -2,6 +2,7 @@ _app = None
 
 
 def get_app():
+    """ Load flask config, initial app. """
     from flask import Flask
     from common.config import app_config
     import os
@@ -22,3 +23,4 @@ def get_app():
     _app.debug = True
     _app.config.from_object(app_config)
     return _app
+
