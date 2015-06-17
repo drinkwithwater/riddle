@@ -2,7 +2,8 @@ module.exports=function(env){
     //{{{
     var gBattle=env.gBattle=env.gBattle||{}
     gBattle._NormalSample={
-        i:-1, j:-1, maxHp:10, hp:10, alive:true,
+        i:-1, j:-1, maxHp:10, hp:10, ap:10,
+        attackRange:1, alive:true,
         ownerId:null, unitId:null, battleField:null,
         pathingOper:null,operMove:null, operAttack:null,
         createDamage:null, onDamage:null,attackRange:1,
@@ -10,12 +11,31 @@ module.exports=function(env){
     }
     gBattle.FlierUnit=gBattle.unitImpl({
         group:gBattle.GROUP_ATTACKER,
-        typeName:"flier"
+        typeName:"flier",
+	    pathingOper:function(path){
+	        var dst=path[path.length-1];
+	        var dstCell=this.battleField.maze.getCell(dst);
+            // attack or move
+            if(dstCell.hasUnit()){
+                var dstUnit=dstCell.getContent();
+                // out of range -> null
+                if(gPoint.maDistance(this,dst)>this.attackRange){
+                    return null;
+                }
+                // the same group -> null
+                if(this.group==dstUnit.group){
+                    return null;
+                }
+                return this.operAttack;
+	        }else if(dstCell.isEmpty()){
+		        return this.operMove;
+	        }
+	        return null;
+	    },
     });
     gBattle.WalkerUnit=gBattle.unitImpl({
         group:gBattle.GROUP_ATTACKER,
         typeName:"walker",
-        attackRange:1,
 	    pathingOper:function(path){
             var maze=this.battleField.maze;
             var length=path.length;
@@ -27,10 +47,13 @@ module.exports=function(env){
             }
             // attack or move
             if(dstCell.hasUnit()){
+                var dstUnit=dstCell.getContent();
+                // out of range -> null
                 if(gPoint.maDistance(this,dst)>this.attackRange){
                     return null;
                 }
-                if(this.group==dst.group){
+                // the same group -> null
+                if(this.group==dstUnit.group){
                     return null;
                 }
                 return this.operAttack;
@@ -55,6 +78,12 @@ module.exports=function(env){
                 // check death
                 if(!this.alive) return ;
             }
+        },
+        operAttack:function(context,path){
+            var battleField=this.battleField;
+            var target=battleField.getMaze().getUnit(_.last(path));
+            var damage=this.createDamage(target);
+            battleField.unitAttack(context,this,target,damage);
         }
     });
     gBattle.BerserkerUnit=gBattle.unitExtend(gBattle.WalkerUnit,{
@@ -86,7 +115,7 @@ module.exports=function(env){
         createDamage:function(target){
             if(this.firstAttack){
                 this.firstAttack=false;
-                return this.ap+1;
+                return this.ap*2;
             }else{
                 return this.ap-1;
             }

@@ -4,22 +4,26 @@ module.exports=function(env){
     gBattle.SimpleUnit=gUtil.Class.extend({
         i:-1,
         j:-1,
-        hp:10, // the unitImpl will not extend this attr
-        maxHp:10, // the attr is setting in NumericalScript.js
-        alive:true,
+
+        ap:2, // this attr is setting in NumericalScript.js
+        hp:4, // this attr is setting in NumericalScript.js
+        maxHp:4, // this attr is setting in NumericalScript.js
+        attackRange:1, // this attr is setting in NumericalScript.js
+        group:gScript.GROUP_MIDDLE, // this attr is setting in NumericalScript.js
+        /* As unit may not be removed when killed,
+           I need to record an alive flag to forbid it to 
+           do something wrong when killed.
+           */
+        alive:true, 
 	    ownerId:null,
         unitId:null,
 	    battleField:null,
-        group:gScript.GROUP_MIDDLE,
 	    
 	    pathingOper:function(path){
 	        var dst=path[path.length-1];
 	        var dstCell=this.battleField.maze.getCell(dst);
-            // if the cell is itself
-            if(dst.unitId==this.unitId){
-                return null;
-            }
-            // TODO if the cell is it's partner
+            // This implement do not check many things.
+
             // attack or move
             if(dstCell.hasUnit()){
                 if(dstCell.getContent().group!=this.group){
@@ -56,11 +60,15 @@ module.exports=function(env){
          * unit on damage
          */
         onDamage:function(context,source,damage){
-            this.hp-=damage;
-            this.battleField.unitSetAttr(context,this,"hp",this.hp);
-            if(this.hp<=0){
-                this.alive=false;
-                this.battleField.unitDie(context,this);
+            if(this.alive){
+                this.hp-=damage;
+                this.battleField.unitSetAttr(context,this,"hp",this.hp);
+                if(this.hp<=0){
+                    this.alive=false;
+                    this.battleField.unitDie(context,this);
+                }
+            }else{
+                return ;
             }
         },
         /**
@@ -82,12 +90,12 @@ module.exports=function(env){
     gBattle.unitClassDict={}
     gBattle.unitImpl=function(props,staticProps){
         if(props.typeName){
-            var hpap=gScript.unitNumericalDict[props.typeName];
-            if(hpap){
-                props.maxHp=hpap.hp;
-                props.hp=hpap.hp;
-                props.ap=hpap.ap;
-                props.group=hpap.group;
+            var num=gScript.unitNumericalDict[props.typeName];
+            if(num){
+                // extend hp, ap, range, group
+                _.extend(props,num);
+                // set max hp as hp
+                props.maxHp=num.hp;
             }
             var aUnitClass=gBattle.BaseUnit.extend(props,staticProps);
             gBattle.unitClassDict[props.typeName]=aUnitClass;
@@ -99,12 +107,11 @@ module.exports=function(env){
     }
     gBattle.unitExtend=function(baseClass,props,staticProps){
         if(props.typeName){
-            var hpap=gScript.unitNumericalDict[props.typeName];
-            if(hpap){
-                props.maxHp=hpap.hp;
-                props.hp=hpap.hp;
-                props.ap=hpap.ap;
-                props.group=hpap.group;
+            var num=gScript.unitNumericalDict[props.typeName];
+            if(num){
+                _.extend(props,num);
+                // set max hp as hp
+                props.maxHp=num.hp;
             }
             var aUnitClass=baseClass.extend(props,staticProps);
             gBattle.unitClassDict[props.typeName]=aUnitClass;

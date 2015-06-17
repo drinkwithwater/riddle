@@ -6,11 +6,24 @@ gModels.UnitModel=Backbone.Model.extend({
     defaults:{
         i:null,
         j:null,
-        hp:10,
+        maxHp:4,
+        hp:4,
         ap:2,
+        attackRange:1,
+        group:gScript.GROPU_ATTACKER,
         unitId:null
     },
     modelManager:null,
+    constructor:function(){
+        gModels.UnitModel.__super__.constructor.apply(this,arguments);
+        if(_.isString(this.typeName)){
+            var num=gScript.unitNumericalDict[this.typeName];
+            if(_.isObject(num)){
+                this.set(num);
+                this.set("maxHp",num.hp);
+            }
+        }
+    },
     pathingType:function(newArea,beforePath){
         var focusUnit=this.modelManager.unit$(newArea);
         if(focusUnit){

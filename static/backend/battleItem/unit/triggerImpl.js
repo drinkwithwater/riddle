@@ -38,12 +38,12 @@ module.exports=function(env){
         moveTrigger:function(context,mover,dstPos){
             if(mover.unitId==this.unitId) return ;
             if(mover.group==this.group) return ;
+            if(gPoint.maDistance(this,dstPos)>this.triggerRange)
+                return ;
             //check death
             if(this.alive){
-                if(gPoint.maDistance(this,dstPos)<=1){
-                    var reDamage=this.createDamage();
-                    this.battleField.unitHarm(context,this,mover,reDamage);
-                }
+                var reDamage=this.createDamage();
+                this.battleField.unitHarm(context,this,mover,reDamage);
             }
         }
     });
@@ -56,10 +56,13 @@ module.exports=function(env){
             if(mover.group==this.group) return ;
             // check death
             if(!this.alive) return ;
+            // check range
+            if(gPoint.maDistance(this,dstPos)>this.triggerRange)
+                return ;
             // position check
             // the mover and rider must be on the same line
             var battleField=this.battleField;
-            var path=[];
+            var path=[]; // trigger move path
             if(this.i!=mover.i && this.j==mover.j){
                 var j=this.j
                 var di=(this.i<mover.i?1:-1);
@@ -82,7 +85,6 @@ module.exports=function(env){
                     return ;
                 }
             }
-            // TODO check range
             // move step
             for(var x=0,l=path.length;x<l;x++){
                 var dstPos=path[x];

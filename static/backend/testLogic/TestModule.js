@@ -66,10 +66,11 @@ gTest.TestModule=gUtil.Class.extend({
 	            inner+="<div class=\"hidden\">"+value+"</div>";
             }
         }
-	    add(unit.typeName,"<br/>"+unit.unitId);
+	    addHide(unit.typeName,"<br/>"+unit.unitId);
 	    addHide("i",unit.i);
 	    addHide("j",unit.j);
-	    add("hp",unit.hp);
+	    add(unit.typeName,"");
+	    add("",unit.ap+" "+unit.hp);
 	    return inner;
     },
     refresh:function(){

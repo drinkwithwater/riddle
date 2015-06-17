@@ -120,7 +120,7 @@ gUI.ModelManager=gUtil.Class.extend({
     eventAttrSet:function(attrSetEvent,callback){
         var unit=this.unit$(attrSetEvent.unitPos);
         var attr=attrSetEvent.attrSet;
-        unit.set(attr.key,attr.value);
+        if(unit) unit.set(attr.key,attr.value);
         if(typeof(callback)=="function"){
             callback();
         }
