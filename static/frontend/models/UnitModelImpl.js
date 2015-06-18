@@ -12,6 +12,9 @@ gModels.WalkerUnitModel=gModels.unitModelImpl({
     canOper:function(){
         return true;
     },
+    isTrigger:function(){
+        return false;
+    },
     attackRange:function(){
         var i=Number(this.get("i"));
         var j=Number(this.get("j"));
@@ -37,6 +40,9 @@ gModels.FlierUnitModel=gModels.unitModelImpl({
     },
     canOper:function(){
         return true;
+    },
+    isTrigger:function(){
+        return false;
     },
     attackRange:function(){
         var i=Number(this.get("i"));

@@ -35,6 +35,9 @@ gModels.UnitModel=Backbone.Model.extend({
     canOper:function(){
         return false;
     },
+    isTrigger:function(){
+        return false;
+    },
     attackRange:function(){
         return [];
     },

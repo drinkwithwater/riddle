@@ -111,10 +111,29 @@
 }
 
 .floorArea {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
+    padding: 5px;
     background:transparent;
 }
 .floorArea.show{
     background:#ffffff;
+}
+
+.floorArea .triggerRangeArea{
+    width: 50px;
+    height: 50px;
+    background:transparent;
+}
+.floorArea .triggerRangeArea.show{
+    background:#CC0000;
+}
+
+.floorArea .attackRangeArea{
+    width: 50px;
+    height: 50px;
+    background:transparent;
+}
+.floorArea .attackRangeArea.show{
+    background:#CCCC00;
 }

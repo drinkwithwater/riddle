@@ -12,13 +12,15 @@ gViews.BoardView=Backbone.View.extend({
     viewManager:null,
     viewActionHandler:null,
     userInputCtrl:null,
+    triggerRangeView:null,
     constructor:function(aDict){
   	    gViews.BoardView.__super__.constructor.call(this,aDict);
         this.modelManager=aDict.modelManager;
         this.viewManager=aDict.viewManager;
         this.viewActionHandler=aDict.viewActionHandler;
-        //this should init after handler setted;
+        // this should init after handler setted;
         this.userInputCtrl=new gViews.UserInputCtrl(this);
+        this.triggerRangeView=new gViews.TriggerRangeView(this);
     },
     initialize:function(){
         this.template=_.template(gTemplates.board);
@@ -28,10 +30,6 @@ gViews.BoardView=Backbone.View.extend({
     listenerArea$:function(_pointArgs){
         var pos=gPoint.wrapArgs(arguments);
         return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .listenerArea");
-    },
-    floorArea$:function(_pointArgs){
-        var pos=gPoint.wrapArgs(arguments);
-        return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .floorArea");
     },
     positionArea$:function(_pointArgs){
         var pos=gPoint.wrapArgs(arguments);
@@ -65,7 +63,7 @@ gViews.BoardView=Backbone.View.extend({
     baseOffset:function(){
         return this.$(".basePos").offset();
     },
-    cellPos:function(){
+    cellPos:function(_pointArgs){
         var cellOffset=
             this.positionArea$.apply(this,arguments).
             find(".cellPos").offset();
@@ -82,10 +80,6 @@ gViews.BoardView=Backbone.View.extend({
                 top:centerOffset.top-baseOffset.top};
     },
     //}}
-    floor$:function(){
-        var pos=gPoint.wrapArgs(arguments);
-        return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .positionArea");
-    },
 
     render:function(){
         var self=this;
@@ -94,6 +88,7 @@ gViews.BoardView=Backbone.View.extend({
         this.$el.html(this.template(mazeJson));
 
         this.userInputCtrl.render();
+        this.triggerRangeView.render();
 
         return this;
     },
@@ -121,6 +116,17 @@ gViews.BoardView=Backbone.View.extend({
             temp.css(cellPos);
         },self);
         return this;
+    },
+    refreshTriggerRange:function(){
+        var triggerRangeView=this.triggerRangeView;
+        var triggerAreas=[];
+        _.each(this.modelManager.unitDict,function(unitModel){
+            if(unitModel.isTrigger()){
+                var thisRanges=unitModel.triggerRange();
+                triggerAreas=triggerAreas.concat(thisRanges);
+            }
+        });
+        triggerRangeView.display(triggerAreas);
     },
 
     mouseDownArea:function(e){

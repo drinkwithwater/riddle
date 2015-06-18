@@ -85,6 +85,7 @@ gUI.ModelManager=gUtil.Class.extend({
         var srcPos=posMoveEvent.srcPos;
         var dstPos=posMoveEvent.dstPos;
         var moveUnit=this.posToUnit[srcPos.i][srcPos.j];
+        var viewManager=this.viewManager;
         delete this.posToUnit[srcPos.i][srcPos.j];
         this.posToUnit[dstPos.i][dstPos.j]=moveUnit;
         this.viewManager.animatePosMove(
@@ -94,6 +95,7 @@ gUI.ModelManager=gUtil.Class.extend({
                 //call back: set model
                 moveUnit.set("i",dstPos.i)
                 moveUnit.set("j",dstPos.j)
+                viewManager.refreshTriggerRange();
                 if(typeof(callback)=="function"){
                     callback();
                 }
@@ -115,6 +117,7 @@ gUI.ModelManager=gUtil.Class.extend({
         this.unitCollection.remove(unit)
         delete this.unitDict[unit.get("unitId")];
         this.mazeModel.removeUnit(unit);
+        this.viewManager.refreshTriggerRange();
         this.viewManager.animateUnitDie(unitPos,callback);
     },
     eventAttrSet:function(attrSetEvent,callback){

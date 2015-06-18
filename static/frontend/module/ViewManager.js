@@ -15,6 +15,12 @@ gUI.ViewManager=gUtil.Class.extend({
     
     boardView:null,
     menuView:null,
+
+    /**
+     * backbone use cid as model identity;
+     * Class in lib/util.js use _id as model identity;
+     * unitViews[unitView.cid]=unitView
+    */
     unitViews:{},
 
     name:"viewModule",
@@ -60,6 +66,9 @@ gUI.ViewManager=gUtil.Class.extend({
 
         $("#main").html(thisVar.boardView.render().el);
         thisVar.boardView.afterRender();
+    },
+    refreshTriggerRange:function(){
+        this.boardView.refreshTriggerRange();
     },
     createUnitView:function(aDict){
         var unitView=new gViews.UnitView(aDict);

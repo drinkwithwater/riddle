@@ -33,7 +33,7 @@ gViews.UserInputCtrl=gUtil.Class.extend({
         
         this.flyPath=new gViews.FlyPath(boardView);
         this.walkPath=new gViews.WalkPath(boardView);
-        this.rangeView=new gViews.RangeView(boardView);
+        this.rangeView=new gViews.AttackRangeView(boardView);
 
         this.pathingType=gUI.PATHING_TYPE_NONE;
     },
