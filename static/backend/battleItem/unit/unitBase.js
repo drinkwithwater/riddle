@@ -75,14 +75,18 @@ module.exports=function(env){
          * unit on attack
          */
         onAttack:function(context,source,damage){
-            if(typeof(this.attackTrigger)=="function"){
-                this.attackTrigger(context,source,damage);
-            }
-            this.hp-=damage;
-            this.battleField.unitSetAttr(context,this,"hp",this.hp);
-            if(this.hp<=0){
-                this.alive=false;
-                this.battleField.unitDie(context,this);
+            if(this.alive){
+                if(typeof(this.attackTrigger)=="function"){
+                    this.attackTrigger(context,source,damage);
+                }
+                this.hp-=damage;
+                this.battleField.unitSetAttr(context,this,"hp",this.hp);
+                if(this.hp<=0){
+                    this.alive=false;
+                    this.battleField.unitDie(context,this);
+                }
+            }else{
+                return ;
             }
         },
     });
@@ -109,6 +113,7 @@ module.exports=function(env){
         if(props.typeName){
             var num=gScript.unitNumericalDict[props.typeName];
             if(num){
+                // extend hp, ap, range, group
                 _.extend(props,num);
                 // set max hp as hp
                 props.maxHp=num.hp;
