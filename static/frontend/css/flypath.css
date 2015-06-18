@@ -3,8 +3,8 @@
     stroke-width:2;
 }
 .flyPath.attackState svg line#flyPathLine{
-    stroke:#00ff00;
-    stroke-dasharray:3,3,3;
+    stroke:#ffff00;
+    stroke-dasharray:3,0;
 }
 .flyPath.moveState svg line#flyPathLine{
     stroke:#00ff00;

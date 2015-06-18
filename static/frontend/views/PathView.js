@@ -46,7 +46,7 @@ gViews.FlyPath=Backbone.View.extend({
         this.line$().attr("y2",mousePos.top);
     },
     cancel:function(){
-        this.closeRender();
+        this.removeRender();
         this.path=[];
     },
     show:function(area){
@@ -74,7 +74,7 @@ gViews.FlyPath=Backbone.View.extend({
     line$:function(){
         return this.$el.find("line#flyPathLine");
     },
-    closeRender:function(){
+    removeRender:function(){
         this.line$().attr("x1",0);
         this.line$().attr("y1",0);
         this.line$().attr("x2",0);
@@ -104,18 +104,41 @@ gViews.WalkPath=Backbone.View.extend({
         this.addRender(area,this.path);
     },
     overArea:function(area){
+        // remove old path render
+        this.removeRender();
+        // calculate path
         var srcArea=_.last(this.path);
         var onAreas=this.fill(srcArea,area);
         var thisVar=this;
+        var path=this.path;
         _.each(onAreas,function(onArea){
-            thisVar.addRender(onArea,thisVar.path);
-            thisVar.path.push(onArea);
+            var notOccurred=true;
+            var occurredIndex=0;
+            for(var pi=0,pLength=path.length;pi<pLength;pi++){
+                var pathArea=path[pi];
+                if(pathArea.i==onArea.i && pathArea.j==onArea.j){
+                    notOccurred=false;
+                    occurredIndex=pi;
+                    break;
+                }
+            }
+            if(notOccurred){
+                path.push(onArea);
+            }else{
+                thisVar.path=path.slice(0,occurredIndex+1);
+            }
+        });
+        // refresh path render
+        var tempPath=[];
+        _.each(this.path,function(onArea){
+            thisVar.addRender(onArea,tempPath);
+            tempPath.push(onArea);
         });
     },
     overPos:function(mousePos){
     },
     cancel:function(){
-        this.closeRender(this.path);
+        this.removeRender();
         this.path=[];
     },
     show:function(){
@@ -183,7 +206,8 @@ gViews.WalkPath=Backbone.View.extend({
         return this.$("tr.tr"+pos.i+" td.td"+pos.j+" .walkPathArea");
     },
     // remove all render class
-    closeRender:function(path){
+    removeRender:function(path){
+        if(!path) path=this.path;
         _.each(path,function(area){
             this.walkPathArea$(area).find(".walkPathLine").removeClass("choosePath");
         },this);
@@ -192,25 +216,31 @@ gViews.WalkPath=Backbone.View.extend({
     addRender:function(newArea,beforePath){
         var endArea=_.last(beforePath);
         var direct=this.checkDirect(newArea,endArea);
-        if(direct==this.CHECK_UP){
-            this.walkPathArea$(endArea).find(".topPath").addClass("choosePath");
-            this.walkPathArea$(newArea).find(".bottomPath").addClass("choosePath");
-        }else if(direct==this.CHECK_DOWN){
-            this.walkPathArea$(endArea).find(".bottomPath").addClass("choosePath");
-            this.walkPathArea$(newArea).find(".topPath").addClass("choosePath");
-        }else if(direct==this.CHECK_LEFT){
-            this.walkPathArea$(endArea).find(".leftPath").addClass("choosePath");
-            this.walkPathArea$(newArea).find(".rightPath").addClass("choosePath");
-        }else if(direct==this.CHECK_RIGHT){
-            this.walkPathArea$(endArea).find(".rightPath").addClass("choosePath");
-            this.walkPathArea$(newArea).find(".leftPath").addClass("choosePath");
-        }else if(direct==this.CHECK_EMPTY){
+        
+        // add path render css
+        var $newWalkArea=this.walkPathArea$(newArea);
+        if(direct==this.CHECK_EMPTY){
             //do nothing
         }else if(direct==this.CHECK_BREAK){
             //just do this now;
             //the path may be broken
+        }else{
+            var $endWalkArea=this.walkPathArea$(endArea);
+            if(direct==this.CHECK_UP){
+                $endWalkArea.find(".topPath").addClass("choosePath");
+                $newWalkArea.find(".bottomPath").addClass("choosePath");
+            }else if(direct==this.CHECK_DOWN){
+                $endWalkArea.find(".bottomPath").addClass("choosePath");
+                $newWalkArea.find(".topPath").addClass("choosePath");
+            }else if(direct==this.CHECK_LEFT){
+                $endWalkArea.find(".leftPath").addClass("choosePath");
+                $newWalkArea.find(".rightPath").addClass("choosePath");
+            }else if(direct==this.CHECK_RIGHT){
+                $endWalkArea.find(".rightPath").addClass("choosePath");
+                $newWalkArea.find(".leftPath").addClass("choosePath");
+            }
         }
-        this.walkPathArea$(newArea).find(".centerPath").addClass("choosePath");
+        $newWalkArea.find(".centerPath").addClass("choosePath");
     },
     checkDirect:function(dstArea,srcArea){
 	    if(!srcArea){

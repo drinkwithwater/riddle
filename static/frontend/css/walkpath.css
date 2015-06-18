@@ -35,8 +35,8 @@
     background-color:transparent !important;
 }
 .walkPath.attackState .walkPathLine.choosePath{
-    border-style:dashed;
-    border-color:#00ff00;
+    border-style:solid;
+    border-color:#ffff00;
 }
 .walkPath.moveState .walkPathLine.choosePath{
     border-style:solid;
