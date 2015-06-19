@@ -52,16 +52,26 @@ gModels.ObserverUnitModel=gModels.unitModelExtend(gModels.TriggerUnitModel,{
 gModels.RiderUnitModel=gModels.unitModelExtend(gModels.TriggerUnitModel,{
     typeName:"rider",
     triggerRange:function(){
+        var modelManager=this.modelManager;
         var i=Number(this.get("i"));
         var j=Number(this.get("j"));
         var triggerRange=Number(this.get("triggerRange"));
         var rangeArray=[{i:i,j:j}];
-        _.each(_.range(1,triggerRange+1),function(offset){
-            rangeArray.push({i:i+offset,j:j});
-            rangeArray.push({i:i,j:j+offset});
-            rangeArray.push({i:i-offset,j:j});
-            rangeArray.push({i:i,j:j-offset});
-        });
+        var putDirect=function(di,dj){
+            var putI=i;
+            var putJ=j;
+            for(var count=0;count<triggerRange;count++){
+                putI+=di;
+                putJ+=dj;
+                var occurUnitModel=modelManager.unit$({i:putI,j:putJ});
+                if(_.isObject(occurUnitModel)) break;
+                else rangeArray.push({i:putI,j:putJ})
+            }
+        }
+        putDirect(1,0);
+        putDirect(0,1);
+        putDirect(-1,0);
+        putDirect(0,-1);
         return rangeArray;
     },
 });

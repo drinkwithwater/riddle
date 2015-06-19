@@ -1,8 +1,9 @@
+next: add line range attack unit
+      a unit can exchange place with another unit at the first attack
+      a unit can fly at the first move
 
 floor use view or ctrl?
 
-event detail
-message detail
 
 1. frontend:
 	unit model detail

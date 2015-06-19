@@ -93,7 +93,7 @@ gViews.BoardView=Backbone.View.extend({
         return this;
     },
     afterRender:function(){
-        // set svg width & height
+        // set svg width & height by rendered ui
         var width=this.$(".boardChild.listener").width();
         var height=this.$(".boardChild.listener").height();
 
@@ -115,6 +115,8 @@ gViews.BoardView=Backbone.View.extend({
             var cellPos=self.cellPos(i,j);
             temp.css(cellPos);
         },self);
+        // refresh trigger range
+        this.refreshTriggerRange();
         return this;
     },
     refreshTriggerRange:function(){
