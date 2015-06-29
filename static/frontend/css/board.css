@@ -121,8 +121,9 @@
 }
 
 .floorArea .triggerRangeArea{
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
     background:transparent;
 }
 .floorArea .triggerRangeArea.show{
@@ -130,8 +131,8 @@
 }
 
 .floorArea .attackRangeArea{
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     background:transparent;
 }
 .floorArea .attackRangeArea.show{

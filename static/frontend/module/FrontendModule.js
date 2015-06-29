@@ -53,6 +53,7 @@ gUI.FrontendModule=gUtil.Class.extend({
             this.viewManager.destroy();
             this.modelManager.createFromScriptName(scriptName);
             this.viewManager.reRender();
+            this.viewManager.refreshTriggerRange();
         }else{
             //TODO
             //init battle from many data;

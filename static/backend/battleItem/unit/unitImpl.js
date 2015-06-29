@@ -115,9 +115,36 @@ module.exports=function(env){
         createDamage:function(target){
             if(this.firstAttack){
                 this.firstAttack=false;
-                return this.ap*2;
+                return this.ap*4;
             }else{
-                return this.ap-1;
+                return Math.floor(this.ap/2);
+            }
+        }
+    });
+    gBattle.ArcherUnit=gBattle.unitExtend(gBattle.WalkerUnit,{
+        typeName:"archer",
+        createDamage:function(target){
+            return Math.floor(this.ap/2);
+        },
+        operAttack:function(context,path){
+            var battleField=this.battleField;
+            var maze=battleField.getMaze();
+
+            var target=maze.getUnit(_.last(path));
+            var path=gPoint.range(this,target);
+            if(!path) return ;
+            else{
+                // harm line unit
+                for(var x=1,l=path.length;x<l;x++){
+                    var pathUnit=maze.getUnit(path[x]);
+                    if(pathUnit){
+                        var damage=this.createDamage(pathUnit);
+                        battleField.unitHarm(context,this,pathUnit,damage);
+                    }
+                }
+                // attack target unit
+                var damage=this.createDamage(target);
+                battleField.unitAttack(context,this,target,damage);
             }
         }
     });

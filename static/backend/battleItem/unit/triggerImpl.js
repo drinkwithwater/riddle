@@ -62,23 +62,11 @@ module.exports=function(env){
             // position check
             // the mover and rider must be on the same line
             var battleField=this.battleField;
-            var path=[]; // trigger move path
-            if(this.i!=mover.i && this.j==mover.j){
-                var j=this.j
-                var di=(this.i<mover.i?1:-1);
-                for(var i=this.i+di;i!=mover.i;i+=di){
-                    path.push({i:i,j:j})
-                }
-            }else if(this.j!=mover.j && this.i==mover.i){
-                var i=this.i;
-                var dj=(this.j<mover.j?1:-1);
-                for(var j=this.j+dj;j!=mover.j;j+=dj){
-                    path.push({i:i,j:j})
-                }
-            }else return ;
+            var path=gPoint.range(this,mover);
+            if(!path) return ;
             // check if path has other unit
             var maze=battleField.getMaze();
-            for(var x=0,l=path.length;x<l;x++){
+            for(var x=1,l=path.length;x<l;x++){
                 var dstPos=path[x];
                 var unit=maze.getUnit(dstPos);
                 if(_.isObject(unit)){
@@ -86,7 +74,7 @@ module.exports=function(env){
                 }
             }
             // move step
-            for(var x=0,l=path.length;x<l;x++){
+            for(var x=1,l=path.length;x<l;x++){
                 var dstPos=path[x];
                 battleField.unitMoveStep(context,this,dstPos);
                 // check death

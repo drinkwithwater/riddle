@@ -63,6 +63,55 @@ module.exports=function(env){
         var dj=pa.j-pb.j;
         return Math.sqrt(di*di+dj*dj);
     }
+    // from from+d,from+2d,...,to-d;
+    // d=(0,1) or (1,0) or (-1,0) or (0,-1)
+    gPoint.range=function(from,to){
+        var path=[{i:from.i,j:from.j}];
+        if(from.i!=to.i && from.j==to.j){
+            var j=from.j;
+            var di=(from.i<to.i?1:-1);
+            for(var i=from.i+di;i!=to.i;i+=di){
+                path.push({i:i,j:j})
+            }
+        }else if(from.j!=to.j && from.i==to.i){
+            var i=from.i;
+            var dj=(from.j<to.j?1:-1);
+            for(var j=from.j+dj;j!=to.j;j+=dj){
+                path.push({i:i,j:j})
+            }
+        }else return null;
+        return path;
+    }
+    // e.g. radioRange((0,0),1)=
+    // [(0,0),(1,0),(0,1),(-1,0),(0,-1)]
+    gPoint.radioRange=function(center,range){
+        if((!center.i)||(!center.j)) {
+            console.error("radioRange arg unvalid");
+        }
+        if(range<=0) return [{i:center.i,j:center.j}];
+        var rangeArray=[];
+        // i=0;
+        for(var j=-range;j<=range;j++){
+            rangeArray.push({
+                i:center.i,
+                j:center.j+j
+            });
+        }
+        // i:[1,range]+[-range,-1]
+        for(var i=1;i<=range;i++){
+            for(var j=-(range-i);j<=range-i;j++){
+                rangeArray.push({
+                    i:center.i+i,
+                    j:center.j+j
+                });
+                rangeArray.push({
+                    i:center.i-i,
+                    j:center.j+j
+                });
+            }
+        }
+        return rangeArray;
+    }
 }
 
 

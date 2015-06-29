@@ -16,10 +16,13 @@ module.exports=function(env){
         hp:4, ap:2, attackRange:1, group:gScript.GROUP_ATTACKER,
     };
     gScript.unitNumericalDict["hitter"]={
-        hp:4, ap:2, attackRange:1, group:gScript.GROUP_ATTACKER,
+        hp:4, ap:2, attackRange:2, group:gScript.GROUP_ATTACKER,
     };
     gScript.unitNumericalDict["assassin"]={
         hp:4, ap:2, attackRange:1, group:gScript.GROUP_ATTACKER,
+    };
+    gScript.unitNumericalDict["archer"]={
+        hp:4, ap:2, attackRange:3, group:gScript.GROUP_ATTACKER,
     };
 
     // defenser

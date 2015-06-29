@@ -8,6 +8,7 @@ module.exports=function(env){
     gScript.unitTypeNameDict[3]="berserker";
     gScript.unitTypeNameDict[4]="hitter";
     gScript.unitTypeNameDict[5]="assassin";
+    gScript.unitTypeNameDict[6]="archer";
     gScript.unitTypeNameDict[9]="--------------------";
     gScript.unitTypeNameDict[10]="trigger";
     gScript.unitTypeNameDict[11]="wall";
