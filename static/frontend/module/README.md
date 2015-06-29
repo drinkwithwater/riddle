@@ -7,6 +7,7 @@ The mvc design frame and interface
     model->view:
         animatePosMove
         animateBulletMove
+        refreshTriggerRange
     view->model:
         unit$
         maze$

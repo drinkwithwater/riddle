@@ -23,15 +23,31 @@ gModels.MazeModel=Backbone.Model.extend({
         }
         //TODO
     },
+    valid:function(i,j){
+        if(typeof(i)!="number") return false;
+        if(typeof(j)!="number") return false;
+        if(i<0) return false;
+        if(i>=this.get("iLength")) return false;
+        if(j<0) return false;
+        if(j>=this.get("jLength")) return false;
+        return true;
+    },
     getUnit:function(i,j){
-        return this.posToUnit[i][j];
+        if(this.valid(i,j)) return this.posToUnit[i][j];
+        else return null;
     },
     setUnit:function(i,j,unit){
-        this.posToUnit[i][j]=unit;
+        if(this.valid(i,j)) this.posToUnit[i][j]=unit;
+        else{
+            console.warn("maze set unit position not valid");
+        }
     },
     removeUnit:function(unit){
         var i=unit.get("i");
         var j=unit.get("j");
-        this.posToUnit[i][j]=null;
+        if(this.valid(i,j)) this.posToUnit[i][j]=null;
+        else{
+            console.warn("maze remove unit position not valid");
+        }
     }
 });
