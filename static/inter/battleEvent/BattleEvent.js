@@ -81,4 +81,7 @@ module.exports=function(env){
             value:null
         }
     });
+    gEvent.BattleWin=gEvent.eventImpl({
+        type:"battle_win",
+    });
 };

@@ -89,6 +89,13 @@ module.exports=function(env){
                 return ;
             }
         },
+        isKey:function(){
+            if(this.key==true){
+                return true;
+            }else{
+                return false;
+            }
+        },
     });
     gBattle.BaseUnit=gBattle.SimpleUnit;
     gBattle.unitClassDict={}

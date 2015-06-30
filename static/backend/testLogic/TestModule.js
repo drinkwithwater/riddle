@@ -12,7 +12,10 @@ gTest.TestModule=gUtil.Class.extend({
 
     init:function(){
         var thisVar=this;
-        this.battleField=gFactory.createBattle("test1");
+        var urlScript=window.location.hash.substr(1);
+        this.battleField=gFactory.createBattle(
+                urlScript?urlScript:"test1"
+        );
         this.battleField.playerDict[0]={
             playerId:0,
             battleField:this.battleField,

@@ -11,27 +11,33 @@ gEdit.Script=gUtil.Class.extend({
     trArray:[],
     keyArray:[],
     nameToNum:{}, // type name to type id
-    constructor:function(script){
-        if(script){
+    constructor:function(newi,newj){
+        if(typeof(newi)=="object"){
+            var script=newi;
             _.extend(this,script);
         }else{
-            this.unitArray=new Array(this.iLength);
-            for(var i=0;i<this.iLength;i++){
-                this.unitArray[i]=new Array(this.jLength);
-                this.apArray[i]=new Array(this.jLength);
-                this.hpArray[i]=new Array(this.jLength);
-                this.arArray[i]=new Array(this.jLength);
-                this.trArray[i]=new Array(this.jLength);
-                this.keyArray[i]=new Array(this.jLength);
-                for(var j=0;j<this.jLength;j++){
-                    this.unitArray[i][j]=0;
-                    this.apArray[i][j]=0;
-                    this.hpArray[i][j]=0;
-                    this.arArray[i][j]=0;
-                    this.trArray[i][j]=0;
-                    this.keyArray[i][j]=0;
-                }
+            if(typeof(newi)=="number"){
+                this.iLength=newi;
             }
+            if(typeof(newj)=="number"){
+                this.jLength=newj;
+            }
+            var initArray=function(iLength,jLength){
+                var tempArray=new Array(iLength);
+                for(var i=0;i<iLength;i++){
+                    tempArray[i]=new Array(jLength);
+                    for(var j=0;j<jLength;j++){
+                        tempArray[i][j]=0;
+                    }
+                }
+                return tempArray;
+            }
+            this.unitArray=initArray(this.iLength,this.jLength);
+            this.apArray=initArray(this.iLength,this.jLength);
+            this.hpArray=initArray(this.iLength,this.jLength);
+            this.arArray=initArray(this.iLength,this.jLength);
+            this.trArray=initArray(this.iLength,this.jLength)
+            this.keyArray=initArray(this.iLength,this.jLength);
         }
         var nameToNum=this.nameToNum;
         _.each(gScript.unitTypeNameDict,function(v,k){
@@ -192,6 +198,12 @@ gEdit.Main=gUtil.Class.extend({
         $("#load").on("click",function(){
             var selectScript=$("#script").val();
             thisVar.script=new gEdit.Script(gScript.battleScript[selectScript]);
+            thisVar.reRender();
+        });
+        $("#new").on("click",function(){
+            var newi=Number($("#newi").val());
+            var newj=Number($("#newj").val());
+            thisVar.script=new gEdit.Script(newi,newj);
             thisVar.reRender();
         });
     },

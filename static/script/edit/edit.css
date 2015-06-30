@@ -3,6 +3,9 @@
 .content div.right{
 }
 
+input{
+    width:30px;
+}
 .board input{
     width:15;
     display:block;

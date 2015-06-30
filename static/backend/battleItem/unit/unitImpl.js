@@ -2,7 +2,7 @@ module.exports=function(env){
     //{{{
     var gBattle=env.gBattle=env.gBattle||{}
     gBattle._NormalSample={
-        i:-1, j:-1, maxHp:10, hp:10, ap:10,
+        i:-1, j:-1, maxHp:10, hp:10, ap:10, key:false,
         attackRange:1, alive:true,
         ownerId:null, unitId:null, battleField:null,
         pathingOper:null,operMove:null, operAttack:null,

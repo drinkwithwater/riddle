@@ -236,6 +236,9 @@ module.exports=function(env){
             if(this.moveTriggerDict[unitId]){
                 delete this.moveTriggerDict[unitId];
             }
+            if(this.checkWin()){
+                context.push(new gEvent.BattleWin({}));
+            }
         },
 
         
@@ -243,13 +246,20 @@ module.exports=function(env){
 
 	    
 	    
+        checkWin:function(){
+            for(var i in this.unitDict){
+                if(this.unitDict[i].isKey()){
+                    return false;
+                }
+            }
+            return true;
+        },
 	    
 	    
 
 
 	    
 	    //TODO
-	    //e.g. died, 
 	    unitTODO:function(){},
 	    
 	    getMaze:function(){

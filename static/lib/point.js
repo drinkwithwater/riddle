@@ -85,9 +85,6 @@ module.exports=function(env){
     // e.g. radioRange((0,0),1)=
     // [(0,0),(1,0),(0,1),(-1,0),(0,-1)]
     gPoint.radioRange=function(center,range){
-        if((!center.i)||(!center.j)) {
-            console.error("radioRange arg unvalid");
-        }
         if(range<=0) return [{i:center.i,j:center.j}];
         var rangeArray=[];
         // i=0;

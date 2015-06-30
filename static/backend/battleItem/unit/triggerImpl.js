@@ -2,7 +2,7 @@ module.exports=function(env){
     //{{{
     var gBattle=env.gBattle=env.gBattle||{}
     gBattle._TriggerSample={
-        i:-1, j:-1, maxHp:10, hp:10, alive:true,
+        i:-1, j:-1, maxHp:10, hp:10, alive:true, key:false,
         ownerId:null, unitId:null, battleField:null,
         pathingOper:null,operMove:null, operAttack:null,
         createDamage:null, onDamage:null,

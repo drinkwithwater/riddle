@@ -3,8 +3,8 @@ module.exports=function(env){
     var gBattle=env.gBattle=env.gBattle|| {}
     var gFactory=env.gFactory=env.gFactory||{}
     gBattle.UnitFactory = {
-        createUnit: function(i,j,code) {
-            var typeKey = code % 0x100;
+        createUnit: function(i,j,aDict) {
+            var typeKey = aDict.unitCode;
 	        if(typeKey<=0) return null;
             else{
                 var typeName=gScript.unitTypeNameDict[typeKey];
@@ -12,6 +12,13 @@ module.exports=function(env){
 	            newUnit.i=i;
 	            newUnit.j=j;
 	            newUnit.unitId=gScript.createCommonId(i,j);
+                // set attr from script
+                if(aDict.ap!=0) newUnit.ap=aDict.ap;
+                if(aDict.hp!=0) newUnit.hp=aDict.hp;
+                if(aDict.ar!=0) newUnit.attackRange=aDict.ar;
+                if(aDict.tr!=0) newUnit.triggerRange=aDict.tr;
+                if(aDict.key!=0) newUnit.key=true;
+                else newUnit.key=false;
                 return newUnit;
             }
         }
@@ -47,16 +54,29 @@ module.exports=function(env){
             var iLength = script.unitArray.length;
             var jLength = script.unitArray[0].length;
             var unitArray = script.unitArray;
+            var hpArray = script.hpArray;
+            var apArray = script.apArray;
+            var arArray = script.arArray;
+            var trArray = script.trArray;
+            var keyArray = script.keyArray;
             // create unitDict,gameMaze;
             var unitDict = {};
             var maze = null;
             for (var i = 0; i < iLength; i++) {
                 for (var j = 0; j < jLength; j++) {
-                    var code = unitArray[i][j];
-                    if (code === 0) {
+                    var unitCode = unitArray[i][j];
+                    if (unitCode === 0) {
                         continue;
                     } else {
-	                    var unit=gFactory.createUnit(i,j,code);
+                        var aDict={
+                            unitCode:unitCode,
+                            ap:apArray?apArray[i][j]:0,
+                            hp:hpArray?hpArray[i][j]:0,
+                            ar:arArray?arArray[i][j]:0,
+                            tr:trArray?trArray[i][j]:0,
+                            key:keyArray?keyArray[i][j]:0,
+                        }
+	                    var unit=gFactory.createUnit(i,j,aDict);
 	                    if(unit){
 		                    unitDict[unit.unitId] = unit;
 	                    }
