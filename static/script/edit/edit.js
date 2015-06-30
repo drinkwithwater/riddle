@@ -7,6 +7,9 @@ gEdit.Script=gUtil.Class.extend({
     unitArray:[],
     apArray:[],
     hpArray:[],
+    arArray:[],
+    trArray:[],
+    keyArray:[],
     nameToNum:{}, // type name to type id
     constructor:function(script){
         if(script){
@@ -17,10 +20,16 @@ gEdit.Script=gUtil.Class.extend({
                 this.unitArray[i]=new Array(this.jLength);
                 this.apArray[i]=new Array(this.jLength);
                 this.hpArray[i]=new Array(this.jLength);
+                this.arArray[i]=new Array(this.jLength);
+                this.trArray[i]=new Array(this.jLength);
+                this.keyArray[i]=new Array(this.jLength);
                 for(var j=0;j<this.jLength;j++){
                     this.unitArray[i][j]=0;
                     this.apArray[i][j]=0;
                     this.hpArray[i][j]=0;
+                    this.arArray[i][j]=0;
+                    this.trArray[i][j]=0;
+                    this.keyArray[i][j]=0;
                 }
             }
         }
@@ -29,15 +38,22 @@ gEdit.Script=gUtil.Class.extend({
             nameToNum[v]=k;
         });
     },
-    setUnit:function(i,j,type,ap,hp){
-        if((!type)||type=="null"||(!this.nameToNum[type])){
+    setUnit:function(i,j,aDict){
+        var type=aDict.typeName;
+        if((!type)||type=="null"||type[0]=="-"||(!this.nameToNum[type])){
             this.unitArray[i][j]=0;
             this.apArray[i][j]=0;
             this.hpArray[i][j]=0;
+            this.arArray[i][j]=0;
+            this.trArray[i][j]=0;
+            this.keyArray[i][j]=0;
         }else{
             this.unitArray[i][j]=Number(this.nameToNum[type]);
-            this.apArray[i][j]=Number(ap);
-            this.hpArray[i][j]=Number(hp);
+            this.apArray[i][j]=Number(aDict.ap);
+            this.hpArray[i][j]=Number(aDict.hp);
+            this.arArray[i][j]=Number(aDict.ar);
+            this.trArray[i][j]=Number(aDict.tr);
+            this.keyArray[i][j]=Number(aDict.key);
         }
     },
     toJSON:function(){
@@ -49,6 +65,9 @@ gEdit.Script=gUtil.Class.extend({
             unitArray:this.unitArray,
             apArray:this.apArray,
             hpArray:this.hpArray,
+            arArray:this.arArray,
+            trArray:this.trArray,
+            keyArray:this.keyArray,
         };
     }
 });
@@ -65,19 +84,43 @@ gEdit.Cell=gUtil.Class.extend({},{
             select$.append(option);
         });
         select$.val(typeName);
+        var key$=$("<button></button>").addClass("key").html("0");
         var ap$=$("<input></input>").addClass("ap").val(
             ap?ap:defaultUnit.ap
         );
         var hp$=$("<input></input>").addClass("hp").val(
             hp?hp:defaultUnit.hp
         );
+        var ar$=$("<input></input>").addClass("ar").val(
+            defaultUnit.attackRange?defaultUnit.attackRange:0
+        );
+        var tr$=$("<input></input>").addClass("tr").val(
+            defaultUnit.triggerRange?defaultUnit.triggerRange:0
+        );
+        key$.on("click",function(e){
+            if(key$.html()==="0"){
+                key$.html("1");
+            }else{
+                key$.html("0");
+            }
+        });
         select$.change(function(e){
             var typeName=$(e.target).val();
             var numerical=gScript.unitNumericalDict[typeName];
+            if(typeName=="null"||typeName[0]=="-"){
+                return ;
+            }
             ap$.val(numerical.ap);
             hp$.val(numerical.hp);
+            ar$.val(
+                numerical.attackRange?numerical.attackRange:0
+            );
+            tr$.val(
+                numerical.triggerRange?numerical.triggerRange:0
+            );
         });
-        el$.append(select$).append(ap$).append(hp$);
+        el$.append(select$).append(key$)
+            .append(ap$).append(hp$).append(ar$).append(tr$);
     },
 });
 gEdit.Main=gUtil.Class.extend({
@@ -105,10 +148,17 @@ gEdit.Main=gUtil.Class.extend({
                 var typeName$=area$.find("select.type");
                 var ap$=area$.find("input.ap");
                 var hp$=area$.find("input.hp");
-                var typeName=typeName$?typeName$.val():null;
-                var ap=ap$?ap$.val():0;
-                var hp=hp$?hp$.val():0;
-                script.setUnit(i,j,typeName,ap,hp);
+                var ar$=area$.find("input.ar");
+                var tr$=area$.find("input.tr");
+                var key$=area$.find("button.key");
+                script.setUnit(i,j,{
+                    typeName:typeName$?typeName$.val():null,
+                    ap:ap$.val()?ap$.val():0,
+                    hp:hp$.val()?hp$.val():0,
+                    ar:ar$.val()?ar$.val():0,
+                    tr:tr$.val()?tr$.val():0,
+                    key:key$.html()
+                });
             }
         }
         return script;

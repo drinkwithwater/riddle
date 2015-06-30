@@ -2,18 +2,19 @@
 }
 .content div.right{
 }
-input[type="text"]{
-    width:60px;
-    heigth:10px;
-}
 
 .board input{
-    width:30;
+    width:15;
+    display:block;
+    float:left;
+}
+.board button.key{
+    width:20;
     display:block;
     float:left;
 }
 .board select{
-    width:60;
+    width:40;
     display:block;
     float:left;
 }

@@ -57,6 +57,8 @@ def savescript():
     middle["unitArray"]=formatArray(middle["unitArray"])
     middle["apArray"]=formatArray(middle["apArray"])
     middle["hpArray"]=formatArray(middle["hpArray"])
+    middle["arArray"]=formatArray(middle["arArray"])
+    middle["trArray"]=formatArray(middle["trArray"])
     data=json.dumps(middle,indent=4)
     data=data.replace("\"[","[").replace("]\"","]").replace("\n","\n    ")
     _script[scriptName]=data
