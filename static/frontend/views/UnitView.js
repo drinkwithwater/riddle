@@ -15,6 +15,14 @@ gViews.UnitView=Backbone.View.extend({
     render:function(msg){
         var modelJson=this.model.toJSON();
         modelJson.typeName=this.model.typeName;
+        modelJson.apicon="blacksword";
+        if(modelJson.key){
+            modelJson.hpicon="redshell";
+        }else if(modelJson.group==gScript.GROUP_ATTACKER){
+            modelJson.hpicon="blueshell";
+        }else{
+            modelJson.hpicon="blackshell";
+        }
         $(this.el).html(this.template(modelJson));
         // set i,j attr
         $(this.el).attr("data-i",modelJson.i);

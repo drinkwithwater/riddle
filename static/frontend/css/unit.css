@@ -24,15 +24,15 @@ div.unit {
     float:right;
 }
 .unit .info .ap .icon{
-    width:10px;
-    height:10px;
+    width:13px;
+    height:13px;
     background:url("/frontend/image/menu.png") no-repeat;
     background-position:-76px -23px;
     float:left;
 }
 .unit .info .hp .icon{
-    width:10px;
-    height:10px;
+    width:13px;
+    height:13px;
     background:url("/frontend/image/menu.png") no-repeat;
     background-position:-56px -23px;
     float:right;
@@ -40,4 +40,65 @@ div.unit {
 .unit .info .value{
     background-color:transparent !important;
     color:#FFFFFF;
+}
+.unit .info .hp .icon.blackshell{
+    width:11px;
+    height:15px;
+    background:url("/frontend/image/aphp.png") no-repeat;
+    background-position:-200px -29px;
+}
+.unit .info .hp .icon.blueshell{
+    width:11px;
+    height:15px;
+    background:url("/frontend/image/aphp.png") no-repeat;
+    background-position:-215px -29px;
+}
+.unit .info .hp .icon.redshell{
+    width:11px;
+    height:15px;
+    background:url("/frontend/image/aphp.png") no-repeat;
+    background-position:-231px -29px;
+}
+.unit .info .ap .icon.greensword{
+    width:14px;
+    height:14px;
+    background:url("/frontend/image/aphp.png") no-repeat;
+    background-position:-220px -7px;
+}
+.unit .info .ap .icon.blacksword{
+    width:13px;
+    height:14px;
+    background:url("/frontend/image/aphp.png") no-repeat;
+    background-position:-204px -8px;
+}
+
+.tag.blackshell{
+    width:34px;
+    height:46px;
+    background:url("/frontend/image/aphp.png") no-repeat;
+    background-position:0px -5px;
+}
+.tag.blueshell{
+    width:35px;
+    height:46px;
+    background:url("/frontend/image/aphp.png") no-repeat;
+    background-position:-77px -5px;
+}
+.tag.redshell{
+    width:35px;
+    height:46px;
+    background:url("/frontend/image/aphp.png") no-repeat;
+    background-position:-155px -5px;
+}
+.tag.blacksword{
+    width:40px;
+    height:44px;
+    background:url("/frontend/image/aphp.png") no-repeat;
+    background-position:-35px -8px;
+}
+.tag.greensword{
+    width:40px;
+    height:44px;
+    background:url("/frontend/image/aphp.png") no-repeat;
+    background-position:-113px -9px;
 }

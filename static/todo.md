@@ -1,6 +1,7 @@
 next: add line range attack unit
       a unit can exchange place with another unit at the first attack
       a unit can fly at the first move
+      a unit can fly when it kill someone
 
 floor use view or ctrl?
 
