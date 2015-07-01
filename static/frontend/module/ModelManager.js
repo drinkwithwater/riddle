@@ -66,6 +66,7 @@ gUI.ModelManager=gUtil.Class.extend({
 
 
     eventHandlers:{
+        "battle_win":"eventBattleWin",
         "pos_move":"eventPosMove",
         "unit_attack":"eventUnitAttack",
         "unit_harm":"eventUnitHarm",
@@ -79,6 +80,12 @@ gUI.ModelManager=gUtil.Class.extend({
             handlerFunc.call(this,battleEvent,callback);
         }else{
 		    console.error("battle type no handler: "+battleEvent.type);
+        }
+    },
+    eventBattleWin:function(battleWinEvent,callback){
+        alert("You Win !!");
+        if(typeof(callback)=="function"){
+            callback();
         }
     },
     eventPosMove:function(posMoveEvent,callback){

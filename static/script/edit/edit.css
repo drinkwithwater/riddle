@@ -6,6 +6,9 @@
 input{
     width:30px;
 }
+input#scriptname{
+    width:90px;
+}
 .board input{
     width:15;
     display:block;

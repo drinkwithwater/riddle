@@ -78,11 +78,19 @@ gEdit.Script=gUtil.Class.extend({
     }
 });
 gEdit.Cell=gUtil.Class.extend({},{
-    setUnitHTML:function(el$,typeName,ap,hp){
+    //static setting
+    setUnitHTML:function(el$,typeName,aDict){
         if(!typeName){
             typeName="wall"
         }
         var defaultUnit=gScript.unitNumericalDict[typeName];
+        aDict=aDict||{
+            key:aDict.key,
+            ap:defaultUnit.ap,
+            hp:defaultUnit.hp,
+            ar:(defaultUnit.attackRange?defaultUnit.attackRange:0),
+            tr:(defaultUnit.triggerRange?defaultUnit.triggerRange:0)
+        };
         var select$=$("<select></select>").addClass("type");
         _.each(gScript.unitTypeNameDict,function(eachTypeName){
             var option="<option value=\""+eachTypeName+"\">"+
@@ -90,18 +98,20 @@ gEdit.Cell=gUtil.Class.extend({},{
             select$.append(option);
         });
         select$.val(typeName);
-        var key$=$("<button></button>").addClass("key").html("0");
+        var key$=$("<button></button>").addClass("key").html(
+            aDict.key
+        );
         var ap$=$("<input></input>").addClass("ap").val(
-            ap?ap:defaultUnit.ap
+            aDict.ap
         );
         var hp$=$("<input></input>").addClass("hp").val(
-            hp?hp:defaultUnit.hp
+            aDict.hp
         );
         var ar$=$("<input></input>").addClass("ar").val(
-            defaultUnit.attackRange?defaultUnit.attackRange:0
+            aDict.ar
         );
         var tr$=$("<input></input>").addClass("tr").val(
-            defaultUnit.triggerRange?defaultUnit.triggerRange:0
+            aDict.tr
         );
         key$.on("click",function(e){
             if(key$.html()==="0"){
@@ -206,6 +216,13 @@ gEdit.Main=gUtil.Class.extend({
             thisVar.script=new gEdit.Script(newi,newj);
             thisVar.reRender();
         });
+        $("#del").on("click",function(){
+            var scriptName=$("#script").val();
+            console.log("delete script : "+scriptName);
+            $.get("/delscript/"+scriptName,function(){
+                $("#script option").remove("[value="+scriptName+"]");
+            });
+        });
     },
     // reRender this.script in main
     reRender:function(){
@@ -229,7 +246,13 @@ gEdit.Main=gUtil.Class.extend({
                     var clear=$("<button class=\"clear\"></button>").html("-("+i+","+j+")");
                     area$.append(clear);
                     var div=$("<div></div>");
-                    gEdit.Cell.setUnitHTML(div,typeName);
+                    gEdit.Cell.setUnitHTML(div,typeName,{
+                        ap:script.apArray[i][j],
+                        hp:script.hpArray[i][j],
+                        tr:script.trArray[i][j],
+                        ar:script.arArray[i][j],
+                        key:script.keyArray[i][j]
+                    });
                     area$.append(div);
                 }
             }

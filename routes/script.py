@@ -59,9 +59,15 @@ def savescript():
     middle["hpArray"]=formatArray(middle["hpArray"])
     middle["arArray"]=formatArray(middle["arArray"])
     middle["trArray"]=formatArray(middle["trArray"])
+    middle["keyArray"]=formatArray(middle["keyArray"])
     data=json.dumps(middle,indent=4)
     data=data.replace("\"[","[").replace("]\"","]").replace("\n","\n    ")
     _script[scriptName]=data
     set_script()
     return str(data)
 
+@app.route("/delscript/<scriptName>",methods=["GET"])
+def delscript(scriptName):
+    del _script[scriptName]
+    set_script();
+    return ""
