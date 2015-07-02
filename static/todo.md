@@ -1,3 +1,5 @@
+maze design:
+	shortest path: a very long range observer.
 next: add line range attack unit
       a unit can exchange place with another unit at the first attack
       a unit can fly at the first move
@@ -22,7 +24,7 @@ floor use view or ctrl?
                             2*hp<=maxHp?4:2;
                 2.hitter: the less distance the more damage
                             distance<=1?3:1;
-                3.assassin: first attack make more damage 
+                3.assassin: first attack make more damage
                             first?3:1;
             type II:
                  //It is a hard decision
@@ -36,7 +38,7 @@ floor use view or ctrl?
                            attack 2;
                 2.wall: attack trigger
                            hp=200, attack=1;
-            type II: 
+            type II:
                 1.triggered unit will move pos
                 2.trigger only attack once
                 3.the less hp the more trigger damage

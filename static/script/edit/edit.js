@@ -85,7 +85,7 @@ gEdit.Cell=gUtil.Class.extend({},{
         }
         var defaultUnit=gScript.unitNumericalDict[typeName];
         aDict=aDict||{
-            key:aDict.key,
+            key:0,
             ap:defaultUnit.ap,
             hp:defaultUnit.hp,
             ar:(defaultUnit.attackRange?defaultUnit.attackRange:0),
