@@ -1,0 +1,87 @@
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+<style>
+	html {
+		background-color:#111111 !important;
+	}
+	body {
+		background-color:#111111 !important;
+	}
+</style>
+<!-- -lib---------------------------------------- -->
+<script src="/lib/jquery.js"></script>
+<script src="/lib/underscore.min.js"></script>
+<script src="/lib/backbone.min.js"></script>
+<script src="/lib/util.js"></script>
+<script src="/lib/point.js"></script>
+<!-- -------------------------------------------- -->
+<script src="config.js"></script>
+<!-- -------------------------------------------- -->
+<script src="/script/BattleScript.js"></script>
+<script src="/script/UnitScript.js"></script>
+<script src="/script/NumericalScript.js"></script>
+<script src="/loadscript"></script>
+<!-- -------------------------------------------- -->
+<script src="/backend/battleFactory/BattleFactory.js"></script>
+<script src="/backend/battleField/BattleField.js"></script>
+<script src="/backend/battleItem/maze/maze.js"></script>
+<script src="/backend/battleItem/unit/unitBase.js"></script>
+<script src="/backend/battleItem/unit/unitImpl.js"></script>
+<script src="/backend/battleItem/unit/triggerImpl.js"></script>
+<!-- -------------------------------------------- -->
+<script src="/backend/controller/BattleManager.js"></script>
+<script src="/backend/controller/GameController.js"></script>
+<script src="/backend/controller/BattleEventSender.js"></script>
+
+<!-- -------------------------------------------- -->
+<script src="/frontend/uiConst.js"></script>
+<script src="/frontend/views/UnitView.js"></script>
+<script src="/frontend/views/BoardView.js"></script>
+<script src="/frontend/views/PathView.js"></script>
+<script src="/frontend/views/RangeView.js"></script>
+<script src="/frontend/views/UserInputCtrl.js"></script>
+<script src="/frontend/views/MenuView.js"></script>
+<script src="/frontend/models/UnitModel.js"></script>
+<script src="/frontend/models/UnitModelImpl.js"></script>
+<script src="/frontend/models/TriggerModelImpl.js"></script>
+<script src="/frontend/models/MazeModel.js"></script>
+<script src="/frontend/models/ModelFactory.js"></script>
+<script src="/frontend/module/FrontendModule.js"></script>
+<script src="/frontend/module/ModelManager.js"></script>
+<script src="/frontend/module/ViewManager.js"></script>
+<!-- -------------------------------------------- -->
+<script src="/inter/ClientModule.js"></script>
+<script src="/inter/ServerModule.js"></script>
+<script src="/inter/message/SCGameMessage.js"></script>
+<script src="/inter/message/SCBattleMessage.js"></script>
+<script src="/inter/message/CSGameMessage.js"></script>
+<script src="/inter/message/CSBattleMessage.js"></script>
+<script src="/inter/battleEvent/BattleEvent.js"></script>
+<!-- -------------------------------------------- -->
+<script src="GameTop.js"></script>
+
+<!-- -------------------------------------------- -->
+<script>
+gCore.GameTop.localMain();
+</script>
+
+<link rel="stylesheet" type="text/css" href="/frontend/css/layout.css">
+<link rel="stylesheet" type="text/css" href="/frontend/css/board.css">
+<link rel="stylesheet" type="text/css" href="/frontend/css/effect.css">
+<link rel="stylesheet" type="text/css" href="/frontend/css/unit.css">
+<link rel="stylesheet" type="text/css" href="/frontend/css/walkpath.css">
+<link rel="stylesheet" type="text/css" href="/frontend/css/flypath.css">
+<link rel="stylesheet" type="text/css" href="/frontend/css/bullet.css">
+</head>
+<body><!-- oncontextmenu=self.event.returnValue=false-->
+<div class="content">
+	<div id="menu" class="left">
+	</div>
+	<div id="main" class="right">
+	</div>
+</div>
+</body>
