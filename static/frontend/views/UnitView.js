@@ -1,4 +1,7 @@
 var gViews=gViews||{}
+gViews.UnitSpriteDict={
+    wall:"/frontend/image/wall.png"
+}
 gViews.UnitView=Backbone.View.extend({
 
     boardView:null,
@@ -23,12 +26,21 @@ gViews.UnitView=Backbone.View.extend({
         }else{
             modelJson.hpicon="blackshell";
         }
-        $(this.el).html(this.template(modelJson));
+        var $this=$(this.el);
+        $this.html(this.template(modelJson));
         // set i,j attr
-        $(this.el).attr("data-i",modelJson.i);
-        $(this.el).attr("data-j",modelJson.j);
+        $this.attr("data-i",modelJson.i).attr("data-j",modelJson.j);
         // set left,top offset
-        $(this.el).css(this.boardView.cellPos(modelJson));
+        $this.css(this.boardView.cellPos(modelJson));
+        // set image
+        var imgUrl=gViews.UnitSpriteDict[this.model.typeName];
+        if(imgUrl){
+            $this.find(".typeimg").attr("src",imgUrl).show();
+            $this.find(".typetext").hide();
+        }else{
+            $this.find(".typetext").show();
+            $this.find(".typeimg").hide();
+        }
         return this;
     }
 

@@ -22,7 +22,7 @@ gModels.TriggerUnitModel=gModels.unitModelImpl({
     triggerRange:function(){
         var i=Number(this.get("i"));
         var j=Number(this.get("j"));
-        return [{i:i,j:j}];
+        return [];
     },
     moveRange:function(){
         return [];
@@ -33,7 +33,7 @@ gModels.WallUnitModel=gModels.unitModelExtend(gModels.TriggerUnitModel,{
     triggerRange:function(){
         var i=Number(this.get("i"));
         var j=Number(this.get("j"));
-        return [{i:i,j:j}];
+        return [];
     },
 });
 gModels.ObserverUnitModel=gModels.unitModelExtend(gModels.TriggerUnitModel,{

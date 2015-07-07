@@ -1,20 +1,29 @@
 div.unit {
     position:absolute;
-    width: 44px;
-    height: 44px;
-    background-color: #404000;
+    width: 58px;
+    height: 58px;
 	margin: 0px;
 }
 .unit div{
     background-color: transparent;
 }
-.unit .avatar{
+.unit div.avatar{
     position:absolute;
     left:0px;
+    padding:7px;
+}
+.unit .avatar div.typetext{
+    background-color: #404000;
+    width:44px;
+    height:44px;
+}
+.unit .avatar img.typeimg{
+    width:44px;
+    height:44px;
 }
 .unit .info{
     position:relative;
-    top:20px;
+    top:26px;
     left:0px;
 }
 .unit .info .ap{
@@ -37,8 +46,9 @@ div.unit {
     background-position:-56px -23px;
     float:right;
 }
-.unit .info .value{
+.unit .info div.value{
     background-color:transparent !important;
+    //background-color:#000000;
     color:#FFFFFF;
 }
 .unit .info .hp .icon.blackshell{
