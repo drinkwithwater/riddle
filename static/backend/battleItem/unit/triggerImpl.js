@@ -74,8 +74,12 @@ module.exports=function(env){
                 }
             }
             // move step
+            var maze=battleField.maze;
             for(var x=1,l=path.length;x<l;x++){
                 var dstPos=path[x];
+                // check cell empty
+                var cell=maze.getCell(dstPos);
+                if(!cell.isEmpty()) return ;
                 battleField.unitMoveStep(context,this,dstPos);
                 // check death
                 if(!this.alive) return ;

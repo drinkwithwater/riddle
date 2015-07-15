@@ -72,8 +72,12 @@ module.exports=function(env){
 	        return null;
 	    },
         operMove:function(context,path){
+            var maze=this.battleField.maze;
             for(var i=1,length=path.length;i<length;i++){
                 var pos=path[i];
+                // check cell empty
+                var cell=maze.getCell(pos);
+                if(!cell.isEmpty()) return ;
                 this.battleField.unitMoveStep(context,this,pos);
                 // check death
                 if(!this.alive) return ;
