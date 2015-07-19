@@ -21,10 +21,19 @@
 	b) random value ???
 
 3. Script design
-	a) make rider leave his place
-	b) max utilize hp
+	a) make rider leaving his place
+	b) maximize hp utilize
+	c) push box, pokemon ruby...
+	d) wrap unit with wall, like prison
 
 4. Moving concept
-	a) Push box
-	b) Trigger move attack
-	c)
+	a) push box
+	b) rider
+	c) trigger attacking between 2 unit in a line
+	d) transfer
+	e) Pao in Chinese chess
+
+5. subset
+	a) push box
+	b) chess
+	c) dosth
