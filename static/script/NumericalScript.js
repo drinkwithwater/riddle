@@ -38,5 +38,8 @@ module.exports=function(env){
     gScript.unitNumericalDict["rider"]={
         hp:4, ap:2, triggerRange:3, group:gScript.GROUP_DEFENSER,
     };
+    gScript.unitNumericalDict["transfer"]={
+        hp:4, ap:2, triggerRange:1, group:gScript.GROUP_DEFENSER,
+    };
     ///}}}
 }

@@ -9,10 +9,13 @@ module.exports=function(env){
     gScript.unitTypeNameDict[4]="hitter";
     gScript.unitTypeNameDict[5]="assassin";
     gScript.unitTypeNameDict[6]="archer";
+    gScript.unitTypeNameDict[7]="jumper";
     gScript.unitTypeNameDict[9]="--------------------";
     gScript.unitTypeNameDict[10]="trigger";
     gScript.unitTypeNameDict[11]="wall";
     gScript.unitTypeNameDict[12]="observer";
     gScript.unitTypeNameDict[13]="rider";
+    gScript.unitTypeNameDict[14]="transfer";
+    gScript.unitTypeNameDict[15]="box";
     ///}}}
 }

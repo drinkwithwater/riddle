@@ -14,6 +14,7 @@ module.exports=function(env){
 	    //unitId to unit
 	    unitDict:{},
         moveTriggerDict:{},
+        transferDict:{},
         constructor:function(){
             debugField=this;
         },
@@ -190,7 +191,10 @@ module.exports=function(env){
                 dstPos:dstPos
             }));
             _.each(this.moveTriggerDict,function(triggerUnit){
-                triggerUnit.moveTrigger(context,unit,dstPos);
+                triggerUnit.moveTrigger(context,unit,srcPos);
+            });
+            _.each(this.transferDict,function(triggerUnit){
+                triggerUnit.moveTrigger(context,unit,srcPos);
             });
 	    },
 	    unitAttack:function(context,unit,target,damage){
@@ -235,6 +239,9 @@ module.exports=function(env){
             }
             if(this.moveTriggerDict[unitId]){
                 delete this.moveTriggerDict[unitId];
+            }
+            if(this.transferDict[unitId]){
+                delete this.transferDict[unitId];
             }
             if(this.checkWin()){
                 context.push(new gEvent.BattleWin({}));

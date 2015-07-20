@@ -75,3 +75,29 @@ gModels.RiderUnitModel=gModels.unitModelExtend(gModels.TriggerUnitModel,{
         return rangeArray;
     },
 });
+gModels.TransferUnitModel=gModels.unitModelExtend(gModels.TriggerUnitModel,{
+    typeName:"transfer",
+    triggerRange:function(){
+        var modelManager=this.modelManager;
+        var i=Number(this.get("i"));
+        var j=Number(this.get("j"));
+        var triggerRange=Number(this.get("triggerRange"));
+        var rangeArray=[{i:i,j:j}];
+        var putDirect=function(di,dj){
+            var putI=i;
+            var putJ=j;
+            for(var count=0;count<triggerRange;count++){
+                putI+=di;
+                putJ+=dj;
+                var occurUnitModel=modelManager.unit$({i:putI,j:putJ});
+                if(_.isObject(occurUnitModel)) break;
+                else rangeArray.push({i:putI,j:putJ})
+            }
+        }
+        putDirect(1,0);
+        putDirect(0,1);
+        putDirect(-1,0);
+        putDirect(0,-1);
+        return rangeArray;
+    },
+});

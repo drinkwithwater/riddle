@@ -75,10 +75,13 @@ module.exports=function(env){
             var maze=this.battleField.maze;
             for(var i=1,length=path.length;i<length;i++){
                 var pos=path[i];
-                // check cell empty
+                // if cell's not empty, return 
                 var cell=maze.getCell(pos);
                 if(!cell.isEmpty()) return ;
                 this.battleField.unitMoveStep(context,this,pos);
+                // if pos's not move result, return 
+                var normal=(pos.i===this.i&&pos.j===this.j);
+                if(!normal) return ;
                 // check death
                 if(!this.alive) return ;
             }
