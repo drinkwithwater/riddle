@@ -76,9 +76,6 @@ module.exports=function(env){
          */
         onAttack:function(context,source,damage){
             if(this.alive){
-                if(typeof(this.attackTrigger)=="function"){
-                    this.attackTrigger(context,source,damage);
-                }
                 this.hp-=damage;
                 this.battleField.unitSetAttr(context,this,"hp",this.hp);
                 if(this.hp<=0){
@@ -96,6 +93,15 @@ module.exports=function(env){
                 return false;
             }
         },
+        getCategory:function(){
+            var cate=gScript.unitCategoryDict[this.typeName];
+            if(cate){
+                return cate;
+            }else{
+                console.error("category not register");
+                return "normal";
+            }
+        }
     });
     gBattle.BaseUnit=gBattle.SimpleUnit;
     gBattle.unitClassDict={}

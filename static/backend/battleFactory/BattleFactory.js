@@ -94,9 +94,9 @@ module.exports=function(env){
 	        });
             _.each(unitDict,function(unit,unitId){
                 if(typeof(unit.moveTrigger)=="function"){
-                    if(this.isTransfer){
+                    if(unit.getCategory()=="transfer"){
                         battleField.transferDict[unitId]=unit;
-                    }else{
+                    }else if(unit.getCategory()=="trigger"){
                         battleField.moveTriggerDict[unitId]=unit;
                     }
                 }

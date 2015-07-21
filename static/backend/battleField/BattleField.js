@@ -175,9 +175,9 @@ module.exports=function(env){
 	        return eventArray;
 	    },
 
-	    ////////////////////////////////////////
-	    // the function for simple action TODO//
-	    ////////////////////////////////////////
+	    /////////////////////////////////////
+	    // the functions for simple action //
+	    /////////////////////////////////////
 
 	    unitMoveStep:function(context,unit,_pointArgs){
 	        console.log("unit move from("+unit.i+" "+unit.j+")");

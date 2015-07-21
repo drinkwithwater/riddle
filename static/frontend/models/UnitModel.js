@@ -43,6 +43,15 @@ gModels.UnitModel=Backbone.Model.extend({
     },
     moveRange:function(){
         return [];
+    },
+    getCategory:function(){
+        var cate=gScript.unitCategoryDict[this.typeName];
+        if(cate){
+            return cate;
+        }else{
+            console.error("category not register");
+            return "normal";
+        }
     }
 });
 gModels.SimpleUnitModel=gModels.UnitModel;

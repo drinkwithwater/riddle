@@ -70,7 +70,6 @@ gModels.ArcherUnitModel=gModels.unitModelExtend(gModels.WalkerUnitModel,{
         var i=Number(this.get("i"));
         var j=Number(this.get("j"));
         var rangeArray=[{i:i,j:j}];
-        console.log(rangeArray);
         rangeArray=rangeArray.concat(gPoint.range(
             {i:i+1,j:j},
             {i:i+attackRange+1,j:j}));

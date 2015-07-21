@@ -121,13 +121,22 @@
 }
 
 .floorArea .triggerRangeArea{
-    width: 40px;
-    height: 40px;
-    padding: 5px;
+    width: 50px;
+    height: 50px;
     background:transparent;
 }
 .floorArea .triggerRangeArea.show{
     background:#CC0000;
+}
+
+.floorArea .transferRangeArea{
+    width: 40px;
+    height: 40px;
+    border: 5px solid transparent;
+    background:transparent;
+}
+.floorArea .transferRangeArea.show{
+    border: 5px solid #00CC00;
 }
 
 .floorArea .attackRangeArea{

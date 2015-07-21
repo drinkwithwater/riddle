@@ -13,6 +13,7 @@ gViews.BoardView=Backbone.View.extend({
     viewActionHandler:null,
     userInputCtrl:null,
     triggerRangeView:null,
+    transferRangeView:null,
     constructor:function(aDict){
   	    gViews.BoardView.__super__.constructor.call(this,aDict);
         this.modelManager=aDict.modelManager;
@@ -21,6 +22,7 @@ gViews.BoardView=Backbone.View.extend({
         // this should init after handler setted;
         this.userInputCtrl=new gViews.UserInputCtrl(this);
         this.triggerRangeView=new gViews.TriggerRangeView(this);
+        this.transferRangeView=new gViews.TransferRangeView(this);
     },
     initialize:function(){
         this.template=_.template(gTemplates.board);
@@ -89,6 +91,7 @@ gViews.BoardView=Backbone.View.extend({
 
         this.userInputCtrl.render();
         this.triggerRangeView.render();
+        this.transferRangeView.render();
 
         return this;
     },
@@ -121,14 +124,20 @@ gViews.BoardView=Backbone.View.extend({
     },
     refreshTriggerRange:function(){
         var triggerRangeView=this.triggerRangeView;
+        var transferRangeView=this.transferRangeView;
         var triggerAreas=[];
+        var transferAreas=[];
         _.each(this.modelManager.unitDict,function(unitModel){
-            if(unitModel.isTrigger()){
+            if(unitModel.getCategory()==="trigger"){
                 var thisRanges=unitModel.triggerRange();
                 triggerAreas=triggerAreas.concat(thisRanges);
+            }else if(unitModel.getCategory()==="transfer"){
+                var thisRanges=unitModel.triggerRange();
+                transferAreas=transferAreas.concat(thisRanges);
             }
         });
         triggerRangeView.display(triggerAreas);
+        transferRangeView.display(transferAreas);
     },
 
     mouseDownArea:function(e){

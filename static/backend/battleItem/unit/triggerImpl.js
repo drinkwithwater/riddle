@@ -8,7 +8,6 @@ module.exports=function(env){
         createDamage:null, onDamage:null,
         group:gScript.GROUP_DEFENSER,
         moveTrigger:function(context,unit,srcPos){},
-        attackTrigger:function(context,attacker,damage){}
     }
     gBattle.TriggerUnit=gBattle.unitImpl({
         group:gScript.GROUP_DEFENSER,
@@ -23,12 +22,23 @@ module.exports=function(env){
                 var reDamage=this.createDamage();
                 this.battleField.unitHarm(context,this,attacker,reDamage);
             }
-        }
+        },
+        onAttack:function(context,source,damage){
+            if(this.alive){
+                this.attackTrigger(context,source,damage);
+                this.hp-=damage;
+                this.battleField.unitSetAttr(context,this,"hp",this.hp);
+                if(this.hp<=0){
+                    this.alive=false;
+                    this.battleField.unitDie(context,this);
+                }
+            }else{
+                return ;
+            }
+        },
     });
     gBattle.WallUnit=gBattle.unitExtend(gBattle.TriggerUnit,{
         typeName:"wall",
-        maxHp:200,
-        hp:200,
     });
     gBattle.ObserverUnit=gBattle.unitExtend(gBattle.TriggerUnit,{
         typeName:"observer",
@@ -93,7 +103,6 @@ module.exports=function(env){
     });
     gBattle.TransferUnit=gBattle.unitExtend(gBattle.TriggerUnit,{
         typeName:"transfer",
-        isTransfer:true,
         inRange:function(pos){
             var distance=gPoint.maDistance(this,pos);
             if(distance>this.triggerRange) return false;
@@ -125,6 +134,40 @@ module.exports=function(env){
             if(!maze.getCell(dstPos).isEmpty()) return ;
             battleField.unitMoveStep(context,mover,dstPos);
         }
+    });
+    gBattle.BoxUnit=gBattle.unitExtend(gBattle.TriggerUnit,{
+        typeName:"box",
+        afterAttackTrigger:function(context,attacker,damage){
+            var dstPos={i:this.i,j:this.j};
+            if(attacker.i==this.i){
+                dstPos.j+=(attacker.j>this.j?-1,1);
+            }else if(attacker.j==this.j){
+                dstPos.i+=(attacker.i>this.i?-1,1);
+            }else{
+                // not in the same line
+                return ;
+            }
+            var battleField=this.battleField;
+            var maze=battleField.getMaze();
+            if(!maze.valid(dstPos)) return ;
+            if(!maze.getCell(dstPos).isEmpty()) return ;
+            battleField.unitMoveStep(context,this,dstPos);
+        },
+        onAttack:function(context,source,damage){
+            if(this.alive){
+                this.attackTrigger(context,source,damage);
+                this.hp-=damage;
+                this.battleField.unitSetAttr(context,this,"hp",this.hp);
+                if(this.hp<=0){
+                    this.alive=false;
+                    this.battleField.unitDie(context,this);
+                }else{
+                    this.afterAttackTrigger(context,source,damage);
+                }
+            }else{
+                return ;
+            }
+        },
     });
     //}}}
 }
