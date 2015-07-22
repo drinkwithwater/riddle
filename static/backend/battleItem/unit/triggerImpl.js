@@ -140,9 +140,9 @@ module.exports=function(env){
         afterAttackTrigger:function(context,attacker,damage){
             var dstPos={i:this.i,j:this.j};
             if(attacker.i==this.i){
-                dstPos.j+=(attacker.j>this.j?-1,1);
+                dstPos.j+=(attacker.j>this.j?-1:1);
             }else if(attacker.j==this.j){
-                dstPos.i+=(attacker.i>this.i?-1,1);
+                dstPos.i+=(attacker.i>this.i?-1:1);
             }else{
                 // not in the same line
                 return ;

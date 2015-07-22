@@ -101,6 +101,8 @@ module.exports=function(env){
                     }
                 }
             });
+            // set battleType
+            battleField.battleType=script.battleType;
 	        return battleField;
         }
     };

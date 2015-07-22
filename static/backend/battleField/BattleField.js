@@ -2,8 +2,11 @@ var debugField=null;
 module.exports=function(env){
     ///{{{
     var gBattle=env.gBattle=env.gBattle||{}
+    gBattle.BATTLE_KILL=0;
+    gBattle.BATTLE_TEST=1;
     gBattle.BattleField=gUtil.Class.extend({
         scriptName:null,
+        battleType:gBattle.BATTLE_TEST,
 
 	    battleManager:null,
 	    eventSender:null,
@@ -254,12 +257,16 @@ module.exports=function(env){
 	    
 	    
         checkWin:function(){
-            for(var i in this.unitDict){
-                if(this.unitDict[i].isKey()){
-                    return false;
+            if(this.battleType==gBattle.BATTLE_TEST)
+                return false;
+            else if(this.battleType==gBattle.BATTLE_KILL){
+                for(var i in this.unitDict){
+                    if(this.unitDict[i].isKey()){
+                        return false;
+                    }
                 }
+                return true;
             }
-            return true;
         },
 	    
 	    

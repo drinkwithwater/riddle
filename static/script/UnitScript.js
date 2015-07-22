@@ -32,6 +32,7 @@ module.exports=function(env){
     gScript.unitCategoryDict["wall"]="trigger";
     gScript.unitCategoryDict["observer"]="trigger";
     gScript.unitCategoryDict["rider"]="trigger";
+    gScript.unitCategoryDict["box"]="trigger";
     // transfer unit
     gScript.unitCategoryDict["transfer"]="transfer";
     ///}}}

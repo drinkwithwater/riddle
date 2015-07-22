@@ -16,9 +16,11 @@
 		e.g.
 		damage burst stragegy
 		hit&run strategy
-		range damage !!!
+		map cover with shadow -- information
 		operation to owner's unit !!!
-	b) random value ???
+	b) range damage
+	c) direction towards (TODO)
+	d) random value ???
 
 3. Script design
 	a) make rider leaving his place

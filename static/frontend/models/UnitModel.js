@@ -10,7 +10,7 @@ gModels.UnitModel=Backbone.Model.extend({
         hp:4,
         ap:2,
         attackRange:1,
-        group:gScript.GROPU_ATTACKER,
+        group:gScript.GROUP_ATTACKER,
         unitId:null
     },
     modelManager:null,

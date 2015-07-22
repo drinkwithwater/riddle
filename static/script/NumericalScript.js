@@ -7,7 +7,7 @@ module.exports=function(env){
     gScript.GROUP_DEFENSER=3;
     // attacker 
     gScript.unitNumericalDict["flier"]={
-        hp:4, ap:2, attackRange:1, group:gScript.GROUP_ATTACKER,
+        hp:20, ap:2, attackRange:1, group:gScript.GROUP_ATTACKER,
     };
     gScript.unitNumericalDict["walker"]={
         hp:4, ap:2, attackRange:1, group:gScript.GROUP_ATTACKER,
@@ -40,6 +40,9 @@ module.exports=function(env){
     };
     gScript.unitNumericalDict["transfer"]={
         hp:4, ap:2, triggerRange:1, group:gScript.GROUP_DEFENSER,
+    };
+    gScript.unitNumericalDict["box"]={
+        hp:80, ap:1, group:gScript.GROUP_DEFENSER,
     };
     ///}}}
 }
