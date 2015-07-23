@@ -18,7 +18,11 @@ gViews.UnitView=Backbone.View.extend({
     render:function(msg){
         var modelJson=this.model.toJSON();
         modelJson.typeName=this.model.typeName;
-        modelJson.apicon="blacksword";
+        if(modelJson.mp===0){
+            modelJson.apicon="blacksword";
+        }else if(modelJson.mp>0){
+            modelJson.apicon="greensword";
+        }
         if(modelJson.key){
             modelJson.hpicon="redshell";
         }else if(modelJson.group==gScript.GROUP_ATTACKER){

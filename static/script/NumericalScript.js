@@ -7,42 +7,66 @@ module.exports=function(env){
     gScript.GROUP_DEFENSER=3;
     // attacker 
     gScript.unitNumericalDict["flier"]={
-        hp:20, ap:2, attackRange:1, group:gScript.GROUP_ATTACKER,
+        hp:20, ap:2, attackRange:1,
+        group:gScript.GROUP_ATTACKER,
+        mp:0,
     };
     gScript.unitNumericalDict["walker"]={
-        hp:4, ap:2, attackRange:1, group:gScript.GROUP_ATTACKER,
+        hp:4, ap:2, attackRange:1,
+        group:gScript.GROUP_ATTACKER,
+        mp:0,
     };
     gScript.unitNumericalDict["berserker"]={
-        hp:4, ap:2, attackRange:1, group:gScript.GROUP_ATTACKER,
+        hp:4, ap:2, attackRange:1,
+        group:gScript.GROUP_ATTACKER,
+        mp:0,
     };
     gScript.unitNumericalDict["hitter"]={
-        hp:4, ap:2, attackRange:2, group:gScript.GROUP_ATTACKER,
+        hp:4, ap:2, attackRange:2,
+        group:gScript.GROUP_ATTACKER,
+        mp:0,
     };
     gScript.unitNumericalDict["assassin"]={
-        hp:4, ap:2, attackRange:1, group:gScript.GROUP_ATTACKER,
+        hp:4, ap:4, attackRange:1,
+        group:gScript.GROUP_ATTACKER,
+        mp:1,
     };
     gScript.unitNumericalDict["archer"]={
-        hp:4, ap:2, attackRange:3, group:gScript.GROUP_ATTACKER,
+        hp:4, ap:2, attackRange:3,
+        group:gScript.GROUP_ATTACKER,
+        mp:0,
     };
 
     // defenser
     gScript.unitNumericalDict["trigger"]={
-        hp:4, ap:2, group:gScript.GROUP_DEFENSER,
+        hp:4, ap:2,
+        group:gScript.GROUP_DEFENSER,
+        mp:0,
     };
     gScript.unitNumericalDict["wall"]={
-        hp:80, ap:2, group:gScript.GROUP_DEFENSER,
+        hp:80, ap:2,
+        group:gScript.GROUP_DEFENSER,
+        mp:0,
     };
     gScript.unitNumericalDict["observer"]={
-        hp:4, ap:2, triggerRange:1, group:gScript.GROUP_DEFENSER,
+        hp:4, ap:2, triggerRange:1,
+        group:gScript.GROUP_DEFENSER,
+        mp:0,
     };
     gScript.unitNumericalDict["rider"]={
-        hp:4, ap:2, triggerRange:3, group:gScript.GROUP_DEFENSER,
+        hp:4, ap:2, triggerRange:3,
+        group:gScript.GROUP_DEFENSER,
+        mp:0,
     };
     gScript.unitNumericalDict["transfer"]={
-        hp:4, ap:2, triggerRange:1, group:gScript.GROUP_DEFENSER,
+        hp:4, ap:2, triggerRange:1,
+        group:gScript.GROUP_DEFENSER,
+        mp:0,
     };
     gScript.unitNumericalDict["box"]={
-        hp:80, ap:1, group:gScript.GROUP_DEFENSER,
+        hp:80, ap:1,
+        group:gScript.GROUP_DEFENSER,
+        mp:0,
     };
     ///}}}
 }

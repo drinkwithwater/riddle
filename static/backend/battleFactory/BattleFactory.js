@@ -14,7 +14,10 @@ module.exports=function(env){
 	            newUnit.unitId=gScript.createCommonId(i,j);
                 // set attr from script
                 if(aDict.ap!=0) newUnit.ap=aDict.ap;
-                if(aDict.hp!=0) newUnit.hp=aDict.hp;
+                if(aDict.hp!=0) {
+                    newUnit.hp=aDict.hp;
+                    newUnit.maxHp=aDict.hp;
+                }
                 if(aDict.ar!=0) newUnit.attackRange=aDict.ar;
                 if(aDict.tr!=0) newUnit.triggerRange=aDict.tr;
                 if(aDict.key!=0) newUnit.key=true;
