@@ -1,6 +1,15 @@
 var gViews=gViews||{}
 gViews.UnitSpriteDict={
-    wall:"/frontend/image/wall.png"
+    wall:"/frontend/image/wall.png",
+    berserker:"/frontend/image/berserker.png",
+    archer:"/frontend/image/archer.png",
+    assassin:"/frontend/image/assassin.png",
+    box:"/frontend/image/box.png",
+    flier:"/frontend/image/flier.png",
+    hitter:"/frontend/image/hitter.png",
+    transfer:"/frontend/image/transfer.png",
+    walker:"/frontend/image/walker.png",
+    rider:"/frontend/image/rider.png",
 }
 gViews.UnitView=Backbone.View.extend({
 

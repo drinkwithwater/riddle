@@ -7,10 +7,11 @@ gViews.IRange=new gUtil.Interface({
 
 });
 gViews.RangeView=Backbone.View.extend({
-    range:[],
+    range:"list",
     boardView:null,
     constructor:function(boardView){
         this.boardView=boardView;
+        this.range=[];
     },
     render:function(){
         this.$el=this.boardView.$("div.boardChild.floor")

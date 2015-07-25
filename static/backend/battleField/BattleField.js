@@ -11,15 +11,20 @@ module.exports=function(env){
 	    battleManager:null,
 	    eventSender:null,
 
-	    playerDict:{},
+	    playerDict:"dict",
 
 	    maze:null,
 	    //unitId to unit
-	    unitDict:{},
-        moveTriggerDict:{},
-        transferDict:{},
+	    unitDict:"dict",
+        moveTriggerDict:"dict",
+        transferDict:"dict",
         constructor:function(){
+  	        gBattle.BattleField.__super__.constructor.call(this);
             debugField=this;
+            this.playerDict={};
+            this.unitDict={};
+            this.moveTriggerDict={};
+            this.transferDict={};
         },
 	    
 
@@ -268,16 +273,15 @@ module.exports=function(env){
                 return true;
             }
         },
-	    
-	    
 
 
+        
+        destroy:function(){
+        },
 	    
-	    //TODO
-	    unitTODO:function(){},
 	    
 	    getMaze:function(){
 	        return this.maze;
-	    }
+	    },
     });
 };

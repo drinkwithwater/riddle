@@ -22,7 +22,7 @@ gUI.ViewManager=gUtil.Class.extend({
      * Class in lib/util.js use _id as model identity;
      * unitViews[unitView.cid]=unitView
     */
-    unitViews:{},
+    unitViews:"dict",
 
     name:"viewModule",
     init:function(gameTop){
@@ -31,6 +31,7 @@ gUI.ViewManager=gUtil.Class.extend({
 	        this.modelManager=gameTop.getModule("modelModule");
             this.viewActionHandler=gameTop.getModule("frontendModule");
         }
+        this.unitViews={};
     },
     start:function(gameTop){
         var thisVar=this;

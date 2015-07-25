@@ -16,12 +16,13 @@ gViews.IPath=new gUtil.Interface({
 });
 gViews.FlyPath=Backbone.View.extend({
     display:true,
-    path:[],
+    path:"list",
     boardView:null,
     viewActionHandler:null,
     constructor:function(boardView){
         this.boardView=boardView;
         this.viewActionHandler=this.boardView.viewActionHandler;
+        this.path=[];
     },
     render:function(){
         this.$el=this.boardView.$("div.boardChild.flyPath")
@@ -83,14 +84,14 @@ gViews.FlyPath=Backbone.View.extend({
 });
 gViews.WalkPath=Backbone.View.extend({
     display:true,
-    path:[],
+    path:"list",
     boardView:null,
     viewActionHandler:null,
     constructor:function(boardView){
         gViews.WalkPath.__super__.constructor.call(this);
         this.boardView=boardView;
         this.viewActionHandler=this.boardView.viewActionHandler;
-
+        this.path=[];
     },
     render:function(){
         this.$el=this.boardView.$("div.boardChild.walkPath")

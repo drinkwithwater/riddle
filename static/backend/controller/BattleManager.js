@@ -88,6 +88,7 @@ module.exports=function(env){
 	        
 	        //remove from set
 	        delete this.battleSet[battleField._id];
+            battleField.destroy();
 	    },
 	    
 

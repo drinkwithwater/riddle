@@ -132,5 +132,5 @@ gViews.UserInputCtrl=gUtil.Class.extend({
         this.state=this.STATE_EMPTY;
         this.pathingType=gUI.PATHING_TYPE_NONE;
         this.srcUnit=null;
-    }
+    },
 });

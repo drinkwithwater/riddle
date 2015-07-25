@@ -96,6 +96,8 @@ gViews.BoardView=Backbone.View.extend({
         return this;
     },
     afterRender:function(){
+        this.userInputCtrl.cancel();
+        
         // set svg width & height by rendered ui
         var width=this.$(".boardChild.listener").width();
         var height=this.$(".boardChild.listener").height();

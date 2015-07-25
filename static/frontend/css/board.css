@@ -127,6 +127,9 @@
 }
 .floorArea .triggerRangeArea.show{
     background:#CC0000;
+    filter:alpha(opacity=50); /*IE*/
+    -moz-opacity:0.5; /*Firefox*/
+    opacity:0.5; /*other*/
 }
 
 .floorArea .transferRangeArea{
@@ -137,6 +140,9 @@
 }
 .floorArea .transferRangeArea.show{
     border: 5px solid #00CC00;
+    filter:alpha(opacity=50); /*IE*/
+    -moz-opacity:0.5; /*Firefox*/
+    opacity:0.5; /*other*/
 }
 
 .floorArea .attackRangeArea{
@@ -146,4 +152,7 @@
 }
 .floorArea .attackRangeArea.show{
     background:#CCCC00;
+    filter:alpha(opacity=50); /*IE*/
+    -moz-opacity:0.5; /*Firefox*/
+    opacity:0.5; /*other*/
 }
