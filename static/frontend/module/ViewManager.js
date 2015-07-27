@@ -102,14 +102,20 @@ gUI.ViewManager=gUtil.Class.extend({
         dstCss.top-=bullet.height()/2;
         
         bullet.css(srcCss);
+        bullet.show();
         bullet.animate(
             dstCss,
             gPoint.euDistance(srcPos,dstPos)/this.moveSpeed*1000,
             "linear",
-            callback
+            function(){
+                bullet.hide();
+                if(typeof(callback)=="function"){
+                    callback();
+                }
+            }
         );
     },
-    animateHit:function(pos){
+    animateHarm:function(pos,callback){
         var harm=this.boardView.$("#harm");
         var posCss=this.boardView.centerPos(pos);
         posCss.left-=10;
@@ -120,7 +126,8 @@ gUI.ViewManager=gUtil.Class.extend({
         harm.animate({width:"20px",height:"20px"},100,function(){
             harm.animate(
                 {width:"0px",height:"0px",left:"+=20px",top:"+=20px"},
-                100
+                100,
+                callback
             );
         });
     },

@@ -205,6 +205,25 @@ module.exports=function(env){
                 triggerUnit.moveTrigger(context,unit,srcPos);
             });
 	    },
+        unitRangeAttack:function(context,unit,targets,damages,focusIndex){
+            var unitPos=gPoint.wrapPoint(unit);
+            var focusTarget=targets[focusIndex];
+            context.push(new gEvent.UnitAttackEvent({
+                unitPos:unitPos,
+                targetPos:gPoint.wrapPoint(focusTarget)
+            }));
+            for(var i=0,l=targets.length;i<l;i++){
+                context.push(new gEvent.UnitHarmEvent({
+                    unitPos:unitPos,
+                    targetPos:gPoint.wrapPoint(targets[i])
+                }));
+                if(i===focusIndex){
+                    targets[i].onAttack(context,unit,damages[i]);
+                }else{
+                    targets[i].onDamage(context,unit,damages[i]);
+                }
+            }
+        },
 	    unitAttack:function(context,unit,target,damage){
 	        console.log("unit attack");
             var unitPos=gPoint.wrapPoint(unit);
@@ -213,7 +232,7 @@ module.exports=function(env){
                 unitPos:unitPos,
                 targetPos:targetPos
             }));
-            target.onAttack(context,unit,damage)
+            target.onAttack(context,unit,damage);
 	    },
         unitHarm:function(context,unit,target,damage){
 	        console.log("unit harm");

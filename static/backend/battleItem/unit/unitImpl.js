@@ -169,18 +169,24 @@ module.exports=function(env){
             var target=maze.getUnit(_.last(path));
             var path=gPoint.range(this,target);
             if(!path) return ;
+            else if(path.length==0) return ;
             else{
+                var targets=[];
+                var damages=[];
                 // harm line unit
                 for(var x=1,l=path.length;x<l;x++){
                     var pathUnit=maze.getUnit(path[x]);
                     if(pathUnit){
                         var damage=this.createDamage(pathUnit);
-                        battleField.unitHarm(context,this,pathUnit,damage);
+                        targets.push(pathUnit);
+                        damages.push(damage);
                     }
                 }
                 // attack target unit
                 var damage=this.createDamage(target);
-                battleField.unitAttack(context,this,target,damage);
+                targets.push(target);
+                damages.push(damage);
+                battleField.unitRangeAttack(context,this,targets,damages,targets.length-1);
             }
         }
     });

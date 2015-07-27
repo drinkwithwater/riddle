@@ -115,7 +115,8 @@ gUI.ModelManager=gUtil.Class.extend({
         this.viewManager.animateBulletMove(unitPos,targetPos,callback);
     },
     eventUnitHarm:function(unitHarmEvent,callback){
-        this.eventUnitAttack(unitHarmEvent,callback);
+        var targetPos=unitHarmEvent.targetPos;
+        this.viewManager.animateHarm(targetPos,callback);
     },
     eventUnitDie:function(unitDieEvent,callback){
         var unitPos=unitDieEvent.unitPos;
