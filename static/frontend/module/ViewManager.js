@@ -109,6 +109,21 @@ gUI.ViewManager=gUtil.Class.extend({
             callback
         );
     },
+    animateHit:function(pos){
+        var harm=this.boardView.$("#harm");
+        var posCss=this.boardView.centerPos(pos);
+        posCss.left-=10;
+        posCss.top-=10;
+
+        harm.css(posCss);
+        
+        harm.animate({width:"20px",height:"20px"},100,function(){
+            harm.animate(
+                {width:"0px",height:"0px",left:"+=20px",top:"+=20px"},
+                100
+            );
+        });
+    },
     animateUnitDie:function(pos,callback){
         var s="[data-i="+pos.i+"]"+
               "[data-j="+pos.j+"]"+".unit";
