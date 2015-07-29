@@ -11,14 +11,12 @@ gModels.TriggerUnitModel=gModels.unitModelImpl({
         return true;
     },
     attackRange:function(){
-        var i=Number(this.get("i"));
-        var j=Number(this.get("j"));
-        return [{i:i,j:j}];
+        return this.triggerRange();
     },
     triggerRange:function(){
         var i=Number(this.get("i"));
         var j=Number(this.get("j"));
-        return [];
+        return [{i:i,j:j}];
     },
     moveRange:function(){
         return [];
