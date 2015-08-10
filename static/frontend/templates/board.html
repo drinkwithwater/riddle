@@ -16,6 +16,23 @@
     </table>
   </div>
 <!---------------------------------------->
+  <div class="boardChild light simple">
+    <table>
+      <% for(var i=0;i<iLength;i++){ %>
+	     <tr class="tr<%=i%>">
+	       <% for(var j=0;j<jLength;j++){ %>
+		      <td class="td<%=j%>">
+			    <div class="area simple">
+			      <div class="lightArea" data-i="<%=i%>" data-j="<%=j%>">
+			      </div>
+			    </div>
+		      </td>
+	          <%}%>
+	     </tr>
+         <%}%>
+    </table>
+  </div>
+<!---------------------------------------->
 <div class="boardChild flyPath simple">
   <svg>
     <line class="" id="flyPathLine" x1="0" x2="0" y1="0" y2="0"/>

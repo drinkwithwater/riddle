@@ -95,6 +95,12 @@ gUI.ModelManager=gUtil.Class.extend({
         var viewManager=this.viewManager;
         delete this.posToUnit[srcPos.i][srcPos.j];
         this.posToUnit[dstPos.i][dstPos.j]=moveUnit;
+        this.mazeModel.openLight(
+            dstPos,
+            moveUnit.get("attackRange"),
+            function(pos){
+                viewManager.moveLight(pos);
+        });
         this.viewManager.animatePosMove(
             srcPos,
             dstPos,

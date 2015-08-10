@@ -63,6 +63,9 @@ gModels.HitterUnitModel=gModels.unitModelExtend(gModels.WalkerUnitModel,{
 gModels.AssassinUnitModel=gModels.unitModelExtend(gModels.WalkerUnitModel,{
     typeName:"assassin"
 });
+gModels.AssassinUnitModel=gModels.unitModelExtend(gModels.WalkerUnitModel,{
+    typeName:"lighter"
+});
 gModels.ArcherUnitModel=gModels.unitModelExtend(gModels.WalkerUnitModel,{
     typeName:"archer",
     attackRange:function(){

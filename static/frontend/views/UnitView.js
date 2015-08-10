@@ -10,6 +10,8 @@ gViews.UnitSpriteDict={
     transfer:"/frontend/image/transfer.png",
     walker:"/frontend/image/walker.png",
     rider:"/frontend/image/rider.png",
+    observer:"/frontend/image/observer.png",
+    trigger:"/frontend/image/trigger.png",
 }
 gViews.UnitView=Backbone.View.extend({
 

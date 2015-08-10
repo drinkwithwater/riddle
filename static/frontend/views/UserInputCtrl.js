@@ -47,7 +47,10 @@ gViews.UserInputCtrl=gUtil.Class.extend({
     mouseDown:function(area){
         if(this.state==this.STATE_EMPTY){
             this.srcUnit=this.modelManager.unit$(area);
-            if(this.srcUnit){
+            if(!this.modelManager.maze$().getLight(area.i,area.j)){
+                // no light : return
+                return ;
+            }else if(this.srcUnit){
                 if(this.srcUnit.canOper()){
                     this.walkPath.start(area);
                     this.flyPath.start(area)
@@ -84,9 +87,13 @@ gViews.UserInputCtrl=gUtil.Class.extend({
         if(this.state==this.STATE_EMPTY){
             // do nothing 
         }else if(this.state==this.STATE_PATHING){
-            this.walkPath.overArea(area);
-            this.flyPath.overArea(area);
-            this.pathingTypeChange(area);
+            if(this.modelManager.maze$().getLight(area.i,area.j)){
+                this.walkPath.overArea(area);
+                this.flyPath.overArea(area);
+                this.pathingTypeChange(area);
+            }else{
+                this.cancel();
+            }
         }
     },
     mouseMove:function(mousePos){

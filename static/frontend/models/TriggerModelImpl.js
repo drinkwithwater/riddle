@@ -73,21 +73,18 @@ gModels.TransferUnitModel=gModels.unitModelExtend(gModels.TriggerUnitModel,{
         var j=Number(this.get("j"));
         var triggerRange=Number(this.get("triggerRange"));
         var rangeArray=[];
-        var putDirect=function(di,dj){
-            var putI=i;
-            var putJ=j;
-            for(var count=0;count<triggerRange;count++){
-                putI+=di;
-                putJ+=dj;
-                var occurUnitModel=modelManager.unit$({i:putI,j:putJ});
-                if(_.isObject(occurUnitModel)) break;
-                else rangeArray.push({i:putI,j:putJ})
-            }
-        }
-        putDirect(1,0);
-        putDirect(0,1);
-        putDirect(-1,0);
-        putDirect(0,-1);
+        rangeArray=rangeArray.concat(gPoint.range(
+            {i:i+1,j:j},
+            {i:i+triggerRange+1,j:j}));
+        rangeArray=rangeArray.concat(gPoint.range(
+            {i:i-1,j:j},
+            {i:i-triggerRange-1,j:j}));
+        rangeArray=rangeArray.concat(gPoint.range(
+            {i:i,j:j+1},
+            {i:i,j:j+triggerRange+1}));
+        rangeArray=rangeArray.concat(gPoint.range(
+            {i:i,j:j-1},
+            {i:i,j:j-triggerRange-1}));
         return rangeArray;
     },
 });

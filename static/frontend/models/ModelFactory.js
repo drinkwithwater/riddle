@@ -43,6 +43,7 @@ gModels.createFromScriptName=function(name){
         iLength:iLength,
         jLength:jLength
     });
+    var lighter=false;
     for(var i=0;i<iLength;i++){
         for(var j=0;j<jLength;j++){
             var unitCode=unitArray[i][j];
@@ -60,10 +61,16 @@ gModels.createFromScriptName=function(name){
                 unitCollection.add(unitModel);
                 unitDict[unitModel.get("unitId")]=unitModel;
                 mazeModel.setUnit(i,j,unitModel);
+                if(unitModel.typeName==="lighter"){
+                    lighter=true;
+                }
             }else{
                 mazeModel.setUnit(i,j,null);
             }
         }
+    }
+    if(lighter==true){
+        mazeModel.initWithLighter();
     }
     return {
         unitCollection:unitCollection,

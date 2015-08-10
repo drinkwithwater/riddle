@@ -36,6 +36,11 @@ module.exports=function(env){
         group:gScript.GROUP_ATTACKER,
         mp:0,
     };
+    gScript.unitNumericalDict["lighter"]={
+        hp:10, ap:0, attackRange:3,
+        group:gScript.GROUP_ATTACKER,
+        mp:0,
+    };
 
     // defenser
     gScript.unitNumericalDict["trigger"]={

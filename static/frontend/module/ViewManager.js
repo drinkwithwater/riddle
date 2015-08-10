@@ -139,6 +139,9 @@ gUI.ViewManager=gUtil.Class.extend({
             callback();
         }
     },
+    moveLight:function(pos){
+        this.boardView.lightArea$(pos).removeClass("dark");
+    },
 
 
     

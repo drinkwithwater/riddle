@@ -190,5 +190,11 @@ module.exports=function(env){
             }
         }
     });
+    gBattle.Lighter=gBattle.unitExtend(gBattle.WalkerUnit,{
+        typeName:"lighter",
+        operAttack:function(context,path){
+            return ;
+        }
+    });
     //}}}
 }
