@@ -58,9 +58,24 @@ gModels.MazeModel=Backbone.Model.extend({
         for(var x=0,l=rangeArray.length;x<l;x++){
             var pos=rangeArray[x];
             if(this.valid(pos.i,pos.j)){
-               posToLight[pos.i][pos.j]=true;
-                if(_.isFunction(callback)){
-                    callback(pos);
+                var lighted=posToLight[pos.i][pos.j];
+                if(lighted){
+                    continue;
+                }else{
+                    posToLight[pos.i][pos.j]=true;
+                    var lightedUnit=this.getUnit(pos.i,pos.j);
+                    if(_.isObject(lightedUnit)){
+                        if(lightedUnit.getCategory()=="normal"){
+                            this.openLight(
+                                pos,
+                                lightedUnit.get("attackRange"),
+                                callback
+                            );
+                        }
+                    }
+                    if(_.isFunction(callback)){
+                        callback(pos);
+                    }
                 }
             }
         }

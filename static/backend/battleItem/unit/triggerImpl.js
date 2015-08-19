@@ -101,40 +101,6 @@ module.exports=function(env){
             battleField.unitAttack(context,this,mover,damage);
         }
     });
-    gBattle.TransferUnit=gBattle.unitExtend(gBattle.TriggerUnit,{
-        typeName:"transfer",
-        inRange:function(pos){
-            var distance=gPoint.maDistance(this,pos);
-            if(distance>this.triggerRange) return false;
-            if(distance<=0) return false;
-            if(this.i!=pos.i && this.j!=pos.j) return false;
-            return true;
-        },
-        moveTrigger:function(context,mover,srcPos){
-            // check if itself
-            if(mover.unitId==this.unitId) return ;
-            // check if the partner
-            if(mover.group==this.group) return ;
-            // check death
-            if(!this.alive) return ;
-            // check range
-            if(!this.inRange(mover)) return ;
-            // if srcPos is in range, return
-            if(this.inRange(srcPos)) return ;
-            // position check
-            var battleField=this.battleField;
-            var maze=battleField.getMaze();
-            // the mover and rider must be on the same line
-            if(this.i!=mover.i && this.j!=mover.j) return;
-            var dstPos={
-                i:2*this.i-mover.i,
-                j:2*this.j-mover.j
-            };
-            if(!maze.valid(dstPos)) return ;
-            if(!maze.getCell(dstPos).isEmpty()) return ;
-            battleField.unitMoveStep(context,mover,dstPos);
-        }
-    });
     gBattle.BoxUnit=gBattle.unitExtend(gBattle.TriggerUnit,{
         typeName:"box",
         afterAttackTrigger:function(context,attacker,damage){

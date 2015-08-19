@@ -73,5 +73,38 @@ module.exports=function(env){
         group:gScript.GROUP_DEFENSER,
         mp:0,
     };
+    
+    // transfer
+    gScript.unitNumericalDict["transfer1"]={
+        hp:4, ap:2, triggerRange:1,
+        group:gScript.GROUP_DEFENSER,
+        mp:0,
+    };
+    gScript.unitNumericalDict["updown1"]={
+        hp:4, ap:2, triggerRange:1,
+        group:gScript.GROUP_DEFENSER,
+        mp:0,
+    };
+    gScript.unitNumericalDict["updown2"]={
+        hp:4, ap:2, triggerRange:1,
+        group:gScript.GROUP_DEFENSER,
+        mp:0,
+    };
+    
+    gScript.unitNumericalDict["transfer2"]={
+        hp:4, ap:2, triggerRange:1,
+        group:gScript.GROUP_DEFENSER,
+        mp:0,
+    };
+    gScript.unitNumericalDict["leftright1"]={
+        hp:4, ap:2, triggerRange:1,
+        group:gScript.GROUP_DEFENSER,
+        mp:0,
+    };
+    gScript.unitNumericalDict["leftright2"]={
+        hp:4, ap:2, triggerRange:1,
+        group:gScript.GROUP_DEFENSER,
+        mp:0,
+    };
     ///}}}
 }

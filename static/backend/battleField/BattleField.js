@@ -199,10 +199,14 @@ module.exports=function(env){
                 dstPos:dstPos
             }));
             _.each(this.moveTriggerDict,function(triggerUnit){
-                triggerUnit.moveTrigger(context,unit,srcPos);
+                if(unit.alive){
+                    triggerUnit.moveTrigger(context,unit,srcPos);
+                }
             });
             _.each(this.transferDict,function(triggerUnit){
-                triggerUnit.moveTrigger(context,unit,srcPos);
+                if(unit.alive){
+                    triggerUnit.moveTrigger(context,unit,srcPos);
+                }
             });
 	    },
         unitRangeAttack:function(context,unit,targets,damages,focusIndex){

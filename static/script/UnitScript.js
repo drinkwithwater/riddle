@@ -17,6 +17,13 @@ module.exports=function(env){
     gScript.unitTypeNameDict[13]="rider";
     gScript.unitTypeNameDict[14]="transfer";
     gScript.unitTypeNameDict[15]="box";
+    
+    gScript.unitTypeNameDict[20]="transfer1";
+    gScript.unitTypeNameDict[21]="transfer2";
+    gScript.unitTypeNameDict[22]="updown1";
+    gScript.unitTypeNameDict[23]="updown2";
+    gScript.unitTypeNameDict[24]="leftright1";
+    gScript.unitTypeNameDict[25]="leftright2";
     // set category
     gScript.unitCategoryDict={};
     // normal unit
@@ -35,5 +42,11 @@ module.exports=function(env){
     gScript.unitCategoryDict["box"]="trigger";
     // transfer unit
     gScript.unitCategoryDict["transfer"]="transfer";
+    gScript.unitCategoryDict["transfer1"]="transfer";
+    gScript.unitCategoryDict["transfer2"]="transfer";
+    gScript.unitCategoryDict["updown1"]="transfer";
+    gScript.unitCategoryDict["updown2"]="transfer";
+    gScript.unitCategoryDict["leftright1"]="transfer";
+    gScript.unitCategoryDict["leftright2"]="transfer";
     ///}}}
 }

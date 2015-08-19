@@ -65,29 +65,6 @@ gModels.RiderUnitModel=gModels.unitModelExtend(gModels.TriggerUnitModel,{
         return rangeArray;
     },
 });
-gModels.TransferUnitModel=gModels.unitModelExtend(gModels.TriggerUnitModel,{
-    typeName:"transfer",
-    triggerRange:function(){
-        var modelManager=this.modelManager;
-        var i=Number(this.get("i"));
-        var j=Number(this.get("j"));
-        var triggerRange=Number(this.get("triggerRange"));
-        var rangeArray=[];
-        rangeArray=rangeArray.concat(gPoint.range(
-            {i:i+1,j:j},
-            {i:i+triggerRange+1,j:j}));
-        rangeArray=rangeArray.concat(gPoint.range(
-            {i:i-1,j:j},
-            {i:i-triggerRange-1,j:j}));
-        rangeArray=rangeArray.concat(gPoint.range(
-            {i:i,j:j+1},
-            {i:i,j:j+triggerRange+1}));
-        rangeArray=rangeArray.concat(gPoint.range(
-            {i:i,j:j-1},
-            {i:i,j:j-triggerRange-1}));
-        return rangeArray;
-    },
-});
 gModels.BoxUnitModel=gModels.unitModelExtend(gModels.TriggerUnitModel,{
     typeName:"box",
 });
