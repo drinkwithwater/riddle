@@ -1,0 +1,29 @@
+{
+    "debugMode" : 1,
+    "showFPS" : true,
+    "frameRate" : 60,
+    "id" : "gameCanvas",
+    "renderMode" : 0,
+    "engineDir":"frameworks",
+
+    "modules" : ["cocos2d"],
+
+    "plugin": {
+        "facebook": {
+            "appId" : "1426774790893461",
+            "xfbml" : true,
+            "version" : "v2.0"
+        }
+    },
+
+    "jsList" : [
+        "src/resource.js",
+        "src/app.js",
+
+        "../lib/underscore.min.js",
+        "../lib/util.js",
+
+        "src/PathData.js",
+        "src/GameLayer.js"
+    ]
+}
