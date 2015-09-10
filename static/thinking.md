@@ -59,7 +59,7 @@ II. Component design
             //special for cell map
             a) hiden.
                Not trigger moveing listener (at first attack?).
-            b) dosth
+            b) type - wakeup.
             c) type - moving trigger.
             d) type - moving trigger attack threatened object.
             e) trigger moving attack then return.

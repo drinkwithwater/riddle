@@ -44,6 +44,8 @@ gModels.MazeModel=Backbone.Model.extend({
                             i:ijUnit.get("i"),
                             j:ijUnit.get("j"),
                         },ijUnit.get("attackRange"));
+                    }else if(ijUnit.get("key")){
+                        this.posToLight[i][j]=true;
                     }
                 }
             }

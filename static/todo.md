@@ -1,4 +1,4 @@
-a bug check for rider?
+
 maze design:
 	shortest path: a very long range observer.
 next: add line range attack unit
