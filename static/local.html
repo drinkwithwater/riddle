@@ -1,0 +1,85 @@
+<head>
+	<meta charset="utf-8">
+<style>
+	html {
+		background-color:#222222 !important;
+	}
+	body {
+		background-color:#222222 !important;
+	}
+</style>
+<!-- -lib---------------------------------------- -->
+<script src="/cocos/src/lib/jquery.js"></script>
+<script src="/cocos/src/lib/underscore.min.js"></script>
+<script src="/cocos/src/lib/backbone.min.js"></script>
+<script src="/cocos/src/lib/util.js"></script>
+<script src="/cocos/src/lib/point.js"></script>
+<!-- -------------------------------------------- -->
+<script src="/cocos/src/core/config.js"></script>
+<!-- -------------------------------------------- -->
+<script src="/cocos/src/script/BattleScript.js"></script>
+<script src="/cocos/src/script/UnitScript.js"></script>
+<script src="/cocos/src/script/NumericalScript.js"></script>
+<script src="/loadscript"></script>
+<!-- -------------------------------------------- -->
+<script src="/cocos/src/backend/battleFactory/BattleFactory.js"></script>
+<script src="/cocos/src/backend/battleField/BattleField.js"></script>
+<script src="/cocos/src/backend/battleItem/maze/maze.js"></script>
+<script src="/cocos/src/backend/battleItem/unit/unitBase.js"></script>
+<script src="/cocos/src/backend/battleItem/unit/unitImpl.js"></script>
+<script src="/cocos/src/backend/battleItem/unit/triggerImpl.js"></script>
+<script src="/cocos/src/backend/battleItem/unit/transferImpl.js"></script>
+<!-- -------------------------------------------- -->
+<script src="/cocos/src/backend/controller/BattleManager.js"></script>
+<script src="/cocos/src/backend/controller/GameController.js"></script>
+<script src="/cocos/src/backend/controller/BattleEventSender.js"></script>
+
+<!-- -------------------------------------------- -->
+<script src="/cocos/src/frontend/uiConst.js"></script>
+<script src="/cocos/src/frontend/views/UnitView.js"></script>
+<script src="/cocos/src/frontend/views/BoardView.js"></script>
+<script src="/cocos/src/frontend/views/PathView.js"></script>
+<script src="/cocos/src/frontend/views/RangeView.js"></script>
+<script src="/cocos/src/frontend/views/UserInputCtrl.js"></script>
+<script src="/cocos/src/frontend/views/MenuView.js"></script>
+<script src="/cocos/src/frontend/models/UnitModel.js"></script>
+<script src="/cocos/src/frontend/models/UnitModelImpl.js"></script>
+<script src="/cocos/src/frontend/models/TriggerModelImpl.js"></script>
+<script src="/cocos/src/frontend/models/TransferModelImpl.js"></script>
+<script src="/cocos/src/frontend/models/MazeModel.js"></script>
+<script src="/cocos/src/frontend/models/ModelFactory.js"></script>
+<script src="/cocos/src/frontend/module/FrontendModule.js"></script>
+<script src="/cocos/src/frontend/module/ModelManager.js"></script>
+<script src="/cocos/src/frontend/module/ViewManager.js"></script>
+<!-- -------------------------------------------- -->
+<script src="/cocos/src/inter/ClientModule.js"></script>
+<script src="/cocos/src/inter/ServerModule.js"></script>
+<script src="/cocos/src/inter/message/SCGameMessage.js"></script>
+<script src="/cocos/src/inter/message/SCBattleMessage.js"></script>
+<script src="/cocos/src/inter/message/CSGameMessage.js"></script>
+<script src="/cocos/src/inter/message/CSBattleMessage.js"></script>
+<script src="/cocos/src/inter/battleEvent/BattleEvent.js"></script>
+<!-- -------------------------------------------- -->
+<script src="/cocos/src/core/GameTop.js"></script>
+
+<!-- -------------------------------------------- -->
+<script>
+gCore.GameTop.localMain();
+</script>
+
+<link rel="stylesheet" type="text/css" href="/cocos/src/frontend/css/layout.css">
+<link rel="stylesheet" type="text/css" href="/cocos/src/frontend/css/board.css">
+<link rel="stylesheet" type="text/css" href="/cocos/src/frontend/css/effect.css">
+<link rel="stylesheet" type="text/css" href="/cocos/src/frontend/css/unit.css">
+<link rel="stylesheet" type="text/css" href="/cocos/src/frontend/css/walkpath.css">
+<link rel="stylesheet" type="text/css" href="/cocos/src/frontend/css/flypath.css">
+<link rel="stylesheet" type="text/css" href="/cocos/src/frontend/css/bullet.css">
+</head>
+<body><!-- oncontextmenu=self.event.returnValue=false-->
+<div class="content">
+	<div id="menu" class="left">
+	</div>
+	<div id="main" class="right">
+	</div>
+</div>
+</body>

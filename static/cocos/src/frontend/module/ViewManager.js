@@ -150,7 +150,7 @@ gUI.ViewManager=gUtil.Class.extend({
         var loadTemplate=function(index){
             var name=names[index];
             console.log("Loading template: "+name);
-            $.get("/frontend/templates/"+names[index]+".html",function(data){
+            $.get("/cocos/src/frontend/templates/"+names[index]+".html",function(data){
                 gTemplates[name]=data;
                 index++;
                 if(index<length){
