@@ -46,6 +46,7 @@ gCore.GameTop=gUtil.Class.extend({
 		]);
 		gameInst.init();
 		gCore.gameInst=gameInst;
+		return gameInst;
 	},
 	localMain:function(){
 		var gameInst=new gCore.GameTop([
@@ -60,6 +61,7 @@ gCore.GameTop=gUtil.Class.extend({
 	    
 		gameInst.init();
 		gCore.gameInst=gameInst;
+		return gameInst;
 	},
 	serverMain:function(){
 		var gameInst=new gCore.GameTop([
@@ -69,6 +71,22 @@ gCore.GameTop=gUtil.Class.extend({
 	    
 		gameInst.init();
 		gCore.gameInst=gameInst;
+		return gameInst;
+	},
+	androidMain:function(){
+		var gameInst=new gCore.GameTop([
+		    gController.BattleManager,
+		    gController.GameController,
+		    gInter.LocalClientModule,
+		    gInter.LocalServerModule,
+		    gUI.ModelManager,
+		    gUI.ViewManager,
+		    gUI.FrontendModule
+		]);
+	    
+		gameInst.init();
+		gCore.gameInst=gameInst;
+		return gameInst;
 	}
 });
 

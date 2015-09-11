@@ -4,7 +4,7 @@
     "frameRate" : 60,
     "id" : "gameCanvas",
     "renderMode" : 0,
-    "engineDir":"frameworks",
+    "engineDir":"frameworks/cocos2d-html5",
 
     "modules" : ["cocos2d"],
 
@@ -20,10 +20,52 @@
         "src/resource.js",
         "src/app.js",
 
-        "../lib/underscore.min.js",
-        "../lib/util.js",
+        "src/lib/underscore.min.js",
+        "src/lib/backbone.min.js",
+        "src/lib/util.js",
+        "src/lib/point.js",
 
-        "src/PathData.js",
-        "src/GameLayer.js"
+        "src/script/BattleScript.js",
+        "src/script/UnitScript.js",
+        "src/script/NumericalScript.js",
+
+        "src/backend/battleFactory/BattleFactory.js",
+        "src/backend/battleField/BattleField.js",
+        "src/backend/battleItem/maze/maze.js",
+        "src/backend/battleItem/unit/unitBase.js",
+        "src/backend/battleItem/unit/unitImpl.js",
+        "src/backend/battleItem/unit/triggerImpl.js",
+        "src/backend/battleItem/unit/transferImpl.js",
+
+
+	"src/backend/controller/BattleManager.js",
+	"src/backend/controller/GameController.js",
+	"src/backend/controller/BattleEventSender.js",
+
+	"src/frontend/uiConst.js",
+	"src/frontend/models/UnitModel.js",
+	"src/frontend/models/UnitModelImpl.js",
+	"src/frontend/models/TriggerModelImpl.js",
+	"src/frontend/models/TransferModelImpl.js",
+	"src/frontend/models/MazeModel.js",
+	"src/frontend/models/ModelFactory.js",
+	"src/frontend/module/FrontendModule.js",
+	"src/frontend/module/ModelManager.js",
+
+	"src/android/CanvasViewManager.js",
+        "src/android/PathData.js",
+        "src/android/GameLayer.js",
+
+	"src/inter/ClientModule.js",
+	"src/inter/ServerModule.js",
+	"src/inter/message/SCGameMessage.js",
+	"src/inter/message/SCBattleMessage.js",
+	"src/inter/message/CSGameMessage.js",
+	"src/inter/message/CSBattleMessage.js",
+	"src/inter/battleEvent/BattleEvent.js",
+
+	"src/core/GameTop.js"
+
+
     ]
 }

@@ -74,9 +74,9 @@ cc.game.onStart = function(){
         cc.loader.resPath = 'resjs'
     }
 
-    gTest.mainScene=new MainScene();
     cc.LoaderScene.preload(g_resources, function () {
-        cc.director.runScene(gTest.mainScene);
+        var mainScene=gCore.GameTop.androidMain().getModule("viewModule").mainScene;
+        cc.director.runScene(mainScene);
     }, this);
 };
 cc.game.run();
