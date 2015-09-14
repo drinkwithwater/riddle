@@ -1,5 +1,9 @@
 var gViews=gViews||{};
 gViews.UserInputCtrl=gUtil.Class.extend({
+    LEVEL_AREA:0,
+    LEVEL_SPRITE:1,
+    LEVEL_PATH:2,
+    LEVEL_CHOOSE:3,
     STATE_EMPTY:0,
     STATE_PATHING:1,
     state:0,
@@ -41,6 +45,11 @@ gViews.UserInputCtrl=gUtil.Class.extend({
 	    this.gameLayer.unChoose();
     },
     movePos:function(x,y){
+    },
+    cancel:function(){
+        this.pathData.cancel();
+	    this.gameLayer.hidePath();
+	    this.gameLayer.unChoose();
     }
 
 });
@@ -63,6 +72,7 @@ var GameLayer = cc.Layer.extend({
     actionHandler:null,
     viewManager:null,
     modelManager:null,
+    idToSprite:null,
     showPath:function(path){
 	    this.pathDraw.clear();
 	    var pre=null;
@@ -102,45 +112,66 @@ var GameLayer = cc.Layer.extend({
     },
     ctor:function () {
         this._super();
-	this.setAnchorPoint(cc.p(0,0));
-        var size=cc.director.getWinSize();
-	this.userInputCtrl=new gViews.UserInputCtrl();
-	this.userInputCtrl.bindLayer(this);
+	    this.setAnchorPoint(cc.p(0,0));
+        
+        this.idToSprite={};
+        //var size=cc.director.getWinSize();
+	    this.userInputCtrl=new gViews.UserInputCtrl();
+	    this.userInputCtrl.bindLayer(this);
 
         this.areaDraw=new cc.DrawNode();
-        this.addChild(this.areaDraw,0);
-	this.showArea();
+        this.addChild(this.areaDraw,this.LEVEL_AREA);
 
-	this.chooseDraw=new cc.DrawNode();
-	this.addChild(this.chooseDraw,1);
-	var layer=this;
-	var user=this.userInputCtrl;
-	var listener=cc.EventListener.create({
-		event:cc.EventListener.TOUCH_ONE_BY_ONE,
+
+	    this.chooseDraw=new cc.DrawNode();
+	    this.addChild(this.chooseDraw,this.LEVEL_CHOOSE);
+	    var layer=this;
+	    var user=this.userInputCtrl;
+	    var listener=cc.EventListener.create({
+		    event:cc.EventListener.TOUCH_ONE_BY_ONE,
 	        swallowTouches: true,
-		onTouchBegan:function(touch,event){
-			gTest.target=event.getCurrentTarget();
-			var ij=layer.p2ij(touch.getLocation());
-			user.beginArea(ij.i,ij.j);
-			return true;
-		},
-		onTouchMoved:function(touch,event){
-			var ij=layer.p2ij(touch.getLocation());
-			user.moveArea(ij.i,ij.j);
-		},
-		onTouchEnded:function(touch,event){
-			var ij=layer.p2ij(touch.getLocation());
-			user.endArea(ij.i,ij.j);
-		}
-	});
+		    onTouchBegan:function(touch,event){
+			    gTest.target=event.getCurrentTarget();
+			    var ij=layer.p2ij(touch.getLocation());
+			    user.beginArea(ij.i,ij.j);
+			    return true;
+		    },
+		    onTouchMoved:function(touch,event){
+			    var ij=layer.p2ij(touch.getLocation());
+			    user.moveArea(ij.i,ij.j);
+		    },
+		    onTouchEnded:function(touch,event){
+			    var ij=layer.p2ij(touch.getLocation());
+			    user.endArea(ij.i,ij.j);
+		    }
+	    });
 
-	cc.eventManager.addListener(listener,this.chooseDraw);
+	    cc.eventManager.addListener(listener,this.chooseDraw);
 
-	this.pathDraw=new cc.DrawNode();
-	this.addChild(this.pathDraw,2);
+	    this.pathDraw=new cc.DrawNode();
+	    this.addChild(this.pathDraw,this.LEVEL_PATH);
         return true;
     },
     render:function(){
+        console.log("layer render");
+        this.userInputCtrl.cancel();
+        var layer=this;
+        // update area
+        //todo
+	    this.showArea();
+        // update sprite
+        _.each(this.modelManager.unitDict,function(v,k){
+            var sprite=new cc.Sprite(res.testpng);
+            var pos=layer.pCenter(v.get("i"),v.get("j"));
+            sprite.attr({
+                x:pos.x,
+                y:pos.y,
+                anchorX:0.5,
+                anchorY:0.5
+            });
+            layer.idToSprite[v.get("unitId")]=sprite;
+            layer.addChild(sprite,layer.LEVEL_SPRITE);
+        });
     },
     bind:function(gameTop){
 	    this.viewManager=gameTop.getModule("viewModule");

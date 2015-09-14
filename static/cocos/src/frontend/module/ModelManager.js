@@ -21,7 +21,6 @@ gUI.ModelManager=gUtil.Class.extend({
             this.viewManager=gameTop.getModule("viewModule");
         }
 
-        this.createFromScriptName("default");
     },
 
     start:function(gameTop){

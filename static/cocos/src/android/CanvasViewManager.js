@@ -15,7 +15,7 @@ gUI.ViewManager=gUtil.Class.extend({
     init:function(gameTop){
         var thisVar=this;
         if(gameTop){
-		this.modelManager=gameTop.getModule("modelModule");
+		    this.modelManager=gameTop.getModule("modelModule");
             this.viewActionHandler=gameTop.getModule("frontendModule");
         }
         this.unitViews={};
@@ -26,42 +26,44 @@ gUI.ViewManager=gUtil.Class.extend({
     start:function(gameTop){
         var thisVar=this;
         var modelManager=this.modelManager;
-	this.mainScene=new gViews.MainScene();
-	this.gameLayer=new GameLayer();
-	this.mainScene.bind(gameTop);
-	this.gameLayer.bind(gameTop);
-	/*
-        this.loadTemplates(["unit","board","menu"],function(){
-            var scriptNames=_.map(gScript.battleScript,
-                                  function(v,k){
-                                      return k;
-                                  });
-            thisVar.menuView=new gViews.MenuView({
-                scriptNames:scriptNames,
-                viewActionHandler:thisVar.viewActionHandler
-            });
+	    this.mainScene=new gViews.MainScene();
+	    this.gameLayer=new GameLayer();
+	    this.mainScene.bind(gameTop);
+	    this.gameLayer.bind(gameTop);
+	    /*
+          this.loadTemplates(["unit","board","menu"],function(){
+          var scriptNames=_.map(gScript.battleScript,
+          function(v,k){
+          return k;
+          });
+          thisVar.menuView=new gViews.MenuView({
+          scriptNames:scriptNames,
+          viewActionHandler:thisVar.viewActionHandler
+          });
 
-            $("#menu").html(thisVar.menuView.render().el);
+          $("#menu").html(thisVar.menuView.render().el);
 
-            thisVar.reRender();
+          thisVar.reRender();
 
-            //TODO start a inst
-            //if do this ,clean up some code above.
-            thisVar.viewActionHandler.viewStart("default");
-        });*/
+          //TODO start a inst
+          //if do this ,clean up some code above.
+          thisVar.viewActionHandler.viewStart("default");
+          });*/
     },
     reRender:function(){
         var thisVar=this;
         var modelManager=this.modelManager;
-	/*
-        thisVar.boardView=new gViews.BoardView({
-            viewManager:thisVar,
-            modelManager:modelManager,
-            viewActionHandler:thisVar.viewActionHandler
-        });
+        this.gameLayer.render();
+        console.log("view reRender");
+	    /*
+          thisVar.boardView=new gViews.BoardView({
+          viewManager:thisVar,
+          modelManager:modelManager,
+          viewActionHandler:thisVar.viewActionHandler
+          });
 
-        $("#main").html(thisVar.boardView.render().el);
-        thisVar.boardView.afterRender();*/
+          $("#main").html(thisVar.boardView.render().el);
+          thisVar.boardView.afterRender();*/
     },
     refreshTriggerRange:function(){
         //this.boardView.refreshTriggerRange();
