@@ -27,7 +27,7 @@ gUI.ViewManager=gUtil.Class.extend({
         var thisVar=this;
         var modelManager=this.modelManager;
 	    this.mainScene=new gViews.MainScene();
-	    this.gameLayer=new GameLayer();
+	    this.gameLayer=new gViews.GameLayer();
 	    this.mainScene.bind(gameTop);
 	    this.gameLayer.bind(gameTop);
 	    /*

@@ -19,7 +19,7 @@ gViews.PathData=gUtil.Class.extend({
     },
     start:function(area){
         this.walkPath.push(area);
-	this.flyPath[0]=area;
+	    this.flyPath[0]=area;
     },
     overArea:function(area){
         // calculate walk path

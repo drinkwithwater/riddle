@@ -31,6 +31,15 @@ I. Global view
         c) direction towards (not want TODO...)
         d) random value ???
 
+	3. Unit philosophy
+		1) range
+		2) hatred
+			a) first in
+			b) all in
+			c) attacker
+			d) mover
+
+
 II. Component design
     1. Map script design
         1) riddle type
@@ -49,12 +58,12 @@ II. Component design
             c) trigger attacking between 2 unit in a line
             d) transfer
             e) Pao in Chinese chess
-            
+
         2) attacker:
             a) bomber
 
     3. Simple skill
-    
+
         1)
             //special for cell map
             a) hiden.
@@ -63,16 +72,16 @@ II. Component design
             c) type - moving trigger.
             d) type - moving trigger attack threatened object.
             e) trigger moving attack then return.
-            
+
             f) type - attacking trigger.
-            
+
             g) type - keep attacking utill one's killed.
 
             //normal
             d) type - just one attack unit (kill itself).
             e) type - first attack trigger.
             f) type - killed by trigger.
-            
+
         2)
             a) unit type counter design
             b) counter formed by simple regulation

@@ -55,6 +55,7 @@
 	"src/android/CanvasViewManager.js",
         "src/android/PathData.js",
         "src/android/GameLayer.js",
+        "src/android/UserInputCtrl.js",
 
 	"src/inter/ClientModule.js",
 	"src/inter/ServerModule.js",
