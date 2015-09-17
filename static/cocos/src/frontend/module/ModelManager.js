@@ -48,11 +48,11 @@ gUI.ModelManager=gUtil.Class.extend({
             return this.unitCollection.models;
         }else if(arguments.length==1){
             var arg0=arguments[0];
-            if(typeof(arg0)=="object"){
+            if(_.isObject(arg0)){
                 return  this.mazeModel.getUnit(arg0.i,arg0.j);
-            }else if(typeof(arg0)=="string"){
+            }else if(_.isString(arg0)){
                 return this.unitDict[unitId];
-            }else if(typeof(arg0)=="number"){
+            }else if(_.isNumber(arg0)){
                 return this.unitDict[unitId];
             }
         }else if(arguments.length==2){

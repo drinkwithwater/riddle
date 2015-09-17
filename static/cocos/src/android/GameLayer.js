@@ -1,13 +1,17 @@
 var gViews=gViews||{};
 gViews.GameLayer = cc.Layer.extend({
+    LEVEL_AREA:0,
+    LEVEL_SPRITE:1,
+    LEVEL_PATH:2,
+    LEVEL_CHOOSE:3,
 
 
-    dx:80,
-    dy:80,
+    dx:50,
+    dy:50,
     baseX:0,
     baseY:0,
-    iLength:5,
-    jLength:5,
+    iLength:0,
+    jLength:0,
 
     areaDraw:null,
     chooseDraw:null,
@@ -56,14 +60,22 @@ gViews.GameLayer = cc.Layer.extend({
 		    }
 	    }
     },
+    valid:function(i,j){
+        if(i<0||i>=this.iLength){
+            return false;
+        }
+        if(j<0||j>=this.jLength){
+            return false;
+        }
+        return true;
+    },
     ctor:function () {
         this._super();
 	    this.setAnchorPoint(cc.p(0,0));
-        
+
         this.idToSprite={};
         //var size=cc.director.getWinSize();
 	    this.userInputCtrl=new gViews.UserInputCtrl();
-	    this.userInputCtrl.bindLayer(this);
 
         this.areaDraw=new cc.DrawNode();
         this.addChild(this.areaDraw,this.LEVEL_AREA);
@@ -79,8 +91,7 @@ gViews.GameLayer = cc.Layer.extend({
 		    onTouchBegan:function(touch,event){
 			    gTest.target=event.getCurrentTarget();
 			    var ij=layer.p2ij(touch.getLocation());
-			    user.beginArea(ij.i,ij.j);
-			    return true;
+                return user.beginArea(ij.i,ij.j);
 		    },
 		    onTouchMoved:function(touch,event){
 			    var ij=layer.p2ij(touch.getLocation());
@@ -103,9 +114,24 @@ gViews.GameLayer = cc.Layer.extend({
         this.userInputCtrl.cancel();
         var layer=this;
         // update area
-        //todo
+
+        // set i,j length
+        var mazeModel=this.modelManager.maze$();
+        this.iLength=mazeModel.get("iLength");
+        this.jLength=mazeModel.get("jLength");
+
+        // set dx,dy
+        var size=cc.director.getWinSize();
+        this.dx=size.height/(this.iLength+1);
+        this.dy=this.dx;
+        this.baseX=this.dx/2;
+        this.baseY=this.dy/2
+
+        this.setPosition(cc.p(this.baseX,this.baseY));
+
+        // show area,unit
 	    this.showArea();
-        // update sprite
+
         _.each(this.modelManager.unitDict,function(v,k){
             var sprite=new cc.Sprite(res.testpng);
             var pos=layer.pCenter(v.get("i"),v.get("j"));
@@ -123,6 +149,7 @@ gViews.GameLayer = cc.Layer.extend({
 	    this.viewManager=gameTop.getModule("viewModule");
 	    this.modelManager=gameTop.getModule("modelModule");
 	    this.actionHandler=gameTop.getModule("frontendModule");
+	    this.userInputCtrl.bind(this,gameTop);
     },
 
     xy2ij:function(x,y){
