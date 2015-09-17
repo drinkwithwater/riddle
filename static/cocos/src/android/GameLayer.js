@@ -1,9 +1,5 @@
 var gViews=gViews||{};
 gViews.UserInputCtrl=gUtil.Class.extend({
-    LEVEL_AREA:0,
-    LEVEL_SPRITE:1,
-    LEVEL_PATH:2,
-    LEVEL_CHOOSE:3,
     STATE_EMPTY:0,
     STATE_PATHING:1,
     state:0,
@@ -16,37 +12,65 @@ gViews.UserInputCtrl=gUtil.Class.extend({
     pathData:null,
 
     preArea:null,
+    chooseUnit:null,
+    
+    viewManager:null,
     modelManager:null,
+    actionHandler:null,
     constructor:function(){
 	    gViews.UserInputCtrl.__super__.constructor.call(this);
 	    this.pathData=new gViews.PathData();
     },
-    bindLayer:function(gameLayer){
+    bind:function(gameLayer,gameTop){
 	    this.gameLayer=gameLayer;
+	    this.viewManager=gameTop.getModule("viewModule");
+	    this.modelManager=gameTop.getModule("modelModule");
+	    this.actionHandler=gameTop.getModule("frontendModule");
     },
     beginArea:function(i,j){
-	    this.pathData.start({i:i,j:j});
-	    this.gameLayer.doChoose(i,j);
-	    this.gameLayer.showPath(this.pathData.getWalkPath());
-	    this.preArea={i:i,j:j};
+        var gameLayer=this.gameLayer;
+        if(gameLayer.valid(i,j)){
+            var chooseUnit=this.modelManager.unit$(i,j);
+            if(_.isObject(chooseUnit)){
+                this.state=this.STATE_PATHING;
+                this.pathData.start({i:i,j:j});
+                gameLayer.doChoose(i,j);
+                gameLayer.showPath(this.pathData.getWalkPath());
+                this.preArea={i:i,j:j};
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     },
     moveArea:function(i,j){
-	    if(this.preArea===null){
-		    return ;
-	    }else if(this.preArea.i!=i||this.preArea.j!=j){
-		    this.pathData.overArea({i:i,j:j});
-		    this.gameLayer.showPath(this.pathData.getWalkPath());
-		    this.preArea={i:i,j:j};
-	    }
+        var gameLayer=this.gameLayer;
+        if(gameLayer.valid(i,j)&&this.state==this.STATE_PATHING){
+            if(this.preArea===null){
+                // not start
+                return ;
+            }else if(this.preArea.i==i&&this.preArea.j==j){
+                // at the same cell
+                return ;
+            }else {
+                this.pathData.overArea({i:i,j:j});
+                this.gameLayer.showPath(this.pathData.getWalkPath());
+                this.preArea={i:i,j:j};
+            }
+        }else{
+            this.cancel();
+            return ;
+        }
     },
     endArea:function(i,j){
-	    this.pathData.cancel();
-	    this.gameLayer.hidePath();
-	    this.gameLayer.unChoose();
+        this.cancel();
     },
     movePos:function(x,y){
     },
     cancel:function(){
+        this.state=this.STATE_EMPTY;
         this.pathData.cancel();
 	    this.gameLayer.hidePath();
 	    this.gameLayer.unChoose();
@@ -54,14 +78,18 @@ gViews.UserInputCtrl=gUtil.Class.extend({
 
 });
 var GameLayer = cc.Layer.extend({
+    LEVEL_AREA:0,
+    LEVEL_SPRITE:1,
+    LEVEL_PATH:2,
+    LEVEL_CHOOSE:3,
 
 
-    dx:80,
-    dy:80,
+    dx:50,
+    dy:50,
     baseX:0,
     baseY:0,
-    iLength:5,
-    jLength:5,
+    iLength:0,
+    jLength:0,
 
     areaDraw:null,
     chooseDraw:null,
@@ -110,6 +138,15 @@ var GameLayer = cc.Layer.extend({
 		    }
 	    }
     },
+    valid:function(i,j){
+        if(i<0||i>=this.iLength){
+            return false;
+        }
+        if(j<0||j>=this.jLength){
+            return false;
+        }
+        return true;
+    },
     ctor:function () {
         this._super();
 	    this.setAnchorPoint(cc.p(0,0));
@@ -117,7 +154,6 @@ var GameLayer = cc.Layer.extend({
         this.idToSprite={};
         //var size=cc.director.getWinSize();
 	    this.userInputCtrl=new gViews.UserInputCtrl();
-	    this.userInputCtrl.bindLayer(this);
 
         this.areaDraw=new cc.DrawNode();
         this.addChild(this.areaDraw,this.LEVEL_AREA);
@@ -133,8 +169,7 @@ var GameLayer = cc.Layer.extend({
 		    onTouchBegan:function(touch,event){
 			    gTest.target=event.getCurrentTarget();
 			    var ij=layer.p2ij(touch.getLocation());
-			    user.beginArea(ij.i,ij.j);
-			    return true;
+                return user.beginArea(ij.i,ij.j);
 		    },
 		    onTouchMoved:function(touch,event){
 			    var ij=layer.p2ij(touch.getLocation());
@@ -157,9 +192,24 @@ var GameLayer = cc.Layer.extend({
         this.userInputCtrl.cancel();
         var layer=this;
         // update area
-        //todo
+        
+        // set i,j length
+        var mazeModel=this.modelManager.maze$();
+        this.iLength=mazeModel.get("iLength");
+        this.jLength=mazeModel.get("jLength");
+        
+        // set dx,dy
+        var size=cc.director.getWinSize();
+        this.dx=size.height/(this.iLength+1);
+        this.dy=this.dx;
+        this.baseX=this.dx/2;
+        this.baseY=this.dy/2
+
+        this.setPosition(cc.p(this.baseX,this.baseY));
+        
+        // show area,unit
 	    this.showArea();
-        // update sprite
+        
         _.each(this.modelManager.unitDict,function(v,k){
             var sprite=new cc.Sprite(res.testpng);
             var pos=layer.pCenter(v.get("i"),v.get("j"));
@@ -177,6 +227,7 @@ var GameLayer = cc.Layer.extend({
 	    this.viewManager=gameTop.getModule("viewModule");
 	    this.modelManager=gameTop.getModule("modelModule");
 	    this.actionHandler=gameTop.getModule("frontendModule");
+	    this.userInputCtrl.bind(this,gameTop);
     },
 
     xy2ij:function(x,y){
