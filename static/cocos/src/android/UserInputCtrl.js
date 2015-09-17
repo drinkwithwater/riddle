@@ -1,9 +1,5 @@
 var gViews=gViews||{};
 gViews.UserInputCtrl=gUtil.Class.extend({
-    LEVEL_AREA:0,
-    LEVEL_SPRITE:1,
-    LEVEL_PATH:2,
-    LEVEL_CHOOSE:3,
     STATE_EMPTY:0,
     STATE_PATHING:1,
     state:0,
