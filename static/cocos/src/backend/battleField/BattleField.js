@@ -195,6 +195,7 @@ module.exports=function(env){
             unit.i=dstPos.i;
             unit.j=dstPos.j;
             context.push(new gEvent.PosMoveEvent({
+                unitId:unit.unitId,
                 srcPos:srcPos,
                 dstPos:dstPos
             }));
@@ -213,11 +214,13 @@ module.exports=function(env){
             var unitPos=gPoint.wrapPoint(unit);
             var focusTarget=targets[focusIndex];
             context.push(new gEvent.UnitAttackEvent({
+                unitId:unit.unitId,
                 unitPos:unitPos,
                 targetPos:gPoint.wrapPoint(focusTarget)
             }));
             for(var i=0,l=targets.length;i<l;i++){
                 context.push(new gEvent.UnitHarmEvent({
+                    unitId:unit.unitId,
                     unitPos:unitPos,
                     targetPos:gPoint.wrapPoint(targets[i])
                 }));
@@ -233,6 +236,7 @@ module.exports=function(env){
             var unitPos=gPoint.wrapPoint(unit);
             var targetPos=gPoint.wrapPoint(target);
             context.push(new gEvent.UnitAttackEvent({
+                unitId:unit.unitId,
                 unitPos:unitPos,
                 targetPos:targetPos
             }));
@@ -243,6 +247,7 @@ module.exports=function(env){
             var unitPos=gPoint.wrapPoint(unit);
             var targetPos=gPoint.wrapPoint(target);
             context.push(new gEvent.UnitHarmEvent({
+                unitId:unit.unitId,
                 unitPos:unitPos,
                 targetPos:targetPos
             }));
@@ -251,6 +256,7 @@ module.exports=function(env){
         unitSetAttr:function(context,unit,attrKey,attrValue){
             var unitPos=gPoint.wrapPoint(unit);
             context.push(new gEvent.AttrSetEvent({
+                unitId:unit.unitId,
                 unitPos:unitPos,
                 attrSet:{
                     key:attrKey,
@@ -265,6 +271,7 @@ module.exports=function(env){
                 var unitPos=gPoint.wrapPoint(unit);
                 this.maze.removeUnit(unitPos);
                 context.push(new gEvent.UnitDieEvent({
+                    unitId:unit.unitId,
                     unitPos:unitPos,
                 }));
             }

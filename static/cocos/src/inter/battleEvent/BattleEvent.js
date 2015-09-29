@@ -32,6 +32,7 @@ module.exports=function(env){
     };
     gEvent.PosMoveEvent=gEvent.eventImpl({
         type:"pos_move",
+        unitId:null,
         srcPos:{
             i:null,
             j:null
@@ -43,6 +44,7 @@ module.exports=function(env){
     });
     gEvent.UnitAttackEvent=gEvent.eventImpl({
         type:"unit_attack",
+        unitId:null,
         unitPos:{
             i:null,
             j:null
@@ -54,6 +56,7 @@ module.exports=function(env){
     });
     gEvent.UnitHarmEvent=gEvent.eventImpl({
         type:"unit_harm",
+        unitId:null,
         unitPos:{
             i:null,
             j:null
@@ -65,6 +68,7 @@ module.exports=function(env){
     });
     gEvent.UnitDieEvent=gEvent.eventImpl({
         type:"unit_die",
+        unitId:null,
         unitPos:{
             i:null,
             j:null
@@ -72,6 +76,7 @@ module.exports=function(env){
     });
     gEvent.AttrSetEvent=gEvent.eventImpl({
         type:"attr_set",
+        unitId:null,
         unitPos:{
             i:null,
             j:null

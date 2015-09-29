@@ -7,19 +7,17 @@ gViews.IPath={
     overPos:"",
     cancel:"",
 
-    getPath:"",
+    getWalkPath:"",
+    getWalkFlyPath:"",
 };
 gViews.PathData=gUtil.Class.extend({
     walkPath:"list",
-    flyPath:"list",
     constructor:function(){
 	    gViews.PathData.__super__.constructor.call(this);
 	    this.walkPath=new Array();
-	    this.flyPath=new Array(2);
     },
     start:function(area){
         this.walkPath.push(area);
-	    this.flyPath[0]=area;
     },
     overArea:function(area){
         // calculate walk path
@@ -44,18 +42,20 @@ gViews.PathData=gUtil.Class.extend({
                 thisVar.walkPath=path.slice(0,occurredIndex+1);
             }
         });
-	// set fly path
-	this.flyPath[1]=area;
     },
     cancel:function(){
         this.walkPath=[];
-	this.flyPath=[];
     },
     getWalkPath:function(){
         return this.walkPath;
     },
-    getFlyPath:function(){
-        return this.flyPath;
+    getWalkFlyPath:function(range){
+        var walkPath=this.walkPath;
+        var length=walkPath.length;
+        return {
+            walk:walkPath.slice(0,length-range),
+            fly:walkPath.slice(length-range-1)
+        };
     },
 
     /***************************/

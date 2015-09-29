@@ -1,3 +1,5 @@
+ui action show 
+message use id instead of pos
 
 maze design:
 	shortest path: a very long range observer.

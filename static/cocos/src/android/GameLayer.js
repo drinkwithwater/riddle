@@ -19,25 +19,34 @@ gViews.GameLayer = cc.Layer.extend({
 
     userInputCtrl:null,
 
+    spritePool:null,
+
     actionHandler:null,
     viewManager:null,
     modelManager:null,
-    idToSprite:null,
     showPath:function(path){
-	    this.pathDraw.clear();
+        var walk=path.walk;
+        var fly=path.fly;
+        var pathDraw=this.pathDraw;
+	    pathDraw.clear();
 	    var pre=null;
-	    for(var i=0,l=path.length;i<l;i++){
+	    for(var i=0,l=walk.length;i<l;i++){
 		    if(pre===null){
-			    var center=this.pCenter(path[i].i,path[i].j);
-			    this.pathDraw.drawDot(center,5,cc.color(255,255,255));
-			    pre=path[i];
+			    //var center=this.pCenter(walk[i].i,walk[i].j);
+			    //pathDraw.drawDot(center,5,cc.color(255,255,255));
+			    pre=walk[i];
 		    }else{
 			    var from=this.pCenter(pre.i,pre.j);
-			    var to=this.pCenter(path[i].i,path[i].j);
-			    this.pathDraw.drawSegment(from,to,5,cc.color(255,255,255));
-			    pre=path[i];
+			    var to=this.pCenter(walk[i].i,walk[i].j);
+			    pathDraw.drawSegment(from,to,5,cc.color(0,255,0));
+			    pre=walk[i];
 		    }
 	    }
+        if(fly.length>=2){
+            var from=this.pCenter(fly[0].i,fly[0].j);
+            var to=this.pCenter(fly[fly.length-1].i,fly[fly.length-1].j);
+            pathDraw.drawSegment(from,to,5,cc.color(255,255,0));
+        }
     },
     hidePath:function(){
 	    this.pathDraw.clear();
@@ -73,9 +82,9 @@ gViews.GameLayer = cc.Layer.extend({
         this._super();
 	    this.setAnchorPoint(cc.p(0,0));
 
-        this.idToSprite={};
         //var size=cc.director.getWinSize();
 	    this.userInputCtrl=new gViews.UserInputCtrl();
+        this.spritePool=new gViews.SpritePool(this);
 
         this.areaDraw=new cc.DrawNode();
         this.addChild(this.areaDraw,this.LEVEL_AREA);
@@ -133,15 +142,7 @@ gViews.GameLayer = cc.Layer.extend({
 	    this.showArea();
 
         _.each(this.modelManager.unitDict,function(v,k){
-            var sprite=new cc.Sprite(res.testpng);
-            var pos=layer.pCenter(v.get("i"),v.get("j"));
-            sprite.attr({
-                x:pos.x,
-                y:pos.y,
-                anchorX:0.5,
-                anchorY:0.5
-            });
-            layer.idToSprite[v.get("unitId")]=sprite;
+            var sprite=layer.spritePool.createSprite(v);
             layer.addChild(sprite,layer.LEVEL_SPRITE);
         });
     },

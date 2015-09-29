@@ -49,7 +49,7 @@ gUI.ModelManager=gUtil.Class.extend({
         }else if(arguments.length==1){
             var arg0=arguments[0];
             if(_.isObject(arg0)){
-                return  this.mazeModel.getUnit(arg0.i,arg0.j);
+                return this.mazeModel.getUnit(arg0.i,arg0.j);
             }else if(_.isString(arg0)){
                 return this.unitDict[unitId];
             }else if(_.isNumber(arg0)){
@@ -74,24 +74,15 @@ gUI.ModelManager=gUtil.Class.extend({
     },
 
     onBattleEventArray:function(eventArray){
-        var i=0;
-        var length=eventArray.length;
-        var modelManager=this;
-        if(length>0){
-            function step(){
-                if(i<length){
-                    var thisEvent=eventArray[i];
-                    i++;
-                    modelManager.onBattleEvent(thisEvent,step);
-                }
-            }
-            step();
+        for(var i=0,l=eventArray.length;i<l;i++){
+            this.onBattleEvent(eventArray[i]);
         }
+        var spritePool=this.viewManager.getSpritePool().run();
     },
-    onBattleEvent:function(battleEvent,callback){
+    onBattleEvent:function(battleEvent){
         var handlerFunc=this[this.eventHandlers[battleEvent.type]];
         if(handlerFunc){
-            handlerFunc.call(this,battleEvent,callback);
+            handlerFunc.call(this,battleEvent);
         }else{
 		    console.error("battle type no handler: "+battleEvent.type);
         }
@@ -105,27 +96,26 @@ gUI.ModelManager=gUtil.Class.extend({
     eventPosMove:function(posMoveEvent,callback){
         var srcPos=posMoveEvent.srcPos;
         var dstPos=posMoveEvent.dstPos;
+        var unitId=posMoveEvent.unitId;
         var moveUnit=this.posToUnit[srcPos.i][srcPos.j];
         var viewManager=this.viewManager;
         delete this.posToUnit[srcPos.i][srcPos.j];
         this.posToUnit[dstPos.i][dstPos.j]=moveUnit;
+        moveUnit.set("i",dstPos.i);
+        moveUnit.set("j",dstPos.j);
         this.mazeModel.openLight(
             dstPos,
             moveUnit.get("attackRange"),
             function(pos){
                 viewManager.moveLight(pos);
         });
-        this.viewManager.animatePosMove(
-            srcPos,
+        var spritePool=this.viewManager.getSpritePool();
+        spritePool.actionIdMove(
+            unitId,
             dstPos,
             function(){
                 //call back: set model
-                moveUnit.set("i",dstPos.i)
-                moveUnit.set("j",dstPos.j)
                 viewManager.refreshTriggerRange();
-                if(typeof(callback)=="function"){
-                    callback();
-                }
             }
         );
     },

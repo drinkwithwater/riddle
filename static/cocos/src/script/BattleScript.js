@@ -28,7 +28,7 @@ module.exports=function(env){
         battleType:1,
         iLength:8,
         jLength:8,
-        unitArray:[[ 1, 2, 3, 4,  5, 6, 0, 1],
+        unitArray:[[ 1, 2, 3, 4,  5, 6, 8, 1],
                    [ 0, 0, 0, 0,  0, 0, 0, 1],
                    [ 0, 0, 0, 0,  0,15, 0, 1],
                    [ 0, 0,22, 0,  0, 0, 0, 1],

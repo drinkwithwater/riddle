@@ -1,7 +1,7 @@
 var gUI=gUI||{};
 var htmlView; // a global ver for debug
 gUI.ViewManager=gUtil.Class.extend({
-    viewActionHandler:null,
+    frontendModule:null,
     modelManager:null,
 
     moveSpeed:10,//1 cell 1 second
@@ -16,12 +16,15 @@ gUI.ViewManager=gUtil.Class.extend({
         var thisVar=this;
         if(gameTop){
 		    this.modelManager=gameTop.getModule("modelModule");
-            this.viewActionHandler=gameTop.getModule("frontendModule");
+            this.frontendModule=gameTop.getModule("frontendModule");
         }
         this.unitViews={};
 
 	    //for test
 	    htmlView=this;
+        htmlView.run=function(){
+            gCore.gameInst.getModule("frontendModule").viewStart("default");
+        }
     },
     start:function(gameTop){
         var thisVar=this;
@@ -79,6 +82,9 @@ gUI.ViewManager=gUtil.Class.extend({
     animateUnitDie:function(pos,callback){
     },
     moveLight:function(pos){
+    },
+    getSpritePool:function(){
+        return this.gameLayer.spritePool;
     },
 
 

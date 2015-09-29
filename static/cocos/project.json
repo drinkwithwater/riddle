@@ -38,34 +38,35 @@
         "src/backend/battleItem/unit/transferImpl.js",
 
 
-	"src/backend/controller/BattleManager.js",
-	"src/backend/controller/GameController.js",
-	"src/backend/controller/BattleEventSender.js",
+        "src/backend/controller/BattleManager.js",
+        "src/backend/controller/GameController.js",
+        "src/backend/controller/BattleEventSender.js",
 
-	"src/frontend/uiConst.js",
-	"src/frontend/models/UnitModel.js",
-	"src/frontend/models/UnitModelImpl.js",
-	"src/frontend/models/TriggerModelImpl.js",
-	"src/frontend/models/TransferModelImpl.js",
-	"src/frontend/models/MazeModel.js",
-	"src/frontend/models/ModelFactory.js",
-	"src/frontend/module/FrontendModule.js",
-	"src/frontend/module/ModelManager.js",
+        "src/frontend/uiConst.js",
+        "src/frontend/models/UnitModel.js",
+        "src/frontend/models/UnitModelImpl.js",
+        "src/frontend/models/TriggerModelImpl.js",
+        "src/frontend/models/TransferModelImpl.js",
+        "src/frontend/models/MazeModel.js",
+        "src/frontend/models/ModelFactory.js",
+        "src/frontend/module/FrontendModule.js",
 
-	"src/android/CanvasViewManager.js",
+        "src/android/AndroidModelManager.js",
+        "src/android/CanvasViewManager.js",
+        "src/android/SpritePool.js",
         "src/android/PathData.js",
         "src/android/GameLayer.js",
         "src/android/UserInputCtrl.js",
 
-	"src/inter/ClientModule.js",
-	"src/inter/ServerModule.js",
-	"src/inter/message/SCGameMessage.js",
-	"src/inter/message/SCBattleMessage.js",
-	"src/inter/message/CSGameMessage.js",
-	"src/inter/message/CSBattleMessage.js",
-	"src/inter/battleEvent/BattleEvent.js",
+        "src/inter/ClientModule.js",
+        "src/inter/ServerModule.js",
+        "src/inter/message/SCGameMessage.js",
+        "src/inter/message/SCBattleMessage.js",
+        "src/inter/message/CSGameMessage.js",
+        "src/inter/message/CSBattleMessage.js",
+        "src/inter/battleEvent/BattleEvent.js",
 
-	"src/core/GameTop.js"
+        "src/core/GameTop.js"
 
 
     ]

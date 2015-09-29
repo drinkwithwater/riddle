@@ -64,17 +64,6 @@ gUI.FrontendModule=gUtil.Class.extend({
         //TODO change message to event
         var eventArray=message.eventArray;
         var modelManager=this.modelManager;
-        var i=0;
-        var length=eventArray.length;
-        if(length>0){
-            function step(){
-                if(i<length){
-                    var thisEvent=eventArray[i];
-                    i++;
-                    modelManager.onBattleEvent(thisEvent,step);
-                }
-            }
-            step();
-        }
+        modelManager.onBattleEventArray(eventArray);
     },
 });
