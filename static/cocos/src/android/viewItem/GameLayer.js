@@ -78,13 +78,22 @@ gViews.GameLayer = cc.Layer.extend({
         }
         return true;
     },
-    ctor:function () {
+    ctor:function (gameTop) {
         this._super();
+
+	    this.viewManager=gameTop.getModule("viewModule");
+	    this.modelManager=gameTop.getModule("modelModule");
+	    this.actionHandler=gameTop.getModule("frontendModule");
+
+	    this.userInputCtrl=new gViews.UserInputCtrl(this,gameTop);
+        this.spritePool=new gViews.UnitPool(this,gameTop);
+
+
+        
+
 	    this.setAnchorPoint(cc.p(0,0));
 
         //var size=cc.director.getWinSize();
-	    this.userInputCtrl=new gViews.UserInputCtrl();
-        this.spritePool=new gViews.SpritePool(this);
 
         this.areaDraw=new cc.DrawNode();
         this.addChild(this.areaDraw,this.LEVEL_AREA);
@@ -142,15 +151,9 @@ gViews.GameLayer = cc.Layer.extend({
 	    this.showArea();
 
         _.each(this.modelManager.unitDict,function(v,k){
-            var sprite=layer.spritePool.createSprite(v);
+            var sprite=layer.spritePool.createUnitView(v);
             layer.addChild(sprite,layer.LEVEL_SPRITE);
         });
-    },
-    bind:function(gameTop){
-	    this.viewManager=gameTop.getModule("viewModule");
-	    this.modelManager=gameTop.getModule("modelModule");
-	    this.actionHandler=gameTop.getModule("frontendModule");
-	    this.userInputCtrl.bind(this,gameTop);
     },
 
     xy2ij:function(x,y){
@@ -166,13 +169,12 @@ gViews.GameLayer = cc.Layer.extend({
     p2ij:function(p){
 	    return this.xy2ij(p.x,p.y);
     },
-    cellXY:function(i,j){
-	    var xx=j;
-	    var yy=this.iLength-1-i;
-	    return cc.p(xx,yy);
-    },
     pLeftBottom:function(i,j){
-	    var cellXY=this.cellXY(i,j);
+	    var cellXY=(function(i,j){
+	        var xx=j;
+	        var yy=this.iLength-1-i;
+	        return cc.p(xx,yy);
+        }).call(this,i,j);
 	    return cc.p(cellXY.x*this.dx,cellXY.y*this.dy)
     },
     pRightTop:function(i,j){
@@ -190,7 +192,13 @@ gViews.GameLayer = cc.Layer.extend({
     pTopMiddle:function(i,j){
     },
     pBottomMiddle:function(i,j){
-    }
+    },
+    cellSize:function(){
+        return {
+            width:this.dx,
+            height:this.dy
+        }
+    },
 });
 
 gViews.MainScene = cc.Scene.extend({

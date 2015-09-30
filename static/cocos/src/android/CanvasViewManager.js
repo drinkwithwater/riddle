@@ -30,9 +30,8 @@ gUI.ViewManager=gUtil.Class.extend({
         var thisVar=this;
         var modelManager=this.modelManager;
 	    this.mainScene=new gViews.MainScene();
-	    this.gameLayer=new gViews.GameLayer();
-	    this.mainScene.bind(gameTop);
-	    this.gameLayer.bind(gameTop);
+	    this.gameLayer=new gViews.GameLayer(gameTop);
+        this.mainScene.bind(gameTop);
 	    /*
           this.loadTemplates(["unit","board","menu"],function(){
           var scriptNames=_.map(gScript.battleScript,

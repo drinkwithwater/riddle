@@ -12,16 +12,19 @@ gViews.UserInputCtrl=gUtil.Class.extend({
     pathData:null,
 
     preArea:null,
+
     modelManager:null,
-    constructor:function(){
+    viewManager:null,
+    frontendModule:null,
+    constructor:function(gameLayer,gameTop){
 	    gViews.UserInputCtrl.__super__.constructor.call(this);
 	    this.pathData=new gViews.PathData();
-    },
-    bind:function(gameLayer,gameTop){
-	    this.gameLayer=gameLayer;
+
 	    this.viewManager=gameTop.getModule("viewModule");
 	    this.modelManager=gameTop.getModule("modelModule");
 	    this.frontendModule=gameTop.getModule("frontendModule");
+
+        this.gameLayer=gameLayer;
     },
     beginArea:function(i,j){
         var gameLayer=this.gameLayer;

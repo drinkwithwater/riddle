@@ -53,10 +53,11 @@
 
         "src/android/AndroidModelManager.js",
         "src/android/CanvasViewManager.js",
-        "src/android/SpritePool.js",
-        "src/android/PathData.js",
-        "src/android/GameLayer.js",
-        "src/android/UserInputCtrl.js",
+        "src/android/viewItem/UnitPool.js",
+        "src/android/viewItem/UnitView.js",
+        "src/android/viewItem/PathData.js",
+        "src/android/viewItem/GameLayer.js",
+        "src/android/viewItem/UserInputCtrl.js",
 
         "src/inter/ClientModule.js",
         "src/inter/ServerModule.js",

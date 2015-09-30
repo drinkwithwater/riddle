@@ -64,26 +64,28 @@ gViews.ActionQueue=gUtil.Class.extend({
         return !(this.endIndex>=this.beginIndex);
     }
 });
-gViews.SpritePool = gUtil.Class.extend({
+gViews.UnitPool = gUtil.Class.extend({
     idToSprite:null,
     ijToSprite:null,
     gameLayer:null,
     actionQueue:null,
     moveSpeed:0.05,
-    constructor:function(gameLayer){
-        gViews.SpritePool.__super__.constructor.call(this);
+    gameTop:null,
+    constructor:function(gameLayer,gameTop){
+        gViews.UnitPool.__super__.constructor.call(this);
         this.gameLayer=gameLayer;
+        this.gameTop=gameTop;
         this.idToSprite={};
         this.ijToSprite=[];
         this.actionQueue=new gViews.ActionQueue();
     },
-    createSprite:function(unitModel){
+    createUnitView:function(unitModel){
         var layer=this.gameLayer;
         var i=unitModel.get("i");
         var j=unitModel.get("j");
         var id=unitModel.get("unitId");
         var pos=layer.pCenter(i,j);
-        var sprite=new cc.Sprite(res.testpng);
+        var sprite=new gViews.UnitView(id,this.gameTop);
         sprite.attr({
             x:pos.x,
             y:pos.y,
