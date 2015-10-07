@@ -77,7 +77,7 @@ gUI.ModelManager=gUtil.Class.extend({
         for(var i=0,l=eventArray.length;i<l;i++){
             this.onBattleEvent(eventArray[i]);
         }
-        var spritePool=this.viewManager.getSpritePool().run();
+        this.viewManager.getGameLayer().run();
     },
     onBattleEvent:function(battleEvent){
         var handlerFunc=this[this.eventHandlers[battleEvent.type]];
@@ -120,13 +120,16 @@ gUI.ModelManager=gUtil.Class.extend({
         );
     },
     eventUnitAttack:function(unitAttackEvent,callback){
-        var unitPos=unitAttackEvent.unitPos;
+        //var unitPos=unitAttackEvent.unitPos;
         var targetPos=unitAttackEvent.targetPos;
-        this.viewManager.animateBulletMove(unitPos,targetPos,callback);
+        var animateNode=this.viewManager.getGameLayer().getAnimateNode();
+        animateNode.animatePosAttack(targetPos.i,targetPos.j);
+        //this.viewManager.animateBulletMove(unitPos,targetPos,callback);
     },
     eventUnitHarm:function(unitHarmEvent,callback){
         var targetPos=unitHarmEvent.targetPos;
-        this.viewManager.animateHarm(targetPos,callback);
+        var animateNode=this.viewManager.getGameLayer().getAnimateNode();
+        animateNode.animatePosAttack(targetPos.i,targetPos.j);
     },
     eventUnitDie:function(unitDieEvent,callback){
         var unitPos=unitDieEvent.unitPos;

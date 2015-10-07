@@ -136,6 +136,9 @@ module.exports=function(env){
 	        var cell=this.maze.getCell(begin.i,begin.j);
 	        if(cell.hasUnit()){
 		        var unit=cell.content;
+                if(gScript.unitCategoryDict[unit.typeName]!="normal"){
+                    return {fail:4};
+                }
 		        var checkResult=this.checkPathing(unit,path);
 		        if(checkResult.success){
 		            var eventArray=this.operPathing(checkResult,unit,path);

@@ -56,8 +56,10 @@
         "src/android/viewItem/UnitPool.js",
         "src/android/viewItem/UnitView.js",
         "src/android/viewItem/PathData.js",
-        "src/android/viewItem/GameLayer.js",
         "src/android/viewItem/UserInputCtrl.js",
+        "src/android/viewItem/AnimateNode.js",
+        "src/android/viewItem/ActionQueue.js",
+        "src/android/viewItem/GameLayer.js",
 
         "src/inter/ClientModule.js",
         "src/inter/ServerModule.js",

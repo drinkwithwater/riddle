@@ -18,6 +18,10 @@ var spriteRes={
     observer:"image/observer.png",
     trigger:"image/trigger.png",
 }
+var item={
+    hp:"item/hp.png",
+    maxHp:"item/maxhp.png",
+}
 
 var g_resources = [];
 for (var i in res) {
@@ -25,4 +29,7 @@ for (var i in res) {
 }
 for (var i in spriteRes) {
     g_resources.push(spriteRes[i]);
+}
+for (var i in item) {
+    g_resources.push(item[i]);
 }

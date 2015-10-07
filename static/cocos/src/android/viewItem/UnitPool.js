@@ -1,83 +1,24 @@
 var gViews=gViews||{};
-gViews.Action=gUtil.Class.extend({
-    sprite:"sprite",
-    actionCreate:"cc.action",
-    actionArgs:"list",
-    move:true,
-    constructor:function(sprite,actionCreate,actionArgs){
-        gViews.Action.__super__.constructor.call(this);
-        this.sprite=sprite;
-        this.actionCreate=actionCreate;
-        this.actionArgs=actionArgs;
-        this.move=(actionCreate==cc.moveTo||actionCreate==cc.moveBy);
-    },
-    run:function(selector,selectorTarget,data){
-        //TODO check sprite exist
-        var action=this.actionCreate.apply(cc,this.actionArgs);
-        if(_.isFunction(selector)){
-            this.sprite.runAction(cc.sequence(
-                action,
-                cc.callFunc(selector,selectorTarget,data)
-            ));
-        }else{
-            this.sprite.runAction(action);
-        }
-    },
-    isMove:function(){
-        return this.move;
-    }
-});
-// data:{1:[headAction1,nodeAction1,nodeAction2],2:[headAction1],...}
-gViews.ActionQueue=gUtil.Class.extend({
-    queue:"dict",
-    beginIndex:0,
-    endIndex:-1,
-    constructor:function(){
-        gViews.ActionQueue.__super__.constructor.call(this);
-        this.queue={};
-        this.beginIndex=0;
-        this.endIndex=-1;
-    },
-    enqueue:function(action){
-        this.queue[++this.endIndex]=action;
-    },
-    dequeue:function(){
-        if(!this.isEmpty()){
-            var re=this.queue[this.beginIndex];
-            delete this.queue[this.beginIndex]
-            this.beginIndex++;
-            return re;
-        }
-    },
-    run:function(){
-        if(!this.isEmpty()){
-            var action=this.dequeue();
-            if(action.isMove()){
-                action.run(this.run,this);
-            }else{
-                action.run();
-                this.run();
-            }
-        }
-    },
-    isEmpty:function(){
-        return !(this.endIndex>=this.beginIndex);
-    }
-});
-gViews.UnitPool = gUtil.Class.extend({
+gViews.UnitPool = cc.Node.extend({
     idToSprite:null,
     ijToSprite:null,
     gameLayer:null,
-    actionQueue:null,
     moveSpeed:0.05,
     gameTop:null,
-    constructor:function(gameLayer,gameTop){
-        gViews.UnitPool.__super__.constructor.call(this);
+    modelManager:null,
+    ctor:function(gameLayer,gameTop){
+        this._super();
         this.gameLayer=gameLayer;
         this.gameTop=gameTop;
+        this.modelManager=gameTop.getModule("modelModule");
         this.idToSprite={};
         this.ijToSprite=[];
-        this.actionQueue=new gViews.ActionQueue();
+    },
+    render:function(){
+        _.each(this.modelManager.unit$(),function(v,k){
+            var unit=this.createUnitView(v);
+            this.addChild(unit);
+        },this);
     },
     createUnitView:function(unitModel){
         var layer=this.gameLayer;
@@ -125,15 +66,14 @@ gViews.UnitPool = gUtil.Class.extend({
         var dstPoint=this.gameLayer.pCenter(dstIJ.i,dstIJ.j);
         var sprite=this.idToSprite[unitId];
         if(_.isObject(sprite)){
-            var action=new gViews.Action(sprite,cc.moveTo,[this.moveSpeed,dstPoint]);
-            this.actionQueue.enqueue(action);
+            var action=new gViews.Action(sprite,cc.moveTo(this.moveSpeed,dstPoint),true);
+            this.gameLayer.actionQueue.enqueue(action);
         }else{
             console.log(unitId);
             console.error("sprite with unitId not object");
         }
     },
-    run:function(){
-        this.actionQueue.run();
-    }
+    actionIdRemove:function(unitId){
+    },
 });
 

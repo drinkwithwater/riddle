@@ -1,4 +1,23 @@
 var gViews=gViews||{};
+gViews.HpLine = cc.Node.extend({
+    hpLine:null,
+    maxHp:null,
+    ctor:function(){
+        this._super();
+        this.hpLine=new cc.ProgressTimer(new cc.Sprite(item.hp));
+        this.hpLine.setType(cc.ProgressTimer.TYPE_BAR);
+        this.hpLine.setMidpoint(cc.p(0,0.5));
+        this.hpLine.setBarChangeRate(cc.p(1,0));
+        this.hpLine.setPercentage(50);
+        this.addChild(this.hpLine,2);
+        this.maxHpLine=new cc.ProgressTimer(new cc.Sprite(item.maxHp));
+        this.maxHpLine.setType(cc.ProgressTimer.TYPE_BAR);
+        this.maxHpLine.setMidpoint(cc.p(0,0.5));
+        this.maxHpLine.setBarChangeRate(cc.p(1,0));
+        this.maxHpLine.setPercentage(100);
+        this.addChild(this.maxHpLine,1);
+    }
+});
 gViews.UnitView = cc.Node.extend({
     LEVEL_SPRITE:0,
     LEVEL_ATTR:1,
@@ -24,11 +43,7 @@ gViews.UnitView = cc.Node.extend({
         this.sprite.setScaleX(cellSize.width/this.sprite.width);
         this.sprite.setScaleY(cellSize.height/this.sprite.height);
         // hpLine
-        this.hpLine=new cc.ProgressTimer(new cc.Sprite(res.bannerpng));
-        this.hpLine.setType(cc.ProgressTimer.TYPE_BAR);
-        this.hpLine.setMidpoint(cc.p(0,0.5));
-        this.hpLine.setBarChangeRate(cc.p(1,0));
-        this.hpLine.setPercentage(50);
+        this.hpLine=new gViews.HpLine();
         this.hpLine.setScaleX(0.1);
         this.hpLine.setScaleY(0.1);
         this.addChild(this.hpLine, this.LEVEL_ATTR);

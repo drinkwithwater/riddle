@@ -23,7 +23,10 @@ gUI.ViewManager=gUtil.Class.extend({
 	    //for test
 	    htmlView=this;
         htmlView.run=function(){
-            gCore.gameInst.getModule("frontendModule").viewStart("default");
+            gCore.gameInst.getModule("frontendModule").viewStart("test1");
+        }
+        htmlView.getSprite=function(){
+            return this.getSpritePool().sprite$("0_0");
         }
     },
     start:function(gameTop){
@@ -84,6 +87,9 @@ gUI.ViewManager=gUtil.Class.extend({
     },
     getSpritePool:function(){
         return this.gameLayer.spritePool;
+    },
+    getGameLayer:function(){
+        return this.gameLayer;
     },
 
 
