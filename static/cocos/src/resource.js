@@ -5,22 +5,30 @@ var res = {
     bannerpng : "cocos2dbanner.png",
 };
 var spriteRes={
-    wall:"image/wall.png",
     berserker:"image/berserker.png",
     archer:"image/archer.png",
-    assassin:"image/assassin.png",
-    box:"image/box.png",
     flier:"image/flier.png",
     hitter:"image/hitter.png",
-    transfer:"image/transfer.png",
     walker:"image/walker.png",
-    rider:"image/rider.png",
-    observer:"image/observer.png",
+    
+    one:"image/assassin.png",
+    
+    transfer:"image/transfer.png",
+    
+    box:"image/box.png",
     trigger:"image/trigger.png",
+    observer:"image/observer.png",
+    wall:"image/wall.png",
+    rider:"image/rider.png",
 }
-var item={
+var itemRes={
     hp:"item/hp.png",
     maxHp:"item/maxhp.png",
+    blackShell:"item/blackshell.png",
+    redShell:"item/redshell.png",
+    blueShell:"item/blueshell.png",
+    blackSword:"item/blacksword.png",
+    greenSword:"item/greensword.png",
 }
 
 var g_resources = [];
@@ -30,6 +38,6 @@ for (var i in res) {
 for (var i in spriteRes) {
     g_resources.push(spriteRes[i]);
 }
-for (var i in item) {
-    g_resources.push(item[i]);
+for (var i in itemRes) {
+    g_resources.push(itemRes[i]);
 }

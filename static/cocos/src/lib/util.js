@@ -1,3 +1,15 @@
+var console=console||{};
+(function(cc){
+    var keys=["info","debug","error","warn","log","trace"];
+    for(var i in keys){
+	var key=keys[i];
+	if(_.isFunction(console[key])){
+		continue;
+	}else{
+		console[key]=function(){}
+	}
+    }
+})(console)
 //dependence:underscore
 var module=module||{
     set exports(func){

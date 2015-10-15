@@ -178,7 +178,7 @@ module.exports=function(env){
 	    /**
 	     */
 	    operPathing:function(checkResult,unit,path){
-	        var eventArray=[];//as return result
+	        var eventArray=[];//as return result, context
 	        var oper=checkResult.oper;
 	        
 	        //unit move
@@ -216,17 +216,16 @@ module.exports=function(env){
         unitRangeAttack:function(context,unit,targets,damages,focusIndex){
             var unitPos=gPoint.wrapPoint(unit);
             var focusTarget=targets[focusIndex];
-            context.push(new gEvent.UnitAttackEvent({
+            var rangeEvent=new gEvent.UnitRangeAttackEvent({
                 unitId:unit.unitId,
                 unitPos:unitPos,
-                targetPos:gPoint.wrapPoint(focusTarget)
-            }));
+                targetPosArray:[]
+            });
             for(var i=0,l=targets.length;i<l;i++){
-                context.push(new gEvent.UnitHarmEvent({
-                    unitId:unit.unitId,
-                    unitPos:unitPos,
-                    targetPos:gPoint.wrapPoint(targets[i])
-                }));
+                rangeEvent.targetPosArray.push(gPoint.wrapPoint(targets[i]));
+            }
+            context.push(rangeEvent);
+            for(var i=0,l=targets.length;i<l;i++){
                 if(i===focusIndex){
                     targets[i].onAttack(context,unit,damages[i]);
                 }else{
@@ -290,10 +289,9 @@ module.exports=function(env){
         },
 
         
-	    
+        startLine:function(context){
+        },
 
-	    
-	    
         checkWin:function(){
             if(this.battleType==gBattle.BATTLE_TEST)
                 return false;

@@ -33,54 +33,36 @@ module.exports=function(env){
     gEvent.PosMoveEvent=gEvent.eventImpl({
         type:"pos_move",
         unitId:null,
-        srcPos:{
-            i:null,
-            j:null
-        },
-        dstPos:{
-            i:null,
-            j:null
-        },
+        srcPos:null,
+        dstPos:null,
     });
     gEvent.UnitAttackEvent=gEvent.eventImpl({
         type:"unit_attack",
         unitId:null,
-        unitPos:{
-            i:null,
-            j:null
-        },
-        targetPos:{
-            i:null,
-            j:null
-        },
+        unitPos:null,
+        targetPos:null,
+    });
+    gEvent.UnitRangeAttackEvent=gEvent.eventImpl({
+        type:"unit_range_attack",
+        unitId:null,
+        unitPos:null,
+        targetPosArray:null,
     });
     gEvent.UnitHarmEvent=gEvent.eventImpl({
         type:"unit_harm",
         unitId:null,
-        unitPos:{
-            i:null,
-            j:null
-        },
-        targetPos:{
-            i:null,
-            j:null
-        },
+        unitPos:null,
+        targetPos:null,
     });
     gEvent.UnitDieEvent=gEvent.eventImpl({
         type:"unit_die",
         unitId:null,
-        unitPos:{
-            i:null,
-            j:null
-        }
+        unitPos:null,
     });
     gEvent.AttrSetEvent=gEvent.eventImpl({
         type:"attr_set",
         unitId:null,
-        unitPos:{
-            i:null,
-            j:null
-        },
+        unitPos:null,
         attrSet:{
             key:null,
             value:null

@@ -75,8 +75,10 @@ cc.game.onStart = function(){
     }
 
     cc.LoaderScene.preload(g_resources, function () {
-        var mainScene=gCore.GameTop.androidMain().getModule("viewModule").mainScene;
+        var gameInst=gCore.GameTop.androidMain();
+        var mainScene=gameInst.getModule("viewModule").mainScene;
         cc.director.runScene(mainScene);
+        htmlView.run();
     }, this);
 };
 cc.game.run();

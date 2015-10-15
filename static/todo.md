@@ -1,3 +1,4 @@
+user ctrl design
 make the message event to more related 
 action queue & action detail
 ui action show 

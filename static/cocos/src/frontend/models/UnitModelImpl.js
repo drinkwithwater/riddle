@@ -66,17 +66,6 @@ gModels.AssassinUnitModel=gModels.unitModelExtend(gModels.WalkerUnitModel,{
 gModels.AssassinUnitModel=gModels.unitModelExtend(gModels.WalkerUnitModel,{
     typeName:"lighter"
 });
-gModels.OneUnitModel=gModels.unitModelExtend(gModels.WalkerUnitModel,{
-    typeName:"one",
-    pathingType:function(newArea,beforePath){
-        var focusUnit=this.modelManager.unit$(newArea);
-        if(focusUnit){
-            return gUI.PATHING_TYPE_RUN_ATTACK;
-        }else{
-            return gUI.PATHING_TYPE_WALK_MOVE;
-        }
-    }
-});
 gModels.ArcherUnitModel=gModels.unitModelExtend(gModels.WalkerUnitModel,{
     typeName:"archer",
     attackRange:function(){
@@ -98,4 +87,17 @@ gModels.ArcherUnitModel=gModels.unitModelExtend(gModels.WalkerUnitModel,{
             {i:i,j:j-attackRange-1}));
         return rangeArray;
     },
+});
+
+// new type unit
+gModels.OneUnitModel=gModels.unitModelExtend(gModels.WalkerUnitModel,{
+    typeName:"one",
+    pathingType:function(newArea,beforePath){
+        var focusUnit=this.modelManager.unit$(newArea);
+        if(focusUnit){
+            return gUI.PATHING_TYPE_RUN_ATTACK;
+        }else{
+            return gUI.PATHING_TYPE_WALK_MOVE;
+        }
+    }
 });

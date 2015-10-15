@@ -16,7 +16,10 @@ gModels.UnitFactory={
             );
             // set attr from script
             if(aDict.ap!=0) newModel.set("ap",aDict.ap);
-            if(aDict.hp!=0) newModel.set("hp",aDict.hp);
+            if(aDict.hp!=0) {
+                newModel.set("hp",aDict.hp);
+                newModel.set("maxHp",aDict.hp);
+            }
             if(aDict.ar!=0) newModel.set("attackRange",aDict.ar);
             if(aDict.tr!=0) newModel.set("triggerRange",aDict.tr);
             if(aDict.key!=0) newModel.set("key",true);

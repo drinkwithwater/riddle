@@ -1,9 +1,9 @@
 var gViews=gViews||{};
 gViews.GameLayer = cc.Layer.extend({
     LEVEL_AREA:0,
-    LEVEL_USER:1,
-    LEVEL_SPRITE:2,
-    LEVEL_ANIMATE:5,
+    LEVEL_SPRITE:1,
+    LEVEL_ANIMATE:2,
+    LEVEL_USER:3,
 
 
     dx:50,
@@ -83,10 +83,10 @@ gViews.GameLayer = cc.Layer.extend({
 
         // set dx,dy
         var size=cc.director.getWinSize();
-        this.dx=size.height/(this.iLength+1);
+        this.baseX=size.height/20;
+        this.baseY=size.height/20;
+        this.dx=(size.height-this.baseX*2)/(this.iLength);
         this.dy=this.dx;
-        this.baseX=this.dx/2;
-        this.baseY=this.dy/2
 
         this.setPosition(cc.p(this.baseX,this.baseY));
 

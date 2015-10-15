@@ -23,7 +23,7 @@ gUI.ViewManager=gUtil.Class.extend({
 	    //for test
 	    htmlView=this;
         htmlView.run=function(){
-            gCore.gameInst.getModule("frontendModule").viewStart("test1");
+            gCore.gameInst.getModule("frontendModule").viewStart("oneway");
         }
         htmlView.getSprite=function(){
             return this.getSpritePool().sprite$("0_0");

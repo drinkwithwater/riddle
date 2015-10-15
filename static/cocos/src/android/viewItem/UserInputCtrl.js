@@ -5,6 +5,10 @@ gViews.UserInputNode=cc.Node.extend({
     gameLayer:null,
     pathDraw:null,
     chooseDraw:null,
+    
+    viewManager:null,
+    modelManager:null,
+    frontendModule:null,
     ctor:function(gameLayer,gameTop){
         this._super();
 
@@ -64,6 +68,7 @@ gViews.UserInputCtrl=gViews.UserInputNode.extend({
     state:0,
 
     srcUnit:null,
+    dstUnit:null,
     pathingType:null,
 
 
@@ -71,9 +76,6 @@ gViews.UserInputCtrl=gViews.UserInputNode.extend({
 
     preArea:null,
 
-    modelManager:null,
-    viewManager:null,
-    frontendModule:null,
     ctor:function(gameLayer,gameTop){
         this._super(gameLayer,gameTop);
 	    this.pathData=new gViews.PathData();
@@ -105,6 +107,7 @@ gViews.UserInputCtrl=gViews.UserInputNode.extend({
         if(gameLayer.valid(i,j)){
             var chooseUnit=this.modelManager.unit$(i,j);
             this.srcUnit=chooseUnit;
+            this.dstUnit=null;
             if(_.isObject(chooseUnit)){
                 this.state=this.STATE_PATHING;
 	            this.pathData.start({i:i,j:j});
@@ -129,10 +132,10 @@ gViews.UserInputCtrl=gViews.UserInputNode.extend({
                 // at the same cell
                 return ;
             }else{
+                var newDstUnit=this.modelManager.unit$(i,j);
+                var r=this.srcUnit.get("attackRange");
                 this.pathData.overArea({i:i,j:j});
-                var dstUnit=this.modelManager.unit$(i,j);
-                if(_.isObject(dstUnit)){
-                    var r=this.srcUnit.get("attackRange");
+                if(_.isObject(newDstUnit)){
                     this.showPath(this.pathData.getWalkFlyPath(r));
                 }else{
                     this.showPath(this.pathData.getWalkFlyPath(0));
@@ -145,7 +148,7 @@ gViews.UserInputCtrl=gViews.UserInputNode.extend({
         }
     },
     endArea:function(i,j){
-        if(this.gameLayer.valid(i,j)){
+        if(this.gameLayer.valid(i,j) && this.state==this.STATE_PATHING){
             this.frontendModule.viewPathing(this.pathData.getWalkPath());
             this.cancel();
         }else{
@@ -157,6 +160,8 @@ gViews.UserInputCtrl=gViews.UserInputNode.extend({
     cancel:function(){
         this.state=this.STATE_EMPTY;
         this.pathData.cancel();
+        this.dstUnit=null;
+        this.srcUnit=null;
 	    this.hidePath();
 	    this.unChoose();
     }

@@ -48,11 +48,11 @@ gUI.ViewManager=gUtil.Class.extend({
 
             $("#menu").html(thisVar.menuView.render().el);
 
-            thisVar.reRender();
 
             //TODO start a inst
             //if do this ,clean up some code above.
             thisVar.viewActionHandler.viewStart("default");
+            //thisVar.reRender();
         });
     },
     reRender:function(){

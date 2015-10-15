@@ -28,15 +28,20 @@ gViews.AnimateNode = cc.Node.extend({
         this.spriteList=[];
     },
     getEmptySprite:function(){
+        var reSprite=null;
         for(var i=0,l=this.spriteList.length;i<l;i++){
             if(!this.spriteList[i].isUsing()){
-                return this.spriteList[i];
+                reSprite=this.spriteList[i];
+                break;
             }
         }
-        var newSprite=new gViews.AnimateSprite(res.testpng);
-        this.addChild(newSprite);
-        this.spriteList.push(newSprite);
-        return newSprite;
+        if(reSprite===null){
+            var reSprite=new gViews.AnimateSprite(res.testpng);
+            reSprite.retain();
+            this.addChild(reSprite);
+            this.spriteList.push(reSprite);
+        }
+        return reSprite;
     },
     testAnimate:function(i,j){
         var sprite=this.getEmptySprite();
@@ -76,7 +81,33 @@ gViews.AnimateNode = cc.Node.extend({
             cc.scaleTo(0.1,1,1),
             cc.fadeOut(0.1),
             cc.callFunc(sprite.setUnUsing,sprite)
-        ), false);
+        ));
         this.gameLayer.getActionQueue().enqueue(action);
+    },
+    animatePosArrayAttack:function(posArray){
+        var actionList=new gViews.ActionList();
+        for(var i=0,l=posArray.length;i<l;i++){
+            var pos=posArray[i];
+            var sprite=this.getEmptySprite();
+            var point=this.gameLayer.pCenter(pos.i,pos.j);
+            sprite.setUsing();
+            sprite.attr({
+                x:point.x,
+                y:point.y,
+                scaleX:0,
+                scaleY:0,
+                anchorX:0.5,
+                anchorY:0.5,
+                visible:true,
+                opacity:255,
+            });
+            var action=new gViews.Action(sprite, cc.sequence(
+                cc.scaleTo(0.1,1,1),
+                cc.fadeOut(0.1),
+                cc.callFunc(sprite.setUnUsing,sprite)
+            ));
+            actionList.push(action);
+        }
+        this.gameLayer.getActionQueue().enqueue(actionList);
     }
 });

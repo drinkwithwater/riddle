@@ -68,6 +68,7 @@ gUI.ModelManager=gUtil.Class.extend({
         "battle_win":"eventBattleWin",
         "pos_move":"eventPosMove",
         "unit_attack":"eventUnitAttack",
+        "unit_range_attack":"eventUnitRangeAttack",
         "unit_harm":"eventUnitHarm",
         "unit_die":"eventUnitDie",
         "attr_set":"eventAttrSet",
@@ -133,6 +134,14 @@ gUI.ModelManager=gUtil.Class.extend({
         var unitPos=unitAttackEvent.unitPos;
         var targetPos=unitAttackEvent.targetPos;
         this.viewManager.animateBulletMove(unitPos,targetPos,callback);
+    },
+    eventUnitRangeAttack:function(unitAttackRangeEvent,callback){
+        var unitPos=unitAttackRangeEvent.unitPos;
+        var posArray=unitAttackRangeEvent.targetPosArray;
+        for(var i=0,l=posArray.length;i<l;i++){
+            var targetPos=posArray[i];
+            this.viewManager.animateBulletMove(unitPos,targetPos,callback);
+        }
     },
     eventUnitHarm:function(unitHarmEvent,callback){
         var targetPos=unitHarmEvent.targetPos;

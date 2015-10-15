@@ -68,6 +68,7 @@ gUI.ModelManager=gUtil.Class.extend({
         "battle_win":"eventBattleWin",
         "pos_move":"eventPosMove",
         "unit_attack":"eventUnitAttack",
+        "unit_range_attack":"eventUnitRangeAttack",
         "unit_harm":"eventUnitHarm",
         "unit_die":"eventUnitDie",
         "attr_set":"eventAttrSet",
@@ -88,7 +89,7 @@ gUI.ModelManager=gUtil.Class.extend({
         }
     },
     eventBattleWin:function(battleWinEvent,callback){
-        alert("You Win !!");
+        //alert("You Win !!");
         if(typeof(callback)=="function"){
             callback();
         }
@@ -126,28 +127,37 @@ gUI.ModelManager=gUtil.Class.extend({
         animateNode.animatePosAttack(targetPos.i,targetPos.j);
         //this.viewManager.animateBulletMove(unitPos,targetPos,callback);
     },
+    eventUnitRangeAttack:function(unitRangeAttackEvent,callback){
+        //var unitPos=unitAttackEvent.unitPos;
+        var targetPosArray=unitRangeAttackEvent.targetPosArray;
+        var animateNode=this.viewManager.getGameLayer().getAnimateNode();
+        animateNode.animatePosArrayAttack(targetPosArray);
+        //this.viewManager.animateBulletMove(unitPos,targetPos,callback);
+    },
     eventUnitHarm:function(unitHarmEvent,callback){
         var targetPos=unitHarmEvent.targetPos;
         var animateNode=this.viewManager.getGameLayer().getAnimateNode();
         animateNode.animatePosAttack(targetPos.i,targetPos.j);
     },
     eventUnitDie:function(unitDieEvent,callback){
-        var unitPos=unitDieEvent.unitPos;
-        var unit=this.unit$(unitPos);
+        // TODO
+        var unitId=unitDieEvent.unitId;
+        var unit=this.unit$(unitId);
         // remove unit from 3 items
         this.unitCollection.remove(unit)
-        delete this.unitDict[unit.get("unitId")];
+        delete this.unitDict[unitId];
         this.mazeModel.removeUnit(unit);
-        this.viewManager.refreshTriggerRange();
-        this.viewManager.animateUnitDie(unitPos,callback);
+        //this.viewManager.refreshTriggerRange();
+        this.viewManager.getGameLayer().getUnitPool().actionIdRemove(unitId);
     },
     eventAttrSet:function(attrSetEvent,callback){
-        var unit=this.unit$(attrSetEvent.unitPos);
+        var unitId=attrSetEvent.unitId;
+        var unitModel=this.unit$(unitId);
         var attr=attrSetEvent.attrSet;
-        if(unit) unit.set(attr.key,attr.value);
-        if(typeof(callback)=="function"){
-            callback();
-        }
+        if(unitModel) {
+            unitModel.set(attr.key,attr.value)
+            this.viewManager.getGameLayer().getUnitPool().actionAttrSet(unitId,attr.key,attr.value);
+        };
     },
     destroy:function(){
     }

@@ -2,27 +2,51 @@ var gViews=gViews||{};
 gViews.Action=gUtil.Class.extend({
     sprite:"sprite",
     action:"ccAction",
-    move:true,
-    constructor:function(sprite,action,move){
+    constructor:function(sprite,action){
         gViews.Action.__super__.constructor.call(this);
         this.sprite=sprite;
         this.action=action
-        this.move=move;
+        this.action.retain();
     },
-    run:function(selector,selectorTarget,data){
+    run:function(selector,selectorTarget){
         //TODO check sprite exist
         var action=this.action;
         if(_.isFunction(selector)){
             this.sprite.runAction(cc.sequence(
                 action,
-                cc.callFunc(selector,selectorTarget,data)
+                cc.callFunc(selector,selectorTarget)
             ));
         }else{
             this.sprite.runAction(action);
         }
+        action.release();
     },
-    isMove:function(){
-        return this.move;
+});
+gViews.ActionList=gUtil.Class.extend({
+    actionList:"list",
+    constructor:function(list){
+        gViews.ActionList.__super__.constructor.call(this);
+        this.actionList=list||[];
+    },
+    run:function(selector,selectorTarget){
+        //TODO check sprite exist
+        var actionList=this.actionList;
+        for(var i=0,l=actionList.length;i<l;i++){
+            var actionItem=actionList[i];
+            if(i==0 && _.isFunction(selector)){
+                actionItem.sprite.runAction(cc.sequence(
+                    actionItem.action,
+                    cc.callFunc(selector,selectorTarget)
+                ));
+            }else{
+                actionItem.sprite.runAction(actionItem.action);
+            }
+            actionItem.action.release();
+        }
+    },
+    push:function(action){
+        action.retain();
+        this.actionList.push(action);
     }
 });
 // data:{1:[headAction1,nodeAction1,nodeAction2],2:[headAction1],...}
@@ -37,25 +61,24 @@ gViews.ActionQueue=gUtil.Class.extend({
         this.endIndex=-1;
     },
     enqueue:function(action){
-        this.queue[++this.endIndex]=action;
+        this.endIndex++;
+        this.queue[this.endIndex]=action;
     },
     dequeue:function(){
         if(!this.isEmpty()){
             var re=this.queue[this.beginIndex];
-            delete this.queue[this.beginIndex]
+            this.queue[this.beginIndex]=null;
             this.beginIndex++;
             return re;
         }
     },
     run:function(){
+        var self=this;
         if(!this.isEmpty()){
             var action=this.dequeue();
-            if(action.isMove()){
-                action.run(this.run,this);
-            }else{
-                action.run();
-                this.run();
-            }
+            action.run(function(){
+                self.run();
+            });
         }
     },
     isEmpty:function(){
