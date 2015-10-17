@@ -27,6 +27,10 @@ gViews.AnimateNode = cc.Node.extend({
         
         this.spriteList=[];
     },
+    destroy:function(){
+        this.spriteList=[];
+        this.removeAllChildren(true);
+    },
     getEmptySprite:function(){
         var reSprite=null;
         for(var i=0,l=this.spriteList.length;i<l;i++){

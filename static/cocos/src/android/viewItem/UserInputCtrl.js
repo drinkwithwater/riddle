@@ -136,9 +136,29 @@ gViews.UserInputCtrl=gViews.UserInputNode.extend({
                 var r=this.srcUnit.get("attackRange");
                 this.pathData.overArea({i:i,j:j});
                 if(_.isObject(newDstUnit)){
-                    this.showPath(this.pathData.getWalkFlyPath(r));
+                    var walkFly=this.pathData.getWalkFlyPath(r);
+                    var allEmpty=_.every(walkFly.walk.slice(1),function(point){
+                        var model=this.modelManager.unit$(point.i,point.j);
+                        return !_.isObject(model);
+                    },this)
+                    if(allEmpty){
+                        this.showPath(this.pathData.getWalkFlyPath(0));
+                    }else{
+                        this.cancel();
+                        return ;
+                    }
+                    this.showPath(walkFly);
                 }else{
-                    this.showPath(this.pathData.getWalkFlyPath(0));
+                    var allEmpty=_.every(this.pathData.getWalkPath().slice(1),function(point){
+                        var model=this.modelManager.unit$(point.i,point.j);
+                        return !_.isObject(model);
+                    },this)
+                    if(allEmpty){
+                        this.showPath(this.pathData.getWalkFlyPath(0));
+                    }else{
+                        this.cancel();
+                        return ;
+                    }
                 }
                 this.preArea={i:i,j:j};
             }

@@ -104,21 +104,18 @@ gUI.ModelManager=gUtil.Class.extend({
         this.posToUnit[dstPos.i][dstPos.j]=moveUnit;
         moveUnit.set("i",dstPos.i);
         moveUnit.set("j",dstPos.j);
+        /* no light
         this.mazeModel.openLight(
             dstPos,
             moveUnit.get("attackRange"),
             function(pos){
                 viewManager.moveLight(pos);
-        });
-        var spritePool=this.viewManager.getSpritePool();
-        spritePool.actionIdMove(
+        });*/
+        this.viewManager.getUnitPool().actionIdMove(
             unitId,
-            dstPos,
-            function(){
-                //call back: set model
-                viewManager.refreshTriggerRange();
-            }
+            dstPos
         );
+        this.viewManager.getAreaNode().actionRefreshRange();
     },
     eventUnitAttack:function(unitAttackEvent,callback){
         //var unitPos=unitAttackEvent.unitPos;
@@ -147,8 +144,8 @@ gUI.ModelManager=gUtil.Class.extend({
         this.unitCollection.remove(unit)
         delete this.unitDict[unitId];
         this.mazeModel.removeUnit(unit);
-        //this.viewManager.refreshTriggerRange();
         this.viewManager.getGameLayer().getUnitPool().actionIdRemove(unitId);
+        this.viewManager.getAreaNode().actionRefreshRange();
     },
     eventAttrSet:function(attrSetEvent,callback){
         var unitId=attrSetEvent.unitId;

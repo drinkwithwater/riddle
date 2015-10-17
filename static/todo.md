@@ -1,8 +1,8 @@
-user ctrl design
-make the message event to more related 
-action queue & action detail
-ui action show 
-message use id instead of pos
+TODO
+1. range unit,
+2. ui for range unit
+3. range show for trigger unit & long distance unit
+4. real hp setting
 
 maze design:
 	shortest path: a very long range observer.

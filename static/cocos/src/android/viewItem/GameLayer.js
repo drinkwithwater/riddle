@@ -4,6 +4,7 @@ gViews.GameLayer = cc.Layer.extend({
     LEVEL_SPRITE:1,
     LEVEL_ANIMATE:2,
     LEVEL_USER:3,
+    LEVEL_MENU:4,
 
 
     dx:50,
@@ -13,12 +14,12 @@ gViews.GameLayer = cc.Layer.extend({
     iLength:0,
     jLength:0,
 
-    areaDraw:null,
 
     // child node
     userInputCtrl:null,
-    spritePool:null,
+    unitPool:null,
     animateNode:null,
+    areaNode:null,
 
     // game module
     actionHandler:null,
@@ -37,31 +38,20 @@ gViews.GameLayer = cc.Layer.extend({
 	    this.userInputCtrl=new gViews.UserInputCtrl(this,gameTop);
         this.addChild(this.userInputCtrl,this.LEVEL_USER);
         
-        this.spritePool=new gViews.UnitPool(this,gameTop);
-        this.addChild(this.spritePool,this.LEVEL_SPRITE);
+        this.unitPool=new gViews.UnitPool(this,gameTop);
+        this.addChild(this.unitPool,this.LEVEL_SPRITE);
         
         this.animateNode=new gViews.AnimateNode(this,gameTop);
         this.addChild(this.animateNode,this.LEVEL_ANIMATE);
 
         //var size=cc.director.getWinSize();
-        this.areaDraw=new cc.DrawNode();
-        this.addChild(this.areaDraw,this.LEVEL_AREA);
+        this.areaNode=new gViews.AreaNode(this,gameTop);
+        this.addChild(this.areaNode,this.LEVEL_AREA);
 
         this.actionQueue=new gViews.ActionQueue();
 
 	    this.setAnchorPoint(cc.p(0,0));
         return true;
-    },
-    showArea:function(){
-	    var iLength=this.iLength;
-	    var jLength=this.jLength;
-	    var draw=this.areaDraw;
-	    for(var i=0;i<iLength;i++){
-		    for(var j=0;j<jLength;j++){
-			    var fillColor=(i+j)%2==0?cc.color(255,255,0,30):cc.color(255,0,0,30);
-			    draw.drawRect(this.pLeftBottom(i,j),this.pRightTop(i,j),fillColor,0);
-		    }
-	    }
     },
     valid:function(i,j){
         if(i<0||i>=this.iLength){
@@ -74,12 +64,11 @@ gViews.GameLayer = cc.Layer.extend({
     },
     render:function(){
         console.log("layer render");
-        this.userInputCtrl.cancel();
         
         // set i,j length
         var mazeModel=this.modelManager.maze$();
-        this.iLength=mazeModel.get("iLength");
-        this.jLength=mazeModel.get("jLength");
+        this.iLength = mazeModel.get("iLength");
+        this.jLength = mazeModel.get("jLength");
 
         // set dx,dy
         var size=cc.director.getWinSize();
@@ -90,9 +79,11 @@ gViews.GameLayer = cc.Layer.extend({
 
         this.setPosition(cc.p(this.baseX,this.baseY));
 
-	    this.showArea();
-
-        this.spritePool.render();
+        this.userInputCtrl.cancel();
+        this.animateNode.destroy();
+        
+	    this.areaNode.render();
+        this.unitPool.render();
     },
 
     xy2ij:function(x,y){
@@ -124,6 +115,7 @@ gViews.GameLayer = cc.Layer.extend({
 	    var base=this.pLeftBottom(i,j);
 	    return cc.p(base.x+this.dx/2,base.y+this.dy/2);
     },
+    /*
     pLeftMiddle:function(i,j){
     },
     pRightMiddle:function(i,j){
@@ -131,7 +123,7 @@ gViews.GameLayer = cc.Layer.extend({
     pTopMiddle:function(i,j){
     },
     pBottomMiddle:function(i,j){
-    },
+    },*/
     cellSize:function(){
         return {
             width:this.dx,
@@ -145,21 +137,36 @@ gViews.GameLayer = cc.Layer.extend({
         return this.actionQueue;
     },
     getUnitPool:function(){
-        return this.spritePool;
+        return this.unitPool;
     },
     getAnimateNode:function(){
         return this.animateNode;
+    },
+    getAreaNode:function(){
+        return this.areaNode;
+    },
+    destroy:function(){
+        this.userInputCtrl.cancel();
+        this.unitPool.destroy();
+        this.areaNode.destroy();
+        this.animateNode.destroy();
     }
 });
 
 gViews.MainScene = cc.Scene.extend({
     gameLayer:null,
+    scriptMenu:null,
+    
     bind:function(gameTop){
 	    this.gameLayer=gameTop.getModule("viewModule").gameLayer;
+	    this.scriptMenu=gameTop.getModule("viewModule").scriptMenu;
+	    this.closeMenu=gameTop.getModule("viewModule").closeMenu;
     },
     onEnter:function () {
         this._super();
-        this.addChild(this.gameLayer);
+        this.addChild(this.gameLayer,1);
+        this.addChild(this.scriptMenu,2);
+        this.addChild(this.closeMenu,3);
     }
 });
 

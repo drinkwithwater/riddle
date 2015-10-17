@@ -13,10 +13,15 @@ gViews.UnitPool = cc.Node.extend({
         this.idToSprite={};
     },
     render:function(){
+        this.destroy();
         _.each(this.modelManager.unit$(),function(v,k){
             var unit=this.createUnitView(v);
             this.addChild(unit);
         },this);
+    },
+    destroy:function(){
+        this.idToSprite={};
+        this.removeAllChildren(true);
     },
     createUnitView:function(unitModel){
         var layer=this.gameLayer;
@@ -55,7 +60,7 @@ gViews.UnitPool = cc.Node.extend({
         return undefined;
     },
     // direct call by model manager
-    actionIdMove:function(unitId,dstIJ,callback){
+    actionIdMove:function(unitId,dstIJ){
         //TODO do callback
         var dstPoint=this.gameLayer.pCenter(dstIJ.i,dstIJ.j);
         var unit=this.idToSprite[unitId];

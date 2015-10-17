@@ -214,6 +214,11 @@ module.exports=function(env){
             });
 	    },
         unitRangeAttack:function(context,unit,targets,damages,focusIndex){
+            if(targets[focusIndex].typeName=="wall"){
+	            console.log("wall can't be attacked");
+                return ;
+            }
+	        console.log("unit range attack");
             var unitPos=gPoint.wrapPoint(unit);
             var focusTarget=targets[focusIndex];
             var rangeEvent=new gEvent.UnitRangeAttackEvent({
@@ -234,6 +239,10 @@ module.exports=function(env){
             }
         },
 	    unitAttack:function(context,unit,target,damage){
+            if(target.typeName=="wall"){
+	            console.log("wall can't be attacked");
+                return ;
+            }
 	        console.log("unit attack");
             var unitPos=gPoint.wrapPoint(unit);
             var targetPos=gPoint.wrapPoint(target);

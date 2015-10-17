@@ -78,7 +78,7 @@ cc.game.onStart = function(){
         var gameInst=gCore.GameTop.androidMain();
         var mainScene=gameInst.getModule("viewModule").mainScene;
         cc.director.runScene(mainScene);
-        htmlView.run();
+        //htmlView.run();
     }, this);
 };
 cc.game.run();

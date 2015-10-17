@@ -41,11 +41,9 @@ gViews.ActionList=gUtil.Class.extend({
             }else{
                 actionItem.sprite.runAction(actionItem.action);
             }
-            actionItem.action.release();
         }
     },
     push:function(action){
-        action.retain();
         this.actionList.push(action);
     }
 });

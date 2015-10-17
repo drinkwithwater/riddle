@@ -41,6 +41,11 @@ module.exports=function(env){
         group:gScript.GROUP_ATTACKER,
         mp:0,
     };
+    gScript.unitNumericalDict["two"]={
+        hp:4, ap:2, attackRange:2,
+        group:gScript.GROUP_ATTACKER,
+        mp:0,
+    };
     gScript.unitNumericalDict["one"]={
         hp:4, ap:2, attackRange:1,
         group:gScript.GROUP_ATTACKER,

@@ -9,7 +9,7 @@ module.exports=function(env){
     gScript.unitTypeNameDict[4]="hitter";
     gScript.unitTypeNameDict[5]="assassin";
     gScript.unitTypeNameDict[6]="archer";
-    gScript.unitTypeNameDict[7]="lighter";
+    gScript.unitTypeNameDict[7]="two";
     gScript.unitTypeNameDict[8]="one";
     gScript.unitTypeNameDict[9]="--------------------";
     gScript.unitTypeNameDict[10]="trigger";
@@ -36,6 +36,7 @@ module.exports=function(env){
     gScript.unitCategoryDict["archer"]="normal";
     gScript.unitCategoryDict["lighter"]="normal";
     gScript.unitCategoryDict["one"]="normal";
+    gScript.unitCategoryDict["two"]="normal";
     // trigger unit
     gScript.unitCategoryDict["trigger"]="trigger";
     gScript.unitCategoryDict["wall"]="trigger";

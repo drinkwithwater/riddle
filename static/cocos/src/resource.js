@@ -1,6 +1,7 @@
 var res = {
     HelloWorld_png : "HelloWorld.png",
     CloseSelected_png : "CloseSelected.png",
+    CloseNormal_png : "CloseNormal.png",
     testpng : "CloseNormal.png",
     bannerpng : "cocos2dbanner.png",
 };
@@ -9,9 +10,9 @@ var spriteRes={
     archer:"image/archer.png",
     flier:"image/flier.png",
     hitter:"image/hitter.png",
-    walker:"image/walker.png",
     
     one:"image/assassin.png",
+    two:"image/walker.png",
     
     transfer:"image/transfer.png",
     

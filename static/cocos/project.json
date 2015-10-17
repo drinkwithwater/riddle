@@ -34,6 +34,7 @@
         "src/backend/battleItem/maze/maze.js",
         "src/backend/battleItem/unit/unitBase.js",
         "src/backend/battleItem/unit/unitImpl.js",
+        "src/backend/battleItem/unit/newUnitImpl.js",
         "src/backend/battleItem/unit/triggerImpl.js",
         "src/backend/battleItem/unit/transferImpl.js",
 
@@ -58,8 +59,10 @@
         "src/android/viewItem/PathData.js",
         "src/android/viewItem/UserInputCtrl.js",
         "src/android/viewItem/AnimateNode.js",
+        "src/android/viewItem/AreaNode.js",
         "src/android/viewItem/ActionQueue.js",
         "src/android/viewItem/GameLayer.js",
+        "src/android/viewItem/GameMenu.js",
 
         "src/inter/ClientModule.js",
         "src/inter/ServerModule.js",
@@ -69,7 +72,9 @@
         "src/inter/message/CSBattleMessage.js",
         "src/inter/battleEvent/BattleEvent.js",
 
-        "src/core/GameTop.js"
+        "src/core/GameTop.js",
+        
+        "loadscript.js"
 
 
     ]

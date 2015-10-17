@@ -8,6 +8,8 @@ gUI.ViewManager=gUtil.Class.extend({
     bulletSpeed:20,
     
     gameLayer:null,
+    scriptMenu:null,
+    closeMenu:null,
     mainScene:null,
 
     name:"viewModule",
@@ -34,6 +36,11 @@ gUI.ViewManager=gUtil.Class.extend({
         var modelManager=this.modelManager;
 	    this.mainScene=new gViews.MainScene();
 	    this.gameLayer=new gViews.GameLayer(gameTop);
+        this.scriptMenu=new gViews.ScriptMenu(gameTop);
+        this.closeMenu=new gViews.CloseMenu(gameTop);
+
+        this.gameLayer.setVisible(false);
+        this.closeMenu.setVisible(false);
         this.mainScene.bind(gameTop);
 	    /*
           this.loadTemplates(["unit","board","menu"],function(){
@@ -58,6 +65,10 @@ gUI.ViewManager=gUtil.Class.extend({
     reRender:function(){
         var thisVar=this;
         var modelManager=this.modelManager;
+        this.scriptMenu.setVisible(false);
+        
+        this.gameLayer.setVisible(true);
+        this.closeMenu.setVisible(true);
         this.gameLayer.render();
         console.log("view reRender");
 	    /*
@@ -70,8 +81,14 @@ gUI.ViewManager=gUtil.Class.extend({
           $("#main").html(thisVar.boardView.render().el);
           thisVar.boardView.afterRender();*/
     },
+    showMenu:function(){
+        this.scriptMenu.setVisible(true);
+        
+        this.gameLayer.setVisible(false);
+        this.closeMenu.setVisible(false);
+    },
     refreshTriggerRange:function(){
-        //this.boardView.refreshTriggerRange();
+        //this.gameLayer.getAreaNode().showRange();
     },
     createUnitView:function(aDict){
     },
@@ -85,11 +102,14 @@ gUI.ViewManager=gUtil.Class.extend({
     },
     moveLight:function(pos){
     },
-    getSpritePool:function(){
-        return this.gameLayer.spritePool;
+    getUnitPool:function(){
+        return this.gameLayer.getUnitPool();
     },
     getGameLayer:function(){
         return this.gameLayer;
+    },
+    getAreaNode:function(){
+        return this.gameLayer.getAreaNode();
     },
 
 

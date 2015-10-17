@@ -101,3 +101,6 @@ gModels.OneUnitModel=gModels.unitModelExtend(gModels.WalkerUnitModel,{
         }
     }
 });
+gModels.TwoUnitModel=gModels.unitModelExtend(gModels.OneUnitModel,{
+    typeName:"two",
+});
