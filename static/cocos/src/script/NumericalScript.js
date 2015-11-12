@@ -116,5 +116,18 @@ module.exports=function(env){
         group:gScript.GROUP_DEFENSER,
         mp:0,
     };
+    gScript.getNumericalDict=function(typeName){
+        var re=gScript.unitNumericalDict[typeName];
+        if(re){
+            return re;
+        }else{
+            console.warn("unit not set, use default");
+            return {
+                hp:4, ap:2, attackRange:1,
+                group:gScript.GROUP_ATTACKER,
+                mp:0,
+            }
+        }
+    }
     ///}}}
 }

@@ -17,7 +17,7 @@ gModels.UnitModel=Backbone.Model.extend({
     constructor:function(){
         gModels.UnitModel.__super__.constructor.apply(this,arguments);
         if(_.isString(this.typeName)){
-            var num=gScript.unitNumericalDict[this.typeName];
+            var num=gScript.getNumericalDict(this.typeName);
             if(_.isObject(num)){
                 this.set(num);
                 this.set("maxHp",num.hp);

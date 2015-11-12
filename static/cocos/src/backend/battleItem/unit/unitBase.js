@@ -107,7 +107,7 @@ module.exports=function(env){
     gBattle.unitClassDict={}
     gBattle.unitImpl=function(props,staticProps){
         if(props.typeName){
-            var num=gScript.unitNumericalDict[props.typeName];
+            var num=gScript.getNumericalDict(props.typeName);
             if(num){
                 // extend hp, ap, range, group
                 _.extend(props,num);
@@ -124,7 +124,7 @@ module.exports=function(env){
     }
     gBattle.unitExtend=function(baseClass,props,staticProps){
         if(props.typeName){
-            var num=gScript.unitNumericalDict[props.typeName];
+            var num=gScript.getNumericalDict(props.typeName);
             if(num){
                 // extend hp, ap, range, group
                 _.extend(props,num);

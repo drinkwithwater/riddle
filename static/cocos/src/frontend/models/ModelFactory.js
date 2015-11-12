@@ -6,7 +6,7 @@ gModels.UnitFactory={
         else {
             var unitId=gScript.createCommonId(i,j);
             var typeName=gScript.unitTypeNameDict[typeKey];
-            var defaultDict=gScript.unitNumericalDict[typeName];
+            var defaultDict=gScript.getNumericalDict(typeName);
             // set default attr
             defaultDict.i=i;
             defaultDict.j=j;

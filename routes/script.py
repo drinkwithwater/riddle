@@ -22,6 +22,7 @@ def set_script():
 
 
 @app.route("/loadscript")
+@app.route("/cocos/loadscript.js")
 def loadscript():
     scriptDict = get_script()
     fileFormat = """

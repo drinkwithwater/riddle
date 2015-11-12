@@ -71,4 +71,12 @@ module.exports=function(env){
     gEvent.BattleWin=gEvent.eventImpl({
         type:"battle_win",
     });
+    gEvent.UnitTurnEvent=gEvent.eventImpl({
+        type:"unit_turn",
+        unitId:null,
+        direct:{
+            i:null,
+            j:null
+        }
+    });
 };

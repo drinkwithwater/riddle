@@ -135,5 +135,69 @@ module.exports=function(env){
             }
         },
     });
+    gBattle.ShooterUnit=gBattle.unitExtend(gBattle.TriggerUnit,{
+        typeName:"shooter",
+        direct:null,
+        turnDirect:function(pos){
+            this.direct=gPoint.direct(this,pos);
+            this.battleField.unitTurn(context,this,this.direct);
+        },
+        checkAndTurnBack:function(){
+            if(_.isObject(this.direct)){
+                var maze=battleField.getMaze();
+                var rangeArea=gPoint.directRange(this,this.direct,this.triggerRange+1);
+                var allEmpty=_.every(rangePos,function(pos){
+                    if(_.isObject(maze.getUnit(pos))){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                });
+                if(allEmpty){
+                    this.direct=null;
+                    this.battleField.unitTurn(context,this,null);
+                }
+            }
+        },
+        inDirectRange:function(pos){
+            var delta={
+                i:pos.i-this.i,
+                j:pos.j-this.j
+            }
+            if(_.isObject(this.direct)){
+                return (gPoint.maDistance(this,mover)<=this.triggerRange+1)
+                    && (gPoint.inDirect(delta,this.direct));
+            }else{
+                return false;
+            }
+        },
+        inRange:function(pos){
+            return (gPoint.maDistance(this,mover)<=this.triggerRange);
+        },
+        moveTrigger:function(context,mover,srcPos){
+            if(mover.unitId==this.unitId) return ;
+            if(mover.group==this.group) return ;
+            if(!this.alive) return ;
+            // check range
+            if(_.isObject(this.direct)){
+                if(this.inDirectRange(mover)){
+                    var reDamage=this.createDamage();
+                    this.battleField.unitHarm(context,this,mover,reDamage);
+                }else if(this.inDirectRange(srcPos)){
+                    if(this.inRange(mover)){
+                        this.turnDirect(mover);
+                        var reDamage=this.createDamage();
+                        this.battleField.unitHarm(context,this,mover,reDamage);
+                    }
+                }
+            }else if(this.inRange(mover)){
+                this.turnDirect(mover);
+                var reDamage=this.createDamage();
+                this.battleField.unitHarm(context,this,mover,reDamage);
+            }
+            this.checkAndTurnBack();
+            return ;
+        }
+    });
     //}}}
 }

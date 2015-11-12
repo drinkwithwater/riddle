@@ -296,10 +296,23 @@ module.exports=function(env){
                 context.push(new gEvent.BattleWin({}));
             }
         },
+        unitTurn:function(context,unit,direct){
+            var tempDirect=null;
+            if(_.isObject(direct)){
+                tempDirect={
+                    i:direct.i,
+                    j:direct.j
+                }
+            }else{
+                tempDirect=null;
+            }
+            context.push(new gEvent.UnitTurnEvent({
+                unitId:unit.unitId,
+                direct:tempDirect
+            }))
+        },
 
         
-        startLine:function(context){
-        },
 
         checkWin:function(){
             if(this.battleType==gBattle.BATTLE_TEST)
