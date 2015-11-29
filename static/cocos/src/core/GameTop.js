@@ -87,6 +87,28 @@ gCore.GameTop=gUtil.Class.extend({
 		gameInst.init();
 		gCore.gameInst=gameInst;
 		return gameInst;
+	},
+	aigameMain:function(){
+		var gameInst=new gCore.GameTop([
+		    gAI.AIGameModelManager,
+		    gAI.AIGameViewManager,
+		    gAI.AIGameFrontendModule
+		]);
+	    
+		gameInst.init();
+		gCore.gameInst=gameInst;
+		return gameInst;
+	},
+	movegameMain:function(){
+		var gameInst=new gCore.GameTop([
+		    gMove.MoveGameModelManager,
+		    gMove.MoveGameViewManager,
+		    gMove.MoveGameFrontendModule
+		]);
+	    
+		gameInst.init();
+		gCore.gameInst=gameInst;
+		return gameInst;
 	}
 });
 

@@ -1,6 +1,6 @@
 {
     "debugMode" : 1,
-    "showFPS" : true,
+    "showFPS" : false,
     "frameRate" : 60,
     "id" : "gameCanvas",
     "renderMode" : 0,
@@ -74,8 +74,17 @@
 
         "src/core/GameTop.js",
         
-        "loadscript.js"
+        "loadscript.js",
 
+        "src/aigame/AIGameModelManager.js",
+        "src/aigame/AIGameViewManager.js",
+        "src/aigame/AIGameFrontendModule.js",
+        "src/aigame/viewItem/UnitView.js",
+        "src/aigame/viewItem/PathData.js",
+        "src/aigame/viewItem/UserInputCtrl.js",
+        "src/aigame/viewItem/AreaNode.js",
+        "src/aigame/viewItem/GameLayer.js",
+        "src/aigame/viewItem/TypeNode.js"
 
     ]
 }

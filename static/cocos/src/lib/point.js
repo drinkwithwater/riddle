@@ -137,7 +137,7 @@ module.exports=function(env){
             var pointDirect=gPoint.direct({i:0,j:0},delta);
             return pointDirect.i===direct.i;
         }else{
-            var di==delta.i;
+            var di=delta.i;
             var dj=delta.j;
             if(di===0){
                 dj=dj==0?0:(dj>0?1:-1);

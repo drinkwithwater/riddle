@@ -88,8 +88,9 @@ gViews.ScriptMenu = cc.Menu.extend({
     },
     moveMenu:function(delta){
         var newY=this.y+delta.y;
-        if(newY>this.count*this.LINE_SPACE)
-            newY=this.count*this.LINE_SPACE;
+        var winSize=cc.director.getWinSize()
+        if(newY>(this.count+1)*this.LINE_SPACE-winSize.height)
+            newY=(this.count+1)*this.LINE_SPACE-winSize.height;
         if(newY<0)
             newY=0;
         this.y=newY;
