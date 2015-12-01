@@ -34,13 +34,67 @@ gMove.MoveGameModelManager=gUtil.Class.extend({
                 j:h%100
             }
         }
+        src.g=0;
+        src.h=gPoint.maDistance(src,dst);
+        src.pre=null;
         var openFirst=0;
         var openLast=0;
         var open=[src];
-        var closeHash={};
-        while(openFirst<=openLast){
-            var sth=open[openFirst];
+        var getSmallestPoint=function(){
+            var temp=open[openFirst];
+            for(var i=openFirst+1;i<=openLast;i++){
+                var point=open[i];
+                if(temp.g+temp.h<point.g+point.h){
+                    temp=point;
+                }
+            }
+            return temp;
         }
+        var closeHash={};
+        var self=this;
+        var expand=function(point){
+            var expandList=[
+                {i:point.i+1,j:point.j},
+                {i:point.i-1,j:point.j},
+                {i:point.i,j:point.j+1},
+                {i:point.i,j:point.j-1}
+            ];
+            expandList=_.filter(expandList,function(newPoint){
+                var i=newPoint.i;
+                var j=newPoint.j;
+                if(!self.valid(i,j)) return false;
+                if(self.trailModel.trailContain(i,j)) return false;
+                if(closeHash[hash(point)]) return false;
+                return true;
+            });
+            _.each(expandList,function(newPoint){
+                newPoint.g=point.g+1;
+                newPoint.h=gPoint.maDistance(newPoint,dst);
+                newPoint.pre=point;
+                open.push(newPoint);
+                openLast++;
+            });
+            openFirst++;
+        }
+        while(openFirst<=openLast){
+            var choose=getSmallestPoint();
+            if(choose.h==0){
+                // TODO
+                var re=[];
+                var temp=choose;
+                while(true){
+                    re.push(temp);
+                    temp=temp.pre;
+                    if(temp==null){
+                        break;
+                    }
+                }
+                return re.reverse();
+            }else{
+                expand(choose);
+            }
+        }
+        return [];
     },
     start:function(gameTop){
         this.trailModel=new gMove.TrailModel();
@@ -88,6 +142,9 @@ gMove.MoveGameModelManager=gUtil.Class.extend({
     },
     moveOper:function(i,j){
         if(this.valid(i,j)){
+            if(!this.trailModel.trailContain(i,j)){
+                return ;
+            }
             var increase=this.trailModel.oper(i,j);
             this.doScore(increase);
             var last=_.last(this.trailModel.getTrailPath());
@@ -190,5 +247,9 @@ gMove.TrailModel=gUtil.Class.extend({
     },
     resetOper:function(){
         this.operPath=[]
+    },
+    isFirst:function(i,j){
+        var first=this.trailPath[0];
+        return first.i==i && first.j==j;
     },
 });
