@@ -1,6 +1,6 @@
 {
     "debugMode" : 1,
-    "showFPS" : false,
+    "showFPS" : true,
     "frameRate" : 60,
     "id" : "gameCanvas",
     "renderMode" : 0,
@@ -74,8 +74,6 @@
 
         "src/core/GameTop.js",
         
-        "loadscript.js",
-
         "src/aigame/AIGameModelManager.js",
         "src/aigame/AIGameViewManager.js",
         "src/aigame/AIGameFrontendModule.js",
@@ -84,7 +82,16 @@
         "src/aigame/viewItem/UserInputCtrl.js",
         "src/aigame/viewItem/AreaNode.js",
         "src/aigame/viewItem/GameLayer.js",
-        "src/aigame/viewItem/TypeNode.js"
+        "src/aigame/viewItem/TypeNode.js",
+        
+        
+        "src/movegame/MoveGameModelManager.js",
+        "src/movegame/MoveGameViewManager.js",
+        "src/movegame/MoveGameFrontendModule.js",
+        "src/movegame/viewItem/AreaNode.js",
+        "src/movegame/viewItem/GameLayer.js",
+        "src/movegame/viewItem/TrailNode.js",
+        "src/movegame/viewItem/UserInputCtrl.js"
 
     ]
 }

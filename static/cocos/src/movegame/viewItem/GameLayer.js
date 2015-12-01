@@ -1,7 +1,7 @@
 var gMove=gMove||{};
 gMove.GameLayer = cc.Layer.extend({
     LEVEL_AREA:0,
-    LEVEL_SPRITE:1,
+    LEVEL_TRAIL:1,
     LEVEL_USER:3,
     LEVEL_MENU:4,
 
@@ -16,21 +16,17 @@ gMove.GameLayer = cc.Layer.extend({
 
     // child node
     userInputCtrl:null,
-    unitNode:null,
+    trailNode:null,
     areaNode:null,
     scoreNode:null,
+    tempScoreNode:null,
     
-    typeNode:null,
     
-    testNode:null,
-
     // game module
     actionHandler:null,
     viewManager:null,
     modelManager:null,
     
-    //
-    actionQueue:null,
     ctor:function (gameTop) {
         this._super();
 
@@ -41,51 +37,36 @@ gMove.GameLayer = cc.Layer.extend({
 	    this.userInputCtrl=new gMove.UserInputCtrl(this,gameTop);
         this.addChild(this.userInputCtrl,this.LEVEL_USER);
         
-        //var size=cc.director.getWinSize();
         this.areaNode=new gMove.AreaNode(this,gameTop);
         this.addChild(this.areaNode,this.LEVEL_AREA);
 
-        this.unitNode=new gMove.UnitView(this,gameTop);
-        this.addChild(this.unitNode,this.LEVEL_SPRITE);
-
-        this.testNode=new cc.DrawNode();
-        this.addChild(this.testNode,this.LEVEL_SPRITE);
+        this.trailNode=new gMove.TrailNode(this,gameTop);
+        this.addChild(this.trailNode,this.LEVEL_TRAIL);
 
         this.scoreNode=new cc.LabelTTF("0","Arial",38);
         this.scoreNode.setFontFillColor(cc.color(255,255,255));
-        this.addChild(this.scoreNode,this.LEVEL_SPRITE);
-
-        this.typeNode=new gMove.TypeNode(this,gameTop);
-        this.addChild(this.typeNode,this.LEVEL_SPRITE);
+        this.addChild(this.scoreNode,this.LEVEL_TRAIL);
         
+        this.tempScoreNode=new cc.LabelTTF("0","Arial",38);
+        this.tempScoreNode.setFontFillColor(cc.color(255,255,255));
+        this.addChild(this.tempScoreNode,this.LEVEL_TRAIL);
+
 	    this.setAnchorPoint(cc.p(0,0));
         return true;
     },
-    shining:function(ijArray,bright){
-        if(!bright){
-            bright=255;
-        }else{
-            bright=Math.floor(255*bright);
-        }
-        var self=this;
-        var xyArray=_.map(ijArray,function(ij){
-            return self.pCenter(ij.i,ij.j);
-        })
-        this.testNode.clear();
-        this.testNode.drawDot(xyArray[0],this.dx/3,cc.color(bright,bright,bright));
-        /*
-        this.testNode.runAction(cc.sequence(
-            cc.fadeOut(0.5),
-            cc.callFunc(function(){
-                self.testNode.clear();
-                self.testNode.attr({
-                    opacity:255
-                });
-            })
-        ));*/
-    },
     setScore:function(score){
-        this.scoreNode.setString(String(score));
+        var scoreNode=this.scoreNode;
+        return ;
+        scoreNode.runAction(cc.callFunc(function(){
+            scoreNode.setString(String(score))
+        }));
+    },
+    setTempScore:function(score,maxScore){
+        var scoreNode=this.tempScoreNode;
+        return ;
+        scoreNode.runAction(cc.callFunc(function(){
+            scoreNode.setString(String(score)+"/"+String(maxScore))
+        }));
     },
     valid:function(i,j){
         if(i<0||i>=this.iLength){
@@ -114,12 +95,18 @@ gMove.GameLayer = cc.Layer.extend({
 
         this.setPosition(cc.p(this.baseX,this.baseY));
 
-        this.userInputCtrl.cancel();
-        
 	    this.areaNode.render();
+        
         this.scoreNode.attr({
             x:size.width-this.baseX,
             y:size.height-this.baseY,
+            anchorX:1,
+            anchorY:1
+        });
+        
+        this.tempScoreNode.attr({
+            x:size.width-this.baseX,
+            y:size.height-this.baseY-40,
             anchorX:1,
             anchorY:1
         });
@@ -180,8 +167,8 @@ gMove.GameLayer = cc.Layer.extend({
     getAreaNode:function(){
         return this.areaNode;
     },
-    getUnitNode:function(){
-        return this.unitNode;
+    getTrailNode:function(){
+        return this.trailNode;
     },
     destroy:function(){
         this.userInputCtrl.cancel();

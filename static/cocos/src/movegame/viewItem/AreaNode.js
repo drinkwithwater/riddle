@@ -17,7 +17,6 @@ gMove.AreaNode = cc.Node.extend({
         this.areaDraw.clear();
     },
     showArea:function(){
-        var side=2;
         this.areaDraw.clear();
         var gameLayer=this.gameLayer;
 	    var iLength=gameLayer.iLength;

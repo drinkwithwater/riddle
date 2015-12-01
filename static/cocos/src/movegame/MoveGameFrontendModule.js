@@ -6,7 +6,6 @@ gMove.MoveGameFrontendModule=gUtil.Class.extend({
 
     gameTop:null,
     
-    FRAME_TIME:0.05,
 
     name:"frontendModule",
     init:function(gameTop){
@@ -18,28 +17,11 @@ gMove.MoveGameFrontendModule=gUtil.Class.extend({
     },
     start:function(gameTop){
     },
-    run:function(){
-        this.modelManager.run();
-        this.runTime();
+    startOper:function(i,j){
+        this.modelManager.startOper(i,j);
     },
-
-    runTime:function(){
-        var frameItem=this.viewManager.frameItem;
-        var self=this;
-        frameItem.runAction(cc.sequence(
-            cc.delayTime(this.FRAME_TIME),
-            cc.callFunc(function(){
-                self.runTime();
-                self.modelManager.runTime(self.FRAME_TIME);
-                self.viewManager.animateShowScore(self.modelManager.hitCount);
-            })
-        ));
-    },
-
-    closurePathing:function(path){
-        this.modelManager.closurePathing(path);
-    },
-    rectWrap:function(min,max){
-        this.modelManager.rectWrap(min,max);
-    },
+    moveOper:function(i,j){
+        this.modelManager.moveOper(i,j);
+    }
+    
 });

@@ -47,24 +47,25 @@ gMove.MoveGameViewManager=gUtil.Class.extend({
         return this.gameLayer.getAreaNode();
     },
     
-    animateUnitSet:function(dstPosIJ){
-        var unitNode=this.gameLayer.getUnitNode();
-        var dstPosXY=this.gameLayer.pFloat(dstPosIJ.i,dstPosIJ.j);
-        unitNode.attr({
-            x:dstPosXY.x,
-            y:dstPosXY.y
-        });
-    },
-    animateUnitMove:function(dstPosIJ,time){
-        var unitNode=this.gameLayer.getUnitNode();
-        var dstPosXY=this.gameLayer.pFloat(dstPosIJ.i,dstPosIJ.j);
-        unitNode.runAction(cc.moveTo(time,dstPosXY));
-    },
-    animateTest:function(ijArray,bright){
-        this.gameLayer.shining(ijArray,bright);
-    },
     animateShowScore:function(score){
-        this.gameLayer.setScore(score)
+        this.gameLayer.setScore(score);
+    },
+    animateShowTempScore:function(score,maxScore){
+        this.gameLayer.setTempScore(score,maxScore);
+    },
+    animateShowTrailPath:function(path){
+        var gameLayer=this.gameLayer;
+        this.frameItem.runAction(cc.callFunc(function(){
+            var trailNode=gameLayer.getTrailNode();
+            trailNode.showTrail(path);
+        }));
+    },
+    animateShowOperPath:function(path){
+        var gameLayer=this.gameLayer;
+        this.frameItem.runAction(cc.callFunc(function(){
+            var trailNode=gameLayer.getTrailNode();
+            trailNode.showOper(path);
+        }));
     },
     
     destroy:function(){
