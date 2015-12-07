@@ -1,0 +1,48 @@
+<head>
+	<meta charset="utf-8">
+<style>
+	html {
+		background-color:#222222 !important;
+	}
+	body {
+		background-color:#222222 !important;
+	}
+</style>
+<!-- -lib---------------------------------------- -->
+<script src="/cocos/src/lib/jquery.js"></script>
+<script src="/cocos/src/lib/underscore.min.js"></script>
+<script src="/cocos/src/lib/backbone.min.js"></script>
+<script src="/cocos/src/lib/angular.min.js"></script>
+<script src="/cocos/src/lib/util.js"></script>
+<script src="/cocos/src/lib/point.js"></script>
+<script src="/item.js"></script>
+<!-- -------------------------------------------- -->
+
+</head>
+<body><!-- oncontextmenu=self.event.returnValue=false-->
+<div>
+	<div ng-app="myApp" ng-controller="myCtrl">
+		<table>
+			<tr ng-repeat="x in list">
+				<td>{{$index}}</td>
+				<td>{{x}}</td>
+			</tr>
+		</table>
+		<button ng-click="dosth()">change</button>
+	</div>
+	<script>
+		angular.module("myApp",[]).controller("myCtrl",function($scope){
+			$scope.list={
+				1:"fds",
+				2:"fis",
+				3:"fes",
+			}
+			$scope.dosth=function(){
+				$scope.list={
+					231:"FDS",
+				}
+			}
+		});
+	</script>
+</div>
+</body>

@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <script src="import/jquery.js"></script>
+    <script src="import/popup.js"></script>
+    <script src="import/developmentVersion/underscore.js"></script>
+    <script src="import/developmentVersion/backbone.js"></script>
+    <script src="import/angular.min.js"></script>
+  </head>
+  <body>
+	  <div ng-app="myApp" ng-controller="myCtrl">
+		  <input type="text" ng-model="yourname" placeholder="World">
+		  <br/>
+		  Hello {{yourname}}!
+	  </div>
+	  <script>
+	  </script>
+	  <script>
+		  var app=angular.module("myApp", []);
+		  app.controller('myCtrl',function($scope){
+		  });
+	  </script>
+  </body>
+
+</html>
