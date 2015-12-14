@@ -1,20 +1,30 @@
-var BaseCell=gUtil.Class.extend({
-    father:"cell",
+var gCell=gCell||{}
+gCell.CellIdManager={
+    counter:1,
+    newId:function(){
+        this.counter++;
+        return "cell:"+this.counter;
+    }
+}
+gCell.BaseCell=gUtil.Class.extend({
+    parent:"cell",
     i:"",
     j:"",
-    constructor:function(father){
-        BaseCell.__super__.constructor.apply(this,arguments);
-        this.father=father||undefined;
+    cellId:"",
+    constructor:function(parent){
+        gCell.BaseCell.__super__.constructor.apply(this,arguments);
+        this.parent=parent||undefined;
+        this.cellId=gCell.CellIdManager.newId();
     },
     onCommand:function(src,delta,command){
     },
     moveTo:function(dstPos){
-        if(_.isEmpty(father)){
+        if(_.isEmpty(parent)){
             this.i=dstPos.i;
             this.j=dstPos.j;
             return true;
         }else{
-            var success=father.moveChild(this,dstPos);
+            var success=parent.moveChild(this,dstPos);
             if(success){
                 this.i=dstPos.i;
                 this.j=dstPos.j;
@@ -24,30 +34,21 @@ var BaseCell=gUtil.Class.extend({
             }
         }
     },
-});
-var FatherMoveCell=BaseCell.extend({
-    onCommand:function(src,delta,command){
-        if(command=="force"){
-            if(_.isEmpty(this.father)){
-                return false;
-            }else{
-                // TODO
-                this.father.moveTo();
-                return true;
-            }
-        }
+    getCellId:function(){
+        return this.cellId;
     }
 });
-var TransferMessageCell;
-var ItemCell=BaseCell.extend({
+gCell.TransferMessageCell=gCell.BaseCell.extend({
+});
+gCell.ItemCell=gCell.BaseCell.extend({
     ijCell:"array",
-    
-    father:"cell",
+
+    parent:"cell",
     iLength:0,
     jLength:0,
-    constructor:function(iLength,jLength,father){
-        BaseCell.constructor.apply(this,[father]);
-        this.father=father||undefined;
+    constructor:function(iLength,jLength,parent){
+        gCell.BaseCell.constructor.apply(this,[parent]);
+        this.parent=parent||undefined;
         this.iLength=iLength;
         this.jLength=jLength;
         this.ijCell=new Array(iLength);

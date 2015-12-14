@@ -1,0 +1,39 @@
+<head>
+	<meta charset="utf-8">
+	<style>
+		html {
+			background-color:#222222 !important;
+		}
+		body {
+			background-color:#222222 !important;
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="item.css"></link>
+	<!-- -lib---------------------------------------- -->
+	<script src="/cocos/src/lib/jquery.js"></script>
+	<script src="/cocos/src/lib/underscore.min.js"></script>
+	<script src="/cocos/src/lib/backbone.min.js"></script>
+	<script src="/cocos/src/lib/angular.min.js"></script>
+	<script src="/cocos/src/lib/util.js"></script>
+	<script src="/cocos/src/lib/point.js"></script>
+	<script src="cell.js"></script>
+	<script src="item.js"></script>
+	<!-- -------------------------------------------- -->
+
+</head>
+<body><!-- oncontextmenu=self.event.returnValue=false-->
+	<div>
+		<div ng-app="myApp" ng-controller="myCtrl">
+			<table>
+			<tr ng-repeat="i in main.ijCell">
+				<td ng-repeat="j in i track by $index">
+					<div class="cell" ng-click="click($parent.$index,$index)">
+						{{j||"-"}}
+					</div>
+				</td>
+			</tr>
+		</table>
+		<button ng-click="dosth()">change</button>
+	</div>
+</div>
+</body>
