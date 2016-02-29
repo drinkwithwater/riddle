@@ -1,5 +1,5 @@
-var gMove=gMove||{};
-gMove.MoveGameFrontendModule=gUtil.Class.extend({
+var game=game||{};
+game.ControlManager=gUtil.Class.extend({
     
     modelManager:null,
     viewManager:null,
@@ -7,7 +7,7 @@ gMove.MoveGameFrontendModule=gUtil.Class.extend({
     gameTop:null,
     
 
-    name:"frontendModule",
+    name:"controlModule",
     init:function(gameTop){
         if(gameTop){
 	        this.modelManager=gameTop.getModule("modelModule");
@@ -16,12 +16,6 @@ gMove.MoveGameFrontendModule=gUtil.Class.extend({
         }
     },
     start:function(gameTop){
-    },
-    startOper:function(i,j){
-        this.modelManager.startOper(i,j);
-    },
-    moveOper:function(i,j){
-        this.modelManager.moveOper(i,j);
     }
     
 });

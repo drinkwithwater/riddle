@@ -21,6 +21,14 @@ module.exports=function(env){
     var Class=gUtil.Class=function(){
         this._id=_.uniqueId();
     }
+    this.__super__=false;
+    Class.prototype={
+        _super:function(){
+            if(this.__super__){
+                this.__super__.constructor.apply(this,arguments);
+            }
+        }
+    }
     //copy from backbone.js
     var classExtend = function(protoProps, staticProps) {
         var parent = this;
@@ -32,7 +40,7 @@ module.exports=function(env){
         if (protoProps && _.has(protoProps, 'constructor')) {
             cls = protoProps.constructor;
         } else {
-            cls = function(){ return parent.apply(this, arguments); };
+            cls = function(){return parent.apply(this, arguments);}
         }
 
         // Add static properties to the constructor function, if supplied.

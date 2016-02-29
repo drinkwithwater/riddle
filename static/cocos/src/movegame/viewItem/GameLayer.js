@@ -56,14 +56,12 @@ gMove.GameLayer = cc.Layer.extend({
     },
     setScore:function(score){
         var scoreNode=this.scoreNode;
-        return ;
         scoreNode.runAction(cc.callFunc(function(){
             scoreNode.setString(String(score))
         }));
     },
     setTempScore:function(score,maxScore){
         var scoreNode=this.tempScoreNode;
-        return ;
         scoreNode.runAction(cc.callFunc(function(){
             scoreNode.setString(String(score)+"/"+String(maxScore))
         }));

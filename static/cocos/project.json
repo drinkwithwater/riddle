@@ -91,7 +91,17 @@
         "src/movegame/viewItem/AreaNode.js",
         "src/movegame/viewItem/GameLayer.js",
         "src/movegame/viewItem/TrailNode.js",
-        "src/movegame/viewItem/UserInputCtrl.js"
+        "src/movegame/viewItem/UserInputCtrl.js",
+        
+        "src/game/ControlManager.js",
+        "src/game/ViewManager.js",
+        "src/game/ModelManager.js",
+        
+        "src/game/viewItem/AreaNode.js",
+        "src/game/viewItem/GameLayer.js",
+        
+        "src/game/modelItem/BattleModel.js",
+        "src/game/modelItem/UnitModelBase.js"
 
     ]
 }

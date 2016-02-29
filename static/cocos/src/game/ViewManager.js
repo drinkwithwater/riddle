@@ -1,7 +1,7 @@
-var gMove=gMove||{};
+var game=game||{};
 var htmlView; // a global ver for debug
-gMove.MoveGameViewManager=gUtil.Class.extend({
-    frontendModule:null,
+game.ViewManager=gUtil.Class.extend({
+    controlModule:null,
     modelManager:null,
 
     moveSpeed:10,//1 cell 1 second
@@ -17,7 +17,7 @@ gMove.MoveGameViewManager=gUtil.Class.extend({
         var thisVar=this;
         if(gameTop){
 		    this.modelManager=gameTop.getModule("modelModule");
-            this.frontendModule=gameTop.getModule("frontendModule");
+            this.controlModule=gameTop.getModule("controlModule");
         }
 
 	    //for test
@@ -26,10 +26,13 @@ gMove.MoveGameViewManager=gUtil.Class.extend({
     start:function(gameTop){
         var thisVar=this;
         var modelManager=this.modelManager;
-	    this.mainScene=new gMove.MainScene();
-	    this.gameLayer=new gMove.GameLayer(gameTop);
+	    this.mainScene=new gameView.MainScene();
+	    this.gameLayer=new gameView.GameLayer(gameTop);
         this.frameItem=new cc.Node();
         this.gameLayer.addChild(this.frameItem);
+        this.frameItem.schedule(function(dt){
+            thisVar.modelManager.timeUpdate(dt);
+        });
 
         this.mainScene.bind(gameTop);
     },
@@ -43,31 +46,6 @@ gMove.MoveGameViewManager=gUtil.Class.extend({
     getGameLayer:function(){
         return this.gameLayer;
     },
-    getAreaNode:function(){
-        return this.gameLayer.getAreaNode();
-    },
-    
-    animateShowScore:function(score){
-        this.gameLayer.setScore(score);
-    },
-    animateShowTempScore:function(score,maxScore){
-        this.gameLayer.setTempScore(score,maxScore);
-    },
-    animateShowTrailPath:function(path){
-        var gameLayer=this.gameLayer;
-        this.frameItem.runAction(cc.callFunc(function(){
-            var trailNode=gameLayer.getTrailNode();
-            trailNode.showTrail(path);
-        }));
-    },
-    animateShowOperPath:function(path){
-        var gameLayer=this.gameLayer;
-        this.frameItem.runAction(cc.callFunc(function(){
-            var trailNode=gameLayer.getTrailNode();
-            trailNode.showOper(path);
-        }));
-    },
-    
     destroy:function(){
     }
 });

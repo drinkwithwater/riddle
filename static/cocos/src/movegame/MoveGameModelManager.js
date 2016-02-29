@@ -40,19 +40,22 @@ gMove.MoveGameModelManager=gUtil.Class.extend({
         var openFirst=0;
         var openLast=0;
         var open=[src];
-        var getSmallestPoint=function(){
+        var getSmallestIndex=function(){
             var temp=open[openFirst];
+            var index=openFirst;
             for(var i=openFirst+1;i<=openLast;i++){
                 var point=open[i];
-                if(temp.g+temp.h<point.g+point.h){
+                if(point.g+point.h<temp.g+temp.h){
                     temp=point;
+                    index=i;
                 }
             }
-            return temp;
+            return index;
         }
         var closeHash={};
         var self=this;
-        var expand=function(point){
+        var expand=function(index){
+            var point=open[index];
             var expandList=[
                 {i:point.i+1,j:point.j},
                 {i:point.i-1,j:point.j},
@@ -74,11 +77,15 @@ gMove.MoveGameModelManager=gUtil.Class.extend({
                 open.push(newPoint);
                 openLast++;
             });
+            open[index]=open[openFirst];
+            open[openFirst]=point;
             openFirst++;
+            closeHash[hash(point)]=point;
         }
         while(openFirst<=openLast){
-            var choose=getSmallestPoint();
-            if(choose.h==0){
+            var chooseIndex=getSmallestIndex();
+            var choose=open[chooseIndex];
+            if(choose.h==1){
                 // TODO
                 var re=[];
                 var temp=choose;
@@ -91,7 +98,7 @@ gMove.MoveGameModelManager=gUtil.Class.extend({
                 }
                 return re.reverse();
             }else{
-                expand(choose);
+                expand(chooseIndex);
             }
         }
         return [];
@@ -141,6 +148,7 @@ gMove.MoveGameModelManager=gUtil.Class.extend({
         this.doScore(false);
     },
     moveOper:function(i,j){
+        var self=this;
         if(this.valid(i,j)){
             if(!this.trailModel.trailContain(i,j)){
                 return ;
@@ -148,35 +156,39 @@ gMove.MoveGameModelManager=gUtil.Class.extend({
             var increase=this.trailModel.oper(i,j);
             this.doScore(increase);
             var last=_.last(this.trailModel.getTrailPath());
-            var next={};
-            while(true){
-                var rd=this.randomDirect();
-                next.i=last.i+rd.i;
-                next.j=last.j+rd.j;
-                if(this.valid(next.i,next.j) &&
-                   !this.trailModel.trailContain(next.i,next.j)){
-                    break;
-                }
+            var nextList=[
+                {i:last.i+1,j:last.j},
+                {i:last.i-1,j:last.j},
+                {i:last.i,j:last.j+1},
+                {i:last.i,j:last.j-1}
+            ];
+            nextList=_.filter(nextList,function(nextPoint){
+                var i=nextPoint.i;
+                var j=nextPoint.j;
+                if(!self.valid(i,j)) return false;
+                if(self.trailModel.trailContain(i,j)) return false;
+                var shortpath=self.shortpath(nextPoint,self.trailModel.getFirst());
+                if(shortpath.length<=0) return false;
+                return true;
+            });
+            var next=this.random(nextList);
+            if(!next){
+                return ;
+            }else{
+                this.trailModel.next(next.i,next.j);
+                this.doShow();
             }
-            this.trailModel.next(next.i,next.j);
-            this.doShow();
         }
     },
-    randomDirect:function(){
-        var a={i:0, j:1};
-        var b={i:0, j:-1};
-        var c={i:1, j:0};
-        var d={i:-1, j:0};
+    random:function(list){
+        var length=list.length;
         var r=Math.random()
-        if(r<0.25){
-            return a;
-        }else if(r<0.5){
-            return b;
-        }else if(r<0.75){
-            return c;
-        }else {
-            return d;
+        for(var i=0;i<length;i++){
+            if(r<(i+1)/length){
+                return list[i];
+            }
         }
+        return list[length-1];
     },
     
     destroy:function(){
@@ -185,10 +197,11 @@ gMove.MoveGameModelManager=gUtil.Class.extend({
 gMove.TrailModel=gUtil.Class.extend({
     trailPath:null,
     operPath:null,
+    length:6,
     constructor:function(){
-        this.trailPath=new Array(3);
+        this.trailPath=new Array(this.length);
         this.operPath=[];
-        for(var i=0;i<3;i++){
+        for(var i=0;i<this.length;i++){
             this.trailPath[i]={
                 i:i,
                 j:0
@@ -252,4 +265,7 @@ gMove.TrailModel=gUtil.Class.extend({
         var first=this.trailPath[0];
         return first.i==i && first.j==j;
     },
+    getFirst:function(){
+        return this.trailPath[0];
+    }
 });

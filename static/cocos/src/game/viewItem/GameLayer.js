@@ -1,5 +1,5 @@
-var gMove=gMove||{};
-gMove.GameLayer = cc.Layer.extend({
+var gameView=gameView||{};
+gameView.GameLayer = cc.Layer.extend({
     LEVEL_AREA:0,
     LEVEL_TRAIL:1,
     LEVEL_USER:3,
@@ -34,14 +34,12 @@ gMove.GameLayer = cc.Layer.extend({
 	    this.modelManager=gameTop.getModule("modelModule");
 	    this.actionHandler=gameTop.getModule("frontendModule");
 
+        /*
 	    this.userInputCtrl=new gMove.UserInputCtrl(this,gameTop);
-        this.addChild(this.userInputCtrl,this.LEVEL_USER);
+        this.addChild(this.userInputCtrl,this.LEVEL_USER);*/
         
-        this.areaNode=new gMove.AreaNode(this,gameTop);
+        this.areaNode=new gameView.AreaNode(this,gameTop);
         this.addChild(this.areaNode,this.LEVEL_AREA);
-
-        this.trailNode=new gMove.TrailNode(this,gameTop);
-        this.addChild(this.trailNode,this.LEVEL_TRAIL);
 
         this.scoreNode=new cc.LabelTTF("0","Arial",38);
         this.scoreNode.setFontFillColor(cc.color(255,255,255));
@@ -52,6 +50,7 @@ gMove.GameLayer = cc.Layer.extend({
         this.addChild(this.tempScoreNode,this.LEVEL_TRAIL);
 
 	    this.setAnchorPoint(cc.p(0,0));
+
         return true;
     },
     setScore:function(score){
@@ -118,20 +117,16 @@ gMove.GameLayer = cc.Layer.extend({
 		    dy:this.getScaleX()*this.dy,
 	    }
 	    var cellBase=this.getPosition();
-	    var xx=Math.floor((x-cellBase.x)/cellSize.dx);
-	    var yy=Math.floor((y-cellBase.y)/cellSize.dy);
-	    return {i:this.iLength-1-yy,j:xx};
+        return {
+            i:Math.floor((x-cellBase.x)/cellSize.dx),
+            j:Math.floor((y-cellBase.y)/cellSize.dy)
+        }
     },
     p2ij:function(p){
 	    return this.xy2ij(p.x,p.y);
     },
     pLeftBottom:function(i,j){
-	    var cellXY=(function(i,j){
-	        var xx=j;
-	        var yy=this.iLength-1-i;
-	        return cc.p(xx,yy);
-        }).call(this,i,j);
-	    return cc.p(cellXY.x*this.dx,cellXY.y*this.dy)
+	    return cc.p(i*this.dx,j*this.dy)
     },
     pRightTop:function(i,j){
 	    var base=this.pLeftBottom(i,j);
@@ -140,14 +135,6 @@ gMove.GameLayer = cc.Layer.extend({
     pCenter:function(i,j){
 	    var base=this.pLeftBottom(i,j);
 	    return cc.p(base.x+this.dx/2,base.y+this.dy/2);
-    },
-    pFloat:function(i,j){
-	    var cellXY=(function(i,j){
-	        var xx=j;
-	        var yy=this.iLength-i;
-	        return cc.p(xx,yy);
-        }).call(this,i,j);
-	    return cc.p(cellXY.x*this.dx,cellXY.y*this.dy)
     },
     /*
     pLeftMiddle:function(i,j){
@@ -173,12 +160,11 @@ gMove.GameLayer = cc.Layer.extend({
     destroy:function(){
         this.userInputCtrl.cancel();
         this.areaNode.destroy();
-    }
+    },
 });
 
-gMove.MainScene = cc.Scene.extend({
+gameView.MainScene = cc.Scene.extend({
     gameLayer:null,
-    scriptMenu:null,
     
     bind:function(gameTop){
 	    this.gameLayer=gameTop.getModule("viewModule").gameLayer;

@@ -155,6 +155,17 @@ module.exports=function(env){
     gPoint.directRange=function(center,direct,range){
         console.log("not implement");
     }
+    
+    var xyPoint=env.xyPoint=env.xyPoint||{};
+    xyPoint.maDistance=function(pa,pb){
+        var abs=Math.abs;
+        return abs(pa.x-pb.x)+abs(pa.y-pb.y);
+    }
+    xyPoint.euDistance=function(pa,pb){
+        var dx=pa.x-pb.x;
+        var dy=pa.y-pb.y;
+        return Math.sqrt(dx*dx+dy*dy);
+    }
 }
 
 

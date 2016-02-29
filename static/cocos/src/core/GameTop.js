@@ -109,6 +109,17 @@ gCore.GameTop=gUtil.Class.extend({
 		gameInst.init();
 		gCore.gameInst=gameInst;
 		return gameInst;
+	},
+	gameMain:function(){
+		var gameInst=new gCore.GameTop([
+		    game.ModelManager,
+		    game.ViewManager,
+		    game.ControlManager
+        ]);
+	    
+		gameInst.init();
+		gCore.gameInst=gameInst;
+		return gameInst;
 	}
 });
 

@@ -1,5 +1,5 @@
-var gMove=gMove||{};
-gMove.AreaNode = cc.Node.extend({
+var gameView=gameView||{};
+gameView.AreaNode = cc.Node.extend({
     LEVEL_AREA:1,
     gameLayer:null,
     areaDraw:null,

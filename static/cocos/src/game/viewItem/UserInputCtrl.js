@@ -1,5 +1,5 @@
-var gMove=gMove||{};
-gMove.UserInputCtrl=cc.Node.extend({
+var gameView=gameView||{};
+gameView.UserInputCtrl=cc.Node.extend({
     STATE_EMPTY:0,
     STATE_PATHING:1,
     
@@ -25,7 +25,6 @@ gMove.UserInputCtrl=cc.Node.extend({
 		    event:cc.EventListener.TOUCH_ONE_BY_ONE,
 	        swallowTouches: true,
 		    onTouchBegan:function(touch,event){
-			    gTest.target=event.getCurrentTarget();
 			    var ij=gameLayer.p2ij(touch.getLocation());
                 return user.beginArea(ij.i,ij.j);
 		    },

@@ -79,7 +79,7 @@ cc.game.onStart = function(){
         var mainScene=gameInst.getModule("viewModule").mainScene;
         cc.director.runScene(mainScene);
         gameInst.getModule("viewModule").reRender();
-        gameInst.getModule("modelModule").doShow();
+        gameInst.getModule("modelModule").runGame();
     }, this);
 };
 cc.game.run();
