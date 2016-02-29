@@ -15,6 +15,9 @@ gameModel.UnitModel=gUtil.Class.extend({
         this.position=position;
     },
     
+    canOper:function(){
+        return true;
+    },
     doMove:function(i,j){
         var position=this.battleModel.createPosition(i,j);
         this.futureList.push(new gameModel.MoveFutureModel(position).bind(this));

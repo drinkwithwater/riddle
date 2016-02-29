@@ -96,12 +96,15 @@
         "src/game/ControlManager.js",
         "src/game/ViewManager.js",
         "src/game/ModelManager.js",
+        "src/game/TestInstance.js",
         
         "src/game/viewItem/AreaNode.js",
         "src/game/viewItem/GameLayer.js",
         
         "src/game/modelItem/BattleModel.js",
-        "src/game/modelItem/UnitModelBase.js"
+        "src/game/modelItem/UnitModelBase.js",
+        "src/game/modelItem/MazeModel.js",
+        "src/game/modelItem/FutureModel.js"
 
     ]
 }

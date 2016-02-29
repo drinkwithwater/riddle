@@ -81,6 +81,10 @@ gameModel.BattleModel=gUtil.Class.extend({
     },
     timeUpdate:function(dt){
         this.timeSum+=dt;
+        if(this.timeSum>1){
+            this.timeSum=0;
+            console.log("step");
+        }
     },
     ///////////////////
     // unit operate  //

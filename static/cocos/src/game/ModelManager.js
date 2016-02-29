@@ -10,7 +10,7 @@ game.ModelManager=gUtil.Class.extend({
 
     runFlag:false,
 
-    battleModel:0,
+    battleModel:"battleModel",
     
     init:function(gameTop){
         var thisVar=this;

@@ -10,11 +10,11 @@ gameModel.UnitIndex=gUtil.Class.extend({
     }
 })
 gameModel.MazeModel=gUtil.Class.extend({
-    iLength:20,
-    jLength:20,
+    iLength:"int",
+    jLength:"int",
     ijToIndex:"array",
     unitIdToIndex:"dict",
-    battleModel:"BattleModel"
+    battleModel:"BattleModel",
     constructor:function(battleModel){
         this.battleModel=battleModel;
         
@@ -22,7 +22,7 @@ gameModel.MazeModel=gUtil.Class.extend({
         this.jLength=battleModel.jLength;
         
         this.ijToIndex=new Array(this.iLength);
-        for(int i=0,l=this.iLength;i<l;i++){
+        for(var i=0,l=this.iLength;i<l;i++){
             this.ijToIndex[i]=new Array(this.jLength);
         }
         this.unitIdToIndex={};

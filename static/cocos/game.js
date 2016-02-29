@@ -80,6 +80,7 @@ cc.game.onStart = function(){
         cc.director.runScene(mainScene);
         gameInst.getModule("viewModule").reRender();
         gameInst.getModule("modelModule").runGame();
+        gameTest.init(gameInst);
     }, this);
 };
 cc.game.run();

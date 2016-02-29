@@ -1,5 +1,4 @@
 var game=game||{};
-var htmlView; // a global ver for debug
 game.ViewManager=gUtil.Class.extend({
     controlModule:null,
     modelManager:null,
@@ -20,8 +19,6 @@ game.ViewManager=gUtil.Class.extend({
             this.controlModule=gameTop.getModule("controlModule");
         }
 
-	    //for test
-	    htmlView=this;
     },
     start:function(gameTop){
         var thisVar=this;

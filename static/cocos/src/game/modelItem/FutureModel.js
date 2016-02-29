@@ -1,7 +1,7 @@
 var gameModel=gameModel||{};
 gameModel.BaseFutureModel=gUtil.Class.extend({
     typeName:"baseAction",
-    unitModel:"UnitModel"
+    unitModel:"UnitModel",
     constructor:function(){
   	    gameModel.BaseFuture.__super__.constructor.call(this);
     },
