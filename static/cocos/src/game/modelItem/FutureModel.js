@@ -3,7 +3,7 @@ gameModel.BaseFutureModel=gUtil.Class.extend({
     typeName:"baseAction",
     unitModel:"UnitModel",
     constructor:function(){
-  	    gameModel.BaseFuture.__super__.constructor.call(this);
+  	    gameModel.BaseFutureModel.__super__.constructor.call(this);
     },
     bind:function(unit){
         this.unitModel=unit;

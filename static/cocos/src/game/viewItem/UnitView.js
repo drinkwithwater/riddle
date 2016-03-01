@@ -1,21 +1,63 @@
 var gameView=gameView||{};
+gameView.UnitViewPool = cc.Node.extend({
+    gameLayer:"gameLayer",
+    modelManager:"modelManager",
+    idToUnitView:"dict",
+    ctor:function(gameLayer,gameTop){
+        this._super();
+        this.gameLayer=gameLayer;
+        this.modelManager=gameTop.getModule("modelModule");
+        this.idToUnitView={};
+    },
+    render:function(){
+        this.destroy();
+        var unitModels=this.modelManager.unit$();
+        _.each(unitModels,function(unitModel){
+            var unitView=this.createUnitView(unitModel);
+            this.idToUnitView[unitModel.unitId]=unitView;
+            this.addChild(unitView);
+        },this);
+    },
+    destroy:function(){
+        this.idToUnitView={};
+        this.removeAllChildren(true);
+    },
+    createUnitView:function(unitModel){
+        var unitView=new gameView.UnitView(unitModel,this.gameLayer);
+        var ij=unitModel.getPosition();
+        var xy=this.gameLayer.pCenter(ij.i,ij.j);
+        unitView.attr({
+            x:xy.x,
+            y:xy.y,
+            anchorX:0.5,
+            anchorY:0.5
+        });
+        return unitView;
+    },
+    removeUnit:function(unitId){
+        var unit=this.idToUnitView[unitId];
+        delete this.idToUnitView[unitId];
+        unit.gameLayer=null;
+        unit.unitModel=null;
+        unit.removeFromParent();
+    },
+});
 gameView.UnitView = cc.Node.extend({
     LEVEL_SPRITE:0,
     LEVEL_ATTR:1,
 
 
     unitModel:null,
-    gameTop:null,
+    gameLayer:null,
 
     sprite:"cc.Sprite",
     hpLine:"gameView.HpLine",
     role:"cc.Sprite",
     
-    ctor:function(unitId,gameTop){
+    ctor:function(unitModel,gameLayer){
         this._super();
-        this.gameTop=gameTop;
-        this.unitModel=gameTop.getModule("modelModule").unit$(unitId);
-        this.gameLayer=gameTop.getModule("viewModule").gameLayer;
+        this.unitModel=unitModel;
+        this.gameLayer=gameLayer;
         // sprite
         var png=spriteRes[this.unitModel.typeName]||res.testpng;
         this.sprite=new cc.Sprite(png);

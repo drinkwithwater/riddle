@@ -100,6 +100,8 @@
         
         "src/game/viewItem/AreaNode.js",
         "src/game/viewItem/GameLayer.js",
+        "src/game/viewItem/UnitView.js",
+        "src/game/viewItem/UserInputCtrl.js",
         
         "src/game/modelItem/BattleModel.js",
         "src/game/modelItem/UnitModelBase.js",

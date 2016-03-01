@@ -2,6 +2,7 @@ var gameView=gameView||{};
 gameView.GameLayer = cc.Layer.extend({
     LEVEL_AREA:0,
     LEVEL_TRAIL:1,
+    LEVEL_UNIT:2,
     LEVEL_USER:3,
     LEVEL_MENU:4,
 
@@ -40,6 +41,9 @@ gameView.GameLayer = cc.Layer.extend({
         
         this.areaNode=new gameView.AreaNode(this,gameTop);
         this.addChild(this.areaNode,this.LEVEL_AREA);
+
+        this.unitNode=new gameView.UnitViewPool(this,gameTop);
+        this.addChild(this.unitNode,this.LEVEL_UNIT);
 
         this.scoreNode=new cc.LabelTTF("0","Arial",38);
         this.scoreNode.setFontFillColor(cc.color(255,255,255));
@@ -95,6 +99,7 @@ gameView.GameLayer = cc.Layer.extend({
         this.setPosition(cc.p(this.baseX,this.baseY));
 
 	    this.areaNode.render();
+	    this.unitNode.render();
         
         this.scoreNode.attr({
             x:size.width-this.baseX,

@@ -73,6 +73,7 @@ gameModel.BattleModel=gUtil.Class.extend({
     iLength:10,
     jLength:10,
     CELL_SIZE:210,
+    idCounter:0,
     constructor:function(modelManager){
   	    gameModel.BattleModel.__super__.constructor.call(this);
         this.modelManager=modelManager;
@@ -85,6 +86,19 @@ gameModel.BattleModel=gUtil.Class.extend({
             this.timeSum=0;
             console.log("step");
         }
+    },
+    ///////////////////
+    // init operate  //
+    ///////////////////
+    createUnit:function(typeName,i,j){
+        var position=this.createPosition(i,j);
+        var modelClass=gameModel.unitModelDict[typeName]||gameModel.UnitModel;
+        var unit=new gameModel.UnitModel(this,this.idCounter,position);
+        this.idCounter=this.idCounter+1;
+        
+        // put in maze & dict;
+        this.idToUnit[unit.unitId]=unit;
+        this.mazeModel.addUnit(unit);
     },
     ///////////////////
     // unit operate  //
@@ -102,8 +116,8 @@ gameModel.BattleModel=gUtil.Class.extend({
             var i=arguments[0];
             var j=arguments[1];
             return this.mazeModel.getUnit(i,j);
-        }else{
-            return false;
+        }else if(arguments.length==0){
+            return _.toArray(this.idToUnit);
         }
     },
     
@@ -140,5 +154,6 @@ gameModel.BattleModel=gUtil.Class.extend({
     },
     createPosition:function(i,j){
         var position=new gameModel.Position(this,i,j);
+        return position;
     }
 });
