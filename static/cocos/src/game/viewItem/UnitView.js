@@ -7,9 +7,9 @@ gameView.UnitView = cc.Node.extend({
     unitModel:null,
     gameTop:null,
 
-    sprite:null,
-    hpLine:null,
-    role:null,
+    sprite:"cc.Sprite",
+    hpLine:"gameView.HpLine",
+    role:"cc.Sprite",
     
     ctor:function(unitId,gameTop){
         this._super();

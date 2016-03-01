@@ -19,12 +19,11 @@ gameModel.EmptyFutureModel=gameModel.BaseFutureModel.extend({
 gameModel.MoveFutureModel=gameModel.BaseFutureModel.extend({
     typeName:"moveFuture",
     position:"Position",
-    unarrivable:"bool",
     constructor:function(position){
         this.position=position;
     },
     isFinished:function(){
-        var distance=this.maDistance(this,this.unitModel);
+        var distance=xyPoint.maDistance(this.position,this.unitModel.position);
         if(distance<this.unitModel.getSpeed()){
             return true;
         }else{
@@ -34,6 +33,14 @@ gameModel.MoveFutureModel=gameModel.BaseFutureModel.extend({
 });
 gameModel.StandFutureModel=gameModel.BaseFutureModel.extend({
     typeName:"standFuture",
+    ifFinished:function(){
+        var distance=xyPoint.maDistance(this.position,this.unitModel.position);
+        if(distance==0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 });
 gameModel.AttackFutureModel=gameModel.BaseFutureModel.extend({
     typeName:"attackFuture",
