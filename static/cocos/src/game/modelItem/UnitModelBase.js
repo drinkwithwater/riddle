@@ -6,12 +6,13 @@ gameModel.UnitModel=gUtil.Class.extend({
     speed:21,
     position:"Position",
     unitId:"int",
-    constructor:function(battleModel,position){
+    constructor:function(battleModel,unitId,position){
   	    gameModel.UnitModel.__super__.constructor.call(this);
         this.futureList=new Array();
         this.currentFuture=new gameModel.EmptyFutureModel();
         
         this.battleModel=battleModel;
+        this.unitId=unitId;
         this.position=position;
     },
     

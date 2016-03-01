@@ -22,6 +22,7 @@ game.ModelManager=gUtil.Class.extend({
     },
 
     start:function(gameTop){
+        this.battleModel=new gameModel.BattleModel(this);
     },
     timeUpdate:function(dt){
         if(this.runFlag){
@@ -29,9 +30,11 @@ game.ModelManager=gUtil.Class.extend({
         }
     },
     runGame:function(){
-        this.battleModel=new gameModel.BattleModel(this);
         this.runFlag=true;
     },
     destroy:function(){
+    },
+    unit$:function(){
+        return this.battleModel.unit$.apply(this.battleModel,arguments);
     }
 });
