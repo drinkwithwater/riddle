@@ -22,7 +22,7 @@ game.ModelManager=gUtil.Class.extend({
     },
 
     start:function(gameTop){
-        this.battleModel=new gameModel.BattleModel(this);
+        this.battleModel=new gameModel.BattleModel(gameTop);
     },
     timeUpdate:function(dt){
         if(this.runFlag){

@@ -70,21 +70,28 @@ gameModel.BattleModel=gUtil.Class.extend({
     idToUnit:"dict",
     timeSum:0,
     modelManager:null,
+    viewManager:null,
     iLength:10,
     jLength:10,
     CELL_SIZE:210,
+    LOGIC_DURATION:0.1,
     idCounter:0,
-    constructor:function(modelManager){
+    constructor:function(gameTop){
   	    gameModel.BattleModel.__super__.constructor.call(this);
-        this.modelManager=modelManager;
+
+        this.modelManager=gameTop.getModule("modelModule");
+        this.viewManager=gameTop.getModule("viewModule");
+
         this.idToUnit={};
         this.mazeModel=new gameModel.MazeModel(this);
     },
     timeUpdate:function(dt){
         this.timeSum+=dt;
-        if(this.timeSum>1){
+        if(this.timeSum>this.LOGIC_DURATION){
             this.timeSum=0;
-            console.log("step");
+            _.each(this.idToUnit,function(unit,unitId){
+                unit.stepUpdate();
+            });
         }
     },
     ///////////////////
@@ -103,15 +110,17 @@ gameModel.BattleModel=gUtil.Class.extend({
     ///////////////////
     // unit operate  //
     ///////////////////
-    moveUnitView:function(unit,dstPos){
+    unitStartMove:function(unit,dstPos){
+        var duration=this.LOGIC_DURATION*xyPoint.maDistance(unit.getPosition(),dstPos)/unit.getSpeed();
+        this.viewManager.getUnitViewPool().actionUnitIdMove(unit.unitId,dstPos,duration);
     },
-    updateUnitPos:function(unit){
+    unitUpdatePos:function(unit){
         this.mazeModel.updateUnit(unit);
     },
     unit$:function(){
         if(arguments.length==1){
             var unitId=arguments[0];
-            return this.idToUnit[unitId];
+            return this.idToUnit[unitId]||false;
         }else if(arguments.length==2){
             var i=arguments[0];
             var j=arguments[1];
@@ -140,8 +149,8 @@ gameModel.BattleModel=gUtil.Class.extend({
     pLeftBottom:function(i,j){
         var cellSize=this.CELL_SIZE;
         return {
-            x:i*this.cellSize,
-            y:j*this.cellSize
+            x:i*cellSize,
+            y:j*cellSize
         };
     },
     pCenter:function(i,j){

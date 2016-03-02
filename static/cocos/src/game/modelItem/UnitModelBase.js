@@ -45,22 +45,34 @@ gameModel.UnitModel=gUtil.Class.extend({
     
     stepUpdate:function(){
         var future=false;
+        var start=false;
         if(!this.currentFuture.isFinished()){
             future=this.currentFuture;
         }else{
             if(this.futureList.length>0){
-                this.currentFuture=futureList[0];
+                this.currentFuture=this.futureList[0];
                 this.futureList=this.futureList.slice(1);
                 future=this.currentFuture;
-            }else{
+                start=true;
             }
         }
         if(future){
+            if(start){
+                var funcName=this.startHandlers[future.typeName];
+                if(funcName) this[funcName].call(this,future);
+            }
             var funcName=this.futureHandlers[future.typeName];
-            this[funcName].call(this,future);
+            if(funcName) this[funcName].call(this,future);
+            else console.error("future unhandle");
         }
     },
     
+    startHandlers:{
+        "moveFuture":"startMove",
+    },
+    startMove:function(moveFuture){
+        this.battleModel.unitStartMove(this,moveFuture.position);
+    },
     futureHandlers:{
         "moveFuture":"stepMove",
         "attackFuture":"stepAttack",
@@ -81,12 +93,12 @@ gameModel.UnitModel=gUtil.Class.extend({
             if(dx==0&&dy!=0){
                 var update=thisPos.yMoveTo(futurePos.y,this.speed);
                 if(update){
-                    this.battleModel.updateUnitPos(this);
+                    this.battleModel.unitUpdatePos(this);
                 }
             }else if(dy==0&&dx!=0){
                 var update=thisPos.xMoveTo(futurePos.x,this.speed);
                 if(update){
-                    this.battleModel.updateUnitPos(this);
+                    this.battleModel.unitUpdatePos(this);
                 }
             }else if(dx!=0&&dy!=0){
                 // xy not in the same line

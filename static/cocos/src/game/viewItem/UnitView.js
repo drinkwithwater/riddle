@@ -41,6 +41,15 @@ gameView.UnitViewPool = cc.Node.extend({
         unit.unitModel=null;
         unit.removeFromParent();
     },
+    actionUnitIdMove:function(unitId,dstIJ,duration){
+        var dstPoint=this.gameLayer.pCenter(dstIJ.i,dstIJ.j);
+        var unit=this.idToUnitView[unitId];
+        if(_.isObject(unit)){
+            unit.runAction(cc.moveTo(duration,dstPoint));
+        }else{
+            console.error("unitView with unitId not existed"+unitId);
+        }
+    },
 });
 gameView.UnitView = cc.Node.extend({
     LEVEL_SPRITE:0,
@@ -50,9 +59,9 @@ gameView.UnitView = cc.Node.extend({
     unitModel:null,
     gameLayer:null,
 
-    sprite:null,
-    hpLine:null,
-    role:null,
+    sprite:"cc.Sprite",
+    hpLine:"gameView.HpLine",
+    role:"cc.Sprite",
     
     ctor:function(unitModel,gameLayer){
         this._super();
