@@ -31,7 +31,7 @@ gameModel.UnitModel=gUtil.Class.extend({
         var thisPos=this.position;
         if(standPos.i==thisPos.i && standPos.j==thisPos.j){
             this.cleanFuture();
-            this.futureList.push(new gameModel.StandFutureModel().bind(this));
+            this.futureList.push(new gameModel.StandFutureModel(standPos).bind(this));
         }else{
             return false;
         }
