@@ -49,7 +49,7 @@ gameModel.UnitModel=gUtil.Class.extend({
             future=this.currentFuture;
         }else{
             if(this.futureList.length>0){
-                this.currentFuture=futureList[0];
+                this.currentFuture=this.futureList[0];
                 this.futureList=this.futureList.slice(1);
                 future=this.currentFuture;
             }else{

@@ -85,6 +85,9 @@ gameModel.BattleModel=gUtil.Class.extend({
         if(this.timeSum>1){
             this.timeSum=0;
             console.log("step");
+            _.each(this.idToUnit,function(unit,unitId){
+                unit.stepUpdate();
+            });
         }
     },
     ///////////////////
@@ -111,7 +114,7 @@ gameModel.BattleModel=gUtil.Class.extend({
     unit$:function(){
         if(arguments.length==1){
             var unitId=arguments[0];
-            return this.idToUnit[unitId];
+            return this.idToUnit[unitId]||false;
         }else if(arguments.length==2){
             var i=arguments[0];
             var j=arguments[1];
@@ -140,8 +143,8 @@ gameModel.BattleModel=gUtil.Class.extend({
     pLeftBottom:function(i,j){
         var cellSize=this.CELL_SIZE;
         return {
-            x:i*this.cellSize,
-            y:j*this.cellSize
+            x:i*cellSize,
+            y:j*cellSize
         };
     },
     pCenter:function(i,j){

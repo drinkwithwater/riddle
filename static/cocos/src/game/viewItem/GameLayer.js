@@ -35,9 +35,8 @@ gameView.GameLayer = cc.Layer.extend({
 	    this.modelManager=gameTop.getModule("modelModule");
 	    this.actionHandler=gameTop.getModule("frontendModule");
 
-        /*
-	    this.userInputCtrl=new gMove.UserInputCtrl(this,gameTop);
-        this.addChild(this.userInputCtrl,this.LEVEL_USER);*/
+	    this.userInputCtrl=new gameView.UserInputCtrl(this,gameTop);
+        this.addChild(this.userInputCtrl,this.LEVEL_USER);
         
         this.areaNode=new gameView.AreaNode(this,gameTop);
         this.addChild(this.areaNode,this.LEVEL_AREA);
