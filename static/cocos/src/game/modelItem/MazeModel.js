@@ -41,7 +41,7 @@ gameModel.MazeModel=gUtil.Class.extend({
         this.ijToIndex[index.i][index.j]=index;
     },
     getUnit:function(i,j){
-        var index=ijToIndex[i][j];
+        var index=this.ijToIndex[i][j];
         if(_.isObject(index)){
             return this.battleModel.unit$(index.unitId);
         }else{

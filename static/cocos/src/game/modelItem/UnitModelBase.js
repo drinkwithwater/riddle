@@ -3,7 +3,7 @@ gameModel.UnitModel=gUtil.Class.extend({
     futureList:"list",
     battleModel:"object",
     currentFuture:"futureObject",
-    speed:21,
+    speed:100,
     position:"Position",
     unitId:"int",
     constructor:function(battleModel,unitId,position){

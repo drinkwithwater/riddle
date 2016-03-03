@@ -14,6 +14,7 @@ gameView.UserInputCtrl=cc.Node.extend({
     pathingType:null,
 
     preArea:null,
+    selectId:"int",
     doPoint:function(i,j){
         var gameLayer=this.gameLayer;
         this.pointDraw.clear();
@@ -34,6 +35,8 @@ gameView.UserInputCtrl=cc.Node.extend({
 
         this.pointDraw=new cc.DrawNode();
         this.addChild(this.pointDraw,this.LEVEL_POINT);
+        
+        this.selectId=false;
         
         var user=this;
 	    var listener=cc.EventListener.create({
@@ -59,6 +62,11 @@ gameView.UserInputCtrl=cc.Node.extend({
         var gameLayer=this.gameLayer;
         if(gameLayer.valid(i,j)){
             this.doPoint(i,j);
+            var unitModel=this.modelManager.unit$(i,j);
+            if(unitModel){
+                unitModel.doStand(i,j);
+                this.selectId=unitModel.unitId;
+            }
             this.preArea={
                 i:i,
                 j:j
@@ -75,6 +83,12 @@ gameView.UserInputCtrl=cc.Node.extend({
                 return ;
             }else{
                 this.doPoint(i,j);
+                if(_.isNumber(this.selectId)){
+                    var unitModel=this.modelManager.unit$(this.selectId);
+                    if(unitModel){
+                        unitModel.doMove(i,j);
+                    }
+                }
                 this.preArea={
                     i:i,
                     j:j
@@ -85,12 +99,19 @@ gameView.UserInputCtrl=cc.Node.extend({
             return ;
         }
     },
-    endArea:function(){
+    endArea:function(i,j){
+        if(_.isNumber(this.selectId)){
+            var unitModel=this.modelManager.unit$(this.selectId);
+            if(unitModel){
+                unitModel.doStand(i,j);
+            }
+        }
         this.cancel();
     },
     movePos:function(x,y){
     },
     cancel:function(){
+        this.selectId=false;
         this.unPoint();
     },
 });
