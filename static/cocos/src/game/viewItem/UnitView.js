@@ -45,6 +45,7 @@ gameView.UnitViewPool = cc.Node.extend({
         var dstPoint=this.gameLayer.pCenter(dstIJ.i,dstIJ.j);
         var unit=this.idToUnitView[unitId];
         if(_.isObject(unit)){
+            unit.stopAllActions();
             unit.runAction(cc.moveTo(duration,dstPoint));
         }else{
             console.error("unitView with unitId not existed"+unitId);

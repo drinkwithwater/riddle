@@ -37,7 +37,7 @@ gameModel.StandFutureModel=gameModel.BaseFutureModel.extend({
     constructor:function(position){
         this.position=position;
     },
-    ifFinished:function(){
+    isFinished:function(){
         var distance=xyPoint.maDistance(this.position,this.unitModel.position);
         if(distance==0){
             return true;

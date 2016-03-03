@@ -16,6 +16,10 @@ gameView.UserInputCtrl=cc.Node.extend({
     preArea:null,
     selectId:"int",
     doPoint:function(i,j){
+        this.preArea={
+            i:i,
+            j:j
+        }
         var gameLayer=this.gameLayer;
         this.pointDraw.clear();
 	    this.pointDraw.drawRect(gameLayer.pLeftBottom(i,j),gameLayer.pRightTop(i,j),cc.color(0,0,0,0),2,cc.color(0,0,255));
@@ -67,10 +71,6 @@ gameView.UserInputCtrl=cc.Node.extend({
                 unitModel.doStand(i,j);
                 this.selectId=unitModel.unitId;
             }
-            this.preArea={
-                i:i,
-                j:j
-            }
             return true;
         }else{
             return false;
@@ -86,12 +86,11 @@ gameView.UserInputCtrl=cc.Node.extend({
                 if(_.isNumber(this.selectId)){
                     var unitModel=this.modelManager.unit$(this.selectId);
                     if(unitModel){
-                        unitModel.doMove(i,j);
+                        var success=unitModel.doMove(i,j);
+                        if(!success){
+                            this.cancel();
+                        }
                     }
-                }
-                this.preArea={
-                    i:i,
-                    j:j
                 }
             }
         }else{
@@ -103,6 +102,7 @@ gameView.UserInputCtrl=cc.Node.extend({
         if(_.isNumber(this.selectId)){
             var unitModel=this.modelManager.unit$(this.selectId);
             if(unitModel){
+                // todo
                 unitModel.doStand(i,j);
             }
         }

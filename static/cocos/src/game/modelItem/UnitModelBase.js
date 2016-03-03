@@ -1,11 +1,14 @@
 var gameModel=gameModel||{};
 gameModel.UnitModel=gUtil.Class.extend({
-    futureList:"list",
     battleModel:"object",
-    currentFuture:"futureObject",
     speed:100,
     position:"Position",
     unitId:"int",
+
+    currentFuture:"futureObject",
+    futureList:"list",
+    nextFutureIndex:"int",
+
     constructor:function(battleModel,unitId,position){
   	    gameModel.UnitModel.__super__.constructor.call(this);
         this.futureList=new Array();
@@ -14,14 +17,22 @@ gameModel.UnitModel=gUtil.Class.extend({
         this.battleModel=battleModel;
         this.unitId=unitId;
         this.position=position;
+        this.nextFutureIndex=0;
     },
     
     canOper:function(){
         return true;
     },
     doMove:function(i,j){
+        if(this.futureList.length>0){
+            var last=_.last(this.futureList);
+            if(last.position.i!=i && last.position.j!=j){
+                return false;
+            }
+        }
         var position=this.battleModel.createPosition(i,j);
         this.futureList.push(new gameModel.MoveFutureModel(position).bind(this));
+        return true;
     },
     doAttack:function(unitId){
         this.futureList.push(new gameModel.AttackFutureModel(unitId).bind(this));
@@ -39,39 +50,75 @@ gameModel.UnitModel=gUtil.Class.extend({
 
     cleanFuture:function(){
         this.currentFuture=new gameModel.EmptyFutureModel();
+        this.nextFutureIndex=0;
         this.futureList=[];
     },
 
     
     stepUpdate:function(){
-        var future=false;
-        var start=false;
-        if(!this.currentFuture.isFinished()){
-            future=this.currentFuture;
-        }else{
-            if(this.futureList.length>0){
-                this.currentFuture=this.futureList[0];
-                this.futureList=this.futureList.slice(1);
-                future=this.currentFuture;
-                start=true;
+        var stepFuture=false;
+        var stepStart=false;
+        while(true){
+            if(_.isObject(this.currentFuture)){
+                if(!this.currentFuture.isFinished()){
+                    stepFuture=this.currentFuture;
+                    break;
+                }
+            }
+            if(this.nextFutureIndex<this.futureList.length){
+                this.currentFuture=this.futureList[this.nextFutureIndex];
+                this.nextFutureIndex+=1;
+                stepStart=true;
+            }else{
+                this.currentFuture=new gameModel.EmptyFutureModel();
+                break;
             }
         }
-        if(future){
-            if(start){
-                var funcName=this.startHandlers[future.typeName];
-                if(funcName) this[funcName].call(this,future);
+        if(stepFuture){
+            if(stepStart){
+                var funcName=this.startHandlers[stepFuture.typeName];
+                if(funcName) this[funcName].call(this,stepFuture);
+            }else{
+                var funcName=this.futureHandlers[stepFuture.typeName];
+                if(funcName) this[funcName].call(this,stepFuture);
+                else console.error("future unhandle");
+                if(stepFuture.isFinished()){
+                    var startFuture=false;
+                    while(true){
+                        if(this.nextFutureIndex<this.futureList.length){
+                            this.currentFuture=this.futureList[this.nextFutureIndex];
+                            this.nextFutureIndex+=1;
+                        }else{
+                            this.currentFuture=new gameModel.EmptyFutureModel();
+                            break;
+                        }
+                        if(this.currentFuture.isFinished()){
+                            continue;
+                        }else{
+                            startFuture=this.currentFuture;
+                            break;
+                        }
+                    }
+                    if(startFuture){
+                        var funcName=this.startHandlers[startFuture.typeName];
+                        if(funcName) this[funcName].call(this,startFuture);
+                    }
+                }
             }
-            var funcName=this.futureHandlers[future.typeName];
-            if(funcName) this[funcName].call(this,future);
-            else console.error("future unhandle");
+        }else{
+            // for empty future
         }
     },
     
     startHandlers:{
         "moveFuture":"startMove",
+        "standFuture":"startStand",
     },
     startMove:function(moveFuture){
         this.battleModel.unitStartMove(this,moveFuture.position);
+    },
+    startStand:function(standFuture){
+        this.battleModel.unitStartMove(this,standFuture.position);
     },
     futureHandlers:{
         "moveFuture":"stepMove",
