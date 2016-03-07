@@ -63,6 +63,7 @@ gameView.UnitView = cc.Node.extend({
     sprite:"cc.Sprite",
     hpLine:"gameView.HpLine",
     role:"cc.Sprite",
+    attrNode:"gameView.AttrNode",
     
     ctor:function(unitModel,gameLayer){
         this._super();
@@ -78,7 +79,7 @@ gameView.UnitView = cc.Node.extend({
         this.sprite.setScaleX(spriteWidth/this.sprite.width);
         this.sprite.setScaleY(spriteHeight/this.sprite.height);
 
-        // hpLine
+        /* hpLine
         this.hpLine=new gameView.HpLine();
         this.addChild(this.hpLine, this.LEVEL_ATTR);
         var lineScale=spriteWidth/this.hpLine.maxHpLine.width;
@@ -89,7 +90,7 @@ gameView.UnitView = cc.Node.extend({
             anchorY:0,
         });
         this.hpLine.setScaleX(lineScale);
-        this.hpLine.setScaleY(lineScale);
+        this.hpLine.setScaleY(lineScale);*/
         
         // role
         if(this.unitModel.canOper()){
@@ -101,18 +102,56 @@ gameView.UnitView = cc.Node.extend({
         var roleScale=spriteWidth*0.2/this.role.width;
         this.role.attr({
             x:spriteHeight/2,
-            y:-spriteHeight/2,
+            y:spriteHeight/2,
             anchorX:1,
-            anchorY:0,
+            anchorY:1,
         });
         this.role.setScaleX(roleScale);
         this.role.setScaleY(roleScale);
+
+        // attr
+        this.attrNode=new gameView.AttrNode(spriteWidth);
+        this.addChild(this.attrNode,this.LEVEL_ATTR);
+        this.attrNode.attr({
+            x:-spriteHeight/2,
+            y:-spriteHeight/2,
+            anchorX:0,
+            anchorY:0,
+        });
     },
     setHp:function(hp){
-        this.hpLine.setHp(hp);
+        //this.hpLine.setHp(hp);
     },
     setMaxHp:function(maxHp){
-        this.hpLine.setMaxHp(maxHp);
+        //this.hpLine.setMaxHp(maxHp);
+    }
+});
+gameView.AttrNode = cc.Node.extend({
+    hpNode:null,
+    apNode:null,
+    ctor:function(width){
+        this._super();
+        this.hpNode=new cc.LabelTTF("0","Arial",10);
+        this.hpNode.setFontFillColor(cc.color(255,255,255));
+        this.addChild(this.hpNode,0);
+        this.hpNode.setString("2");
+        this.hpNode.attr({
+            x:width,
+            y:0,
+            anchorX:1,
+            anchorY:0,
+        });
+
+        this.apNode=new cc.LabelTTF("0","Arial",10);
+        this.apNode.setFontFillColor(cc.color(255,255,255));
+        this.addChild(this.apNode,0);
+        this.apNode.setString("1");
+        this.apNode.attr({
+            x:0,
+            y:0,
+            anchorX:0,
+            anchorY:0,
+        });
     }
 });
 

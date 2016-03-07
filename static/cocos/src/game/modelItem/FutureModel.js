@@ -59,6 +59,23 @@ gameModel.StandFutureModel=gameModel.BaseFutureModel.extend({
 });
 gameModel.AttackFutureModel=gameModel.BaseFutureModel.extend({
     typeName:"attackFuture",
+    dstId:"int",
+    delay:"int",
+    constructor:function(dstId,delay){
+        this.dstId=dstId;
+        this.delay=delay||1;
+    },
+    stepCount:function(){
+        this.delay-=1;
+        return this.delay;
+    },
+    isFinished:function(){
+        if(delay<=0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 });
 
 // pack finger's operation not used, not finished

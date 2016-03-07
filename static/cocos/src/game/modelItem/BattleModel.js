@@ -117,6 +117,10 @@ gameModel.BattleModel=gUtil.Class.extend({
     unitUpdatePos:function(unit){
         this.mazeModel.updateUnit(unit);
     },
+    unitStartAttack:function(srcUnit,dstUnit){
+    },
+    unitSetAttr:function(unit,attrKey,attrValue){
+    },
     unit$:function(){
         if(arguments.length==1){
             var unitId=arguments[0];

@@ -1,9 +1,23 @@
 var gameModel=gameModel||{};
+gameModel.UnitBattleAttr=gUtil.Class.extend({
+    hp:"int",
+    ap:"int",
+    range:"int",
+    constructor:function(){
+        this.hp=2;
+        this.ap=1;
+        this.range=1;
+    },
+    onHarm:function(harm){
+        this.hp-=harm
+    }
+});
 gameModel.UnitModel=gUtil.Class.extend({
     typeName:"unit",
     speed:100,
     battleModel:"object",
     position:"Position",
+    battleAttr:"UnitBattleAttr",
     unitId:"int",
 
     currentFuture:"futureObject",
@@ -17,9 +31,8 @@ gameModel.UnitModel=gUtil.Class.extend({
         this.position=position;
         this.unitId=unitId;
         
-        this.futureList=new Array();
-        this.currentFuture=new gameModel.EmptyFutureModel();
-        this.nextFutureIndex=0;
+        this.battleAttr=new gameModel.UnitBattleAttr();
+        this.cleanFuture();
     },
     
     canOper:function(){
@@ -131,6 +144,12 @@ gameModel.UnitModel=gUtil.Class.extend({
     startStand:function(standFuture){
         this.battleModel.unitStartMove(this,standFuture.position);
     },
+    startAttack:function(attackFuture){
+        var dstUnit=this.battleModel.unit$(attackFuture.dstId);
+        if(_.isObject(dstUnit)){
+            this.battleModel.unitStartAttack(this,dstUnit);
+        }
+    },
     futureHandlers:{
         "moveFuture":"stepMove",
         "attackFuture":"stepAttack",
@@ -166,6 +185,16 @@ gameModel.UnitModel=gUtil.Class.extend({
         }
     },
     stepAttack:function(attackFuture){
+        var dstUnit=this.battleModel.unit$(attackFuture.dstId);
+        if(_.isObject(dstUnit)){
+            var delay=attackFuture.stepCount();
+            if(delay<=0){
+                this.battleModel.unitStartAttack(this,dstUnit);
+            }else{
+            }
+        }else{
+            return ;
+        }
     },
     stepStand:function(){
         var thisPos=this.position;
@@ -185,7 +214,15 @@ gameModel.UnitModel=gUtil.Class.extend({
     },
     getPosition:function(){
         return this.position;
+    },
+
+    createAttack:function(){
+        return this.battleAttr.ap;
+    },
+    onAttack:function(ap){
+        this.battleModel.unitSetAttr("hp")
     }
+
 });
 gameModel.unitModelDict={}
 gameModel.unitExtend=function(baseClass,props,staticProps){
