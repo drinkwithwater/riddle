@@ -100,7 +100,7 @@ gameModel.BattleModel=gUtil.Class.extend({
     createUnit:function(typeName,i,j){
         var position=this.createPosition(i,j);
         var modelClass=gameModel.unitModelDict[typeName]||gameModel.UnitModel;
-        var unit=new gameModel.UnitModel(this,this.idCounter,position);
+        var unit=new modelClass(this,this.idCounter,position);
         this.idCounter=this.idCounter+1;
         
         // put in maze & dict;

@@ -33,7 +33,7 @@ gameView.GameLayer = cc.Layer.extend({
 
 	    this.viewManager=gameTop.getModule("viewModule");
 	    this.modelManager=gameTop.getModule("modelModule");
-	    this.actionHandler=gameTop.getModule("frontendModule");
+	    this.actionHandler=gameTop.getModule("controlModule");
 
 	    this.userInputCtrl=new gameView.UserInputCtrl(this,gameTop);
         this.addChild(this.userInputCtrl,this.LEVEL_USER);

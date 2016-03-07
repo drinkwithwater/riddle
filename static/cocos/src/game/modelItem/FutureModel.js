@@ -2,8 +2,10 @@ var gameModel=gameModel||{};
 gameModel.BaseFutureModel=gUtil.Class.extend({
     typeName:"baseAction",
     unitModel:"UnitModel",
+    stopFlag:"bool",
     constructor:function(){
   	    gameModel.BaseFutureModel.__super__.constructor.call(this);
+        this.stopFlag=false;
     },
     bind:function(unit){
         this.unitModel=unit;
@@ -11,6 +13,9 @@ gameModel.BaseFutureModel=gUtil.Class.extend({
     },
     isFinished:function(){
         return true;
+    },
+    stop:function(){
+        this.stopFlag=true;
     }
 });
 gameModel.EmptyFutureModel=gameModel.BaseFutureModel.extend({
@@ -20,14 +25,19 @@ gameModel.MoveFutureModel=gameModel.BaseFutureModel.extend({
     typeName:"moveFuture",
     position:"Position",
     constructor:function(position){
+  	    gameModel.MoveFutureModel.__super__.constructor.call(this);
         this.position=position;
     },
     isFinished:function(){
-        var distance=xyPoint.maDistance(this.position,this.unitModel.position);
-        if(distance<this.unitModel.getSpeed()){
+        if(this.stopFlag){
             return true;
         }else{
-            return false;
+            var distance=xyPoint.maDistance(this.position,this.unitModel.position);
+            if(distance<this.unitModel.getSpeed()){
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 });
@@ -35,6 +45,7 @@ gameModel.StandFutureModel=gameModel.BaseFutureModel.extend({
     typeName:"standFuture",
     position:"Position",
     constructor:function(position){
+  	    gameModel.StandFutureModel.__super__.constructor.call(this);
         this.position=position;
     },
     isFinished:function(){

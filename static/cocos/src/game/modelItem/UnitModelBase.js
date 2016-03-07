@@ -1,7 +1,8 @@
 var gameModel=gameModel||{};
 gameModel.UnitModel=gUtil.Class.extend({
-    battleModel:"object",
+    typeName:"unit",
     speed:100,
+    battleModel:"object",
     position:"Position",
     unitId:"int",
 
@@ -10,42 +11,29 @@ gameModel.UnitModel=gUtil.Class.extend({
     nextFutureIndex:"int",
 
     constructor:function(battleModel,unitId,position){
-  	    gameModel.UnitModel.__super__.constructor.call(this);
-        this.futureList=new Array();
-        this.currentFuture=new gameModel.EmptyFutureModel();
+  	    gameModel.UnitModel.__super__.constructor.apply(this,arguments);
         
         this.battleModel=battleModel;
-        this.unitId=unitId;
         this.position=position;
+        this.unitId=unitId;
+        
+        this.futureList=new Array();
+        this.currentFuture=new gameModel.EmptyFutureModel();
         this.nextFutureIndex=0;
     },
     
     canOper:function(){
-        return true;
+        return false;
     },
+    
     doMove:function(i,j){
-        if(this.futureList.length>0){
-            var last=_.last(this.futureList);
-            if(last.position.i!=i && last.position.j!=j){
-                return false;
-            }
-        }
-        var position=this.battleModel.createPosition(i,j);
-        this.futureList.push(new gameModel.MoveFutureModel(position).bind(this));
-        return true;
+        return false;
     },
     doAttack:function(unitId){
-        this.futureList.push(new gameModel.AttackFutureModel(unitId).bind(this));
+        return false;
     },
     doStand:function(i,j){
-        var standPos=this.battleModel.createPosition(i,j);
-        var thisPos=this.position;
-        if(standPos.i==thisPos.i && standPos.j==thisPos.j){
-            this.cleanFuture();
-            this.futureList.push(new gameModel.StandFutureModel(standPos).bind(this));
-        }else{
-            return false;
-        }
+        return false;
     },
 
     cleanFuture:function(){
@@ -54,8 +42,11 @@ gameModel.UnitModel=gUtil.Class.extend({
         this.futureList=[];
     },
 
+    stepAI:function(){
+    },
     
     stepUpdate:function(){
+        this.stepAI();
         var stepFuture=false;
         var stepStart=false;
         while(true){
@@ -110,12 +101,32 @@ gameModel.UnitModel=gUtil.Class.extend({
         }
     },
     
+    canMove:function(moveFuture){
+        var futurePos=moveFuture.position;
+        var thisPos=this.position;
+        if(futurePos.i!=thisPos.i && futurePos.j!=thisPos.j){
+            return false;
+        }else{
+            var checkUnit=this.battleModel.unit$(futurePos.i,futurePos.j);
+            if(_.isObject(checkUnit)){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    },
+    
     startHandlers:{
         "moveFuture":"startMove",
         "standFuture":"startStand",
     },
     startMove:function(moveFuture){
-        this.battleModel.unitStartMove(this,moveFuture.position);
+        if(!this.canMove(moveFuture)){
+            moveFuture.stop();
+            this.cleanFuture();
+        }else{
+            this.battleModel.unitStartMove(this,moveFuture.position);
+        }
     },
     startStand:function(standFuture){
         this.battleModel.unitStartMove(this,standFuture.position);
@@ -129,8 +140,7 @@ gameModel.UnitModel=gUtil.Class.extend({
     stepMove:function(moveFuture){
         var thisPos=this.position;
         var futurePos=moveFuture.position;
-        if(futurePos.i!=thisPos.i && futurePos.j!=thisPos.j){
-            // i and j not in the same line ...
+        if(!this.canMove(moveFuture)){
             this.cleanFuture();
             return ;
         }else{
@@ -178,7 +188,7 @@ gameModel.UnitModel=gUtil.Class.extend({
     }
 });
 gameModel.unitModelDict={}
-gameModel.unitImpl=function(props,staticProps){
+gameModel.unitExtend=function(baseClass,props,staticProps){
     if(props.typeName){
         /*
         var num=gScript.getNumericalDict(props.typeName);
@@ -188,29 +198,21 @@ gameModel.unitImpl=function(props,staticProps){
             // set max hp as hp
             props.maxHp=num.hp;
         }*/
-        var aUnitClass=gBattle.UnitModel.extend(props,staticProps);
+        var aUnitClass=baseClass.extend(props,staticProps);
         gameModel.unitModelDict[props.typeName]=aUnitClass;
     }else{
-        var aUnitClass=gBattle.BaseUnit.extend(props,staticProps);
+        var aUnitClass=baseClass.extend(props,staticProps);
         console.warn("unit class defined without typeName");
     }
     return aUnitClass;
 }
-gBattle.unitExtend=function(baseClass,props,staticProps){
-    if(props.typeName){
-        /*
-        var num=gScript.getNumericalDict(props.typeName);
-        if(num){
-            // extend hp, ap, range, group
-            _.extend(props,num);
-            // set max hp as hp
-            props.maxHp=num.hp;
-        }*/
-        var aUnitClass=baseClass.extend(props,staticProps);
-        gameModel.unitModelDict[props.typeName]=aUnitClass;
-    }else{
-        var aUnitClass=baseClass.extend(props,staticProps);
-        console.warn("unit class defined without typeName");
-    }
-    return aUnitClass;
+
+gameModel.unitImpl=function(props,staticProps){
+    return gameModel.unitExtend(gameModel.UnitModel,props,staticProps);
+}
+gameModel.attackerImpl=function(props,staticProps){
+    return gameModel.unitExtend(gameModel.AttackerModel,props,staticProps);
+}
+gameModel.defenserImpl=function(props,staticProps){
+    return gameModel.unitExtend(gameModel.DefenserModel,props,staticProps);
 }
