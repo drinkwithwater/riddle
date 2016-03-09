@@ -39,6 +39,7 @@ gameView.UserInputCtrl=cc.Node.extend({
 
         this.pointDraw=new cc.DrawNode();
         this.addChild(this.pointDraw,this.LEVEL_POINT);
+
         
         this.selectId=false;
         

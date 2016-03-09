@@ -117,9 +117,15 @@ gameModel.BattleModel=gUtil.Class.extend({
     unitUpdatePos:function(unit){
         this.mazeModel.updateUnit(unit);
     },
-    unitStartAttack:function(srcUnit,dstUnit){
+    unitStartAttack:function(srcUnit,dstUnitArray){
+        var dstUnitIdSet=_.map(dstUnitArray,function(unit){
+            return unit.unitId;
+        });
+        this.viewManager.getAnimateNode().actionUnitAttack(srcUnit.unitId,dstUnitIdSet);
     },
     unitSetAttr:function(unit,attrKey,attrValue){
+    },
+    unitDead:function(unit){
     },
     unit$:function(){
         if(arguments.length==1){

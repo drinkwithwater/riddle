@@ -4,7 +4,8 @@ gameView.GameLayer = cc.Layer.extend({
     LEVEL_TRAIL:1,
     LEVEL_UNIT:2,
     LEVEL_USER:3,
-    LEVEL_MENU:4,
+    LEVEL_ANIMATE:4,
+    LEVEL_MENU:5,
 
 
     dx:50,
@@ -20,6 +21,7 @@ gameView.GameLayer = cc.Layer.extend({
     trailNode:null,
     areaNode:null,
     scoreNode:null,
+    animateNode:null,
     tempScoreNode:null,
     
     
@@ -51,6 +53,11 @@ gameView.GameLayer = cc.Layer.extend({
         this.tempScoreNode=new cc.LabelTTF("0","Arial",38);
         this.tempScoreNode.setFontFillColor(cc.color(255,255,255));
         this.addChild(this.tempScoreNode,this.LEVEL_TRAIL);
+
+
+        this.animateNode=new gameView.AnimateNode(this,gameTop);
+        this.addChild(this.animateNode,this.LEVEL_ANIMATE);
+
 
 	    this.setAnchorPoint(cc.p(0,0));
 

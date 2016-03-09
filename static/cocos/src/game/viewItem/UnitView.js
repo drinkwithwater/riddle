@@ -51,6 +51,9 @@ gameView.UnitViewPool = cc.Node.extend({
             console.error("unitView with unitId not existed"+unitId);
         }
     },
+    unit$:function(id){
+        return this.idToUnitView[id];
+    }
 });
 gameView.UnitView = cc.Node.extend({
     LEVEL_SPRITE:0,

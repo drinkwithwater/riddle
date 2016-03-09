@@ -17,9 +17,25 @@ gameModel.AttackerModel=gameModel.unitImpl({
                 return false;
             }
         }
-        var position=this.battleModel.createPosition(i,j);
-        this.futureList.push(new gameModel.MoveFutureModel(position).bind(this));
-        return true;
+        var dstUnit=this.battleModel.unit$(i,j);
+        if(_.isObject(dstUnit)){
+            this.doAttack(i,j);
+            return false;
+        }else{
+            var position=this.battleModel.createPosition(i,j);
+            this.futureList.push(new gameModel.MoveFutureModel(position).bind(this));
+            return true;
+        }
+    },
+    doAttack:function(i,j){
+        var dstUnit=this.battleModel.unit$(i,j);
+        if(_.isObject(dstUnit)){
+            var attackFuture=new gameModel.AttackFutureModel(dstUnit.unitId).bind(this);
+            this.futureList.push(attackFuture);
+            return true;
+        }else{
+            return false;
+        }
     },
     doStand:function(i,j){
         var standPos=this.battleModel.createPosition(i,j);

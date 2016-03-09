@@ -4,12 +4,15 @@ gameModel.UnitBattleAttr=gUtil.Class.extend({
     ap:"int",
     range:"int",
     constructor:function(){
-        this.hp=2;
+        this.hp=100;
         this.ap=1;
         this.range=1;
     },
     onHarm:function(harm){
         this.hp-=harm
+    },
+    isDead:function(){
+        return this.hp<=0;
     }
 });
 gameModel.UnitModel=gUtil.Class.extend({
@@ -132,6 +135,7 @@ gameModel.UnitModel=gUtil.Class.extend({
     startHandlers:{
         "moveFuture":"startMove",
         "standFuture":"startStand",
+        "attackFuture":"startAttack",
     },
     startMove:function(moveFuture){
         if(!this.canMove(moveFuture)){
@@ -147,7 +151,7 @@ gameModel.UnitModel=gUtil.Class.extend({
     startAttack:function(attackFuture){
         var dstUnit=this.battleModel.unit$(attackFuture.dstId);
         if(_.isObject(dstUnit)){
-            this.battleModel.unitStartAttack(this,dstUnit);
+            this.battleModel.unitStartAttack(this,[dstUnit]);
         }
     },
     futureHandlers:{
@@ -189,8 +193,10 @@ gameModel.UnitModel=gUtil.Class.extend({
         if(_.isObject(dstUnit)){
             var delay=attackFuture.stepCount();
             if(delay<=0){
-                this.battleModel.unitStartAttack(this,dstUnit);
+                var harm=this.createAttack();
+                dstUnit.onAttack(harm);
             }else{
+                return ;
             }
         }else{
             return ;
@@ -220,7 +226,12 @@ gameModel.UnitModel=gUtil.Class.extend({
         return this.battleAttr.ap;
     },
     onAttack:function(ap){
-        this.battleModel.unitSetAttr("hp")
+        var battleAttr=this.battleAttr;
+        battleAttr.onHarm(ap);
+        this.battleModel.unitSetAttr(this,"hp",battleAttr.hp);
+        if(battleAttr.isDead()){
+            this.battleModel.unitDead(this);
+        }
     }
 
 });

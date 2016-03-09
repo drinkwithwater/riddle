@@ -70,7 +70,7 @@ gameModel.AttackFutureModel=gameModel.BaseFutureModel.extend({
         return this.delay;
     },
     isFinished:function(){
-        if(delay<=0){
+        if(this.delay<=0){
             return true;
         }else{
             return false;
