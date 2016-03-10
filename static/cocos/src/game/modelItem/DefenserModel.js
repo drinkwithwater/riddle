@@ -25,3 +25,24 @@ gameModel.DefenserModel=gameModel.unitImpl({
 
     
 });
+gameModel.SlowGunModel=gameModel.defenserImpl({
+    typeName:"slowGun",
+    COOL_DOWN:10,
+    coolingTime:0,
+    constructor:function(battleModel,unitId,position){
+  	    gameModel.DefenserModel.__super__.constructor.apply(this,arguments);
+        this.coolingTime=0;
+    },
+    shotBullet:function(){
+        this.coolingTime=this.COOL_DOWN;
+        // TODO
+        console.log("send bullet");
+    },
+    stepAI:function(){
+        if(this.coolingTime<=0){
+            this.shotBullet();
+        }else{
+            this.coolingTime-=1;
+        }
+    },
+});

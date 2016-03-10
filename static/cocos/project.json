@@ -109,6 +109,7 @@
         "src/game/modelItem/AttackerModel.js",
         "src/game/modelItem/DefenserModel.js",
         "src/game/modelItem/MazeModel.js",
+        "src/game/modelItem/BulletPoolModel.js",
         "src/game/modelItem/FutureModel.js"
 
     ]

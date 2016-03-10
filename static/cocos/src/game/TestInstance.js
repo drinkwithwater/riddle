@@ -11,5 +11,6 @@ gameTest.init=function(gameInst){
     battleTest=modelTest.battleModel;
     battleTest.createUnit("attacker",1,1);
     battleTest.createUnit("attacker",1,2);
+    battleTest.createUnit("slowGun",5,5);
     viewTest.reRender();
 }

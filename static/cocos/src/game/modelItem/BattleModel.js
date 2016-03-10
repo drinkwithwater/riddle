@@ -110,23 +110,27 @@ gameModel.BattleModel=gUtil.Class.extend({
     ///////////////////
     // unit operate  //
     ///////////////////
-    unitStartMove:function(unit,dstPos){
+    unitShowMove:function(unit,dstPos){
         var duration=this.LOGIC_DURATION*xyPoint.maDistance(unit.getPosition(),dstPos)/unit.getSpeed();
         this.viewManager.getUnitViewPool().actionUnitIdMove(unit.unitId,dstPos,duration);
     },
     unitUpdatePos:function(unit){
         this.mazeModel.updateUnit(unit);
     },
-    unitStartAttack:function(srcUnit,dstUnitArray){
+    unitShowAttack:function(srcUnit,dstUnitArray){
         var dstUnitIdSet=_.map(dstUnitArray,function(unit){
             return unit.unitId;
         });
         this.viewManager.getAnimateNode().actionUnitAttack(srcUnit.unitId,dstUnitIdSet);
     },
     unitSetAttr:function(unit,attrKey,attrValue){
+        this.viewManager.getUnitViewPool().unit$(unit.unitId).setAttr(attrKey,attrValue);
     },
     unitDead:function(unit){
     },
+    /////////////////
+    // unit getter //
+    /////////////////
     unit$:function(){
         if(arguments.length==1){
             var unitId=arguments[0];

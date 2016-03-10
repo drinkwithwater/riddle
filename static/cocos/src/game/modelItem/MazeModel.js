@@ -8,7 +8,7 @@ gameModel.UnitIndex=gUtil.Class.extend({
         this.i=unit.position.i;
         this.j=unit.position.j;
     }
-})
+});
 gameModel.MazeModel=gUtil.Class.extend({
     iLength:"int",
     jLength:"int",

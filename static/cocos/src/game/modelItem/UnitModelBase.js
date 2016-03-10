@@ -142,16 +142,16 @@ gameModel.UnitModel=gUtil.Class.extend({
             moveFuture.stop();
             this.cleanFuture();
         }else{
-            this.battleModel.unitStartMove(this,moveFuture.position);
+            this.battleModel.unitShowMove(this,moveFuture.position);
         }
     },
     startStand:function(standFuture){
-        this.battleModel.unitStartMove(this,standFuture.position);
+        this.battleModel.unitShowMove(this,standFuture.position);
     },
     startAttack:function(attackFuture){
         var dstUnit=this.battleModel.unit$(attackFuture.dstId);
         if(_.isObject(dstUnit)){
-            this.battleModel.unitStartAttack(this,[dstUnit]);
+            this.battleModel.unitShowAttack(this,[dstUnit]);
         }
     },
     futureHandlers:{

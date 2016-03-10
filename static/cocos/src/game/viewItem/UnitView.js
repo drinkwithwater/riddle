@@ -32,6 +32,8 @@ gameView.UnitViewPool = cc.Node.extend({
             anchorX:0.5,
             anchorY:0.5
         });
+        unitView.setAttr("ap",unitModel.battleAttr.ap);
+        unitView.setAttr("hp",unitModel.battleAttr.hp);
         return unitView;
     },
     removeUnit:function(unitId){
@@ -122,11 +124,8 @@ gameView.UnitView = cc.Node.extend({
             anchorY:0,
         });
     },
-    setHp:function(hp){
-        //this.hpLine.setHp(hp);
-    },
-    setMaxHp:function(maxHp){
-        //this.hpLine.setMaxHp(maxHp);
+    setAttr:function(attrKey,attrValue){
+        this.attrNode.setAttr(attrKey,attrValue);
     }
 });
 gameView.AttrNode = cc.Node.extend({
@@ -155,9 +154,18 @@ gameView.AttrNode = cc.Node.extend({
             anchorX:0,
             anchorY:0,
         });
+    },
+    setAttr:function(attrKey,attrValue){
+        var valString=String(attrValue);
+        if(attrKey=="ap"){
+            this.apNode.setString(valString);
+        }else if(attrKey=="hp"){
+            this.hpNode.setString(valString);
+        }else{
+            console.log("set attr exception : no this attr"+attrKey);
+        }
     }
 });
-
 gameView.HpLine = cc.Node.extend({
     hpLine:null,
     maxHpLine:null,
