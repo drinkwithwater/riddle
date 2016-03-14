@@ -28,6 +28,6 @@ gameView.AreaNode = cc.Node.extend({
 			    draw.drawRect(gameLayer.pLeftBottom(i,j),gameLayer.pRightTop(i,j),fillColor,0);
 		    }
 	    }
-    }
+    },
 });
 

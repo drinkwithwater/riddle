@@ -103,6 +103,7 @@
         "src/game/viewItem/UnitView.js",
         "src/game/viewItem/UserInputCtrl.js",
         "src/game/viewItem/AnimateNode.js",
+        "src/game/viewItem/BulletView.js",
         
         "src/game/modelItem/BattleModel.js",
         "src/game/modelItem/UnitModelBase.js",

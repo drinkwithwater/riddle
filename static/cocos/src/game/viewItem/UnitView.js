@@ -1,8 +1,16 @@
 var gameView=gameView||{};
 gameView.UnitViewPool = cc.Node.extend({
+    LEVEL_RANGE:0,
+    LEVEL_FUTURE:1,
+    LEVEL_UNIT:2,
+    RANGE_COLOR:cc.color(200,0,0),
+    FUTURE_COLOR:cc.color(255,0,255),
     gameLayer:"gameLayer",
     modelManager:"modelManager",
     idToUnitView:"dict",
+    rangeNode:"cc.DrawNode",
+    futureNode:"cc.DrawNode",
+
     ctor:function(gameLayer,gameTop){
         this._super();
         this.gameLayer=gameLayer;
@@ -15,8 +23,15 @@ gameView.UnitViewPool = cc.Node.extend({
         _.each(unitModels,function(unitModel){
             var unitView=this.createUnitView(unitModel);
             this.idToUnitView[unitModel.unitId]=unitView;
-            this.addChild(unitView);
+            this.addChild(unitView,this.LEVEL_UNIT);
         },this);
+        
+        // range area
+        this.rangeNode=new cc.DrawNode();
+        this.addChild(this.rangeNode,this.LEVEL_RANGE);
+        // future show
+        this.futureNode=new cc.DrawNode();
+        this.addChild(this.futureNode,this.LEVEL_FUTURE);
     },
     destroy:function(){
         this.idToUnitView={};
@@ -36,7 +51,7 @@ gameView.UnitViewPool = cc.Node.extend({
         unitView.setAttr("hp",unitModel.battleAttr.hp);
         return unitView;
     },
-    removeUnit:function(unitId){
+    removeUnitView:function(unitId){
         var unit=this.idToUnitView[unitId];
         delete this.idToUnitView[unitId];
         unit.gameLayer=null;
@@ -55,11 +70,46 @@ gameView.UnitViewPool = cc.Node.extend({
     },
     unit$:function(id){
         return this.idToUnitView[id];
+    },
+    showFuture:function(unitId){
+        var unitView=this.unit$(unitId);
+        var futureList=unitView.unitModel.futureList;
+        var lineWidth=this.gameLayer.cellSize().width/10;
+        var pre=false;
+        for(var i=0,l=futureList.length;i<l;i++){
+            var point=futureList[i].position;
+            console.log(point);
+            if(_.isObject(point)){
+                var pos=this.gameLayer.pCenter(point.i,point.j);
+                if(pre){
+                    this.futureNode.drawSegment(cc.p(pre.x,pre.y),cc.p(pos.x,pos.y),lineWidth,this.FUTURE_COLOR);
+                }else{
+                    this.futureNode.drawDot(cc.p(pos.x,pos.y),lineWidth/2,this.FUTURE_COLOR);
+                }
+                pre=pos;
+            }else{
+                break;
+            }
+        }
+    },
+    showRange:function(unitId){
+        var unitView=this.unit$(unitId);
+        var unitModel=unitView.unitModel;
+        var range=unitModel.battleAttr.range;
+        var rangePoints=gPoint.radioRange(unitModel.position,range);
+        var radio=this.gameLayer.cellSize().width/4;
+        _.each(rangePoints,function(point){
+            var xyPos=this.gameLayer.pCenter(point.i,point.j);
+            this.rangeNode.drawDot(cc.p(xyPos.x,xyPos.y),radio,this.RANGE_COLOR);
+        },this);
+    },
+    hideRange:function(){
+        this.rangeNode.clear();
     }
 });
 gameView.UnitView = cc.Node.extend({
-    LEVEL_SPRITE:0,
-    LEVEL_ATTR:1,
+    LEVEL_SPRITE:1,
+    LEVEL_ATTR:2,
 
 
     unitModel:null,
@@ -83,6 +133,7 @@ gameView.UnitView = cc.Node.extend({
         var spriteHeight=cellSize.height*0.9;
         this.sprite.setScaleX(spriteWidth/this.sprite.width);
         this.sprite.setScaleY(spriteHeight/this.sprite.height);
+
 
         /* hpLine
         this.hpLine=new gameView.HpLine();
@@ -126,15 +177,16 @@ gameView.UnitView = cc.Node.extend({
     },
     setAttr:function(attrKey,attrValue){
         this.attrNode.setAttr(attrKey,attrValue);
-    }
+    },
 });
 gameView.AttrNode = cc.Node.extend({
     hpNode:null,
     apNode:null,
+    FONT_COLOR:cc.color(255,255,255),
     ctor:function(width){
         this._super();
         this.hpNode=new cc.LabelTTF("0","Arial",10);
-        this.hpNode.setFontFillColor(cc.color(255,255,255));
+        this.hpNode.setFontFillColor(this.FONT_COLOR);
         this.addChild(this.hpNode,0);
         this.hpNode.setString("2");
         this.hpNode.attr({
@@ -145,7 +197,7 @@ gameView.AttrNode = cc.Node.extend({
         });
 
         this.apNode=new cc.LabelTTF("0","Arial",10);
-        this.apNode.setFontFillColor(cc.color(255,255,255));
+        this.apNode.setFontFillColor(this.FONT_COLOR);
         this.addChild(this.apNode,0);
         this.apNode.setString("1");
         this.apNode.attr({
@@ -166,6 +218,7 @@ gameView.AttrNode = cc.Node.extend({
         }
     }
 });
+// ignore...
 gameView.HpLine = cc.Node.extend({
     hpLine:null,
     maxHpLine:null,

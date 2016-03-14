@@ -21,6 +21,8 @@ var spriteRes={
     observer:"image/observer.png",
     wall:"image/wall.png",
     rider:"image/rider.png",
+
+    bullet:"image/transfer.png",
 }
 var itemRes={
     hp:"item/hp.png",

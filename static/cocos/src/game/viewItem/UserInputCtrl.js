@@ -68,9 +68,13 @@ gameView.UserInputCtrl=cc.Node.extend({
         if(gameLayer.valid(i,j)){
             this.doPoint(i,j);
             var unitModel=this.modelManager.unit$(i,j);
-            if(unitModel){
-                unitModel.doStand(i,j);
-                this.selectId=unitModel.unitId;
+            if(_.isObject(unitModel)){
+                if(unitModel.canOper()){
+                    unitModel.doStand(i,j);
+                    this.selectId=unitModel.unitId;
+                }else{
+                    this.gameLayer.unitNode.showRange(unitModel.unitId);
+                }
             }
             return true;
         }else{
@@ -114,5 +118,6 @@ gameView.UserInputCtrl=cc.Node.extend({
     cancel:function(){
         this.selectId=false;
         this.unPoint();
+        this.gameLayer.unitNode.hideRange();
     },
 });

@@ -5,7 +5,8 @@ gameView.GameLayer = cc.Layer.extend({
     LEVEL_UNIT:2,
     LEVEL_USER:3,
     LEVEL_ANIMATE:4,
-    LEVEL_MENU:5,
+    LEVEL_BULLET:5,
+    LEVEL_MENU:6,
 
 
     dx:50,
@@ -22,6 +23,7 @@ gameView.GameLayer = cc.Layer.extend({
     areaNode:null,
     scoreNode:null,
     animateNode:null,
+    bulletNode:null,
     tempScoreNode:null,
     
     
@@ -55,8 +57,12 @@ gameView.GameLayer = cc.Layer.extend({
         this.addChild(this.tempScoreNode,this.LEVEL_TRAIL);
 
 
+
         this.animateNode=new gameView.AnimateNode(this,gameTop);
         this.addChild(this.animateNode,this.LEVEL_ANIMATE);
+        
+        this.bulletNode=new gameView.BulletViewPool(this,gameTop);
+        this.addChild(this.bulletNode,this.LEVEL_BULLET);
 
 
 	    this.setAnchorPoint(cc.p(0,0));
