@@ -87,16 +87,19 @@ gameView.UserInputCtrl=cc.Node.extend({
             if(this.preArea.i==i && this.preArea.j==j){
                 return ;
             }else{
+                var areas=this.fill(this.preArea,{i:i,j:j});
                 this.doPoint(i,j);
-                if(_.isNumber(this.selectId)){
-                    var unitModel=this.modelManager.unit$(this.selectId);
-                    if(unitModel){
-                        var success=unitModel.doMove(i,j);
-                        if(!success){
-                            this.cancel();
+                _.each(areas,function(area){
+                    if(_.isNumber(this.selectId)){
+                        var unitModel=this.modelManager.unit$(this.selectId);
+                        if(unitModel){
+                            var success=unitModel.doMove(area.i,area.j);
+                            if(!success){
+                                this.cancel();
+                            }
                         }
                     }
-                }
+                },this);
             }
         }else{
             this.cancel();
@@ -120,4 +123,23 @@ gameView.UserInputCtrl=cc.Node.extend({
         this.unPoint();
         this.gameLayer.unitNode.hideRange();
     },
+
+    //if the path isnot continuous, fill with some area;
+    fill:function(srcArea,dstArea){
+        var di=dstArea.i-srcArea.i;
+        var dj=dstArea.j-srcArea.j;
+        var signi=(di>0?1:-1);
+        var signj=(dj>0?1:-1);
+        var onAreas=[];
+        while(di!=0||dj!=0){
+            if(signi*di>signj*dj){
+                di-=signi;
+            }else{
+                dj-=signj;
+            }
+            onAreas.push({i:dstArea.i-di,
+                         j:dstArea.j-dj});
+        }
+        return onAreas;
+    }
 });

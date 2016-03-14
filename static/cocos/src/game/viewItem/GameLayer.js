@@ -105,8 +105,8 @@ gameView.GameLayer = cc.Layer.extend({
         //this.baseY=size.height/20;
         this.baseX=0;
         this.baseY=0;
-        this.dx=(size.height-this.baseX*2)/(this.iLength);
-        this.dy=this.dx;
+        this.dy=(size.height-this.baseY*2)/(this.jLength);
+        this.dx=this.dy;
 
         this.setPosition(cc.p(this.baseX,this.baseY));
 

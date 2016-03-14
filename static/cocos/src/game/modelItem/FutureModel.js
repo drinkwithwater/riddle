@@ -61,7 +61,8 @@ gameModel.AttackFutureModel=gameModel.BaseFutureModel.extend({
     typeName:"attackFuture",
     dstId:"int",
     delay:"int",
-    constructor:function(dstId,delay){
+    constructor:function(position,dstId,delay){
+        this.position=position;
         this.dstId=dstId;
         this.delay=delay||1;
     },

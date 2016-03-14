@@ -46,6 +46,9 @@ game.ViewManager=gUtil.Class.extend({
     getUnitViewPool:function(){
         return this.gameLayer.unitNode;
     },
+    getBulletViewPool:function(){
+        return this.gameLayer.bulletNode;
+    },
     getAnimateNode:function(){
         return this.gameLayer.animateNode;
     },

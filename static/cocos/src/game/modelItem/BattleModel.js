@@ -18,6 +18,11 @@ gameModel.Position=gUtil.Class.extend({
         this.x=xy.x;
         this.y=xy.y;
     },
+    // 
+    getFloatIJ:function(){
+        return this.battleModel.xy2ijFloat(this.x,this.y);
+    },
+    // calculate
     xPlus:function(dx){
         this.x+=dx;
         var iUpdate=Math.floor(this.x/this.battleModel.CELL_SIZE);
@@ -63,16 +68,23 @@ gameModel.Position=gUtil.Class.extend({
         }else{
             return this.yPlus(dy);
         }
-    }
+    },
+    clone:function(){
+        var clonePos=new gameModel.Position(this.battleModel,this.i,this.j);
+        clonePos.x=this.x;
+        clonePos.y=this.y;
+        return clonePos;
+    },
 });
 gameModel.BattleModel=gUtil.Class.extend({
-    mazeModel:null,
+    mazeModel:"MazeModel",
+    bulletPool:"BulletPool",
     idToUnit:"dict",
     timeSum:0,
     modelManager:null,
     viewManager:null,
-    iLength:10,
-    jLength:10,
+    iLength:"int",
+    jLength:"int",
     CELL_SIZE:210,
     LOGIC_DURATION:0.1,
     idCounter:0,
@@ -82,13 +94,19 @@ gameModel.BattleModel=gUtil.Class.extend({
         this.modelManager=gameTop.getModule("modelModule");
         this.viewManager=gameTop.getModule("viewModule");
 
+        this.iLength=this.modelManager.iLength;
+        this.jLength=this.modelManager.jLength;
+
         this.idToUnit={};
         this.mazeModel=new gameModel.MazeModel(this);
+        this.bulletPool=new gameModel.BulletPool(this);
     },
     timeUpdate:function(dt){
         this.timeSum+=dt;
         if(this.timeSum>this.LOGIC_DURATION){
             this.timeSum=0;
+
+            this.bulletPool.stepUpdate();
             _.each(this.idToUnit,function(unit,unitId){
                 unit.stepUpdate();
             });
@@ -114,19 +132,23 @@ gameModel.BattleModel=gUtil.Class.extend({
         var duration=this.LOGIC_DURATION*xyPoint.maDistance(unit.getPosition(),dstPos)/unit.getSpeed();
         this.viewManager.getUnitViewPool().actionUnitIdMove(unit.unitId,dstPos,duration);
     },
-    unitUpdatePos:function(unit){
-        this.mazeModel.updateUnit(unit);
-    },
     unitShowAttack:function(srcUnit,dstUnitArray){
         var dstUnitIdSet=_.map(dstUnitArray,function(unit){
             return unit.unitId;
         });
         this.viewManager.getAnimateNode().actionUnitAttack(srcUnit.unitId,dstUnitIdSet);
     },
+    unitShowShotBullet:function(unit,bullet){
+        this.viewManager.getBulletViewPool().shotBulletView(bullet);
+    },
+    unitUpdatePos:function(unit){
+        this.mazeModel.updateUnit(unit);
+    },
     unitSetAttr:function(unit,attrKey,attrValue){
         this.viewManager.getUnitViewPool().unit$(unit.unitId).setAttr(attrKey,attrValue);
     },
     unitDead:function(unit){
+        //TODO
     },
     /////////////////
     // unit getter //
@@ -160,6 +182,13 @@ gameModel.BattleModel=gUtil.Class.extend({
             j:Math.floor(y/cellSize)
         };
     },
+    xy2ijFloat:function(x,y){
+        var cellSize=this.CELL_SIZE;
+        return {
+            i:x/cellSize,
+            j:y/cellSize
+        };
+    },
     pLeftBottom:function(i,j){
         var cellSize=this.CELL_SIZE;
         return {
@@ -178,5 +207,17 @@ gameModel.BattleModel=gUtil.Class.extend({
     createPosition:function(i,j){
         var position=new gameModel.Position(this,i,j);
         return position;
-    }
+    },
+    ////////////
+    // getter //
+    ////////////
+    getMazeModel:function(){
+        return this.mazeModel;
+    },
+    getBulletPool:function(){
+        return this.bulletPool;
+    },
+    valid:function(i,j){
+        return this.mazeModel.valid(i,j);
+    },
 });

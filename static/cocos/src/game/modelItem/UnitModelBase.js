@@ -3,10 +3,12 @@ gameModel.UnitBattleAttr=gUtil.Class.extend({
     hp:"int",
     ap:"int",
     range:"int",
-    constructor:function(){
+    constructor:function(dict){
+  	    gameModel.UnitBattleAttr.__super__.constructor.apply(this,arguments);
         this.hp=100;
         this.ap=1;
         this.range=1;
+        _.extend(this,dict);
     },
     onHarm:function(harm){
         this.hp-=harm
@@ -120,7 +122,10 @@ gameModel.UnitModel=gUtil.Class.extend({
     canMove:function(moveFuture){
         var futurePos=moveFuture.position;
         var thisPos=this.position;
-        if(futurePos.i!=thisPos.i && futurePos.j!=thisPos.j){
+        var di=Math.abs(futurePos.i-thisPos.i);
+        var dj=Math.abs(futurePos.j-thisPos.j);
+        var continuous=(di==1&&dj==0)||(di==0&&dj==1)||(di==0&&dj==0);
+        if(!continuous){
             return false;
         }else{
             var checkUnit=this.battleModel.unit$(futurePos.i,futurePos.j);
@@ -170,21 +175,30 @@ gameModel.UnitModel=gUtil.Class.extend({
             // i or j in the same line
             var dx=futurePos.x-thisPos.x;
             var dy=futurePos.y-thisPos.y;
+            var update=false;
             if(dx==0&&dy!=0){
-                var update=thisPos.yMoveTo(futurePos.y,this.speed);
-                if(update){
-                    this.battleModel.unitUpdatePos(this);
-                }
+                update=thisPos.yMoveTo(futurePos.y,this.speed);
             }else if(dy==0&&dx!=0){
-                var update=thisPos.xMoveTo(futurePos.x,this.speed);
-                if(update){
-                    this.battleModel.unitUpdatePos(this);
-                }
+                update=thisPos.xMoveTo(futurePos.x,this.speed);
             }else if(dx!=0&&dy!=0){
                 // xy not in the same line
                 thisPos.stand();
             }else{
-                console.log("unit position error when move step");
+                console.log("unit position exception when move step");
+            }
+            if(update){
+                this.battleModel.unitUpdatePos(this);
+            }
+            if(moveFuture.isFinished()){
+                var nextFuture=this.futureList[this.nextFutureIndex];
+                if(_.isObject(nextFuture)){
+                    if(nextFuture.typeName=="moveFuture"){
+                        var nextPos=nextFuture.position;
+                        if(thisPos.x!=nextPos.x && thisPos.y!=nextPos.y){
+                            thisPos.stand();
+                        }
+                    }
+                }
             }
         }
     },
@@ -231,6 +245,13 @@ gameModel.UnitModel=gUtil.Class.extend({
         this.battleModel.unitSetAttr(this,"hp",battleAttr.hp);
         if(battleAttr.isDead()){
             this.battleModel.unitDead(this);
+        }
+    },
+    getAttr:function(key){
+        if(key){
+            return this.battleAttr[key];
+        }else{
+            return this.battleAttr;
         }
     }
 

@@ -13,25 +13,28 @@ gameModel.AttackerModel=gameModel.unitImpl({
     doMove:function(i,j){
         if(this.futureList.length>0){
             var last=_.last(this.futureList);
-            if(last.position.i!=i && last.position.j!=j){
+            var dist=gPoint.maDistance(last.position,{
+                i:i,
+                j:j
+            });
+            if(dist>1){
                 return false;
             }
         }
         var dstUnit=this.battleModel.unit$(i,j);
+        var dstPos=this.battleModel.createPosition(i,j);
         if(_.isObject(dstUnit)){
-            this.doAttack(i,j);
-            return false;
+            var attackFuture=new gameModel.AttackFutureModel(dstPos,dstUnit.unitId).bind(this);
+            this.futureList.push(attackFuture);
+            return true;
         }else{
-            var position=this.battleModel.createPosition(i,j);
-            this.futureList.push(new gameModel.MoveFutureModel(position).bind(this));
+            this.futureList.push(new gameModel.MoveFutureModel(dstPos).bind(this));
             return true;
         }
     },
     doAttack:function(i,j){
         var dstUnit=this.battleModel.unit$(i,j);
         if(_.isObject(dstUnit)){
-            var attackFuture=new gameModel.AttackFutureModel(dstUnit.unitId).bind(this);
-            this.futureList.push(attackFuture);
             return true;
         }else{
             return false;

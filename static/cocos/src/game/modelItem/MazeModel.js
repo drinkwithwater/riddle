@@ -49,5 +49,12 @@ gameModel.MazeModel=gUtil.Class.extend({
         }
     },
     valid:function(i,j){
+        if(i<0 || i>=this.iLength){
+            return false;
+        }else if(j<0 || j>=this.jLength){
+            return false;
+        }else{
+            return true;
+        }
     }
 });

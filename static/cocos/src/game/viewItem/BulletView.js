@@ -25,17 +25,28 @@ gameView.BulletViewPool = cc.Node.extend({
         this.gameLayer=gameLayer;
 
         this.idToBulletView={};
-        this.shotBulletView(1);
     },
-    shotBulletView:function(bulletId){
+    shotBulletView:function(bullet){
         var bulletView=new gameView.BulletView(this.gameLayer);
         this.addChild(bulletView,0);
+
+        // set position
+        var ijFloat=bullet.position.getFloatIJ();
+        var xy=this.gameLayer.pLeftBottom(ijFloat.i,ijFloat.j);
         bulletView.attr({
-            x:100,
-            y:100,
+            x:xy.x,
+            y:xy.y,
         });
-        bulletView.runAction(cc.moveTo(5,cc.p(200,200)));
-        this.idToBulletView[bulletId]=bulletView;
+
+        // get destination
+        var dst={
+            x:xy.x+bullet.vx*bullet.durationLimit,
+            y:xy.y+bullet.vy*bullet.durationLimit
+        }
+
+        // run move action
+        bulletView.runAction(cc.moveTo(bullet.durationLimit*0.1,cc.p(dst.x,dst.y)));
+        this.idToBulletView[bullet.bulletId]=bulletView;
         return this.bulletView;
     },
     deleteBullet:function(bulletId){
