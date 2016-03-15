@@ -130,11 +130,12 @@ gameModel.UnitModel=gUtil.Class.extend({
         }else{
             var checkUnit=this.battleModel.unit$(futurePos.i,futurePos.j);
             if(_.isObject(checkUnit)){
-                return false;
-            }else{
-                return true;
+                if(checkUnit.unitId!=this.unitId){
+                    return false;
+                }
             }
         }
+        return true;
     },
     
     startHandlers:{
