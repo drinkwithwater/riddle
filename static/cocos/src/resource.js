@@ -22,7 +22,11 @@ var spriteRes={
     wall:"image/wall.png",
     rider:"image/rider.png",
 
-    bullet:"image/transfer.png",
+    attacker:"image/assassin.png",
+    defenser:"image/observer.png",
+    slowGun:"image/observer.png",
+
+    bullet:"image/box.png",
 }
 var itemRes={
     hp:"item/hp.png",

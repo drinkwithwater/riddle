@@ -34,13 +34,16 @@ gameModel.MazeModel=gUtil.Class.extend({
     },
     updateUnit:function(unit){
         var index=this.unitIdToIndex[unit.unitId];
-        delete this.ijToIndex[index.i][index.j];
+        this.ijToIndex[index.i][index.j]=undefined;
 
         index.i=unit.getPosition().i;
         index.j=unit.getPosition().j;
         this.ijToIndex[index.i][index.j]=index;
     },
     getUnit:function(i,j){
+        if(!this.valid(i,j)){
+            return false;
+        }
         var index=this.ijToIndex[i][j];
         if(_.isObject(index)){
             return this.battleModel.unit$(index.unitId);

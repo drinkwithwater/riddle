@@ -1,4 +1,7 @@
 var game=game||{};
+var gameConst={
+    LOGIC_DURATION:0.1
+}
 game.ControlManager=gUtil.Class.extend({
     
     modelManager:null,

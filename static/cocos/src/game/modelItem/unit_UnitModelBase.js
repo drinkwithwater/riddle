@@ -44,13 +44,16 @@ gameModel.UnitModel=gUtil.Class.extend({
         return false;
     },
     
+    doBegin:function(i,j){
+        return false;
+    },
     doMove:function(i,j){
         return false;
     },
-    doAttack:function(unitId){
+    doEnd:function(i,j){
         return false;
     },
-    doStand:function(i,j){
+    doAttack:function(unitId){
         return false;
     },
 
@@ -243,7 +246,7 @@ gameModel.UnitModel=gUtil.Class.extend({
     onAttack:function(ap){
         var battleAttr=this.battleAttr;
         battleAttr.onHarm(ap);
-        this.battleModel.unitSetAttr(this,"hp",battleAttr.hp);
+        this.battleModel.unitShowSetAttr(this,"hp",battleAttr.hp);
         if(battleAttr.isDead()){
             this.battleModel.unitDead(this);
         }

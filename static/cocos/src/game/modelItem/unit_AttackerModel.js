@@ -47,7 +47,7 @@ gameModel.AttackerModel=gameModel.unitImpl({
         this.futureList.push(new gameModel.MoveFutureModel(dstPos).bind(this));
         return true;
     },
-    doStand:function(i,j){
+    doBegin:function(i,j){
         var standPos=this.battleModel.createPosition(i,j);
         var thisPos=this.position;
         if(standPos.i==thisPos.i && standPos.j==thisPos.j){
@@ -57,5 +57,8 @@ gameModel.AttackerModel=gameModel.unitImpl({
             return false;
         }
     },
+    doEnd:function(i,j){
+        return false;
+    }
 
 });

@@ -10,13 +10,16 @@ gameModel.DefenserModel=gameModel.unitImpl({
     canOper:function(){
         return false;
     },
+    doBegin:function(i,j){
+        return false;
+    },
     doMove:function(i,j){
         return false;
     },
-    doAttack:function(unitId){
+    doEnd:function(i,j){
         return false;
     },
-    doStand:function(i,j){
+    doAttack:function(unitId){
         return false;
     },
 
@@ -30,12 +33,14 @@ gameModel.SlowGunModel=gameModel.defenserImpl({
     COOL_DOWN:10,
     DISTANCE_LIMIT:1050,
     coolingTime:0,
+    bulletPool:"bulletPool",
     constructor:function(battleModel,unitId,position){
   	    gameModel.DefenserModel.__super__.constructor.apply(this,arguments);
         this.coolingTime=0;
         this.battleAttr=new gameModel.UnitBattleAttr({
             range:3,
         });
+        this.bulletPool=battleModel.bulletPool;
     },
     shotBullet:function(){
         var range=gPoint.radioRange(this.position,this.getAttr("range"));
@@ -45,7 +50,7 @@ gameModel.SlowGunModel=gameModel.defenserImpl({
             if(_.isObject(unit)){
                 if(unit.unitId!=this.unitId){
                     var bullet=this.createBullet(unit);
-                    this.battleModel.unitShowShotBullet(this,bullet);
+                    this.bulletPool.bulletCreate(bullet);
                     this.coolingTime=this.COOL_DOWN;
                     break;
                 }
@@ -60,7 +65,7 @@ gameModel.SlowGunModel=gameModel.defenserImpl({
         }
     },
     createBullet:function(target){
-        var bulletPool=this.battleModel.getBulletPool();
+        var bulletPool=this.bulletPool;
         var bullet=new gameModel.BulletModel(bulletPool,bulletPool.getNewId(),this,target);
         bullet.setDamageDistance(this.battleAttr.ap,this.DISTANCE_LIMIT);
         return bullet;

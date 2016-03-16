@@ -40,6 +40,47 @@ game.ViewManager=gUtil.Class.extend({
         this.gameLayer.render();
         console.log("view reRender");
     },
+
+
+    //////////
+    // show //
+    //////////
+    /* bullet */
+    showBulletCreate:function(bullet){
+        this.gameLayer.bulletNode.shotBulletView(bullet);
+    },
+    showBulletExplode:function(bulletId){
+        this.gameLayer.bulletNode.explodeBullet(bulletId);
+    },
+    showBulletDelete:function(bulletId){
+        this.gameLayer.bulletNode.deleteBullet(bulletId);
+        // TODO
+    },
+
+    /* unit */
+    showUnitCreate:function(unitModel){
+        this.gameLayer.unitNode.createUnitView(unitModel);
+    },
+    showUnitAttrUpdate:function(unitId,attrKey,attrValue){
+        var unitView=this.gameLayer.unitNode.unit$(unitId);
+        if(_.isObject(unitView)){
+            unitView.setAttr(attrKey,attrValue);
+        }else{
+            console.warn("unit view not found for id="+unitId);
+        }
+    },
+    showUnitAttack:function(srcUnitId,dstUnitIdSet){
+        this.gameLayer.animateNode.actionUnitAttack(srcUnitId,dstUnitIdSet);
+    },
+    showUnitMove:function(unitId,dstIJ,duration){
+        this.gameLayer.unitNode.actionUnitIdMove(unitId,dstIJ,duration);
+    },
+    showUnitDelete:function(unitId){
+        this.gameLayer.unitNode.deleteUnitView(unitId);
+    },
+
+    
+    // getter
     getGameLayer:function(){
         return this.gameLayer;
     },
@@ -52,6 +93,10 @@ game.ViewManager=gUtil.Class.extend({
     getAnimateNode:function(){
         return this.gameLayer.animateNode;
     },
+
+
+
+    
     destroy:function(){
     }
 });

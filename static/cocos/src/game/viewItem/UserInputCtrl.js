@@ -38,7 +38,7 @@ gameView.UserInputCtrl=cc.Node.extend({
 	    this.controlModule=gameTop.getModule("controlModule");
 
         this.pointDraw=new cc.DrawNode();
-        this.addChild(this.pointDraw,this.LEVEL_POINT);
+        this.addChild(this.pointDraw,1);
 
         
         this.selectId=false;
@@ -70,7 +70,7 @@ gameView.UserInputCtrl=cc.Node.extend({
             var unitModel=this.modelManager.unit$(i,j);
             if(_.isObject(unitModel)){
                 if(unitModel.canOper()){
-                    unitModel.doStand(i,j);
+                    unitModel.doBegin(i,j);
                     this.selectId=unitModel.unitId;
                 }else{
                     this.gameLayer.unitNode.showRange(unitModel.unitId);
@@ -111,7 +111,7 @@ gameView.UserInputCtrl=cc.Node.extend({
             var unitModel=this.modelManager.unit$(this.selectId);
             if(unitModel){
                 // todo
-                unitModel.doStand(i,j);
+                unitModel.doEnd(i,j);
             }
         }
         this.cancel();

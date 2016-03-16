@@ -39,13 +39,11 @@ gameView.BulletViewPool = cc.Node.extend({
         });
 
         // get destination
-        var dst={
-            x:xy.x+bullet.vx*bullet.durationLimit,
-            y:xy.y+bullet.vy*bullet.durationLimit
-        }
+        var ijFloatDst=bullet.getDestination().getFloatIJ();
+        var dst=this.gameLayer.pLeftBottom(ijFloatDst.i,ijFloatDst.j);
 
         // run move action
-        bulletView.runAction(cc.moveTo(bullet.durationLimit*0.1,cc.p(dst.x,dst.y)));
+        bulletView.runAction(cc.moveTo(bullet.durationLimit*gameConst.LOGIC_DURATION,cc.p(dst.x,dst.y)));
         this.idToBulletView[bullet.bulletId]=bulletView;
         return this.bulletView;
     },

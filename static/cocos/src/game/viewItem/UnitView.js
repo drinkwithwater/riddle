@@ -21,9 +21,7 @@ gameView.UnitViewPool = cc.Node.extend({
         this.destroy();
         var unitModels=this.modelManager.unit$();
         _.each(unitModels,function(unitModel){
-            var unitView=this.createUnitView(unitModel);
-            this.idToUnitView[unitModel.unitId]=unitView;
-            this.addChild(unitView,this.LEVEL_UNIT);
+            this.createUnitView(unitModel);
         },this);
         
         // range area
@@ -39,6 +37,9 @@ gameView.UnitViewPool = cc.Node.extend({
     },
     createUnitView:function(unitModel){
         var unitView=new gameView.UnitView(unitModel,this.gameLayer);
+        this.idToUnitView[unitModel.unitId]=unitView;
+        this.addChild(unitView,this.LEVEL_UNIT);
+
         var ij=unitModel.getPosition();
         var xy=this.gameLayer.pCenter(ij.i,ij.j);
         unitView.attr({
@@ -51,7 +52,7 @@ gameView.UnitViewPool = cc.Node.extend({
         unitView.setAttr("hp",unitModel.battleAttr.hp);
         return unitView;
     },
-    removeUnitView:function(unitId){
+    deleteUnitView:function(unitId){
         var unit=this.idToUnitView[unitId];
         delete this.idToUnitView[unitId];
         unit.gameLayer=null;

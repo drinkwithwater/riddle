@@ -105,13 +105,14 @@
         "src/game/viewItem/AnimateNode.js",
         "src/game/viewItem/BulletView.js",
         
+        "src/game/modelItem/Position.js",
         "src/game/modelItem/BattleModel.js",
-        "src/game/modelItem/UnitModelBase.js",
-        "src/game/modelItem/AttackerModel.js",
-        "src/game/modelItem/DefenserModel.js",
         "src/game/modelItem/MazeModel.js",
         "src/game/modelItem/BulletPoolModel.js",
-        "src/game/modelItem/FutureModel.js"
+        "src/game/modelItem/unit_UnitModelBase.js",
+        "src/game/modelItem/unit_AttackerModel.js",
+        "src/game/modelItem/unit_DefenserModel.js",
+        "src/game/modelItem/unit_FutureModel.js"
 
     ]
 }

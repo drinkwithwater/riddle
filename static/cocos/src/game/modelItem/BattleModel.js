@@ -1,81 +1,4 @@
 var gameModel=gameModel||{};
-gameModel.Position=gUtil.Class.extend({
-    i:"int",
-    j:"int",
-    x:"int",
-    y:"int",
-    battleModel:"BattleModel",
-    constructor:function(battleModel,i,j){
-        this.battleModel=battleModel;
-        this.i=i;
-        this.j=j;
-        var xy=battleModel.pCenter(i,j);
-        this.x=xy.x;
-        this.y=xy.y;
-    },
-    stand:function(){
-        var xy=this.battleModel.pCenter(this.i,this.j);
-        this.x=xy.x;
-        this.y=xy.y;
-    },
-    // 
-    getFloatIJ:function(){
-        return this.battleModel.xy2ijFloat(this.x,this.y);
-    },
-    // calculate
-    xPlus:function(dx){
-        this.x+=dx;
-        var iUpdate=Math.floor(this.x/this.battleModel.CELL_SIZE);
-        if(this.i!=iUpdate){
-            this.i=iUpdate;
-            return true;
-        }else{
-            return false;
-        }
-    },
-    xMinus:function(dx){
-        return this.xPlus(-dx);
-    },
-    yPlus:function(dy){
-        this.y+=dy;
-        var jUpdate=Math.floor(this.y/this.battleModel.CELL_SIZE);
-        if(this.j!=jUpdate){
-            this.j=jUpdate;
-            return true;
-        }else{
-            return false;
-        }
-    },
-    yMinus:function(dy){
-        return this.yPlus(-dy);
-    },
-    xMoveTo:function(x,speed){
-        var dx=x-this.x;
-        if(dx>speed){
-            return this.xPlus(speed);
-        }else if(dx<-speed){
-            return this.xMinus(speed);
-        }else{
-            return this.xPlus(dx);
-        }
-    },
-    yMoveTo:function(y,speed){
-        var dy=y-this.y;
-        if(dy>speed){
-            return this.yPlus(speed);
-        }else if(dy<-speed){
-            return this.yMinus(speed);
-        }else{
-            return this.yPlus(dy);
-        }
-    },
-    clone:function(){
-        var clonePos=new gameModel.Position(this.battleModel,this.i,this.j);
-        clonePos.x=this.x;
-        clonePos.y=this.y;
-        return clonePos;
-    },
-});
 gameModel.BattleModel=gUtil.Class.extend({
     mazeModel:"MazeModel",
     bulletPool:"BulletPool",
@@ -86,7 +9,6 @@ gameModel.BattleModel=gUtil.Class.extend({
     iLength:"int",
     jLength:"int",
     CELL_SIZE:210,
-    LOGIC_DURATION:0.1,
     idCounter:0,
     constructor:function(gameTop){
   	    gameModel.BattleModel.__super__.constructor.call(this);
@@ -97,14 +19,14 @@ gameModel.BattleModel=gUtil.Class.extend({
         this.iLength=this.modelManager.iLength;
         this.jLength=this.modelManager.jLength;
 
-        this.idToUnit={};
         this.mazeModel=new gameModel.MazeModel(this);
-        this.bulletPool=new gameModel.BulletPool(this);
+        this.bulletPool=new gameModel.BulletPool(this,gameTop);
+        this.idToUnit={};
     },
     timeUpdate:function(dt){
         this.timeSum+=dt;
-        if(this.timeSum>this.LOGIC_DURATION){
-            this.timeSum=0;
+        if(this.timeSum>gameConst.LOGIC_DURATION){
+            this.timeSum-=gameConst.LOGIC_DURATION;
 
             this.bulletPool.stepUpdate();
             _.each(this.idToUnit,function(unit,unitId){
@@ -129,23 +51,23 @@ gameModel.BattleModel=gUtil.Class.extend({
     // unit operate  //
     ///////////////////
     unitShowMove:function(unit,dstPos){
-        var duration=this.LOGIC_DURATION*xyPoint.maDistance(unit.getPosition(),dstPos)/unit.getSpeed();
-        this.viewManager.getUnitViewPool().actionUnitIdMove(unit.unitId,dstPos,duration);
+        var duration=gameConst.LOGIC_DURATION*xyPoint.maDistance(unit.getPosition(),dstPos)/unit.getSpeed();
+        this.viewManager.showUnitMove(unit.unitId,dstPos,duration);
     },
     unitShowAttack:function(srcUnit,dstUnitArray){
         var dstUnitIdSet=_.map(dstUnitArray,function(unit){
             return unit.unitId;
         });
-        this.viewManager.getAnimateNode().actionUnitAttack(srcUnit.unitId,dstUnitIdSet);
+        this.viewManager.showUnitAttack(srcUnit.unitId,dstUnitIdSet);
+    },
+    unitShowSetAttr:function(unit,attrKey,attrValue){
+        this.viewManager.showUnitAttrUpdate(unit.unitId,attrKey,attrValue);
     },
     unitShowShotBullet:function(unit,bullet){
         this.viewManager.getBulletViewPool().shotBulletView(bullet);
     },
     unitUpdatePos:function(unit){
         this.mazeModel.updateUnit(unit);
-    },
-    unitSetAttr:function(unit,attrKey,attrValue){
-        this.viewManager.getUnitViewPool().unit$(unit.unitId).setAttr(attrKey,attrValue);
     },
     unitDead:function(unit){
         //TODO

@@ -1,6 +1,7 @@
 var gameModel=gameModel||{};
 gameModel.BulletModel=gUtil.Class.extend({
-    speed:10,
+    speed:20,
+    EXPLODE_DISTANCE:70,
 
     bulletId:"int",
     position:"Position",
@@ -10,9 +11,11 @@ gameModel.BulletModel=gUtil.Class.extend({
     distanceLimit:"int",
     durationLimit:"int",
     duration:"int",
+    sourceId:"unit",
     constructor:function(bulletPool,bulletId,source,target){
         this.bulletPool=bulletPool;
         this.bulletId=bulletId;
+        this.sourceId=source.unitId;
         this.position=source.getPosition().clone();
         var dx=target.position.x-source.position.x;
         var dy=target.position.y-source.position.y;
@@ -27,18 +30,43 @@ gameModel.BulletModel=gUtil.Class.extend({
     },
     stepUpdate:function(){
         if(this.duration<this.durationLimit){
-            this.position.xPlus(vx);
-            this.position.yPlus(vy);
+            var thisPos=this.position;
+            thisPos.xPlus(this.vx);
+            thisPos.yPlus(this.vy);
             this.duration++;
+            var hitUnit=this.bulletPool.battleModel.unit$(thisPos.i,thisPos.j);
+            if(_.isObject(hitUnit)){
+                if(hitUnit.unitId==this.sourceId){
+                    return ;
+                }else{
+                    var dist=xyPoint.maDistance(hitUnit.position,thisPos);
+                    if(dist<this.EXPLODE_DISTANCE){
+                        hitUnit.onAttack(this.damage);
+                        this.bulletPool.bulletExplode(this.bulletId);
+                    }
+                }
+            }
+        }else{
+            this.bulletPool.bulletDelete(this.bulletId);
         }
+    },
+    getDestination:function(){
+        var dst=this.position.clone();
+        var timeLeft=this.durationLimit-this.duration;
+        dst.xPlus(this.vx*timeLeft);
+        dst.yPlus(this.vy*timeLeft);
+        return dst;
     },
 });
 gameModel.BulletPool=gUtil.Class.extend({
     battleModel:"BattleModel",
+    viewManager:"viewModule",
     idToBullet:"dict",
     idCounter:"int",
-    constructor:function(battleModel){
+    constructor:function(battleModel,gameTop){
         this.battleModel=battleModel;
+        this.viewManager=gameTop.getModule("viewModule");
+
         this.idToBullet={};
         this.idCounter=0;
     },
@@ -50,7 +78,16 @@ gameModel.BulletPool=gUtil.Class.extend({
     getNewId:function(){
         return this.idCounter++;
     },
-    addBullet:function(unit,bullet){
+    bulletCreate:function(bullet){
         this.idToBullet[bullet.bulletId]=bullet;
+        this.viewManager.showBulletCreate(bullet);
+    },
+    bulletExplode:function(bulletId){
+        delete this.idToBullet[bulletId];
+        this.viewManager.showBulletExplode(bulletId);
+    },
+    bulletDelete:function(bulletId){
+        delete this.idToBullet[bulletId];
+        this.viewManager.showBulletDelete(bulletId);
     }
 });
