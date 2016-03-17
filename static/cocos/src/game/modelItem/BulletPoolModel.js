@@ -1,7 +1,7 @@
 var gameModel=gameModel||{};
 gameModel.BulletModel=gUtil.Class.extend({
     speed:20,
-    EXPLODE_DISTANCE:70,
+    EXPLODE_DISTANCE:80,
 
     bulletId:"int",
     position:"Position",
@@ -34,15 +34,20 @@ gameModel.BulletModel=gUtil.Class.extend({
             thisPos.xPlus(this.vx);
             thisPos.yPlus(this.vy);
             this.duration++;
-            var hitUnit=this.bulletPool.battleModel.unit$(thisPos.i,thisPos.j);
-            if(_.isObject(hitUnit)){
-                if(hitUnit.unitId==this.sourceId){
-                    return ;
-                }else{
-                    var dist=xyPoint.maDistance(hitUnit.position,thisPos);
-                    if(dist<this.EXPLODE_DISTANCE){
-                        hitUnit.onAttack(this.damage);
-                        this.bulletPool.bulletExplode(this.bulletId);
+            var range=gPoint.radioRange(thisPos,1);
+            for(var ri=0,rl=range.length;ri<rl;ri++){
+                var point=range[ri];
+                var hitUnit=this.bulletPool.battleModel.unit$(point.i,point.j);
+                if(_.isObject(hitUnit)){
+                    if(hitUnit.unitId==this.sourceId){
+                        continue;
+                    }else{
+                        var dist=xyPoint.maDistance(hitUnit.position,thisPos);
+                        if(dist<this.EXPLODE_DISTANCE){
+                            hitUnit.onAttack(this.damage);
+                            this.bulletPool.bulletExplode(this.bulletId);
+                        }
+                        break;
                     }
                 }
             }

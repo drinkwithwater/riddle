@@ -28,10 +28,10 @@ gameModel.BattleModel=gUtil.Class.extend({
         if(this.timeSum>gameConst.LOGIC_DURATION){
             this.timeSum-=gameConst.LOGIC_DURATION;
 
-            this.bulletPool.stepUpdate();
             _.each(this.idToUnit,function(unit,unitId){
                 unit.stepUpdate();
             });
+            this.bulletPool.stepUpdate();
         }
     },
     ///////////////////

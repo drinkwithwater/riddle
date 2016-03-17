@@ -1,0 +1,108 @@
+{
+    "debugMode" : 1,
+    "showFPS" : true,
+    "frameRate" : 60,
+    "id" : "gameCanvas",
+    "renderMode" : 1,
+
+
+    "jsList" : [
+        "/cocos/src/resource.js",
+        "/cocos/src/app.js",
+
+        "/cocos/src/lib/underscore.min.js",
+        "/cocos/src/lib/backbone.min.js",
+        "/cocos/src/lib/util.js",
+        "/cocos/src/lib/point.js",
+
+        "/cocos/src/script/BattleScript.js",
+        "/cocos/src/script/UnitScript.js",
+        "/cocos/src/script/NumericalScript.js",
+
+        "/cocos/src/backend/battleFactory/BattleFactory.js",
+        "/cocos/src/backend/battleField/BattleField.js",
+        "/cocos/src/backend/battleItem/maze/maze.js",
+        "/cocos/src/backend/battleItem/unit/unitBase.js",
+        "/cocos/src/backend/battleItem/unit/unitImpl.js",
+        "/cocos/src/backend/battleItem/unit/newUnitImpl.js",
+        "/cocos/src/backend/battleItem/unit/triggerImpl.js",
+        "/cocos/src/backend/battleItem/unit/transferImpl.js",
+
+
+        "/cocos/src/backend/controller/BattleManager.js",
+        "/cocos/src/backend/controller/GameController.js",
+        "/cocos/src/backend/controller/BattleEventSender.js",
+
+        "/cocos/src/frontend/uiConst.js",
+        "/cocos/src/frontend/models/UnitModel.js",
+        "/cocos/src/frontend/models/UnitModelImpl.js",
+        "/cocos/src/frontend/models/TriggerModelImpl.js",
+        "/cocos/src/frontend/models/TransferModelImpl.js",
+        "/cocos/src/frontend/models/MazeModel.js",
+        "/cocos/src/frontend/models/ModelFactory.js",
+        "/cocos/src/frontend/module/FrontendModule.js",
+
+        "/cocos/src/android/AndroidModelManager.js",
+        "/cocos/src/android/CanvasViewManager.js",
+        "/cocos/src/android/viewItem/UnitPool.js",
+        "/cocos/src/android/viewItem/UnitView.js",
+        "/cocos/src/android/viewItem/PathData.js",
+        "/cocos/src/android/viewItem/UserInputCtrl.js",
+        "/cocos/src/android/viewItem/AnimateNode.js",
+        "/cocos/src/android/viewItem/AreaNode.js",
+        "/cocos/src/android/viewItem/ActionQueue.js",
+        "/cocos/src/android/viewItem/GameLayer.js",
+        "/cocos/src/android/viewItem/GameMenu.js",
+
+        "/cocos/src/inter/ClientModule.js",
+        "/cocos/src/inter/ServerModule.js",
+        "/cocos/src/inter/message/SCGameMessage.js",
+        "/cocos/src/inter/message/SCBattleMessage.js",
+        "/cocos/src/inter/message/CSGameMessage.js",
+        "/cocos/src/inter/message/CSBattleMessage.js",
+        "/cocos/src/inter/battleEvent/BattleEvent.js",
+
+        "/cocos/src/core/GameTop.js",
+        
+        "/cocos/src/aigame/AIGameModelManager.js",
+        "/cocos/src/aigame/AIGameViewManager.js",
+        "/cocos/src/aigame/AIGameFrontendModule.js",
+        "/cocos/src/aigame/viewItem/UnitView.js",
+        "/cocos/src/aigame/viewItem/PathData.js",
+        "/cocos/src/aigame/viewItem/UserInputCtrl.js",
+        "/cocos/src/aigame/viewItem/AreaNode.js",
+        "/cocos/src/aigame/viewItem/GameLayer.js",
+        "/cocos/src/aigame/viewItem/TypeNode.js",
+        
+        
+        "/cocos/src/movegame/MoveGameModelManager.js",
+        "/cocos/src/movegame/MoveGameViewManager.js",
+        "/cocos/src/movegame/MoveGameFrontendModule.js",
+        "/cocos/src/movegame/viewItem/AreaNode.js",
+        "/cocos/src/movegame/viewItem/GameLayer.js",
+        "/cocos/src/movegame/viewItem/TrailNode.js",
+        "/cocos/src/movegame/viewItem/UserInputCtrl.js",
+        
+        "/cocos/src/game/ControlManager.js",
+        "/cocos/src/game/ViewManager.js",
+        "/cocos/src/game/ModelManager.js",
+        "/cocos/src/game/TestInstance.js",
+        
+        "/cocos/src/game/viewItem/AreaNode.js",
+        "/cocos/src/game/viewItem/GameLayer.js",
+        "/cocos/src/game/viewItem/UnitView.js",
+        "/cocos/src/game/viewItem/UserInputCtrl.js",
+        "/cocos/src/game/viewItem/AnimateNode.js",
+        "/cocos/src/game/viewItem/BulletView.js",
+        
+        "/cocos/src/game/modelItem/Position.js",
+        "/cocos/src/game/modelItem/BattleModel.js",
+        "/cocos/src/game/modelItem/MazeModel.js",
+        "/cocos/src/game/modelItem/BulletPoolModel.js",
+        "/cocos/src/game/modelItem/unit_UnitModelBase.js",
+        "/cocos/src/game/modelItem/unit_AttackerModel.js",
+        "/cocos/src/game/modelItem/unit_DefenserModel.js",
+        "/cocos/src/game/modelItem/unit_FutureModel.js"
+
+    ]
+}
