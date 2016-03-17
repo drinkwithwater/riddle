@@ -13,9 +13,7 @@
 <script type="text/javascript">
 window.onload=function(){
 	cc.game.onStart = function(){
-		for(var i=0,l=g_resources.length;i<l;i++){
-			g_resources[i]="/cocos/resjs/"+g_resources[i];
-		}
+		cc.loader.resPath="/cocos/resjs";
 		cc.LoaderScene.preload(g_resources, function () {
 				var gameInst=gCore.GameTop.gameMain();
 				var mainScene=gameInst.getModule("viewModule").mainScene;

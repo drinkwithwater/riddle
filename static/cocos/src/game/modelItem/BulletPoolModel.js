@@ -1,7 +1,7 @@
 var gameModel=gameModel||{};
 gameModel.BulletModel=gUtil.Class.extend({
     speed:20,
-    EXPLODE_DISTANCE:80,
+    EXPLODE_DISTANCE:100,
 
     bulletId:"int",
     position:"Position",

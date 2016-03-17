@@ -28,7 +28,7 @@ gameView.GameLayer = cc.Layer.extend({
     
     
     // game module
-    actionHandler:null,
+    controlManager:null,
     viewManager:null,
     modelManager:null,
     
@@ -37,7 +37,7 @@ gameView.GameLayer = cc.Layer.extend({
 
 	    this.viewManager=gameTop.getModule("viewModule");
 	    this.modelManager=gameTop.getModule("modelModule");
-	    this.actionHandler=gameTop.getModule("controlModule");
+	    this.controlManager=gameTop.getModule("controlModule");
 
 	    this.userInputCtrl=new gameView.UserInputCtrl(this,gameTop);
         this.addChild(this.userInputCtrl,this.LEVEL_USER);
@@ -51,12 +51,6 @@ gameView.GameLayer = cc.Layer.extend({
         this.scoreNode=new cc.LabelTTF("0","Arial",38);
         this.scoreNode.setFontFillColor(cc.color(255,255,255));
         this.addChild(this.scoreNode,this.LEVEL_TRAIL);
-        
-        this.tempScoreNode=new cc.LabelTTF("0","Arial",38);
-        this.tempScoreNode.setFontFillColor(cc.color(255,255,255));
-        this.addChild(this.tempScoreNode,this.LEVEL_TRAIL);
-
-
 
         this.animateNode=new gameView.AnimateNode(this,gameTop);
         this.addChild(this.animateNode,this.LEVEL_ANIMATE);
@@ -120,12 +114,6 @@ gameView.GameLayer = cc.Layer.extend({
             anchorY:1
         });
         
-        this.tempScoreNode.attr({
-            x:size.width-this.baseX,
-            y:size.height-this.baseY-40,
-            anchorX:1,
-            anchorY:1
-        });
     },
 
     xy2ij:function(x,y){

@@ -1,0 +1,33 @@
+{
+    "jsList" : [
+        "src/resource.js",
+        "src/app.js",
+
+        "src/lib/util.js",
+        "src/lib/point.js",
+
+        "src/core/GameTop.js",
+
+        "src/game/ControlManager.js",
+        "src/game/ViewManager.js",
+        "src/game/ModelManager.js",
+        "src/game/TestInstance.js",
+
+        "src/game/viewItem/AreaNode.js",
+        "src/game/viewItem/GameLayer.js",
+        "src/game/viewItem/UnitView.js",
+        "src/game/viewItem/UserInputCtrl.js",
+        "src/game/viewItem/AnimateNode.js",
+        "src/game/viewItem/BulletView.js",
+
+        "src/game/modelItem/Position.js",
+        "src/game/modelItem/BattleModel.js",
+        "src/game/modelItem/MazeModel.js",
+        "src/game/modelItem/BulletPoolModel.js",
+        "src/game/modelItem/unit_UnitModelBase.js",
+        "src/game/modelItem/unit_AttackerModel.js",
+        "src/game/modelItem/unit_DefenserModel.js",
+        "src/game/modelItem/unit_FutureModel.js"
+
+    ]
+}

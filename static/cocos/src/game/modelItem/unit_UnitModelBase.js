@@ -220,9 +220,9 @@ gameModel.UnitModel=gUtil.Class.extend({
             return ;
         }
     },
-    stepStand:function(){
+    stepStand:function(standFuture){
         var thisPos=this.position;
-        var standPos=this.battleModel.createPosition(thisPos.i,thisPos.j);
+        var standPos=standFuture.position;
         var dist=xyPoint.maDistance(standPos,thisPos);
         if(dist<this.speed){
             thisPos.stand();

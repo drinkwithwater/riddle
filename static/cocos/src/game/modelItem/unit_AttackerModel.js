@@ -52,7 +52,7 @@ gameModel.AttackerModel=gameModel.unitImpl({
         var thisPos=this.position;
         if(standPos.i==thisPos.i && standPos.j==thisPos.j){
             this.cleanFuture();
-            this.position.stand();
+            this.futureList.push(new gameModel.StandFutureModel(standPos).bind(this));
         }else{
             return false;
         }
@@ -61,4 +61,50 @@ gameModel.AttackerModel=gameModel.unitImpl({
         return false;
     }
 
+});
+gameModel.HitterModel=gameModel.attackerImpl({
+    typeName:"hitter",
+});
+// not a good type...
+gameModel.FlierModel=gameModel.attackerImpl({
+    typeName:"flier",
+    speed:209,
+    doBegin:function(i,j){
+        return true;
+    },
+    doMove:function(i,j){
+        return true;
+    },
+    doEnd:function(i,j){
+        var dstPos=this.battleModel.createPosition(i,j);
+        this.futureList.push(new gameModel.MoveFutureModel(dstPos).bind(this));
+        return true;
+    },
+
+    canMove:function(moveFuture){
+        var dstPos=moveFuture.position;
+        var unit=this.battleModel.unit$(dstPos.i,dstPos.j);
+        if(_.isObject(unit)){
+            return false;
+        }else{
+            return true;
+        }
+    },
+    startMove:function(moveFuture){
+        if(this.canMove(moveFuture)){
+            this.battleModel.unitShowMove(this,moveFuture.position);
+        }else{
+            moveFuture.stop();
+            this.cleanFuture();
+        }
+    },
+    stepMove:function(moveFuture){
+        var dstPos=moveFuture.position;
+        if(this.canMove(moveFuture)){
+            this.position=moveFuture.position;
+            this.battleModel.unitUpdatePos(this);
+        }else{
+            this.cleanFuture();
+        }
+    }
 });
