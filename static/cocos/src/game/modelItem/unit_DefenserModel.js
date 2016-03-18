@@ -71,3 +71,28 @@ gameModel.SlowGunModel=gameModel.defenserImpl({
         return bullet;
     }
 });
+
+gameModel.LauncherModel=gameModel.unitImpl({
+    typeName:"launcher",
+    speed:100,
+
+    constructor:function(battleModel,unitId,position){
+  	    gameModel.LauncherModel.__super__.constructor.apply(this,arguments);
+    },
+    
+    canOper:function(){
+        return false;
+    },
+    stepAI:function(){
+    },
+    createUnit:function(dstPos){
+        var unit=this.battleModel.unit$(dstPos.i,dstPos.j);
+        if(_.isOjbect(unit)){
+            return false;
+        }else{
+            var unit=this.battleModel.createUnit("runner",dstPos.i,dstPos.j)
+            return unit;
+        }
+    }
+    
+});

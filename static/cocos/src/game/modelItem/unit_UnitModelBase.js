@@ -5,8 +5,8 @@ gameModel.UnitBattleAttr=gUtil.Class.extend({
     range:"int",
     constructor:function(dict){
   	    gameModel.UnitBattleAttr.__super__.constructor.apply(this,arguments);
-        this.hp=100;
-        this.ap=1;
+        this.hp=10;
+        this.ap=3;
         this.range=1;
         _.extend(this,dict);
     },
@@ -288,4 +288,7 @@ gameModel.attackerImpl=function(props,staticProps){
 }
 gameModel.defenserImpl=function(props,staticProps){
     return gameModel.unitExtend(gameModel.DefenserModel,props,staticProps);
+}
+gameModel.runnerImpl=function(props,staticProps){
+    return gameModel.unitExtend(gameModel.RunnerModel,props,staticProps);
 }

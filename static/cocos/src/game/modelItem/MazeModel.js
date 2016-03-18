@@ -40,6 +40,11 @@ gameModel.MazeModel=gUtil.Class.extend({
         index.j=unit.getPosition().j;
         this.ijToIndex[index.i][index.j]=index;
     },
+    removeUnit:function(unit){
+        var index=this.unitIdToIndex[unit.unitId];
+        this.ijToIndex[index.i][index.j]=undefined;
+        this.unitIdToIndex[index.unitId]=undefined;
+    },
     getUnit:function(i,j){
         if(!this.valid(i,j)){
             return false;

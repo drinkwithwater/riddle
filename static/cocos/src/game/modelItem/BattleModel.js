@@ -29,7 +29,9 @@ gameModel.BattleModel=gUtil.Class.extend({
             this.timeSum-=gameConst.LOGIC_DURATION;
 
             _.each(this.idToUnit,function(unit,unitId){
-                unit.stepUpdate();
+                if(_.isObject(unit)){
+                    unit.stepUpdate();
+                }
             });
             this.bulletPool.stepUpdate();
         }
@@ -46,6 +48,7 @@ gameModel.BattleModel=gUtil.Class.extend({
         // put in maze & dict;
         this.idToUnit[unit.unitId]=unit;
         this.mazeModel.addUnit(unit);
+        return unit;
     },
     ///////////////////
     // unit operate  //
@@ -70,7 +73,9 @@ gameModel.BattleModel=gUtil.Class.extend({
         this.mazeModel.updateUnit(unit);
     },
     unitDead:function(unit){
-        //TODO
+        this.mazeModel.removeUnit(unit);
+        delete this.idToUnit[unit.unitId];
+        this.viewManager.showUnitDelete(unit.unitId);
     },
     /////////////////
     // unit getter //
