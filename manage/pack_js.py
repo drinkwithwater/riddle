@@ -1,7 +1,7 @@
 import json
 path="../static/cocos/"
 
-outputFile="../game.min.js"
+outputFile="../../drinkwithwater.github.io/riddle/game.min.js"
 outputOpen=open(outputFile,"w")
 
 with open(path+"package.json") as projectOpen:

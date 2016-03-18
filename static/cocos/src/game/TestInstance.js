@@ -9,9 +9,10 @@ gameTest.init=function(gameInst){
     viewTest=gameInst.getModule("viewModule");
     modelTest=gameInst.getModule("modelModule");
     battleTest=modelTest.battleModel;
-    battleTest.createUnit("attacker",1,1);
-    battleTest.createUnit("attacker",1,2);
-    battleTest.createUnit("slowGun",4,5);
-    battleTest.createUnit("slowGun",8,5);
+    battleTest.createUnit("attacker",0,4);
+    battleTest.createUnit("attacker",1,4);
+    battleTest.createUnit("slowGun",9,0);
+    battleTest.createUnit("slowGun",5,5);
+    battleTest.createUnit("slowGun",1,0);
     viewTest.reRender();
 }
