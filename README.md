@@ -1,6 +1,7 @@
 # Riddle
 
-#### 一个基于cocos2d-js的简单游戏，[预览]	
+两个基于cocos2d-js的简单游戏，[Move]，[Riddle]。	
 
 
-[预览]:http://drinkwithwater.github.io/riddle
+[Move]:http://drinkwithwater.github.io/move
+[Riddle]:http://drinkwithwater.github.io/riddle

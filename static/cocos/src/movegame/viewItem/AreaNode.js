@@ -25,7 +25,7 @@ gMove.AreaNode = cc.Node.extend({
 	    for(var i=0;i<iLength;i++){
 		    for(var j=0;j<jLength;j++){
 			    var fillColor=(i+j)%2==0?cc.color(255,255,0,30):cc.color(255,0,0,30);
-			    draw.drawRect(gameLayer.pLeftBottom(i,j),gameLayer.pRightTop(i,j),fillColor,0);
+			    draw.drawRect(gameLayer.pLeftBottom(i,j),gameLayer.pRightTop(i,j),fillColor,1,fillColor);
 		    }
 	    }
     }

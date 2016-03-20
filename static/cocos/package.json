@@ -12,6 +12,14 @@
         "src/game/ViewManager.js",
         "src/game/ModelManager.js",
         "src/game/TestInstance.js",
+        
+        "src/movegame/MoveGameModelManager.js",
+        "src/movegame/MoveGameViewManager.js",
+        "src/movegame/MoveGameFrontendModule.js",
+        "src/movegame/viewItem/AreaNode.js",
+        "src/movegame/viewItem/GameLayer.js",
+        "src/movegame/viewItem/TrailNode.js",
+        "src/movegame/viewItem/UserInputCtrl.js",
 
         "src/game/viewItem/AreaNode.js",
         "src/game/viewItem/GameLayer.js",
