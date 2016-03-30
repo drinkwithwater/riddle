@@ -1,0 +1,6 @@
+1. move confliction for same cell
+2. hp not obivious
+3. move shortest path for not continous point?
+4. add hitrecover time for normal attack
+5. add keep attack logic for unit
+
