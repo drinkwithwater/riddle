@@ -21,10 +21,8 @@ gameView.GameLayer = cc.Layer.extend({
     userInputCtrl:null,
     trailNode:null,
     areaNode:null,
-    scoreNode:null,
     animateNode:null,
     bulletNode:null,
-    tempScoreNode:null,
     
     
     // game module
@@ -48,10 +46,6 @@ gameView.GameLayer = cc.Layer.extend({
         this.unitNode=new gameView.UnitViewPool(this,gameTop);
         this.addChild(this.unitNode,this.LEVEL_UNIT);
 
-        this.scoreNode=new cc.LabelTTF("0","Arial",38);
-        this.scoreNode.setFontFillColor(cc.color(255,255,255));
-        this.addChild(this.scoreNode,this.LEVEL_TRAIL);
-
         this.animateNode=new gameView.AnimateNode(this,gameTop);
         this.addChild(this.animateNode,this.LEVEL_ANIMATE);
         
@@ -62,20 +56,6 @@ gameView.GameLayer = cc.Layer.extend({
 	    this.setAnchorPoint(cc.p(0,0));
 
         return true;
-    },
-    setScore:function(score){
-        var scoreNode=this.scoreNode;
-        return ;
-        scoreNode.runAction(cc.callFunc(function(){
-            scoreNode.setString(String(score))
-        }));
-    },
-    setTempScore:function(score,maxScore){
-        var scoreNode=this.tempScoreNode;
-        return ;
-        scoreNode.runAction(cc.callFunc(function(){
-            scoreNode.setString(String(score)+"/"+String(maxScore))
-        }));
     },
     valid:function(i,j){
         if(i<0||i>=this.iLength){
@@ -107,11 +87,9 @@ gameView.GameLayer = cc.Layer.extend({
 	    this.areaNode.render();
 	    this.unitNode.render();
         
-        this.scoreNode.attr({
-            x:size.width-this.baseX,
-            y:size.height-this.baseY,
-            anchorX:1,
-            anchorY:1
+        this.attr({
+            scaleX:0.5,
+            scaleY:0.5
         });
         
     },
@@ -167,16 +145,75 @@ gameView.GameLayer = cc.Layer.extend({
         this.areaNode.destroy();
     },
 });
+gameView.OperationLayer = cc.Layer.extend({
+    gameLayer:null,
+    lastLocation1:null,
+    lastLocation2:null,
+    ctor:function(gameLayer){
+        this._super();
+        this.gameLayer=gameLayer;
+        var operation=this;
+	    var listener=cc.EventListener.create({
+		    event:cc.EventListener.TOUCH_ONE_BY_ONE,
+	        swallowTouches: true,
+		    onTouchBegan:function(touch,event){
+                operation.beginMove(touch.getLocation());
+                return true;
+		    },
+		    onTouchMoved:function(touch,event){
+                operation.move(touch.getLocation());
+		    },
+		    onTouchEnded:function(touch,event){
+                operation.endMove(touch.getLocation());
+		    }
+	    });
+
+        cc.eventManager.addListener(listener,this);
+    },
+    beginMove:function(location1,location2){
+        this.lastLocation1=location1;
+        this.lastLocation2=location2;
+    },
+    move:function(location1,location2){
+        var x=this.gameLayer.getPositionX();
+        var y=this.gameLayer.getPositionY();
+        var scaleX=this.gameLayer.getScaleX();
+        var scaleY=this.gameLayer.getScaleY();
+        this.gameLayer.attr({
+            x:x+(location1.x-this.lastLocation1.x),
+            y:y+(location1.y-this.lastLocation1.y)
+        });
+        this.lastLocation1=location1;
+        this.lastLocation2=location2;
+    },
+    endMove:function(location1,location2){
+        var dx=location1.x-this.lastLocation1.x;
+        var dy=location1.y-this.lastLocation1.y;
+        if(dx==0 && dy==0){
+            return ;
+        }else{
+            /* no effect when I use html ......
+            var gameLayer=this.gameLayer;
+            gameLayer.runAction(cc.moveTo(
+                1,
+                cc.p(gameLayer.getPositionX()+dx*10,gameLayer.getPositionY()+dy*10)
+            ));*/
+        }
+    }
+});
 
 gameView.MainScene = cc.Scene.extend({
     gameLayer:null,
+    operationLayer:null,
     
     bind:function(gameTop){
 	    this.gameLayer=gameTop.getModule("viewModule").gameLayer;
+	    this.operationLayer=new gameView.OperationLayer(this.gameLayer);
     },
     onEnter:function () {
         this._super();
         this.addChild(this.gameLayer,1);
+        this.addChild(this.operationLayer,2);
     }
 });
 
