@@ -11,8 +11,6 @@ gameView.GameLayer = cc.Layer.extend({
 
     dx:50,
     dy:50,
-    baseX:0,
-    baseY:0,
     iLength:0,
     jLength:0,
 
@@ -75,14 +73,11 @@ gameView.GameLayer = cc.Layer.extend({
         
         // set dx,dy
         var size=cc.director.getWinSize();
-        //this.baseX=size.height/20;
-        //this.baseY=size.height/20;
-        this.baseX=0;
-        this.baseY=0;
-        this.dy=(size.height-this.baseY*2)/(this.jLength);
+
+        this.dy=(size.height)/(this.jLength);
         this.dx=this.dy;
 
-        this.setPosition(cc.p(this.baseX,this.baseY));
+        this.setPosition(cc.p(0,0));
 
 	    this.areaNode.render();
 	    this.unitNode.render();
@@ -144,49 +139,120 @@ gameView.GameLayer = cc.Layer.extend({
         this.userInputCtrl.cancel();
         this.areaNode.destroy();
     },
+    moveTran:function(dx,dy){
+        this.attr({
+            x:this.getPositionX()+dx,
+            y:this.getPositionY()+dy,
+        });
+    },
+    scaleTran:function(before,after){
+        this.attr({
+            scaleX:this.getScaleX()*after/before,
+            scaleY:this.getScaleY()*after/before,
+        });
+    }
 });
 gameView.OperationLayer = cc.Layer.extend({
     gameLayer:null,
     lastLocation1:null,
     lastLocation2:null,
+    rightDown:false,
     ctor:function(gameLayer){
         this._super();
         this.gameLayer=gameLayer;
         var operation=this;
-	    var listener=cc.EventListener.create({
-		    event:cc.EventListener.TOUCH_ONE_BY_ONE,
-	        swallowTouches: true,
-		    onTouchBegan:function(touch,event){
-                operation.beginMove(touch.getLocation());
-                return true;
-		    },
-		    onTouchMoved:function(touch,event){
-                operation.move(touch.getLocation());
-		    },
-		    onTouchEnded:function(touch,event){
-                operation.endMove(touch.getLocation());
-		    }
-	    });
+	    var listener=null;
+        if(cc.sys.isNative){
+            listener=cc.EventListener.create({
+                event:cc.EventListener.TOUCH_ALL_AT_ONCE,
+                swallowTouches: true,
+                onTouchesBegan:function(touches,event){
+                    if(touches.length<=1){
+                        return false;
+                    }else{
+                        operation.beginTran(touches[0].getLocation(),touches[1].getLocation());
+                        return true;
+                    }
+                },
+                onTouchesMoved:function(touches,event){
+                    if(touches.length<=1){
+                        operation.tran(touches[0].getLocation());
+                    }else{
+                        operation.tran(touches[0].getLocation(),touches[1].getLocation());
+                    }
+                },
+                onTouchesEnded:function(touches,event){
+                }
+            });
+        }else{
+            listener=cc.EventListener.create({
+                event:cc.EventListener.MOUSE,
+                onMouseMove:function(event){
+                    if(operation.rightDown){
+                        operation.tran({
+                            x:event.getLocationX(),
+                            y:event.getLocationY()
+                        });
+                        return true;
+                    }else{
+                        return false;
+                    }
+                },
+                onMouseDown:function(event){
+                    if(event.getButton()==cc.EventMouse.BUTTON_RIGHT){
+                        operation.rightDown=true;
+                        operation.beginTran({
+                            x:event.getLocationX(),
+                            y:event.getLocationY()
+                        });
+                        return true;
+                    }else{
+                        return false;
+                    }
+                },
+                onMouseUp:function(event){
+                    if(event.getButton()==cc.EventMouse.BUTTON_RIGHT){
+                        operation.rightDown=false;
+                        operation.tran({
+                            x:event.getLocationX(),
+                            y:event.getLocationY()
+                        });
+                        return true;
+                    }else{
+                        return false;
+                    }
+                },
+                onMouseScroll:function(event){
+                }
+            });
+        }
 
         cc.eventManager.addListener(listener,this);
     },
-    beginMove:function(location1,location2){
+    beginTran:function(location1,location2){
         this.lastLocation1=location1;
         this.lastLocation2=location2;
     },
-    move:function(location1,location2){
-        var x=this.gameLayer.getPositionX();
-        var y=this.gameLayer.getPositionY();
-        var scaleX=this.gameLayer.getScaleX();
-        var scaleY=this.gameLayer.getScaleY();
-        this.gameLayer.attr({
-            x:x+(location1.x-this.lastLocation1.x),
-            y:y+(location1.y-this.lastLocation1.y)
-        });
+    tran:function(location1,location2){
+        this.gameLayer.moveTran(
+            location1.x-this.lastLocation1.x,
+            location1.y-this.lastLocation1.y
+        );
+        if(_.isObject(location2) && _.isObject(this.lastLocation2)){
+            var beforeDistance=xyPoint.euDistance(
+                this.lastLocation1,this.lastLocation2
+            );
+            var afterDistance=xyPoint.euDistance(
+                location1,location2
+            );
+            
+            this.gameLayer.scaleTran(beforeDistance,afterDistance);
+        }
         this.lastLocation1=location1;
         this.lastLocation2=location2;
     },
-    endMove:function(location1,location2){
+    endTran:function(location1,location2){
+        // not used...
         var dx=location1.x-this.lastLocation1.x;
         var dy=location1.y-this.lastLocation1.y;
         if(dx==0 && dy==0){
