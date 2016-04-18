@@ -5,8 +5,8 @@ game.ModelManager=gUtil.Class.extend({
     controlModule:null,
     viewManager:null,
 
-    iLength:10,
-    jLength:6,
+    iLength:20,
+    jLength:16,
 
     runFlag:false,
 

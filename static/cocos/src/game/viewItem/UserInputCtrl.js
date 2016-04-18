@@ -13,6 +13,20 @@ gameView.UserInputCtrl=cc.Node.extend({
 
     pathingType:null,
 
+    isTransforming:false,
+    startTransforming:function(){
+        if(!this.isTransforming){
+            this.isTransforming=true;
+            this.cancel();
+        }
+    },
+    endTransforming:function(){
+        if(this.isTransforming){
+            this.isTransforming=false;
+            this.cancel();
+        }
+    },
+
     preArea:null,
     selectId:"int",
     doPoint:function(i,j){
@@ -45,19 +59,27 @@ gameView.UserInputCtrl=cc.Node.extend({
         
         var user=this;
 	    var listener=cc.EventListener.create({
-		    event:cc.EventListener.TOUCH_ONE_BY_ONE,
-	        swallowTouches: true,
-		    onTouchBegan:function(touch,event){
-			    var ij=gameLayer.p2ij(touch.getLocation());
-                return user.beginArea(ij.i,ij.j);
+		    event:cc.EventListener.TOUCH_ALL_AT_ONCE,
+		    onTouchesBegan:function(touches,event){
+                var touch=touches[0];
+                if(touches.length<=1 && !this.isTransforming){
+			        var ij=gameLayer.p2ij(touch.getLocation());
+                    user.beginArea(ij.i,ij.j);
+                }
 		    },
-		    onTouchMoved:function(touch,event){
-			    var ij=gameLayer.p2ij(touch.getLocation());
-			    user.moveArea(ij.i,ij.j);
+		    onTouchesMoved:function(touches,event){
+                var touch=touches[0];
+                if(touches.length<=1 && !this.isTransforming){
+			        var ij=gameLayer.p2ij(touch.getLocation());
+			        user.moveArea(ij.i,ij.j);
+                }
 		    },
-		    onTouchEnded:function(touch,event){
-			    var ij=gameLayer.p2ij(touch.getLocation());
-			    user.endArea(ij.i,ij.j);
+		    onTouchesEnded:function(touches,event){
+                var touch=touches[0];
+                if(touches.length<=1 && !this.isTransforming){
+			        var ij=gameLayer.p2ij(touch.getLocation());
+			        user.endArea(ij.i,ij.j);
+                }
 		    }
 	    });
 

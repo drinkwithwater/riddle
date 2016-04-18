@@ -82,10 +82,6 @@ gameView.GameLayer = cc.Layer.extend({
 	    this.areaNode.render();
 	    this.unitNode.render();
         
-        this.attr({
-            scaleX:0.5,
-            scaleY:0.5
-        });
         
     },
 
@@ -145,11 +141,19 @@ gameView.GameLayer = cc.Layer.extend({
             y:this.getPositionY()+dy,
         });
     },
-    scaleTran:function(before,after){
+    scaleTran:function(before,after,point){
+        var scale=after/before;
+        var x=this.getPositionX();
+        var y=this.getPositionY();
         this.attr({
-            scaleX:this.getScaleX()*after/before,
-            scaleY:this.getScaleY()*after/before,
+            scaleX:this.getScaleX()*scale,
+            scaleY:this.getScaleY()*scale,
+            x:(x-point.x)*scale+point.x,
+            y:(y-point.y)*scale+point.y,
         });
+    },
+    getUserNode:function(){
+        return this.userInputCtrl;
     }
 });
 gameView.OperationLayer = cc.Layer.extend({
@@ -165,23 +169,32 @@ gameView.OperationLayer = cc.Layer.extend({
         if(cc.sys.isNative){
             listener=cc.EventListener.create({
                 event:cc.EventListener.TOUCH_ALL_AT_ONCE,
-                swallowTouches: true,
                 onTouchesBegan:function(touches,event){
                     if(touches.length<=1){
-                        return false;
+                        operation.beginTran(touches[0].getLocation());
                     }else{
                         operation.beginTran(touches[0].getLocation(),touches[1].getLocation());
-                        return true;
+                        operation.gameLayer.getUserNode().startTransforming();
                     }
                 },
                 onTouchesMoved:function(touches,event){
                     if(touches.length<=1){
-                        operation.tran(touches[0].getLocation());
+                        if(operation.gameLayer.getUserNode().isTransforming){
+                            operation.tran(touches[0].getLocation());
+                        }else{
+                            operation.beginTran(touches[0].getLocation());
+                        }
                     }else{
-                        operation.tran(touches[0].getLocation(),touches[1].getLocation());
+                        if(operation.gameLayer.getUserNode().isTransforming){
+                            operation.tran(touches[0].getLocation(),touches[1].getLocation());
+                        }else{
+                            operation.beginTran(touches[0].getLocation(),touches[1].getLocation());
+                            operation.gameLayer.getUserNode().startTransforming();
+                        }
                     }
                 },
                 onTouchesEnded:function(touches,event){
+                    operation.gameLayer.getUserNode().endTransforming();
                 }
             });
         }else{
@@ -223,17 +236,38 @@ gameView.OperationLayer = cc.Layer.extend({
                     }
                 },
                 onMouseScroll:function(event){
+                    var scroll=event.getScrollY();
+                    var point={
+                        x:event.getLocationX(),
+                        y:event.getLocationY()
+                    };
+                    if(scroll>=0){
+                        operation.gameLayer.scaleTran(1,1.25,point);
+                    }else{
+                        operation.gameLayer.scaleTran(1,0.8,point);
+                    }
+                    console.log("scroll:"+event.getScrollY());
                 }
             });
         }
 
         cc.eventManager.addListener(listener,this);
+        cc.eventManager.setPriority(listener,2);
     },
     beginTran:function(location1,location2){
         this.lastLocation1=location1;
         this.lastLocation2=location2;
     },
     tran:function(location1,location2){
+        if(_.isObject(location2)){
+            var a=xyPoint.euDistance(location1,this.lastLocation1);
+            var b=xyPoint.euDistance(location2,this.lastLocation1);
+            if(b<a){
+                var temp=location1;
+                location1=location2;
+                location2=temp;
+            }
+        }
         this.gameLayer.moveTran(
             location1.x-this.lastLocation1.x,
             location1.y-this.lastLocation1.y
@@ -246,7 +280,7 @@ gameView.OperationLayer = cc.Layer.extend({
                 location1,location2
             );
             
-            this.gameLayer.scaleTran(beforeDistance,afterDistance);
+            this.gameLayer.scaleTran(beforeDistance,afterDistance,location1);
         }
         this.lastLocation1=location1;
         this.lastLocation2=location2;
