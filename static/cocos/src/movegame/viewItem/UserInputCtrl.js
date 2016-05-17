@@ -25,6 +25,7 @@ gMove.UserInputCtrl=cc.Node.extend({
 		    event:cc.EventListener.TOUCH_ONE_BY_ONE,
 	        swallowTouches: true,
 		    onTouchBegan:function(touch,event){
+                console.log(gameLayer.areaNode.tmxItem.convertTouchToNodeSpace(touch));
 			    gTest.target=event.getCurrentTarget();
 			    var ij=gameLayer.p2ij(touch.getLocation());
                 return user.beginArea(ij.i,ij.j);

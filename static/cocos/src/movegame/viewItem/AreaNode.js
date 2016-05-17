@@ -1,14 +1,20 @@
 var gMove=gMove||{};
 gMove.AreaNode = cc.Node.extend({
     LEVEL_AREA:1,
+    LEVEL_TILED:2,
     gameLayer:null,
     areaDraw:null,
+    tmxItem:null,
     ctor:function(gameLayer,gameTop){
         this._super();
         this.gameLayer=gameLayer;
         
         this.areaDraw=new cc.DrawNode();
         this.addChild(this.areaDraw,this.LEVEL_AREA);
+        
+        this.tmxItem=new cc.TMXTiledMap(itemRes.tiledMap);
+        this.addChild(this.tmxItem,this.LEVEL_TILED);
+        gTest.tmx=this.tmxItem;
     },
     render:function(){
         this.showArea();

@@ -36,6 +36,8 @@ var itemRes={
     blueShell:"item/blueshell.png",
     blackSword:"item/blacksword.png",
     greenSword:"item/greensword.png",
+    dock:"dock.png",
+    tiledMap:"map.tmx"
 }
 
 var g_resources = [];
